@@ -121,6 +121,14 @@
                 this.$nextTick(()=>{
                     if(this.init) this.init = false;
                 });
+            },
+            selected: {
+                handler(val){
+                    if(val && Object.keys(val).length){
+                        if(val.province) this.nowProvince = val.province;
+                    }
+                },
+                deep: true
             }
         },
         methods:{
