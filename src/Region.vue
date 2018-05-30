@@ -164,7 +164,13 @@
             this.$el.className = 'v-region';
 
             if(this.selected && this.selected.province) this.nowProvince = this.selected.province;
-            if(!this.selected) this.init = false;
+            if(!this.selected || (
+                Object.keys(this.selected).length &&
+                !this.selected.province &&
+                    !this.selected.city &&
+                    !this.selected.area &&
+                    !this.selected.town
+            )) this.init = false;
         }
     }
 </script>
