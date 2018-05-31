@@ -186,14 +186,4 @@
             margin-right: 5px;
         }
     }
-    .region-province, .region-city, .region-area, .region-town {
-        select {
-            width: auto;
-            display: inline-block;
-            overflow: hidden;
-            box-sizing: content-box;
-            padding: 0 12px;
-            margin-right: 5px;
-        }
-    }
 </style>
