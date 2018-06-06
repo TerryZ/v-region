@@ -3,11 +3,11 @@
 
 <br><br>
 
+<p align="center"><img src="https://terryz.github.io/image/v-region/v-region-ui.png" alt="v-region" ></p>
+
 <p align="center">
 A simple region selector for Vue2, provide Chinese administrative division data
 </p>
-
-<p align="center"><img src="https://terryz.github.io/image/v-region/v-region-ui.png" alt="v-region" ></p>
 
 <p align="center">
   <a href="https://www.npmjs.com/package/v-region"><img src="https://img.shields.io/npm/v/v-region.svg"></a>
