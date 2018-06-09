@@ -7,7 +7,7 @@
 <p align="center"><img src="https://terryz.github.io/image/v-region/v-region-ui.png" alt="v-region" ></p>
 
 <p align="center">
-A simple region selector for Vue2, provide Chinese administrative division data
+  A simple region selector for <strong>Vue2</strong>, provide Chinese administrative division data
 </p>
 
 <p align="center">
@@ -17,7 +17,15 @@ A simple region selector for Vue2, provide Chinese administrative division data
 </p>
 <br><br><br><br><br>
 
+## Demo、Document、Changelog
+Explorer on
 
+- [English site](https://terryz.github.io/vue/#/region)
+- [国内站点](https://terryz.gitee.io/vue/#/region)
+
+Quick demo: [v-region selector](https://codepen.io/terry05/pen/ERNvzJ)
+
+<br><br>
 
 ## Vue plugin series
 
@@ -32,3 +40,40 @@ A simple region selector for Vue2, provide Chinese administrative division data
 | [v-region](https://github.com/TerryZ/v-region) | [![npm version](https://img.shields.io/npm/v/v-region.svg)](https://www.npmjs.com/package/v-region) | A simple region selector, provide Chinese administrative division data |
 
 <br><br>
+
+## Install
+
+``` bash
+npm install v-region --save
+```
+
+Include plugin in your `main.js` file.
+
+```js
+import Vue from 'vue'
+import vRegion from 'v-region';
+Vue.use(vPage);
+```
+
+## Deploy on your component(base mode)
+
+template code
+
+```html
+<template>
+    <v-region @values="regionChange" class="form-control"></v-region>
+</template>
+```
+
+script code
+
+```js
+export default {
+    methods:{
+        //receive selected region data
+        regionChange(data){
+            console.log(data);
+        }
+    }
+};
+```
