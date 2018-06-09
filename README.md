@@ -52,7 +52,7 @@ Include plugin in your `main.js` file.
 ```js
 import Vue from 'vue'
 import vRegion from 'v-region';
-Vue.use(vPage);
+Vue.use(vRegion);
 ```
 
 ## Deploy on your component(base mode)
