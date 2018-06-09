@@ -23,7 +23,6 @@ Explorer on
 - [English site](https://terryz.github.io/vue/#/region)
 - [国内站点](https://terryz.gitee.io/vue/#/region)
 
-Quick demo: [v-region selector](https://codepen.io/terry05/pen/ERNvzJ)
 
 <br><br>
 
