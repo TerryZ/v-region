@@ -16,7 +16,11 @@
             <option value="" selected v-if="blank">{{lang.pleaseSelect}}</option>
             <option :value="t.key" v-for="t in listTown">{{t.value}}</option>
         </select>
-        <div class="caller-container" @click="showDropdown(true)" v-if="ui" ref="caller">
+
+
+
+        <!-- selector mode -->
+        <div class="caller-container" @click.stop.prevent="showDropdown(true)" v-if="ui" ref="caller">
             <slot></slot>
         </div>
         <v-dropdown v-if="ui" ref="dropdown">
@@ -34,10 +38,6 @@
                 <button type="button" title="完成" @click="showDropdown(false)" class="rg-done-button" >
                     <i class="iconfont icon-selected"></i>
                 </button>
-<!--                <button type="button"
-                        @click="showDropdown(false)"
-                        title="关闭(Esc键)"
-                        class="rg-close-button">×</button>-->
             </div>
             <div class="rg-search" v-if="search">
                 <input type="text" autocomplete="off" ref="input"
@@ -297,7 +297,7 @@
                         break;
                     case 2://area
                         if(this.area) val = true;
-                        break;z
+                        break;
                     case 3://town
                         if(this.town) val = true;
                         break;
@@ -337,7 +337,7 @@
                     this.$refs.dropdown.$emit('show', val, this.$refs.caller);
                     if(val) {
                         this.query = '';
-                        this.$nextTick(()=>that.$refs.input.focus());
+                        this.$nextTick(()=>that.$refs.input.focus({preventScroll:true}));
                     }
                 }
             },
