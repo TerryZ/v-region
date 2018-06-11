@@ -40,6 +40,16 @@ Explorer on
 
 <br><br>
 
+## Plugin preview
+
+*form element mode*
+![base](https://terryz.github.io/image/v-region/v-region-base.png)
+
+*dropdown selector mode*
+![ui](https://terryz.github.io/image/v-region/v-region-ui.png)
+
+<br><br>
+
 ## Install
 
 ``` bash
