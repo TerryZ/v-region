@@ -1,19 +1,24 @@
 <template>
     <div>
-        <select :class="className" v-model="nowProvince" v-if="!ui && province">
-            <option value="" selected v-if="blank">{{lang.pleaseSelect}}</option>
+        <span v-if="!ui && text">
+            {{itemProvince&&itemProvince.value}}{{itemCity&&itemCity.value}}{{itemArea&&itemArea.value}}{{itemTown&&itemTown.value}}
+        </span>
+
+
+        <select :class="className" v-model="nowProvince" v-if="!text && !ui && province">
+            <option value="" v-if="blank">{{lang.pleaseSelect}}</option>
             <option :value="p.key" v-for="p in listProvince">{{p.value}}</option>
         </select>
-        <select :class="className" v-model="nowCity" v-if="!ui && city && haveCity">
-            <option value="" selected v-if="blank">{{lang.pleaseSelect}}</option>
+        <select :class="className" v-model="nowCity" v-if="!text && !ui && city && haveCity">
+            <option value="" v-if="blank">{{lang.pleaseSelect}}</option>
             <option :value="c.key" v-for="c in listCity">{{c.value}}</option>
         </select>
-        <select :class="className" v-model="nowArea" v-if="!ui && ((area && city) || !haveCity)">
-            <option value="" selected v-if="blank">{{lang.pleaseSelect}}</option>
+        <select :class="className" v-model="nowArea" v-if="!text && !ui && ((area && city) || !haveCity)">
+            <option value="" v-if="blank">{{lang.pleaseSelect}}</option>
             <option :value="a.key" v-for="a in listArea">{{a.value}}</option>
         </select>
-        <select :class="className" v-model="nowTown" v-if="!ui && town && area && city">
-            <option value="" selected v-if="blank">{{lang.pleaseSelect}}</option>
+        <select :class="className" v-model="nowTown" v-if="!text && !ui && town && area && city">
+            <option value="" v-if="blank">{{lang.pleaseSelect}}</option>
             <option :value="t.key" v-for="t in listTown">{{t.value}}</option>
         </select>
 
@@ -110,6 +115,10 @@
             search: {
                 type: Boolean,
                 default: true
+            },
+            text: {
+                type: Boolean,
+                default: false
             }
         },
         data(){
@@ -126,6 +135,7 @@
                 haveCity: true,// is municipality
                 className: '',
                 lang: {},
+                init: this.selected,
                 pauseWatch: false,
 
                 //ui mode data
@@ -138,6 +148,8 @@
                 ],
                 levelIndex: -1,
                 list: [],
+
+                //return data
                 itemProvince: null,
                 itemCity: null,
                 itemArea: null,
@@ -159,15 +171,13 @@
             nowProvince(value){
                 if(this.pauseWatch) return;
                 if(this.city){
-                    this.nowCity = '';
-                    if(this.area) this.nowArea = '';
-                    if(this.town) this.nowTown = '';
                     if(this.listArea.length) this.listArea.splice(0, this.listArea.length);
                     this.listCity = srcCity.filter(val=>{
-                        //console.log(val.key + '%' + Number.parseInt(this.nowProvince) + '=' + val.key%Number.parseInt(this.nowProvince));
                         let num = Number.parseInt(value);
                         return (val.key - num) < 1e4 && (val.key%num) < 1e4;
                     });
+
+                    this.nowCity = '';
 
                     this.itemProvince = this.listProvince.find(val=>val.key === value);
 
@@ -176,16 +186,14 @@
                     this.$nextTick(()=>{
                         if(!this.haveCity && this.area) this.changeCity();
                         else{
-                            if(this.selected && this.selected.city) this.nowCity = this.selected.city;
+                            this.initSelected(2);
                         }
 
                         if(this.ui) this.levelIndex = this.haveCity ? 1 : 2;
                     });
                 }
 
-                this.$nextTick(()=>{
-                    this.changeValues();
-                });
+                this.changeValues();
             },
             nowCity(value){
                 if(this.pauseWatch) return;
@@ -195,37 +203,38 @@
 
                 if(this.ui) this.levelIndex = 2;
 
-                this.$nextTick(()=>{
-                    this.changeValues();
-                });
+                this.changeValues();
             },
             nowArea(value){
                 if(this.pauseWatch) return;
                 let that = this;
                 if(value && this.town){
-                    if(this.town) this.nowTown = '';
-                    let towns = require(`./town/${value}.json`), tmpArr = [];
-                    for(let d in towns){
-                        tmpArr.push({key: d, value: towns[d]})
+                    let towns = null, tmpArr = [];
+                    try{
+                        towns = require(`./town/${value}.json`);
+                    }catch (e) {}
+                    if(towns && Object.keys(towns).length){
+                        for(let d in towns){
+                            tmpArr.push({key: d, value: towns[d]})
+                        }
                     }
                     this.listTown = tmpArr;
-                }
+                }else this.listTown = [];
+
+                if(this.town) this.nowTown = '';
+
                 this.itemArea = this.listArea.find(val=>val.key === value);
-                if(this.selected && this.selected.town) this.nowTown = this.selected.town;
+                this.initSelected(4);
 
                 if(this.ui && this.town) this.levelIndex = 3;
 
-                this.$nextTick(()=>{
-                    this.changeValues();
-                });
+                this.changeValues();
             },
             nowTown(value){
                 if(this.pauseWatch) return;
                 this.itemTown = this.listTown.find(val=>val.key === value);
 
-                this.$nextTick(()=>{
-                    this.changeValues();
-                });
+                this.changeValues();
             },
             /**
              * init region selected
@@ -233,7 +242,9 @@
             selected: {
                 handler(val){
                     if(val && Object.keys(val).length){
-                        if(val.province) this.nowProvince = val.province;
+                        this.init = val;
+                        //if(val.province) this.nowProvince = val.province;
+                        this.initSelected(1);
                     }
                 },
                 deep: true
@@ -248,24 +259,51 @@
         },
         methods:{
             changeCity(){
-                if((this.area && this.nowCity) || (!this.haveCity && this.province)){
+                if(this.area || (!this.haveCity && this.province)){
+                    if((this.haveCity && !this.nowCity) || (!this.haveCity && !this.nowProvince)){
+                        this.listArea = [];
+                    }else{
+                        let thisCity = Number.parseInt(this.haveCity?this.nowCity:this.nowProvince);
+                        let range = this.haveCity ? 100 : 1000;
+                        this.listArea = srcArea.filter(val=>(val.key - thisCity) < range && val.key%thisCity < range);
+                    }
                     this.nowArea = '';
-                    if(this.town) this.nowTown = '';
-                    let thisCity = Number.parseInt(this.haveCity?this.nowCity:this.nowProvince);
-                    let range = this.haveCity ? 100 : 1000;
-                    this.listArea = srcArea.filter(val=>{
-                        return (val.key - thisCity) < range && val.key%thisCity < range;
-                    });
                 }
-                if(this.selected && this.selected.area) this.nowArea = this.selected.area;
+                this.initSelected(3);
             },
             changeValues(){
-                this.$emit('values', {
-                    province: this.itemProvince,
-                    city: this.itemCity,
-                    area: this.itemArea,
-                    town: this.itemTown
+                this.$nextTick(()=>{
+                    this.$emit('values', {
+                        province: this.itemProvince,
+                        city: this.itemCity,
+                        area: this.itemArea,
+                        town: this.itemTown
+                    });
                 });
+            },
+            initSelected(level){
+                let that = this, ini = this.init, count = 0;
+                if(ini){
+                    switch(level){
+                        case 1://province
+                            if(that.province && ini.province) that.nowProvince = ini.province;
+                            break;
+                        case 2://city
+                            if(that.city && ini.city) that.nowCity = ini.city;
+                            break;
+                        case 3://area
+                            if(that.area && ini.area) that.nowArea = ini.area;
+                            break;
+                        case 4://town
+                            if(that.town && ini.town) that.nowTown = ini.town;
+                            break;
+                    }
+                    if(that.province && ini.province) count++;
+                    if(that.city && (ini.city || (!ini.city && !that.haveCity && that.area && init.area))) count++;
+                    if(that.area && ini.area) count++;
+                    if(that.town && ini.town) count++;
+                    if(level === count) this.init = null;
+                }
             },
             getList(val){
                 let list = [];
@@ -383,6 +421,7 @@
 
 <style lang="scss">
     div.v-region {
+        display: inline-block;
         select {
             width: auto;
             display: inline-block;
