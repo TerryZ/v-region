@@ -1,7 +1,7 @@
 <template>
     <div>
         <span v-if="!ui && text">
-            {{itemProvince&&itemProvince.value}}{{itemCity&&itemCity.value}}{{itemArea&&itemArea.value}}{{itemTown&&itemTown.value}}
+            {{itemProvince&&itemProvince.value}}{{textSeparator}}{{itemCity&&itemCity.value}}{{textSeparator}}{{itemArea&&itemArea.value}}{{textSeparator}}{{itemTown&&itemTown.value}}
         </span>
 
 
@@ -119,6 +119,10 @@
             text: {
                 type: Boolean,
                 default: false
+            },
+            textSeparator: {
+                type: String,
+                default: ''
             }
         },
         data(){
