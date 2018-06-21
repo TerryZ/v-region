@@ -178,6 +178,7 @@
                     });
 
                     this.nowCity = '';
+                    if(!this.haveCity) this.nowArea = '';
 
                     this.itemProvince = this.listProvince.find(val=>val.key === value);
 
