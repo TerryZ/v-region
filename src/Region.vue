@@ -284,7 +284,7 @@
             },
             initSelected(level){
                 let that = this, ini = this.init, count = 0;
-                if(ini){
+                if(ini && Object.keys(ini).length){
                     switch(level){
                         case 1://province
                             if(that.province && ini.province) that.nowProvince = ini.province;
