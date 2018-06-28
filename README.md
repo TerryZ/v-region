@@ -88,6 +88,11 @@ export default {
     }
 };
 ```
+<br><br>
+
+## Stargazers over time
+
+[![Stargazers over time](https://starcharts.herokuapp.com/TerryZ/v-region.svg)](https://starcharts.herokuapp.com/TerryZ/v-region)
 
 ## Data Source
 
