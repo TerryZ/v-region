@@ -1,6 +1,6 @@
 <br><br>
 
-<div align="center">v-region</div>
+<p align="center">v-region</p>
 
 <br><br>
 
