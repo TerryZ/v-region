@@ -2,7 +2,7 @@
 
 <h3 align="center">v-region</h3>
 
-<br><br>
+<br>
 
 <p align="center"><img src="https://terryz.github.io/image/v-region/v-region-ui.png" alt="v-region" ></p>
 
