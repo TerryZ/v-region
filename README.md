@@ -4,6 +4,12 @@
 
 <br>
 
+<p align="center">
+  <a href="https://www.npmjs.com/package/v-region"><img src="https://img.shields.io/npm/v/v-region.svg"></a>
+  <a href="https://mit-license.org/"><img src="https://img.shields.io/badge/license-MIT-brightgreen.svg"></a>
+  <a href="https://www.npmjs.com/package/v-region"><img src="https://img.shields.io/npm/dy/v-region.svg"></a>
+</p>
+
 <p align="center"><img src="https://terryz.github.io/image/v-region/v-region-ui.png" alt="v-region" ></p>
 
 <p align="center">
@@ -11,10 +17,9 @@
 </p>
 
 <p align="center">
-  <a href="https://www.npmjs.com/package/v-region"><img src="https://img.shields.io/npm/v/v-region.svg"></a>
-  <a href="https://mit-license.org/"><img src="https://img.shields.io/badge/license-MIT-brightgreen.svg"></a>
-  <a href="https://www.npmjs.com/package/v-region"><img src="https://img.shields.io/npm/dy/v-region.svg"></a>
+  <a href="https://nodei.co/npm/v-region/"><img src="https://nodei.co/npm/v-region.png"></a>
 </p>
+
 <br><br><br><br><br>
 
 ## Demo、Document、Changelog
