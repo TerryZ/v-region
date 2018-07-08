@@ -7,13 +7,13 @@
 <p align="center"><img src="https://terryz.github.io/image/v-region/v-region-ui.png" alt="v-region" ></p>
 
 <p align="center">
-  A simple region selector for <strong>Vue2</strong>, provide Chinese administrative division data
-</p>
-
-<p align="center">
   <a href="https://www.npmjs.com/package/v-region"><img src="https://img.shields.io/npm/v/v-region.svg"></a>
   <a href="https://mit-license.org/"><img src="https://img.shields.io/badge/license-MIT-brightgreen.svg"></a>
   <a href="https://www.npmjs.com/package/v-region"><img src="https://img.shields.io/npm/dy/v-region.svg"></a>
+</p>
+
+<p align="center">
+  A simple region selector for <strong>Vue2</strong>, provide Chinese administrative division data
 </p>
 
 <p align="center">
