@@ -90,7 +90,7 @@ script code
 ```js
 export default {
     methods:{
-        //receive selected region data
+        //receive selected region entries
         regionChange(data){
             console.log(data);
         }
