@@ -22,7 +22,7 @@
 
 <br><br><br><br><br>
 
-## Demo、Document、Changelog
+## Demo、Document
 Explorer on
 
 - [English site](https://terryz.github.io/vue/#/region)
