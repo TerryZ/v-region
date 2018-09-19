@@ -77,6 +77,7 @@ Vue.use(vRegion);
 
 <a href="https://nodei.co/npm/v-region/"><img src="https://nodei.co/npm/v-region.png"></a>
 
+<br><br>
 
 ## Deploy on your component(base mode)
 
