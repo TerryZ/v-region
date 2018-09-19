@@ -17,7 +17,7 @@
 </p>
 
 <p align="center">
-  <a href="https://nodei.co/npm/v-region/"><img src="https://nodei.co/npm/v-region.png"></a>
+  
 </p>
 
 <br><br><br><br><br>
@@ -74,6 +74,9 @@ import Vue from 'vue'
 import vRegion from 'v-region';
 Vue.use(vRegion);
 ```
+
+<a href="https://nodei.co/npm/v-region/"><img src="https://nodei.co/npm/v-region.png"></a>
+
 
 ## Deploy on your component(base mode)
 
