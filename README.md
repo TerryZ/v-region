@@ -107,6 +107,8 @@ export default {
 
 [![Stargazers over time](https://starcharts.herokuapp.com/TerryZ/v-region.svg)](https://starcharts.herokuapp.com/TerryZ/v-region)
 
+<br><br>
+
 ## Data Source
 
-region data come from repo: [mumuy/data_location](https://github.com/mumuy/data_location)
+Region data come from repo: [mumuy/data_location](https://github.com/mumuy/data_location)
