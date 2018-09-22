@@ -64,7 +64,7 @@ Explorer on
 ## Install
 
 ``` bash
-npm install v-region --save
+npm i v-region --save
 ```
 
 Include plugin in your `main.js` file.
