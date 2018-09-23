@@ -21,7 +21,7 @@
 <br><br><br><br><br>
 
 
-## Demo、Document
+## Demos and Documents
 Explorer on
 
 - [English site](https://terryz.github.io/vue/#/region)
