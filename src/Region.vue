@@ -185,7 +185,7 @@
                     this.haveCity = this.listCity.length ? true : false;
 
                     this.$nextTick(()=>{
-                        if(!this.haveCity && this.area) this.changeCity();
+                        if(!this.haveCity && this.city) this.changeCity();
                         else{
                             this.initSelected(2);
                         }
