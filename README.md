@@ -72,7 +72,7 @@ Include plugin in your `main.js` file.
 ```js
 import Vue from 'vue'
 import vRegion from 'v-region';
-Vue.use(vRegion, { global config options});
+Vue.use(vRegion, { global config options });
 ```
 
 <a href="https://nodei.co/npm/v-region/"><img src="https://nodei.co/npm/v-region.png"></a>
