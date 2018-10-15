@@ -32,6 +32,18 @@ Explorer on
 
 <br><br>
 
+## Plugin preview
+
+*form element mode*
+
+![base](https://terryz.github.io/image/v-region/v-region-base.png)
+
+*dropdown selector mode*
+
+![ui](https://terryz.github.io/image/v-region/v-region-ui.png)
+
+<br><br>
+
 ## Vue plugin series
 
 | Plugin | Status | Description |
@@ -47,18 +59,6 @@ Explorer on
 | [v-suggest](https://github.com/TerryZ/v-suggest) | [![npm version](https://img.shields.io/npm/v/v-suggest.svg)](https://www.npmjs.com/package/v-suggest) | A Vue2 plugin for input suggestions by autocomplete |
 | [v-playback](https://github.com/TerryZ/v-playback) | [![npm version](https://img.shields.io/npm/v/v-playback.svg)](https://www.npmjs.com/package/v-playback) | A Vue2 plugin to make video play easier |
 | [v-selectmenu](https://github.com/TerryZ/v-selectmenu) | [![npm version](https://img.shields.io/npm/v/v-selectmenu.svg)](https://www.npmjs.com/package/v-selectmenu) | A simple, easier and highly customized menu solution |
-
-<br><br>
-
-## Plugin preview
-
-*form element mode*
-
-![base](https://terryz.github.io/image/v-region/v-region-base.png)
-
-*dropdown selector mode*
-
-![ui](https://terryz.github.io/image/v-region/v-region-ui.png)
 
 <br><br>
 
