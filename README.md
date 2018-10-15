@@ -7,9 +7,7 @@
 <p align="center"><img src="https://terryz.github.io/image/v-region/v-region-ui.png" alt="v-region" ></p>
 
 <p align="center">
-    简洁强大的中国行政区划选择器，可选择 “省/直辖市”、“市”、“区/县”、“乡/镇/街道” 4 级行政区域
-</p>
-<p align="center">
+    简洁强大的中国行政区划选择器，可选择 “省/直辖市”、“市”、“区/县”、“乡/镇/街道” 4 级行政区域<br>
     A simple region selector for <strong>Vue2</strong>, provide Chinese administrative division data
 </p>
 
