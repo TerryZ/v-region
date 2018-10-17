@@ -22,7 +22,7 @@
 <br><br><br><br><br>
 
 
-## Demos and Documents
+## 实例和文档（Demos and Documents）
 Explorer on
 
 - [English site](https://terryz.github.io/vue/#/region)
@@ -32,7 +32,17 @@ Explorer on
 
 <br><br>
 
-## Plugin preview
+## 功能特性（Featues）
+
+- 支持 “省/直辖市”、“市”、“区/县”、“乡/镇/街道” 4级国家行政区域选择
+- 传统表单多下拉列表（Select）联动模式
+- 下拉选择器模式
+- 纯文本显示模式（指定初始值后）
+- 除省级以外，其它行政区域级别允许通过参数进行“打开/关闭”
+
+<br><br>
+
+## 插件预览（Plugin preview）
 
 *form element mode*
 
@@ -62,7 +72,7 @@ Explorer on
 
 <br><br>
 
-## Install
+## 安装插件（Install）
 
 ``` bash
 npm i v-region --save
@@ -80,7 +90,7 @@ Vue.use(vRegion, { global config options });
 
 <br><br>
 
-## Deploy on your component(base mode)
+## 在页面中使用（Deploy on your component）
 
 template code
 
@@ -104,12 +114,12 @@ export default {
 ```
 <br><br>
 
-## Stargazers over time
+## Star数趋势（Stargazers over time）
 
 [![Stargazers over time](https://starcharts.herokuapp.com/TerryZ/v-region.svg)](https://starcharts.herokuapp.com/TerryZ/v-region)
 
 <br><br>
 
-## Data Source
+## 数据源（Data Source）
 
 Region data come from repo: [mumuy/data_location](https://github.com/mumuy/data_location)
