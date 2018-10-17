@@ -55,7 +55,7 @@ Explorer on
 
 <br><br>
 
-## 个人 Vue 插件作品集（Vue plugin series）
+## Vue 插件作品集（Vue plugin series）
 
 | Plugin | Status | Description |
 | :---------------- | :-- | :-- |
