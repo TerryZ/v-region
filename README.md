@@ -23,7 +23,7 @@
 
 
 ## 实例和文档（Demos and Documents）
-Explorer on
+请浏览（Explorer on）
 
 - [English site](https://terryz.github.io/vue/#/region)
 - [国内站点](https://terryz.gitee.io/vue/#/region)
@@ -45,11 +45,11 @@ Explorer on
 
 ## 插件预览（Plugin preview）
 
-*form element mode*
+*表单元素模式（form element mode）*
 
 ![base](https://terryz.github.io/image/v-region/v-region-base.png)
 
-*dropdown selector mode*
+*下拉选择器模式（dropdown selector mode）*
 
 ![ui](https://terryz.github.io/image/v-region/v-region-ui.png)
 
