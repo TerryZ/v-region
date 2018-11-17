@@ -37,6 +37,7 @@
 - 支持 “省/直辖市”、“市”、“区/县”、“乡/镇/街道” 4级国家行政区域选择
 - 传统表单多下拉列表（Select）联动模式
 - 下拉选择器模式
+- 多列竖排模式选择器模式
 - 下拉选择器模式自带默认呼出按钮，并允许自定义呼出对象（Slot）
 - 纯文本显示模式（指定初始值后）
 - 除省级以外，其它行政区域级别允许通过参数进行“打开/关闭”
@@ -52,6 +53,9 @@
 *下拉选择器模式（dropdown selector mode）*
 
 ![ui](https://terryz.github.io/image/v-region/v-region-ui.png)
+
+*多列竖排选择器模式 (selector with column group)*
+![column](https://terryz.github.io/image/v-region/v-region-column.png)
 
 <br><br>
 
