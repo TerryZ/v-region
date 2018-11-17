@@ -46,6 +46,9 @@
 
 ## 插件预览（Plugin preview）
 
+*纯文本显示模式 (plain text view mode)*
+![text](https://terryz.github.io/image/v-region/v-region-text.png)
+
 *表单元素模式（form element mode）*
 
 ![base](https://terryz.github.io/image/v-region/v-region-base.png)
