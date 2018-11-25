@@ -5,9 +5,17 @@
         <!-- select elements mode -->
         <v-select-group v-if="!text && !ui" v-bind="$attrs" v-on="$listeners"></v-select-group>
         <!-- selector mode -->
-        <v-tab-selector v-if="ui && !column" v-bind="$attrs" v-on="$listeners"></v-tab-selector>
+        <v-tab-selector v-if="ui && !column && !cityPicker" v-bind="$attrs" v-on="$listeners">
+            <slot></slot>
+        </v-tab-selector>
         <!-- column group mode -->
-        <v-column-group v-if="ui && column" v-bind="$attrs" v-on="$listeners"></v-column-group>
+        <v-column-group v-if="ui && column && !cityPicker" v-bind="$attrs" v-on="$listeners">
+            <slot></slot>
+        </v-column-group>
+        <!-- city picker -->
+        <v-city-picker v-if="ui && !column && cityPicker" v-bind="$attrs" v-on="$listeners">
+            <slot></slot>
+        </v-city-picker>
     </div>
 </template>
 
@@ -16,13 +24,15 @@
     import tabSelector from './TabSelector';
     import columnGroup from './ColumnGroup';
     import textRegion from './TextRegion';
+    import cityPicker from './CityPicker';
     export default {
         name: "v-region",
         components: {
             'v-select-group': selectGroup,
             'v-text-region': textRegion,
             'v-tab-selector': tabSelector,
-            'v-column-group': columnGroup
+            'v-column-group': columnGroup,
+            'v-city-picker': cityPicker
         },
         props:{
             ui: {
@@ -34,6 +44,10 @@
                 default: false
             },
             text: {
+                type: Boolean,
+                default: false
+            },
+            cityPicker: {
                 type: Boolean,
                 default: false
             }
@@ -154,32 +168,34 @@
     div.rg-search {
         padding: 2px 10px 10px;
         background-color: $darkBg;
-        .rg-input {
-            display: block;
-            background-color: white;
-            margin: 0 !important;
-            width: 100%;
-
-            font-size: 14px;
-            line-height: 20px;
-            min-height: 20px;
-            padding: 4px 6px;
-            vertical-align: middle;
-            box-sizing: border-box;
-
-            outline: none !important;
-            height: 30px;
-
-            border-radius: 2px;
-            border: 1px solid #dddddd;
-            -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
-            -moz-box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
-            box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
-
-            transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
-            &:focus { border: 1px solid #bbbbbb;box-shadow: 0 0 0 3px rgba(150,150,150, 0.2); }
-        }
     }
+
+    .rg-input {
+        display: block;
+        background-color: white;
+        margin: 0 !important;
+        width: 100%;
+
+        font-size: 14px;
+        line-height: 20px;
+        min-height: 20px;
+        padding: 4px 6px;
+        vertical-align: middle;
+        box-sizing: border-box;
+
+        outline: none !important;
+        height: 30px;
+
+        border-radius: 2px;
+        border: 1px solid #dddddd;
+        -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+        -moz-box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+        box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+
+        transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+        &:focus { border: 1px solid #bbbbbb;box-shadow: 0 0 0 3px rgba(150,150,150, 0.2); }
+    }
+
     /* group type */
     div.rg-level-tabs {
         padding: 0 10px;border-bottom: 1px solid #E6E7E7;

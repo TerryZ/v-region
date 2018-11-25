@@ -117,7 +117,8 @@ export default {
                 if(this.city && ini.city) count++;
                 if(this.area && ini.area) count++;
                 if(this.town && ini.town) count++;
-                if(level === count) this.init = null;
+                //level number start with 0
+                if((level + 1) === count) this.init = null;
             }
             return init;
         },

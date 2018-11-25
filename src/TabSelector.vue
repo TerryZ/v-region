@@ -110,7 +110,7 @@
         },
         methods: {
             open(){
-                this.$refs.drop.$emit('show', true, this.$refs.caller);
+                this.$refs.drop.$emit('show', this.$refs.caller);
                 this.inputFocus();
             },
             inputFocus(){
@@ -197,12 +197,6 @@
             clear(){
                 this.dProvince = null;
                 this.level = PROVINCE_LEVEL;
-            },
-            isChrome(){
-                return navigator.vendor !== undefined && navigator.vendor.indexOf("Google") !== -1;
-            },
-            isEdge(){
-                return navigator.userAgent.indexOf("Edge") >= 0;
             },
             provinceChange(newVal, oldVal){
                 this.baseProvinceChange(newVal, oldVal);

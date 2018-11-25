@@ -61,11 +61,11 @@
                 this.close();
             },
             open(){
-                if(!this.disabled) this.$refs.drop.$emit('show', true, this.$refs.caller);
+                if(!this.disabled) this.$refs.drop.$emit('show', this.$refs.caller);
             },
             close(){
                 this.$nextTick(()=>{
-                    this.$refs.drop.$emit('show', false);
+                    this.$refs.drop.$emit('show');
                 });
             },
             showChange(val){
@@ -133,6 +133,7 @@ ul.rg-select__list{
         cursor: pointer;
         min-width: 80px;
         color: #888;
+        font-size: 13px;
         &:hover{ background-color: #F5F7FA; }
         &.selected{
             background-color: #57A0E2;

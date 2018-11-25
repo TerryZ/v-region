@@ -51,7 +51,7 @@
         },
         methods: {
             open(){
-                this.$refs.drop.$emit('show', true, this.$refs.caller);
+                this.$refs.drop.$emit('show', this.$refs.caller);
             },
             provinceChange(newVal, oldVal){
                 this.baseProvinceChange(newVal, oldVal);
