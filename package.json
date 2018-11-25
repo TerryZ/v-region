@@ -1,7 +1,7 @@
 {
   "name": "v-region",
   "description": "A simple region selector, provide Chinese administrative division data",
-  "version": "2.1.0",
+  "version": "2.1.2",
   "author": "TerryZ <terry5@foxmail.com>",
   "license": "MIT",
   "main": "dist/v-region.js",
@@ -10,7 +10,7 @@
     "build": "cross-env NODE_ENV=production webpack --progress --hide-modules"
   },
   "dependencies": {
-    "v-dropdown": "1.0.4",
+    "v-dropdown": "1.0.5",
     "vue": "^2.5.11"
   },
   "keywords": [
