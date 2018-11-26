@@ -134,3 +134,9 @@ export default {
 ## 数据源（Data Source）
 
 Region data come from repo: [mumuy/data_location](https://github.com/mumuy/data_location)
+
+<br><br>
+
+## 依赖（Dependencies）
+
+- [v-dropdown] - the dropdown layer container
