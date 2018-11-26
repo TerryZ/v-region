@@ -10,7 +10,7 @@
                 </button>
             </slot>
         </div>
-        <v-drop-down ref="drop" @show-change="showChange" :re-open="false">
+        <v-drop-down ref="drop" @show-change="showChange">
             <!-- search bar -->
             <div class="rg-search-bar" >
                 <input type="text" autocomplete="off" ref="input" v-model.trim="query" class="rg-input" placeholder="">
@@ -99,11 +99,14 @@
             /**
              * initialize region selected
              */
-            selected(value){
-                if(value && Array.isArray(value) && value.length) {
-                    let tmp = srcProvince.filter(val=> value.includes(val.key));
-                    this.picked = [...tmp, ...srcCity.filter(val => value.includes(val.key))];
-                }
+            selected: {
+                handler(value){
+                    if(value && Array.isArray(value) && value.length) {
+                        let tmp = srcProvince.filter(val=> value.includes(val.key));
+                        this.picked = [...tmp, ...srcCity.filter(val => value.includes(val.key))];
+                    }
+                },
+                immediate: true
             }
         },
         methods: {
