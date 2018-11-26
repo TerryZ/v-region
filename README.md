@@ -41,7 +41,7 @@
 - 下拉选择器模式自带默认呼出按钮，并允许自定义呼出对象（Slot）
 - 纯文本显示模式（指定初始值后）
 - 除省级以外，其它行政区域级别允许通过参数进行“打开/关闭”
-- 完整解决 “直辖市”、“特别行政区” 和 “地级市（直筒子市）” 的数据和内容的处理
+- 完整解决 “直辖市”、“特别行政区” 、 “地级市（直筒子市）” 和 “省辖县/省辖县级市” 的数据和内容的处理
 
 <br><br>
 
@@ -62,6 +62,10 @@
 *多列竖排选择器模式 (selector with column group)*
 
 ![column](https://terryz.github.io/image/v-region/v-region-column.png)
+
+*城市选择器模式 (city picker selector mode)*
+
+![city-picker](https://terryz.github.io/image/v-region/v-region-city-picker.png)
 
 <br><br>
 
