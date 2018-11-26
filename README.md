@@ -139,4 +139,4 @@ Region data come from repo: [mumuy/data_location](https://github.com/mumuy/data_
 
 ## 依赖（Dependencies）
 
-- [v-dropdown] - the dropdown layer container
+- [v-dropdown](https://github.com/TerryZ/v-dropdown) - the dropdown layer container
