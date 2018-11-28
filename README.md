@@ -111,7 +111,7 @@ template code
 
 ```html
 <template>
-    <v-region @values="regionChange" class="form-control"></v-region>
+    <v-region @values="regionChange"></v-region>
 </template>
 ```
 
