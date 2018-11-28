@@ -139,7 +139,7 @@ export default {
 
 Region data come from repo: [mumuy/data_location](https://github.com/mumuy/data_location)
 
-> **数据说明**
+> **数据说明**  
 > 省、市、区数据来自于民政局、国务院公告、国家统计局，确保及时更新和权威；
 > 街道(镇、乡)数据由于数据庞大，各地各级之前公函较多，无法保证及时有效（最新数据2016年7月31日）；
 > 数据是以行政区为单位的行政区划数据。行政管理区与行政区存在重合，不予收录;
