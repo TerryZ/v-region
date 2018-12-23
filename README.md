@@ -1,10 +1,8 @@
 <br><br>
 
-<h3 align="center">v-region</h3>
-
-<br>
-
 <p align="center"><img src="https://terryz.github.io/image/v-region/v-region-ui.png" alt="v-region" ></p>
+
+<h3 align="center">v-region</h3>
 
 <p align="center">
     简洁强大的中国行政区划选择器，可选择 “省/直辖市”、“市”、“区/县”、“乡/镇/街道” 4 级行政区域<br>
