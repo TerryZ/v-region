@@ -107,17 +107,12 @@ Vue.use(vRegion, { global config options });
 
 ## 在页面中使用（Deploy on your component）
 
-template code
-
-```html
+```vue
 <template>
     <v-region @values="regionChange"></v-region>
 </template>
-```
 
-script code
-
-```js
+<script>
 export default {
     methods:{
         //receive selected region entries
@@ -126,7 +121,9 @@ export default {
         }
     }
 };
+</script>
 ```
+
 <br><br>
 
 ## Star数趋势（Stargazers over time）
