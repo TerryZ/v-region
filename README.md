@@ -47,23 +47,23 @@
 
 ## 插件预览（Plugin preview）
 
-*纯文本显示模式 (plain text view mode)*
+- *纯文本显示模式 (plain text view mode)*
 
 ![text](https://terryz.github.io/image/v-region/v-region-text.png)
 
-*表单元素模式（form element mode）*
+- *表单元素模式（form element mode）*
 
 ![base](https://terryz.github.io/image/v-region/v-region-base.png)
 
-*下拉选择器模式（dropdown selector mode）*
+- *下拉选择器模式（dropdown selector mode）*
 
 ![ui](https://terryz.github.io/image/v-region/v-region-ui.png)
 
-*多列竖排选择器模式 (selector with column group)*
+- *多列竖排选择器模式 (selector with column group)*
 
 ![column](https://terryz.github.io/image/v-region/v-region-column.png)
 
-*城市选择器模式 (city picker selector mode)*
+- *城市选择器模式 (city picker selector mode)*
 
 ![city-picker](https://terryz.github.io/image/v-region/v-region-city-picker.png)
 
