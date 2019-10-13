@@ -6,10 +6,17 @@ import {
   LEVEL_LIST, LEVELS
 } from '../constants'
 
-import { getLoader } from '../helper'
+import { getRegionByModel, validModel, getLoader } from '../helper'
 
 export default {
   methods: {
+    modelChange (val) {
+      if (validModel(val) && this.differentModel(val)) {
+        this.clearRegion(PROVINCE_LEVEL)
+        this.region = getRegionByModel(val, this.availableLevels)
+        this.change(true)
+      }
+    },
     /**
      * Region contents change
      *
@@ -47,6 +54,7 @@ export default {
      * @returns
      */
     differentModel (model) {
+      if (!model) return false
       const levelResult = []
       const { province, city, area, town } = this.region
       levelResult.push(Boolean(model.province === province || (province && province.key) === model.province))
@@ -100,9 +108,6 @@ export default {
     }
   },
   created () {
-    this.lang = language[this.i18n]
-  },
-  beforeMount () {
     // sort by length and code
     this.listProvince = this.type === GROUP
       ? srcProvince.slice().sort((a, b) => {
@@ -110,5 +115,7 @@ export default {
         return gap === 0 ? Number(a.key) - Number(b.key) : gap
       })
       : srcProvince.slice()
+    this.lang = language[this.i18n]
+    if (this.value && Object.keys(this.value).length) this.modelChange(this.value)
   }
 }

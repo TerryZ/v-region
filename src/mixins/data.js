@@ -1,5 +1,4 @@
-import { PROVINCE_LEVEL } from '../constants'
-import { getRegionByModel, validModel, availableLevels } from '../helper'
+import { availableLevels } from '../helper'
 
 export default {
   props: {
@@ -41,13 +40,7 @@ export default {
   },
   watch: {
     value: {
-      handler (val) {
-        if (validModel(val) && this.differentModel(val)) {
-          this.clearRegion(PROVINCE_LEVEL)
-          this.region = getRegionByModel(val, this.availableLevels)
-          this.change(true)
-        }
-      },
+      handler: 'modelChange',
       deep: true
     }
   },

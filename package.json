@@ -1,7 +1,7 @@
 {
   "name": "v-region",
   "description": "A simple region selector, provide Chinese administrative division data",
-  "version": "2.2.0",
+  "version": "2.2.1",
   "author": "TerryZ <terry5@foxmail.com>",
   "license": "MIT",
   "main": "dist/v-region.js",

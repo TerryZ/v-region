@@ -114,7 +114,7 @@ export function availableLevels () {
  * @returns {boolean}
  */
 export function validModel (model) {
-  return Object.keys(model).length && LEVEL_LIST.every(val => val in model)
+  return Boolean(model && Object.keys(model).length && LEVEL_LIST.every(val => val in model))
 }
 
 /**
@@ -122,7 +122,15 @@ export function validModel (model) {
  *
  * @param {string} key
  */
-const getDetail = key => srcList.find(val => val.key === key)
+const getDetail = key => {
+  const item = srcList.find(val => val.key === key)
+  if (item && Object.keys(item).length) {
+    return {
+      key: item.key,
+      value: item.value
+    }
+  } else return null
+}
 
 /**
  * Get region raw data from model
