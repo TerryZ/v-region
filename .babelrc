@@ -1,6 +1,4 @@
 {
-  "presets": [
-    ["env", { "modules": false }],
-    "stage-3"
-  ]
+  "presets": ["stage-3","es2015"],
+  "plugins": ["dynamic-import-node"]
 }
