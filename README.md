@@ -1,29 +1,3 @@
-<!--
-<br><br>
-
-<p align="center"><img src="https://terryz.github.io/image/v-region/v-region-ui.png" alt="v-region" ></p>
-
-<h3 align="center">v-region</h3>
-
-<br>
-
-<p align="center">
-    简洁强大的中国行政区划选择器，可选择 “省/直辖市”、“市”、“区/县”、“乡/镇/街道” 4 级行政区域<br>
-    A simple region cascade selector for <strong>Vue2</strong>, provide 4 levels Chinese administrative division data
-</p>
-
-<p align="center">
-  <a href="https://www.npmjs.com/package/v-region"><img src="https://img.shields.io/npm/v/v-region.svg"></a>
-  <a href="https://mit-license.org/"><img src="https://img.shields.io/badge/license-MIT-brightgreen.svg"></a>
-  <a href="https://app.fossa.io/projects/git%2Bgithub.com%2FTerryZ%2Fv-region?ref=badge_shield"><img src="https://app.fossa.io/api/projects/git%2Bgithub.com%2FTerryZ%2Fv-region.svg?type=shield"></a>
-  <a href="https://www.npmjs.com/package/v-region"><img src="https://img.shields.io/npm/dy/v-region.svg"></a>
-</p>
-
-
-<br><br><br><br><br>
-
--->
-
 # [v-region](https://terryz.github.io/vue/#/region)
 
 [![circle ci](https://circleci.com/gh/TerryZ/v-region.svg?style=svg)](https://circleci.com/gh/TerryZ/v-region)
@@ -102,13 +76,13 @@ Vue.use(vRegion, { global config options });
 
 <script>
 export default {
-    methods:{
-        //receive selected region entries
-        regionChange(data){
-            console.log(data);
-        }
+  methods: {
+    //receive selected region entries
+    regionChange (data) {
+      console.log(data)
     }
-};
+  }
+}
 </script>
 ```
 
