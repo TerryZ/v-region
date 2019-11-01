@@ -17,6 +17,8 @@ A simple region cascade selector for **Vue2**, provide 4 levels Chinese administ
 - [English site](https://terryz.github.io/vue/#/region)
 - [国内站点](https://terryz.gitee.io/vue/#/region)
 
+> 要求 Vuejs 版本 2.6.0+
+
 ## 功能特性（Featues）
 
 - 支持 “省/直辖市”、“市”、“区/县”、“乡/镇/街道” 4级行政区域选择
