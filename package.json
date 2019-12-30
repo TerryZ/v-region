@@ -1,15 +1,16 @@
 {
-  "name": "v-region",
-  "description": "A simple region selector, provide Chinese administrative division data",
-  "version": "2.2.2",
-  "author": "TerryZ <terry5@foxmail.com>",
+  "name": "@fanpian/v-region-update-area",
+  "description": "一个简单的中国行政区划组件.从v-region插件来,改变了下数据源.",
+  "version": "2.2.3",
+  "author": "fanpian",
   "license": "MIT",
   "main": "dist/v-region.js",
   "scripts": {
     "dev": "cross-env NODE_ENV=development webpack-dev-server --open --hot",
     "build": "cross-env NODE_ENV=production webpack --progress --hide-modules",
     "test:unit": "mocha-webpack --webpack-config webpack.config.js --require tests/unit/setup.js tests/unit/**/*.spec.js",
-    "cover": "cross-env NODE_ENV=coverage nyc --reporter=lcov --reporter=text npm run test:unit"
+    "cover": "cross-env NODE_ENV=coverage nyc --reporter=lcov --reporter=text npm run test:unit",
+    "publish": "npm publish"
   },
   "dependencies": {
     "v-dropdown": "2.1.1"
@@ -70,5 +71,8 @@
     ],
     "instrument": false,
     "sourceMap": false
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/"
   }
 }
