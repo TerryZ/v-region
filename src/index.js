@@ -1,28 +1,38 @@
-import region from './Region'
+import './styles/region.styl'
 
-const Plugin = {
-  install (Vue, options = {}) {
-    if (Object.keys(options).length) {
-      if (typeof options.i18n === 'string') region.props.i18n.default = options.i18n
-      if (typeof options.blank === 'boolean') region.props.blank.default = options.blank
-      if (typeof options.town === 'boolean') region.props.town.default = options.town
-      if (typeof options.search === 'boolean') region.props.search.default = options.search
-    }
+import RegionGroupCore from './components/Group'
+import RegionGroup from './RegionGroup'
+import RegionSelects from './RegionSelects'
+import RegionColumnsCore from './components/Columns'
+import RegionColumns from './RegionColumns'
+import RegionCityPicker from './RegionCityPicker'
+import RegionText from './RegionText'
 
-    /*
-    region.extends = {
-      props: {
-        abc: {
-          type: String,
-          default: 'abc'
-        }
-      }
-    }
-    console.log(region)
-    */
+export {
+  regionFull,
+  regionProvinces,
+  regionCities,
+  regionAreas
+} from './formatted'
 
-    Vue.component(region.name, region)
-  }
+const Region = {}
+
+Region.install = (Vue, options = {}) => {
+  Vue.component('v-region-group', RegionGroup)
+  Vue.component('v-region-selects', RegionSelects)
+  Vue.component('v-region-columns', RegionColumns)
+  Vue.component('v-region-city-picker', RegionCityPicker)
+  Vue.component('v-region-text', RegionText)
 }
 
-export default Plugin
+export {
+  RegionGroupCore,
+  RegionGroup,
+  RegionSelects,
+  RegionColumnsCore,
+  RegionColumns,
+  RegionCityPicker,
+  RegionText
+}
+
+export default Region

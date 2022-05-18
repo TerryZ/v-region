@@ -1,18 +1,24 @@
+import cloneDeep from 'lodash.clonedeep'
+import { regionProvinces } from '../formatted.js'
+
 import '../styles/icons.styl'
 import '../styles/group.styl'
 
-import dropdown from 'v-dropdown'
 import data from '../mixins/data'
 import method from '../mixins/method'
-import search from '../mixins/selectorWithSearch'
-import selector from '../mixins/selector'
-import { PROVINCE_LEVEL, CITY_LEVEL, AREA_LEVEL, TOWN_LEVEL, LEVELS, LEVEL_LIST } from '../constants'
+import {
+  PROVINCE_LEVEL,
+  CITY_LEVEL,
+  AREA_LEVEL,
+  TOWN_LEVEL,
+  LEVELS,
+  LEVEL_LIST
+} from '../constants'
 
 export default {
-  name: 'RegionGroup',
-  mixins: [data, method, search, selector],
+  name: 'Group',
+  mixins: [data, method],
   inheritAttrs: false,
-  components: { dropdown },
   props: {
     search: {
       type: Boolean,
@@ -22,63 +28,40 @@ export default {
   data () {
     return {
       list: [],
-      query: '',
       level: -1
     }
   },
   watch: {
-    /**
-     * region search
-     * search region description first, if no result, then search region key
-     * @param value
-     */
-    query (value) {
-      const list = this.getList(this.level)
-      let tmp = []
-      tmp = list.filter(val => val.value.toLowerCase().includes(value.toLowerCase()))
-      if (tmp.length === 0) tmp = list.filter(val => val.key.includes(value))
-      this.list = tmp
-    },
-    /**
-     * current region group
-     */
+    // 当前分组
     level (val) {
       this.list = this.getList(val)
-      this.adjust()
+      this.$emit('adjust')
     }
   },
   render (h) {
-    const child = []
+    const contents = []
 
-    child.push(this.buildCaller(h))
-    child.push(this.buildHeader(h))
-    child.push(this.buildSearch(h))
-    child.push(this.buildTabs(h))
-    child.push(this.buildContent(h))
+    contents.push(this.buildHeader())
+    contents.push(this.buildSearch())
+    contents.push(this.buildTabs())
+    contents.push(this.buildContent())
 
-    return h('dropdown', {
-      ref: 'drop',
-      props: {
-        border: false
-      },
-      on: {
-        show: this.showChange
-      }
-    }, child)
+    return h('div', { class: 'rg-group' }, contents)
   },
   methods: {
-    buildHeader (h) {
-      const child = []
+    buildHeader () {
+      const h = this.$createElement
+      const contents = []
 
-      child.push(h('h3', [
-        h('span', {
-          class: {
-            'rg-header-selected': this.selectedText
-          }
-        }, this.selectedText || this.lang.defaultHead)
-      ]))
+      const title = this.selectedText || this.lang.defaultHead
+      const titleOption = {
+        class: 'rg-header-text',
+        domProps: { title }
+      }
+      contents.push(h('div', titleOption, [title]))
 
-      child.push(h('button', {
+      const btnIcon = h('i', { class: 'rg-iconfont rg-icon-remove' })
+      const btnOption = {
         attrs: {
           type: 'button',
           title: this.lang.clear
@@ -87,94 +70,94 @@ export default {
         on: {
           click: this.clear
         }
-      }, [
-        h('i', { class: 'rg-iconfont rg-icon-remove' })
-      ]))
+      }
+      const btn = h('button', btnOption, [btnIcon])
+      contents.push(h('div', { class: 'rg-header-control' }, [btn]))
 
-      child.push(h('button', {
-        attrs: {
-          type: 'button',
-          title: this.lang.done
-        },
-        class: 'rg-done-button',
-        on: {
-          click: this.close
-        }
-      }, [
-        h('i', { class: 'rg-iconfont rg-icon-done' })
-      ]))
+      // child.push(h('button', {
+      //   attrs: {
+      //     type: 'button',
+      //     title: this.lang.done
+      //   },
+      //   class: 'rg-done-button',
+      //   on: {
+      //     click: this.close
+      //   }
+      // }, [
+      //   h('i', { class: 'rg-iconfont rg-icon-done' })
+      // ]))
 
-      return h('div', { class: 'rg-header' }, child)
+      return h('div', { class: 'rg-header' }, contents)
     },
-    buildSearch (h) {
+    // 构建搜索栏
+    buildSearch () {
       if (!this.search) return
-      return h('div', { class: 'rg-search' }, [
-        h('input', {
-          ref: 'search',
-          class: 'rg-input',
-          attrs: {
-            type: 'text',
-            autocomplete: 'off'
-          },
-          domProps: {
-            value: this.query
-          },
-          on: {
-            input: e => {
-              this.query = e.target.value.trim()
-            }
-          }
-        })
-      ])
+
+      const h = this.$createElement
+      const option = {
+        ref: 'search',
+        class: 'rg-input',
+        attrs: {
+          type: 'text',
+          autocomplete: 'off'
+        },
+        on: {
+          input: e => this.query(e.target.value.trim())
+        }
+      }
+      const input = h('input', option)
+      return h('div', { class: 'rg-search' }, [input])
     },
-    buildTabs (h) {
-      const child = []
-      LEVELS.forEach(val => {
-        if (this.levelAvailable(val.index)) {
-          child.push(h('li', {
+    // 构建选择卡栏
+    buildTabs () {
+      const h = this.$createElement
+      const tabs = LEVELS
+        .filter(val => this.levelAvailable(val.index))
+        .map(val => {
+          const link = h('a', {
+            attrs: {
+              href: 'javascript:void(0)'
+            },
+            on: {
+              click: () => {
+                this.level = val.index
+              }
+            }
+          }, val.title)
+          const option = {
             key: val.index,
             class: {
               active: val.index === this.level
             }
-          }, [
-            h('a', {
-              attrs: {
-                href: 'javascript:void(0);'
-              },
-              on: {
-                click: () => {
-                  this.level = val.index
-                }
-              }
-            }, val.title)
-          ]))
-        }
-      })
+          }
+          return h('li', option, [link])
+        })
       return h('div', { class: 'rg-level-tabs' }, [
-        h('ul', child)
+        h('ul', tabs)
       ])
     },
-    buildContent (h) {
+    // 构建内容区域
+    buildContent () {
+      const h = this.$createElement
+      const { list } = this
       const child = []
-      if (this.list.length) {
-        child.push(...this.list.map(val => {
-          return h('li', {
+      if (list.length) {
+        const listItmes = list.map(val => {
+          const option = {
+            key: val.key,
             class: {
               'rg-item': true,
               active: this.match(val)
             },
-            key: val.key,
             on: {
-              mouseup: () => {
-                this.pick(val)
-              }
+              mouseup: () => { this.pick(val) }
             }
-          }, val.value)
-        }))
+          }
+          return h('li', option, val.value)
+        })
+        child.push(...listItmes)
       } else {
-        child.push(h('li', {
-          class: 'rg-message-box'
-        }, this.lang.noMatch))
+        child.push(h('li', { class: 'rg-message-box' }, this.lang.noMatch))
       }
       return h('div', { class: 'rg-results-container' }, [
         h('ul', { class: 'rg-results' }, child)
@@ -200,13 +183,13 @@ export default {
     },
     match (item) {
       if (!item || !Object.keys(item).length) return false
-      const R = this.region
+      const { province, city, area, town } = this.region
       const key = item.key
       switch (this.level) {
-        case PROVINCE_LEVEL: return R.province && R.province.key === key
-        case CITY_LEVEL: return R.city && R.city.key === key
-        case AREA_LEVEL: return R.area && R.area.key === key
-        case TOWN_LEVEL: return R.town && R.town.key === key
+        case PROVINCE_LEVEL: return province && province.key === key
+        case CITY_LEVEL: return city && city.key === key
+        case AREA_LEVEL: return area && area.key === key
+        case TOWN_LEVEL: return town && town.key === key
       }
     },
     nextLevel (level) {
@@ -222,13 +205,44 @@ export default {
       if (this.levelAvailable(nextLevel) && this.level !== nextLevel) {
         this.level = nextLevel
       } else {
-        this.close()
+        this.$emit('complete')
       }
     },
     clear () {
       this.clearRegion(PROVINCE_LEVEL)
       this.level = PROVINCE_LEVEL
       this.change()
+      this.$emit('adjust')
+    },
+    /**
+     * region search
+     * search region description first, if no result, then search region key
+     * @param value
+     */
+    query (value) {
+      const list = this.getList(this.level)
+      let tmp = []
+      // 首先匹配描述内容
+      tmp = list.filter(val => val.value.toLowerCase().includes(value.toLowerCase()))
+      if (tmp.length === 0) {
+        // 其次使用编码进行匹配查询
+        tmp = list.filter(val => val.key.includes(value))
+      }
+      this.list = tmp
+    },
+    /**
+     * @override
+     */
+    prepareProvinceList () {
+      const { value } = this
+      // sort by length and code
+      this.listProvince = cloneDeep(regionProvinces).sort((a, b) => {
+        const gap = a.value.length - b.value.length
+        return gap === 0 ? Number(a.key) - Number(b.key) : gap
+      })
+      if (value && Object.keys(value).length) {
+        this.modelChange(value)
+      }
     }
   },
   beforeMount () {

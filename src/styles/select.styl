@@ -1,34 +1,4 @@
-// ？？
-div.rg-selected-container
-  /*padding 5px 16px 7px*/
-  border-top 1px solid #E6E7E7
-  background-color white
-  border-bottom-left-radius 2px
-  border-bottom-right-radius 2px
-  display inline-block
-  width 400px
-  position relative
-  div.rg-selected-content
-    /*margin-right 30px*/
-    display inline-block
-    width 350px
-  div.rg-done
-    height 100%
-    width 50px
-    display inline-block
-    text-align center
-    position absolute
-    top 0
-    bottom 0
-    right 0
-    i
-      line-height 1
-      font-size 20px
-      top 50%
-      position absolute
-      margin-top -10px
-
-// caller
+// select trigger button
 div.rg-select
   display inline-block
   position relative
@@ -39,19 +9,21 @@ div.rg-select
     border 1px solid #ddd
     border-radius 3px
     transition border-color .15s ease-in-out,box-shadow .15s ease-in-out
-    cursor pointer
     color #666
     div.rg-select__content
       padding 6px 30px 6px 15px
       font-size 14px
       display inline-block
       min-width 80px
+      line-height 1.5
+      box-sizing border-box
+      user-select none
     &:hover
-      border 1px solid #bbb
+      border 1px solid #aaa
     &.rg-select__el--active
       outline 0
-      box-shadow 0 0 0 3px rgba(180,180,180,.25)
-      border 1px solid #888
+      box-shadow 3px 2px 6px rgba(0, 0, 0, 0.3)
+      border 1px solid #666
       span.rg-select__caret
         transform rotate(180deg)
     &.rg-select_el--disabled
@@ -74,6 +46,7 @@ div.rg-select
     border-left 4px solid transparent
     transition transform .2s ease
 
+// list items
 ul.rg-select__list
   list-style none
   overflow-y auto
@@ -81,6 +54,8 @@ ul.rg-select__list
   max-height 300px
   margin 0
   padding 3px 0
+  -webkit-font-smoothing subpixel-antialiased
+  -webkit-transform translateZ(0) scale(1.0, 1.0)
   li
     padding 3px 10px
     cursor pointer

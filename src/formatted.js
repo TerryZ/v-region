@@ -6,31 +6,46 @@
  */
 import data from './data.json'
 
+/**
+ * json 数据转换为模型列表
+ * 模型格式：{ key: string, value: string }
+ */
 const list = []
-const province = []
-const city = []
-const area = []
+/**
+ * 省/直辖市模型列表
+ */
+const provinces = []
+/**
+ * 市模型列表
+ */
+const cities = []
+/**
+ * 区/县模型列表
+ */
+const areas = []
 
-// prepare data
 Object.entries(data).forEach(val => {
-  const key = Number.parseInt(val[0])
-  const model = { key: val[0], value: val[1] }
+  const [key, value] = val
+  const code = Number.parseInt(key)
+  const model = { key, value }
   list.push(model)
-  if (!(key % 1e4)) {
-    province.push(model)
-  } else if (!(key % 100)) {
-    city.push(model)
+  if (!(code % 1e4)) {
+    // xx0000 为省级编码格式
+    provinces.push(model)
+  } else if (!(code % 100)) {
+    // xxxx00 为市级编码格式
+    cities.push(model)
   } else {
-    const num = Number(val[0].substr(2))
-    if (num > 9000) {
-      city.push(model)
+    // 后四位数处理
+    if (Number(key.substring(2)) > 9000) {
+      cities.push(model)
     } else {
-      area.push(model)
+      areas.push(model)
     }
   }
 })
 
-export { list as srcList }
-export { province as srcProvince }
-export { city as srcCity }
-export { area as srcArea }
+export { list as regionFull }
+export { provinces as regionProvinces }
+export { cities as regionCities }
+export { areas as regionAreas }

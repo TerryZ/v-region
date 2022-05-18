@@ -1,21 +1,8 @@
+import ColumnItem from './ColumnItem'
+
 export default {
-  render (h) {
-    return h('ul', { class: 'rg-column' }, this.list.map(val => {
-      const child = []
-      child.push(h('span', val.value))
-      if (this.haveChild) {
-        child.push(h('i', { class: 'rg-iconfont rg-icon-right rg-caret-right' }))
-      }
-      return h('li', {
-        key: val.key,
-        class: {
-          selected: this.value && val.key === this.value.key
-        },
-        on: {
-          click: () => this.click(val)
-        }
-      }, child)
-    }))
+  components: {
+    ColumnItem
   },
   props: {
     list: {
@@ -26,11 +13,25 @@ export default {
       type: Boolean,
       default: true
     },
+    /** 当前选择的项目 */
     value: Object
   },
-  methods: {
-    click (row) {
-      this.$emit('input', row)
-    }
+  render (h) {
+    const { value, list, haveChild } = this
+    const listItems = list.map(val => {
+      const itemOption = {
+        key: val.key,
+        props: {
+          value: val,
+          selected: value && val.key === value.key,
+          haveChild
+        },
+        nativeOn: {
+          click: () => this.$emit('input', val)
+        }
+      }
+      return h('column-item', itemOption)
+    })
+    return h('ul', { class: 'rg-column' }, listItems)
   }
 }

@@ -15,13 +15,16 @@ div.rg-caller-container
   position relative
   padding 6px 12px
   background-color white
-  border 1px solid #ccc
+  border 1px solid #ddd
   border-radius 4px
   font-size 14px
   line-height 1.42857143
   outline 0 !important
   color #666
   transition color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out
+  &:hover
+    border 1px solid #aaa
+    color black
   span.rg-caret-down
     transition transform .2s ease
   span.rg-clear-btn
@@ -29,16 +32,14 @@ div.rg-caller-container
     &:hover
       font-weight bold
   &.rg-opened
-    box-shadow 0 0 0 3px rgba(0, 0, 0, 0.08)
-    border 1px solid #aaa
+    // box-shadow 0 0 0 3px rgba(0, 0, 0, 0.08)
+    box-shadow 3px 2px 6px rgba(0, 0, 0, 0.3)
+    border 1px solid #666
     color black
     span.rg-caret-down
       transform rotate(180deg)
     &:hover
-      border 1px solid #aaa
-  &:hover
-    border 1px solid #aaa
-    color black
+      border 1px solid #666
 .rg-caret-down
   display inline-block
   width 0

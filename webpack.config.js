@@ -8,9 +8,9 @@ module.exports = {
     path: path.resolve(__dirname, './dist'),
     publicPath: 'dist/',
     filename: 'v-region.js',
-	  library: 'vRegion',
-	  libraryTarget: 'umd',
-	  umdNamedDefine: true
+    library: 'vRegion',
+    libraryTarget: 'umd',
+    umdNamedDefine: true
   },
   module: {
     rules: [
@@ -81,7 +81,7 @@ module.exports = {
         test: /\.(png|jpg|gif|svg)$/,
         loader: 'url-loader',
         options: {
-		      limit: 30000,
+          limit: 30000,
           name: '[name].[ext]?[hash]'
         }
       }
@@ -90,8 +90,8 @@ module.exports = {
   resolve: {
     alias: {
       'vue$': 'vue/dist/vue.esm.js',
-	    '@': path.resolve(__dirname, 'src/'),
-	    '@test': path.resolve(__dirname, 'tests/')
+      '@': path.resolve(__dirname, 'src/'),
+      '@test': path.resolve(__dirname, 'tests/')
     },
     extensions: ['*', '.js', '.vue', '.json']
   },
@@ -123,10 +123,10 @@ if (process.env.NODE_ENV === 'production') {
     }),
     new webpack.LoaderOptionsPlugin({
       minimize: true,
-	    options: {
-	      productionGzip: true,
-		    productionGzipExtensions: ['js', 'css']
-	    }
+      options: {
+        productionGzip: true,
+        productionGzipExtensions: ['js', 'css']
+      }
     })
   ])
 }

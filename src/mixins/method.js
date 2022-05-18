@@ -1,19 +1,19 @@
-import language from '../language'
-import { srcProvince } from '../formatted.js'
+import cloneDeep from 'lodash.clonedeep'
+import { regionProvinces } from '../formatted.js'
 import {
-  GROUP,
   PROVINCE_LEVEL, CITY_LEVEL, AREA_LEVEL,
   LEVEL_LIST, LEVELS
 } from '../constants'
 
-import { getRegionByModel, validModel, getLoader } from '../helper'
+import { validModel, getLoader } from '../utils/helper'
+import { modelToRegion, regionToModel } from '../utils/parse'
 
 export default {
   methods: {
     modelChange (val) {
       if (validModel(val) && this.differentModel(val)) {
         this.clearRegion(PROVINCE_LEVEL)
-        this.region = getRegionByModel(val, this.availableLevels)
+        this.region = modelToRegion(val, this.availableLevels)
         this.change(true)
       }
     },
@@ -37,15 +37,11 @@ export default {
      * @param {boolean} [input=false]
      */
     emit (input = false) {
+      const { region } = this
       if (!input) {
-        const model = {}
-        Object.entries(this.region)
-          .forEach(([key, value]) => {
-            model[key] = value ? value.key : null
-          })
-        this.$emit('input', model)
+        this.$emit('input', regionToModel(region))
       }
-      this.$emit('values', JSON.parse(JSON.stringify(this.region)))
+      this.$emit('change', cloneDeep(region))
     },
     /**
      * Check if model and region data are equal
@@ -72,7 +68,8 @@ export default {
     },
     levelHandle (level, load) {
       const key = LEVEL_LIST[level]
-      const parentKey = level === PROVINCE_LEVEL ? null : LEVEL_LIST[level - 1]
+      const parentKey = level === PROVINCE_LEVEL ? undefined : LEVEL_LIST[level - 1]
+      // 获得当前级别的列表变量名，例如 level = 1 则为 listCity
       const listName = 'list' + key.charAt().toUpperCase() + key.substring(1)
       if (level === PROVINCE_LEVEL || this[key]) {
         if (this.region[parentKey]) {
@@ -97,25 +94,26 @@ export default {
     clearRegion (level) {
       const fields = LEVEL_LIST.slice(level)
       Object.keys(this.region).forEach(val => {
-        if (fields.includes(val)) this.region[val] = null
+        if (fields.includes(val)) this.region[val] = undefined
       })
+      // 不设置 break 让后面的级别也清空
       /* eslint-disable no-fallthrough */
       switch (level) {
         case PROVINCE_LEVEL: this.listCity = []
         case CITY_LEVEL: this.listArea = []
         case AREA_LEVEL: this.listTown = []
       }
+    },
+    prepareProvinceList () {
+      const { value } = this
+      // sort by length and code
+      this.listProvince = cloneDeep(regionProvinces)
+      if (value && Object.keys(value).length) {
+        this.modelChange(value)
+      }
     }
   },
   created () {
-    // sort by length and code
-    this.listProvince = this.type === GROUP
-      ? srcProvince.slice().sort((a, b) => {
-        const gap = a.value.length - b.value.length
-        return gap === 0 ? Number(a.key) - Number(b.key) : gap
-      })
-      : srcProvince.slice()
-    this.lang = language[this.i18n]
-    if (this.value && Object.keys(this.value).length) this.modelChange(this.value)
+    this.prepareProvinceList()
   }
 }

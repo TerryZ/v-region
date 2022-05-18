@@ -1,7 +1,7 @@
 import { mount } from '@vue/test-utils'
 import { expect } from 'chai'
 
-import CityPicker from '@/components/CityPicker'
+import CityPicker from '@/RegionCityPicker'
 
 describe('v-region CityPicker 城市选择器模式', function () {
   const w = mount(CityPicker, {
@@ -20,9 +20,10 @@ describe('v-region CityPicker 城市选择器模式', function () {
     expect(w.vm.picked.length).to.equal(0)
   })
 
-  it('在搜索框中输入 “上”，结果列表中应只有两个城市', () => {
+  it('在搜索框中输入 “上”，结果列表中应只有两个城市', async () => {
     w.find('.rg-caller-container').trigger('click')
     w.find('.rg-input').setValue('上')
+    await w.find('.rg-input').trigger('input')
     expect(w.findAll('li').length).to.equal(2)
   })
 

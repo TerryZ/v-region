@@ -1,23 +1,12 @@
-import { availableLevels } from '../helper'
+import { availableLevels } from '../utils/helper'
+import language, { CN } from '../language'
 
 export default {
   props: {
-    city: {
-      type: Boolean,
-      default: true
-    },
-    area: {
-      type: Boolean,
-      default: true
-    },
-    town: {
-      type: Boolean,
-      default: false
-    },
-    i18n: {
-      type: String,
-      default: 'cn'
-    },
+    city: { type: Boolean, default: true },
+    area: { type: Boolean, default: true },
+    town: { type: Boolean, default: false },
+    language: { type: String, default: CN },
     value: Object
   },
   data () {
@@ -28,13 +17,11 @@ export default {
       listArea: [],
       listTown: [],
 
-      lang: {},
-
       region: {
-        province: null,
-        city: null,
-        area: null,
-        town: null
+        province: undefined,
+        city: undefined,
+        area: undefined,
+        town: undefined
       }
     }
   },
@@ -61,6 +48,9 @@ export default {
       return Object.entries(this.region)
         .filter(([key, value]) => value)
         .map(([key, value]) => key)
+    },
+    lang () {
+      return language[this.language.toLowerCase()]
     }
   }
 }

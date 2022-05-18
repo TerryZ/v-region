@@ -1,4 +1,13 @@
 {
-  "presets": ["stage-3","es2015"],
-  "plugins": ["dynamic-import-node"]
+  "presets": [
+    "es2015",
+    "stage-0"
+  ],
+  "plugins": [
+    [
+      "transform-runtime", {
+        "regenerator": true
+      }
+    ]
+  ]
 }
