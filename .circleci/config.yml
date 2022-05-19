@@ -7,7 +7,7 @@ jobs:
   build:
     docker:
       # specify the version you desire here
-      - image: circleci/node:8-browsers
+      - image: circleci/node:12.22-browsers
 
       # Specify service dependencies here if necessary
       # CircleCI maintains a library of pre-built images
@@ -40,12 +40,13 @@ jobs:
       - run: codecov
 workflows:
   version: 2
-  scheduled-workflow:
+  build-and-test:
     triggers:
       - schedule:
           cron: "0 0 * * *"
           filters:
             branches:
-              only: master
+              only:
+              - master
     jobs:
       - build
