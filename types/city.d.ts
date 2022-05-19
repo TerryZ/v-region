@@ -16,6 +16,8 @@ export declare class RegionCityPicker extends Vue {
    * @default 'CN'
    */
   language: string
+  /** v-model 内容修改响应事件 */
+  $emit(eventName:'input', event: string[]): this
   /** 内容修改后的响应事件 */
   $emit(eventName:'change', event: RegionItem[]): this
 }

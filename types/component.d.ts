@@ -36,6 +36,28 @@ export declare interface RegionInputModel {
 export declare class RegionComponent extends Vue {
   /** 输入区域模型 */
   value: RegionInputModel
+  /**
+   * 启用城市级别
+   * @default true
+   */
+  city?: boolean
+  /**
+   * 启用区、县级别
+   * @default true
+   */
+  area?: boolean
+  /**
+   * 启用村、镇级别
+   * @default false
+   */
+  town?: boolean
+  /**
+   * 语言
+   * @default 'CN'
+   */
+  language?: string
+  /** v-model 内容修改响应事件 */
+  $emit(eventName:'input', event: RegionInputModel): this
   /** 内容修改后的响应事件 */
   $emit(eventName:'change', event: RegionModel): this
 }
