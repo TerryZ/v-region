@@ -10,6 +10,8 @@
 
 A simple region cascade selector for **Vue2**, provide 4 levels Chinese administrative division data
 
+行政区划数据源更新日期：`2022年05月18日`
+
 ## 实例和文档（Examples and Documentation）
 
 请浏览（Explorer on）
