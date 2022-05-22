@@ -14,7 +14,7 @@ A simple region cascade selector for **Vue2**, provide 4 levels Chinese administ
 
 ## 实例和文档（Examples and Documentation）
 
-请浏览（Explorer on）
+在 [CodePen](https://codepen.io/terry05/pen/ERNvzJ) 上快速预览插件功能，更多的实例与文档请浏览（Explorer on）
 
 - [English site](https://terryz.github.io/vue/#/region)
 - [国内站点](https://terryz.gitee.io/vue/#/region)
