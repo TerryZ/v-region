@@ -6,8 +6,7 @@
 [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
 [![npm download](https://img.shields.io/npm/dy/v-region.svg)](https://www.npmjs.com/package/v-region)
 
-简洁强大的中国行政区划选择器，可选择 “省/直辖市”、“市”、“区/县”、“乡/镇/街道” 4 级行政区域
-
+简洁强大的中国行政区划选择器，可选择 “省/直辖市”、“市”、“区/县”、“乡/镇/街道” 4 级行政区域  
 A simple region cascade selector for **Vue2**, provide 4 levels Chinese administrative division data
 
 行政区划数据源更新日期：`2022年05月18日`
@@ -31,10 +30,6 @@ A simple region cascade selector for **Vue2**, provide 4 levels Chinese administ
 - 支持 “直辖市”、“特别行政区” 、“地级市（直筒子市）” 和 “省辖县/省辖县级市” 数据和内容处理
 
 ## 插件预览（Plugin preview）
-
-- *纯文本显示模式 (plain text view mode)*
-
-![text](https://terryz.github.io/image/v-region/v-region-text.png)
 
 - *表单元素模式（form element mode）*
 
