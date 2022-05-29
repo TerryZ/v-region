@@ -1,6 +1,6 @@
 # [v-region](https://terryz.github.io/vue/#/region)
 
-[![circle ci](https://circleci.com/gh/TerryZ/v-region.svg?style=svg)](https://circleci.com/gh/TerryZ/v-region)
+[![CircleCI](https://circleci.com/gh/TerryZ/v-region/tree/master.svg?style=svg)](https://circleci.com/gh/TerryZ/v-region/tree/master)
 [![code coverage](https://codecov.io/gh/TerryZ/v-region/branch/master/graph/badge.svg)](https://codecov.io/gh/TerryZ/v-region)
 [![npm version](https://img.shields.io/npm/v/v-region.svg)](https://www.npmjs.com/package/v-region)
 [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
