@@ -3,8 +3,8 @@
 [![circle ci](https://circleci.com/gh/TerryZ/v-region.svg?style=svg)](https://circleci.com/gh/TerryZ/v-region)
 [![code coverage](https://codecov.io/gh/TerryZ/v-region/branch/master/graph/badge.svg)](https://codecov.io/gh/TerryZ/v-region)
 [![npm version](https://img.shields.io/npm/v/v-region.svg)](https://www.npmjs.com/package/v-region)
-[![npm download](https://img.shields.io/npm/dy/v-region.svg)](https://www.npmjs.com/package/v-region)
 [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
+[![npm download](https://img.shields.io/npm/dy/v-region.svg)](https://www.npmjs.com/package/v-region)
 
 简洁强大的中国行政区划选择器，可选择 “省/直辖市”、“市”、“区/县”、“乡/镇/街道” 4 级行政区域
 
@@ -18,8 +18,6 @@ A simple region cascade selector for **Vue2**, provide 4 levels Chinese administ
 
 - [English site](https://terryz.github.io/vue/#/region)
 - [国内站点](https://terryz.gitee.io/vue/#/region)
-
-> 要求 Vuejs 版本 2.6.0+
 
 ## 功能特性（Featues）
 
@@ -62,7 +60,7 @@ A simple region cascade selector for **Vue2**, provide 4 levels Chinese administ
 npm i -S v-region
 ```
 
-在工程里全局安装使用各个功能模块
+在工程里全局安装使用各个功能模块 `要求 vuejs 版本 2.6.0+`
 
 ```js
 import Vue from 'vue'
@@ -101,7 +99,7 @@ Vue.component('v-region-selects', RegionSelects)
 export default {
   data () {
     return {
-      region: {}
+      region: undefined
     }
   },
   methods: {
@@ -130,16 +128,7 @@ export default {
   components: {
     RegionSelects
   },
-  data () {
-    return {
-      region: {}
-    }
-  },
-  methods: {
-    regionChange (data) {
-      console.log(data)
-    }
-  }
+  ...
 }
 </script>
 ```
