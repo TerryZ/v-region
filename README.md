@@ -134,7 +134,8 @@ export default {
 
 ## Star数趋势（Stargazers over time）
 
-[![Stargazers over time](https://starcharts.herokuapp.com/TerryZ/v-region.svg)](https://starcharts.herokuapp.com/TerryZ/v-region)
+[![Stargazers over time](https://starchart.cc/TerryZ/v-region.svg)](https://starchart.cc/TerryZ/v-region)
+
 
 ## 数据源（Data Source）
 
