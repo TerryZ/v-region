@@ -1,28 +1,37 @@
 {
   "name": "v-region",
-  "description": "A simple region selector, provide Chinese administrative division data",
-  "version": "2.3.0",
+  "description": "Provide Chinese administrative division data selection",
+  "version": "3.0.0-beta.1",
   "author": "TerryZ <terry5@foxmail.com>",
-  "license": "MIT",
-  "main": "dist/v-region.js",
+  "type": "module",
   "files": [
     "/dist",
     "/types"
   ],
-  "typings": "types/index.d.ts",
-  "scripts": {
-    "dev": "cross-env NODE_ENV=development webpack-dev-server --open --hot",
-    "build": "cross-env NODE_ENV=production webpack --progress --hide-modules",
-    "test:unit": "mocha-webpack --webpack-config webpack.config.js --require tests/unit/setup.js tests/unit/**/*.spec.js",
-    "cover": "cross-env NODE_ENV=coverage nyc --reporter=lcov --reporter=text npm run test:unit"
+  "main": "./dist/v-region.umd.cjs",
+  "module": "./dist/v-region.js",
+  "exports": {
+    ".": {
+      "import": "./dist/v-region.js",
+      "require": "./dist/v-region.umd.cjs"
+    }
   },
-  "dependencies": {
-    "v-dropdown": "2.1.1",
-    "lodash.clonedeep": "^4.5.0"
+  "typings": "types/index.d.ts",
+  "license": "MIT",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview --port 4173",
+    "test:unit": "vitest",
+    "coverage": "vitest run --coverage",
+    "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs --fix --ignore-path .gitignore"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/TerryZ/v-region.git"
   },
   "keywords": [
     "front-end",
-    "javascript",
     "web",
     "vue",
     "vuejs",
@@ -32,54 +41,28 @@
     "area",
     "selector"
   ],
-  "browserslist": [
-    "> 1%",
-    "last 2 versions",
-    "not ie <= 8"
-  ],
-  "devDependencies": {
-    "@vue/test-utils": "^1.2.2",
-    "babel-core": "^6.26.3",
-    "babel-loader": "^7.1.2",
-    "babel-plugin-transform-runtime": "^6.23.0",
-    "babel-polyfill": "^6.26.0",
-    "babel-preset-env": "^1.6.0",
-    "babel-preset-es2015": "^6.24.1",
-    "babel-preset-stage-0": "^6.24.1",
-    "babel-runtime": "^6.26.0",
-    "chai": "^4.3.4",
-    "codecov": "^3.5.0",
-    "cross-env": "^5.0.5",
-    "css-loader": "^3.2.0",
-    "istanbul-instrumenter-loader": "^3.0.1",
-    "jsdom": "^15.1.1",
-    "jsdom-global": "^3.0.2",
-    "mocha": "^6.2.1",
-    "mocha-webpack": "^1.1.0",
-    "sass": "^1.43.4",
-    "sass-loader": "^7.3.1",
-    "nyc": "^14.1.1",
-    "stylus": "^0.54.7",
-    "stylus-loader": "^3.0.2",
-    "url-loader": "^2.2.0",
-    "typescript": "^4.3.5",
-    "vue": "^2.6.14",
-    "vue-loader": "^15.7.1",
-    "vue-style-loader": "^4.1.3",
-    "vue-template-compiler": "^2.6.14",
-    "webpack": "^3.6.0",
-    "webpack-dev-server": "^3.1.14",
-    "webpack-node-externals": "^1.7.2"
+  "peerDependencies": {
+    "vue": "^3.2.0"
   },
-  "nyc": {
-    "include": [
-      "src/RegionCityPicker.js",
-      "src/RegionColumns.js",
-      "src/RegionGroup.js",
-      "src/RegionText.js",
-      "src/RegionSelects.js"
-    ],
-    "instrument": false,
-    "sourceMap": false
+  "dependencies": {
+    "vue": "^3.2.39"
+  },
+  "devDependencies": {
+    "@rushstack/eslint-patch": "^1.2.0",
+    "@vitejs/plugin-vue": "^3.1.0",
+    "@vitejs/plugin-vue-jsx": "^2.0.1",
+    "@vue/eslint-config-standard": "^8.0.1",
+    "@vue/test-utils": "^2.0.2",
+    "bootstrap": "^5.2.1",
+    "c8": "^7.12.0",
+    "eslint": "^8.23.1",
+    "eslint-plugin-vue": "^9.4.0",
+    "jsdom": "^20.0.0",
+    "sass": "^1.54.9",
+    "sass-loader": "^13.0.2",
+    "typescript": "^4.8.3",
+    "vite": "^3.1.1",
+    "vite-plugin-css-injected-by-js": "^2.1.0",
+    "vitest": "^0.23.2"
   }
 }
