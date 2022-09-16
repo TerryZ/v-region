@@ -4,6 +4,7 @@
     "strict": true,
     "module": "es2015",
     "moduleResolution": "node",
-    "allowJs": true
+    "allowJs": true,
+    "jsx": "preserve"
   }
 }

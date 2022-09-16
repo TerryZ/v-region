@@ -1,0 +1,41 @@
+div.rg-column-container
+  clear: both
+  .rg-column
+    padding: 5px 0
+    margin: 0
+    list-style: none
+    height: 300px
+    display: inline-block
+    vertical-align: top
+    overflow-y: auto
+    box-sizing: border-box
+    min-width: 160px
+    font-size: 0
+    float: left
+    border-right: 1px solid #ddd
+    -webkit-font-smoothing: subpixel-antialiased
+    -webkit-transform: translateZ(0) scale(1.0, 1.0)
+    &:last-child
+      border-right: 0
+    li
+      font-size: 14px
+      line-height: 1.5
+      padding: 5px 30px 5px 10px
+      color: #777
+      position: relative
+      box-sizing: border-box
+      outline: none
+      list-style: none
+      &:hover
+        background-color: #F5F5F5
+        // color: black
+        cursor: pointer
+      &.selected
+        background-color: #E4EAEE
+        color: black
+
+  .rg-caret-right
+    position: absolute
+    top: 7px
+    right: 5px
+    font-size: 12px !important
