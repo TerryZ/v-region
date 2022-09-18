@@ -1,3 +1,4 @@
+import { h } from 'vue'
 import { validModel } from './utils/helper'
 import { modelToRegion, parseRegionToText } from './utils/parse'
 
@@ -7,17 +8,19 @@ import { modelToRegion, parseRegionToText } from './utils/parse'
 export default {
   name: 'RegionText',
   props: {
-    value: { type: Object, default: undefined },
+    modelValue: { type: Object, default: undefined },
     separator: { type: String, default: '' }
   },
-  render (h) {
-    const { value, separator } = this
+  setup (props) {
+    return () => {
+      const { modelValue, separator } = props
 
-    if (!validModel(value)) {
-      console.error('Incorrect data format for "value/v-model" of v-region')
-      return
+      if (!validModel(modelValue)) {
+        console.error('Incorrect data format for "value/v-model" of v-region')
+        return
+      }
+
+      return h('span', parseRegionToText(modelToRegion(modelValue)).join(separator))
     }
-
-    return h('span', parseRegionToText(modelToRegion(value)).join(separator))
   }
 }

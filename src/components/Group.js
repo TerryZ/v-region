@@ -1,8 +1,8 @@
 import cloneDeep from 'lodash.clonedeep'
 import { regionProvinces } from '../formatted.js'
 
-import '../styles/icons.styl'
-import '../styles/group.styl'
+// import '../styles/icons.sass'
+import '../styles/group.sass'
 
 import data from '../mixins/data'
 import method from '../mixins/method'

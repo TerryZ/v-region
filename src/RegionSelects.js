@@ -1,4 +1,4 @@
-import './styles/select.styl'
+import './styles/select.sass'
 
 import RegionSelect from './components/Select'
 import data from './mixins/data'

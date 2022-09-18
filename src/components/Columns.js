@@ -1,5 +1,5 @@
-import '../styles/icons.styl'
-import '../styles/column.styl'
+// import '../styles/icons.sass'
+import '../styles/column.sass'
 
 import RegionColumn from './Column'
 

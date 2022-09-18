@@ -1,22 +1,85 @@
 <template>
-  <div class="p-5">
-    <h1>
-      v-region
-      <button
-        type="button"
-        class="btn btn-outline-secondary btn-sm"
-        @click="$router.push({path: '/demo'})"
-      >
-        Back to List
-      </button>
-    </h1>
+  <div class="">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+      <div class="container-fluid">
+        <a
+          class="navbar-brand fw-bold"
+          href="#"
+        >v-region examples</a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNav"
+          aria-controls="navbarNav"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon" />
+        </button>
+        <div
+          class="collapse navbar-collapse"
+          id="navbarNav"
+        >
+          <ul class="navbar-nav">
+            <li
+              class="nav-item"
+              v-for="item in modules"
+              :key="item.key"
+            >
+              <router-link
+                class="nav-link"
+                aria-current="page"
+                :class="isActive(item)"
+                :to="item.url"
+                @click="change(item)"
+              >
+                {{ item.name }}
+              </router-link>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
 
-    <hr>
+    <div class="p-5">
+      <!-- <div class="alert alert-warning">
+        北京、天津、上海、重庆等直辖市与省同级，若选择的省是直辖市，则下级行政级别为 <strong>区/县</strong>，不是 <strong>市</strong>，在数据处理上注意区分！
+      </div> -->
 
-    <div class="alert alert-warning">
-      北京、天津、上海、重庆等直辖市与省同级，若选择的省是直辖市，则下级行政级别为 <strong>区/县</strong>，不是 <strong>市</strong>，在数据处理上注意区分！
+      <router-view />
     </div>
-
-    <router-view />
   </div>
 </template>
+
+<script setup>
+import { ref, onBeforeMount } from 'vue'
+import { useRoute } from 'vue-router'
+
+const modules = [
+  { key: 'selects', name: 'Selects', url: '/selects' },
+  { key: 'group', name: 'Group', url: '/group' },
+  { key: 'columns', name: 'Columns', url: '/columns' },
+  { key: 'city', name: 'City', url: '/city' },
+  { key: 'text', name: 'Text', url: '/text' }
+]
+const active = ref('')
+
+function isActive (item) {
+  if (active.value && active.value === item.key) {
+    return 'active'
+  }
+  return ''
+}
+function change (item) {
+  active.value = item.key
+}
+
+onBeforeMount(() => {
+  const route = useRoute()
+  const module = modules.find(val => val.url === route.path)
+  if (module) {
+    active.value = module.key
+  }
+})
+</script>

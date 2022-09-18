@@ -1,5 +1,5 @@
-import './styles/icons.styl'
-import './styles/city.styl'
+// import './styles/icons.sass'
+import './styles/city.sass'
 
 import selector from './mixins/selector'
 
@@ -177,7 +177,7 @@ export default {
         const list = []
         fullCityDirectory.forEach(val => {
           const citys = val.citys.filter(city => new RegExp(value).test(city.value))
-          if (citys.length) list.push({ province: val.province, citys: citys })
+          if (citys.length) list.push({ province: val.province, citys })
         })
         this.list = list
       } else {

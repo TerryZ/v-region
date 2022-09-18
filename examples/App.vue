@@ -1,7 +1,3 @@
 <template>
-  <examples-index />
+  <router-view />
 </template>
-
-<script setup>
-import ExamplesIndex from './ExamplesIndex.vue'
-</script>
