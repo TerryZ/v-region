@@ -29,7 +29,7 @@ import { regionProvinces, regionCities } from '../formatted'
  *
  * @returns {object} 区域原始数据模型
  */
-export function modelToRegion (model, levels = LEVEL_LIST) {
+export async function modelToRegion (model, levels = LEVEL_LIST) {
   const { province, city, area, town } = model
   const region = {
     [PROVINCE_KEY]: undefined,
@@ -53,7 +53,8 @@ export function modelToRegion (model, levels = LEVEL_LIST) {
 
   if (!town || !inLevel(TOWN_KEY) || !region.area) return region
 
-  const towns = loadTown(region.area)
+  const towns = await loadTown(region.area)
+  // console.log(towns)
   if (towns.length) {
     region.town = towns.find(val => val.key === town)
   }

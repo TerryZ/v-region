@@ -13,8 +13,10 @@ export default {
     modelChange (val) {
       if (validModel(val) && this.differentModel(val)) {
         this.clearRegion(PROVINCE_LEVEL)
-        this.region = modelToRegion(val, this.availableLevels)
-        this.change(true)
+        modelToRegion(val, this.availableLevels).then(resp => {
+          this.region = resp
+          this.change(true)
+        })
       }
     },
     /**

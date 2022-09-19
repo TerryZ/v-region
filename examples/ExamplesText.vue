@@ -7,13 +7,13 @@
     <div class="p-3 shadow-sm rounded-3 border">
       <h5>默认显示文本</h5>
       <div class="mb-3 text-muted">
-        <region-text v-model="selected" />
+        <region-text v-model="region" />
       </div>
 
       <h5>带分隔符</h5>
       <div class="text-muted">
         <region-text
-          v-model="selected"
+          v-model="region"
           separator="-"
         />
       </div>
@@ -30,7 +30,13 @@ export default {
   },
   data () {
     return {
-      selected: {
+      region: {
+        province: '350000',
+        city: '350100',
+        area: '350104',
+        town: '350104008'
+      },
+      invalidRegion: {
         province: '350000',
         city: '350100',
         area: '350103',

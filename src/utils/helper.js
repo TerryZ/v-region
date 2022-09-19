@@ -46,33 +46,33 @@ export function loadArea (city) {
   return list.length ? list : [city]
 }
 
+function townDataPath (areaKey) {
+  return `../town/${areaKey}.json`
+}
+
 /**
  * 根据区/县数据读取乡/镇列表
  *
  * @param {object} area - 区/县
  * @returns {object[]} 乡/镇列表
  */
-export function loadTown (area) {
+export async function loadTown (area) {
   if (!area || !Object.keys(area).length) return []
 
-  let towns
-  /* eslint-disable */
   try {
-    towns = require(`../town/${area.key}.json`);
-    // towns = () => import(`../town/${area.key}.json`);
+    const { default: data } = await import(townDataPath(area.key))
     // console.log(towns)
+    if (!data || typeof data !== 'object') {
+      return []
+    }
+
+    return Object
+      .entries(data)
+      .map(([key, value]) => ({ key, value }))
   } catch (e) {
-    console.warn(`The "${area.value}" area have no towns data.`);
+    console.warn(`The "${area.value}" area have no towns data.`)
     return []
   }
-
-  if (towns && Object.keys(towns).length) {
-    return Object
-      .entries(towns)
-      .map(([key, value]) => ({ key, value }))
-  }
-  // this.haveTown = !(this.dProvince && this.dCity && area && !list.length)
-  return []
 }
 
 /**
@@ -99,10 +99,10 @@ export function getLoader (level) {
  */
 export function availableLevels () {
   const result = [PROVINCE_KEY]
-  const switchs = Array.from(arguments)
+  const switches = Array.from(arguments)
 
-  for (let i = 0; i < switchs.length; i++) {
-    if (switchs[i]) {
+  for (let i = 0; i < switches.length; i++) {
+    if (switches[i]) {
       result.push(LEVEL_LIST[i + 1])
     } else {
       return result
@@ -140,7 +140,7 @@ export const getDetail = key => {
  * 检查初始化数据是否与当前选中数据相同
  *
  * @param {string[]} keys - 选中城市的键值列表
- * @param {{ key: string, value: string }[]} citys - 选中城市的模型列表
+ * @param {{ key: string, value: string }[]} cities - 选中城市的模型列表
  * @returns {boolean}
  */
 export function keysEqualModels (keys, models) {
