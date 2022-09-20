@@ -9,7 +9,7 @@ import { PLACEHOLDER_OTHER_CITIES } from './constants'
 import { keysEqualModels, isSelected, inputFocus } from './utils/helper'
 import { cityDirectory } from './utils/parse'
 
-const maxDisplayCitys = 2
+const maxDisplayCities = 2
 // 完整的城市列表（基于省份进行分组）
 const fullCityDirectory = cityDirectory()
 
@@ -44,14 +44,14 @@ export default {
       const { picked, overflow } = this
       const values = picked.map(val => val.value)
 
-      if (overflow || picked.length <= maxDisplayCitys) {
+      if (overflow || picked.length <= maxDisplayCities) {
         return values.join(',')
       }
 
       const lang = language[this.language.toLowerCase()]
-      const othersLength = picked.length - maxDisplayCitys
+      const othersLength = picked.length - maxDisplayCities
       const others = lang.others.replace(PLACEHOLDER_OTHER_CITIES, othersLength)
-      return values.slice(0, maxDisplayCitys).join(',') + `,${others}`
+      return values.slice(0, maxDisplayCities).join(',') + `,${others}`
     }
   },
   watch: {

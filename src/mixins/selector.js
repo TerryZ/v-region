@@ -1,3 +1,4 @@
+import { h } from 'vue'
 import Dropdown from 'v-dropdown'
 import languages, { CN } from '../language'
 
@@ -53,7 +54,6 @@ export default {
      * 构建选择器触发按钮
      */
     buildCaller () {
-      const h = this.$createElement
       const caller = []
       const { show, language } = this
       const { module } = this.$refs
@@ -121,7 +121,7 @@ export default {
           show: this.showChange
         }
       }
-      return this.$createElement('dropdown', dropdownOption, contents)
+      return h('dropdown', dropdownOption, contents)
     }
   }
 }

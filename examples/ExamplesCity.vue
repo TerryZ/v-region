@@ -1,6 +1,6 @@
 <template>
   <section>
-    <h3 class="mt-5">
+    <h3 class="">
       City
       <small>城市选择器</small>
     </h3>
@@ -27,7 +27,7 @@
 </template>
 
 <script>
-import { RegionCityPicker } from '@/components/v-region'
+import { RegionCityPicker } from '@/'
 
 export default {
   components: {
