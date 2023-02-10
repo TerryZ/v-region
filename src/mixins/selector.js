@@ -1,7 +1,3 @@
-import { h } from 'vue'
-import Dropdown from 'v-dropdown'
-import languages, { CN } from '../language'
-
 /**
  * 下拉层选择器基础 API
  *
@@ -37,7 +33,7 @@ export default {
       if (!this.show) return
       this.$refs.drop.visible()
     },
-    showChange (val) {
+    visibleChange (val) {
       this.show = val
       if (!val) return
 
@@ -112,7 +108,7 @@ export default {
      */
     buildDropdown (contents, props) {
       const dropdownOption = {
-        ref: 'drop',
+        ref: 'dropdown',
         props: {
           border: true,
           ...props

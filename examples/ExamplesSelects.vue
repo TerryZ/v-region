@@ -49,7 +49,7 @@
         language="en"
         :town="true"
         v-model="modelSelect"
-        @change="cbSelect"
+        @change="change"
       />
 
       <h5 class="mt-3">
@@ -72,30 +72,21 @@
   </section>
 </template>
 
-<script>
-import { RegionSelects } from '@/components/v-region'
+<script setup>
+import { ref } from 'vue'
+import { RegionSelects } from '@/'
 
-export default {
-  components: {
-    RegionSelects
-  },
-  data () {
-    return {
-      value1: {},
-      selected: {
-        province: '350000',
-        city: '350100',
-        area: '350103',
-        town: '350103012'
-      },
-      modelSelect: undefined,
-      valuesSelect: undefined
-    }
-  },
-  methods: {
-    cbSelect (data) {
-      this.valuesSelect = data
-    }
-  }
+const value1 = ref({})
+const selected = ref({
+  province: '350000',
+  city: '350100',
+  area: '350103',
+  town: '350103012'
+})
+const modelSelect = ref(undefined)
+const valuesSelect = ref(undefined)
+
+function change (data) {
+  this.valuesSelect = data
 }
 </script>
