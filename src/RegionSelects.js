@@ -1,9 +1,10 @@
 import './styles/select.sass'
 
-import { h } from 'vue'
+import { h, provide } from 'vue'
 import RegionSelect from './components/Select'
 // import data from './mixins/data'
 // import method from './mixins/method'
+import { useLanguage } from './utils/helper'
 
 export default {
   name: 'RegionSelects',
@@ -11,29 +12,22 @@ export default {
     blank: { type: Boolean, default: true },
     disabled: { type: Boolean, default: false }
   },
-  provide () {
-    return {
-      disabled: this.disabled,
-      blank: this.blank
-    }
-  },
   setup (props) {
+    const lang = useLanguage()
 
-    function build ({ list, model, callback }) {
-      return h('region-select', {
+    provide('disabled', props.disabled)
+    provide('blank', props.blank)
+
+    function generateLevel ({ list, model, callback }) {
+      return h(RegionSelect, {
         class: 'rg-select',
-        props: {
-          'blank-text': this.lang.pleaseSelect,
-          list
-        },
-        attrs: {
-          value: model
-        },
-        on: {
-          input: val => {
-            callback(val)
-            this.change()
-          }
+        blankText: lang.pleaseSelect,
+        modelValue: model,
+        list,
+        onUpdateModelValue: val => {
+          console.log('onUpdateModelValue')
+          callback(val)
+          // this.change()
         }
       })
     }
@@ -42,7 +36,7 @@ export default {
       const selects = []
       const { province, city, area, town } = this.region
 
-      selects.push(build({
+      selects.push(generateLevel({
         list: this.listProvince,
         model: province,
         callback: val => {
@@ -51,7 +45,7 @@ export default {
       }))
 
       if (this.city) {
-        selects.push(build({
+        selects.push(generateLevel({
           list: this.listCity,
           model: city,
           callback: val => {
@@ -60,7 +54,7 @@ export default {
         }))
       }
       if (this.city && this.area) {
-        selects.push(build({
+        selects.push(generateLevel({
           list: this.listArea,
           model: area,
           callback: val => {
@@ -69,7 +63,7 @@ export default {
         }))
       }
       if (this.city && this.area && this.town) {
-        selects.push(build({
+        selects.push(generateLevel({
           list: this.listTown,
           model: town,
           callback: val => {

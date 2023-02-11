@@ -1,75 +1,74 @@
-import selector from '../mixins/selector'
+import { inject, computed, h } from 'vue'
+import { useDropdown } from '../utils/selector'
 
 export default {
-  name: 'SelectElement',
-  mixins: [selector],
+  name: 'RegionSelect',
   props: {
-    list: {
-      type: Array,
-      required: true
-    },
+    list: { type: Array, required: true },
     blankText: String,
-    value: Object
+    modelValue: Object
   },
-  inject: ['disabled', 'blank'],
-  computed: {
-    content () {
-      const { value } = this
-      return (value && value.value)
-        ? value.value
-        : this.blank ? this.blankText : '&nbsp;'
-    },
-    triggerClasses () {
+  emits: ['update:modelValue'],
+  setup (props, { emit }) {
+    const {
+      visible,
+      closeDropdown,
+      generateDropdown,
+      generateDropdownTrigger
+    } = useDropdown()
+
+    const disabled = inject('disabled')
+    const blank = inject('blank')
+
+    const content = computed(() => {
+      return (props.value && props.value.value)
+        ? props.value.value
+        : blank ? props.blankText : '&nbsp;'
+    })
+    const triggerClasses = computed(() => {
       return {
         'rg-select__el': true,
-        'rg-select__el--active': this.show,
-        'rg-select_el--disabled': this.disabled
+        'rg-select__el--active': visible.value,
+        'rg-select_el--disabled': disabled
       }
-    }
-  },
-  render (h) {
-    const { value } = this
-    const contents = []
-
-    // trigger
-    contents.push(h('template', { slot: 'caller' }, [
-      h('div', { class: this.triggerClasses }, [
-        h('div', { class: 'rg-select__content' }, this.content),
-        h('span', { class: 'rg-select__caret' })
-      ])
-    ]))
-
-    const listItems = this.list.map(val => {
-      return h('li', {
-        key: val.key,
-        class: {
-          selected: value && value.key === val.key
-        },
-        on: {
-          click: () => {
-            this.pick(val)
-          }
-        }
-      }, val.value)
     })
-    // "Please select" option
-    if (this.blank) {
-      const option = {
-        on: {
-          click: () => this.pick()
-        }
-      }
-      listItems.unshift(h('li', option, this.blankText))
+
+    function select (val) {
+      emit('update:modelValue', val)
+      closeDropdown()
     }
 
-    contents.push(h('ul', { class: 'rg-select__list' }, listItems))
+    return () => {
+      const contents = []
 
-    return this.buildDropdown(contents, { disabled: this.disabled })
-  },
-  methods: {
-    pick (val) {
-      this.$emit('input', val)
-      this.close()
+      // dropdown trigger object
+      contents.push(
+        generateDropdownTrigger([
+          h('div', { class: triggerClasses.value }, [
+            h('div', { class: 'rg-select__content' }, content.value),
+            h('span', { class: 'rg-select__caret' })
+          ])
+        ])
+      )
+
+      const listItems = props.list.map(val => {
+        const liOption = {
+          key: val.key,
+          class: {
+            selected: props.modelValue && props.modelValue.key === val.key
+          },
+          onClick: () => { select(val) }
+        }
+        return h('li', liOption, val.value)
+      })
+      // "Please select" option
+      if (blank) {
+        listItems.unshift(h('li', { onClick: select }, props.blankText))
+      }
+
+      contents.push(h('ul', { class: 'rg-select__list' }, listItems))
+
+      return generateDropdown(contents, { disabled })
     }
   }
 }

@@ -12,7 +12,7 @@ describe('v-region Column 竖排多列模式', function () {
   })
 
   it('默认状态下，仅有省级列表一列', async () => {
-    await w.find('.rg-caller-container').trigger('click')
+    await w.find('.rg-trigger-container').trigger('click')
     expect(w.findAll('.rg-column').length).to.equal(1)
   })
 

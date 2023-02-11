@@ -12,17 +12,12 @@ export default {
     separator: { type: String, default: '' }
   },
   setup (props) {
-    const { modelValue, separator } = props
-
-    if (!validModel(modelValue)) {
-      console.error('Incorrect data format for "value/v-model" of v-region')
-      return
-    }
+    if (!validModel(props.modelValue)) return
 
     const text = ref('')
 
-    modelToRegion(modelValue).then(resp => {
-      text.value = parseRegionToText(resp).join(separator)
+    modelToRegion(props.modelValue).then(resp => {
+      text.value = parseRegionToText(resp).join(props.separator)
     })
 
     return () => h('span', text.value)

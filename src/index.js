@@ -1,11 +1,11 @@
 import './styles/region.sass'
 
-import RegionGroupCore from './components/Group'
-import RegionGroup from './RegionGroup'
+// import RegionGroupCore from './components/Group'
+// import RegionGroup from './RegionGroup'
 import RegionSelects from './RegionSelects'
-import RegionColumnsCore from './components/Columns'
-import RegionColumns from './RegionColumns'
-import RegionCityPicker from './RegionCityPicker'
+// import RegionColumnsCore from './components/Columns'
+// import RegionColumns from './RegionColumns'
+// import RegionCityPicker from './RegionCityPicker'
 import RegionText from './RegionText'
 
 export {
@@ -18,20 +18,20 @@ export {
 const Region = {}
 
 Region.install = (Vue, options = {}) => {
-  Vue.component('VRegionGroup', RegionGroup)
+  // Vue.component('VRegionGroup', RegionGroup)
   Vue.component('VRegionSelects', RegionSelects)
-  Vue.component('VRegionColumns', RegionColumns)
-  Vue.component('VRegionCityPicker', RegionCityPicker)
+  // Vue.component('VRegionColumns', RegionColumns)
+  // Vue.component('VRegionCityPicker', RegionCityPicker)
   Vue.component('VRegionText', RegionText)
 }
 
 export {
-  RegionGroupCore,
-  RegionGroup,
+  // RegionGroupCore,
+  // RegionGroup,
   RegionSelects,
-  RegionColumnsCore,
-  RegionColumns,
-  RegionCityPicker,
+  // RegionColumnsCore,
+  // RegionColumns,
+  // RegionCityPicker,
   RegionText
 }
 

@@ -6,12 +6,12 @@
     </h3>
     <div class="p-3 shadow-sm rounded-3 border">
       <h5>默认显示文本</h5>
-      <div class="mb-3 text-muted">
+      <div class="mb-3 text-muted rounded-3 bg-light p-3">
         <region-text v-model="region" />
       </div>
 
       <h5>带分隔符</h5>
-      <div class="text-muted">
+      <div class="text-muted rounded-3 bg-light p-3">
         <region-text
           v-model="region"
           separator="-"

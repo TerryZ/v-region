@@ -11,7 +11,7 @@ describe('v-region Group 多级别分组模式', function () {
   })
 
   it('默认情况下，标题显示文本应为 “行政区划选择器”', () => {
-    w.find('.rg-caller-container').trigger('click')
+    w.find('.rg-trigger-container').trigger('click')
     expect(w.find('.rg-header').text()).to.equal('行政区划选择器')
   })
   it('应有 4 个行政级别选项卡', () => {
@@ -49,7 +49,7 @@ describe('v-region Group 多级别分组模式', function () {
     expect(w.findAll('.rg-default-btn span').at(0).text()).to.equal('天津市天津市和平区劝业场街道')
   })
   it('重新打开选择器，并切换到 “省” 级选择卡，“天津市” 项目应为高亮显示', async () => {
-    await w.find('.rg-caller-container').trigger('click')
+    await w.find('.rg-trigger-container').trigger('click')
     await w.findAll('.rg-level-tabs li').at(0).find('a').trigger('click')
     expect(w.findAll('.rg-level-tabs li').at(0).classes('active')).to.equal(true)
     expect(w.findAll('.rg-results li').at(1).classes('active')).to.equal(true)

@@ -4,6 +4,7 @@ import {
   PROVINCE_KEY,
   CITY_LEVEL, AREA_LEVEL, TOWN_LEVEL
 } from '../constants'
+import language, { CN } from '../language'
 
 export function generateComponentName (typeName) {
   if (!typeName) return
@@ -119,11 +120,16 @@ export function availableLevels () {
  * @returns {boolean} 检查结果
  */
 export function validModel (model) {
-  return Boolean(
+  if (
     model &&
     Object.keys(model).length &&
     LEVEL_LIST.every(val => val in model)
-  )
+  ) {
+    return true
+  } else {
+    console.error('Incorrect data format for "value/v-model" of v-region')
+    return false
+  }
 }
 
 /**
@@ -183,4 +189,14 @@ export function inputFocus (input) {
       setTimeout(() => { window.scrollTo(x, y) }, 0)
     }
   }
+}
+
+export function useLanguage (lang) {
+  if (!lang) return language[CN]
+
+  const key = String(lang).toUpperCase()
+
+  if (key in language) return language[key]
+
+  return language[CN]
 }

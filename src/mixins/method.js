@@ -45,23 +45,6 @@ export default {
       }
       this.$emit('change', cloneDeep(region))
     },
-    /**
-     * Check if model and region data are equal
-     *
-     * @param {object} model
-     * @returns
-     */
-    differentModel (model) {
-      if (!model) return false
-      const levelResult = []
-      const { province, city, area, town } = this.region
-      levelResult.push(Boolean(model.province === province || (province && province.key) === model.province))
-      levelResult.push(Boolean(model.city === city || (city && city.key) === model.city))
-      levelResult.push(Boolean(model.area === area || (area && area.key) === model.area))
-      levelResult.push(Boolean(model.town === town || (town && town.key) === model.town))
-      // console.log(levelResult)
-      return levelResult.some(val => val === false)
-    },
     regionHandle () {
       // eslint-disable-next-line no-unused-vars
       for (const level of LEVELS.map(val => val.index)) {
@@ -113,6 +96,23 @@ export default {
       if (value && Object.keys(value).length) {
         this.modelChange(value)
       }
+    },
+    /**
+     * Check if model and region data are equal
+     *
+     * @param {object} model
+     * @returns
+     */
+    differentModel (model) {
+      if (!model) return false
+      const levelResult = []
+      const { province, city, area, town } = this.region
+      levelResult.push(Boolean(model.province === province || (province && province.key) === model.province))
+      levelResult.push(Boolean(model.city === city || (city && city.key) === model.city))
+      levelResult.push(Boolean(model.area === area || (area && area.key) === model.area))
+      levelResult.push(Boolean(model.town === town || (town && town.key) === model.town))
+      // console.log(levelResult)
+      return levelResult.some(val => val === false)
     }
   },
   created () {
