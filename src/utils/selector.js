@@ -14,9 +14,9 @@ export function useDropdown () {
     dropdown.value && dropdown.value.adjust()
   }
 
-  function generateDropdown (contents, props) {
+  function generateDropdown (props, trigger, contents) {
     const dropdownOption = {
-      ref: 'dropdown',
+      ref: dropdown,
       border: true,
       onVisibleChange (val) {
         visible.value = val
@@ -27,11 +27,10 @@ export function useDropdown () {
         // searchFocus && searchFocus()
       }
     }
-    return h(Dropdown, mergeProps(dropdownOption, props), contents)
-  }
-
-  function generateDropdownTrigger (contents) {
-    return h('template', { slot: 'trigger' }, contents)
+    return h(Dropdown, mergeProps(dropdownOption, props), {
+      trigger: () => trigger,
+      default: () => contents
+    })
   }
 
   function generateDropdownTriggerButton (slots) {
@@ -86,7 +85,6 @@ export function useDropdown () {
     visible,
     dropdown,
     generateDropdown,
-    generateDropdownTrigger,
     generateDropdownTriggerButton,
     closeDropdown,
     adjustDropdown

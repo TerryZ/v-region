@@ -8,10 +8,21 @@
       <h5>
         省
       </h5>
-      <region-selects
-        :city="false"
-        :area="false"
-      />
+      <div>
+        <region-selects
+          :city="false"
+          :area="false"
+          :disabled="disabled"
+        />
+
+        <button
+          type="button"
+          class="btn btn-light mt-3"
+          @click="toggleDisabled"
+        >
+          Disabled
+        </button>
+      </div>
 
       <h5 class="mt-3">
         省、市
@@ -22,15 +33,15 @@
           v-text="JSON.stringify(value1, null, 2)"
         />
       </div>
-      <region-selects
+      <!-- <region-selects
         :area="false"
         v-model="value1"
-      />
+      /> -->
 
       <h5 class="mt-3">
         省、市、区/县
       </h5>
-      <region-selects />
+      <!-- <region-selects /> -->
 
       <h5 class="mt-3">
         省、市、区/县、乡/镇/街道
@@ -45,29 +56,29 @@
           v-text="JSON.stringify(valuesSelect, null, 2)"
         />
       </div>
-      <region-selects
+      <!-- <region-selects
         language="en"
         :town="true"
         v-model="modelSelect"
         @change="change"
-      />
+      /> -->
 
       <h5 class="mt-3">
         初始化值
       </h5>
-      <region-selects
+      <!-- <region-selects
         :town="true"
         v-model="selected"
-      />
+      /> -->
 
       <h5 class="mt-3">
         初始化值并禁用
       </h5>
-      <region-selects
+      <!-- <region-selects
         :town="true"
         :disabled="true"
         v-model="selected"
-      />
+      /> -->
     </div>
   </section>
 </template>
@@ -85,8 +96,12 @@ const selected = ref({
 })
 const modelSelect = ref(undefined)
 const valuesSelect = ref(undefined)
+const disabled = ref(false)
 
 function change (data) {
-  this.valuesSelect = data
+  valuesSelect.value = data
+}
+function toggleDisabled () {
+  disabled.value = !disabled.value
 }
 </script>

@@ -4,7 +4,7 @@ import {
   PROVINCE_KEY,
   CITY_LEVEL, AREA_LEVEL, TOWN_LEVEL
 } from '../constants'
-import language, { CN } from '../language'
+import languages, { CN } from '../language'
 
 export function generateComponentName (typeName) {
   if (!typeName) return
@@ -192,11 +192,19 @@ export function inputFocus (input) {
 }
 
 export function useLanguage (lang) {
-  if (!lang) return language[CN]
+  if (!lang) return languages[CN]
 
   const key = String(lang).toUpperCase()
 
-  if (key in language) return language[key]
+  if (key in languages) return languages[key]
 
-  return language[CN]
+  return languages[CN]
+}
+
+export function useState (props) {
+  return {
+    haveCity: props.city,
+    haveArea: props.city && props.area,
+    haveTown: props.city && props.area && props.town
+  }
 }

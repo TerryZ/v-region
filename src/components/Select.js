@@ -1,4 +1,4 @@
-import { inject, computed, h } from 'vue'
+import { reactive, inject, computed, h } from 'vue'
 import { useDropdown } from '../utils/selector'
 
 export default {
@@ -10,12 +10,7 @@ export default {
   },
   emits: ['update:modelValue'],
   setup (props, { emit }) {
-    const {
-      visible,
-      closeDropdown,
-      generateDropdown,
-      generateDropdownTrigger
-    } = useDropdown()
+    const { visible, closeDropdown, generateDropdown } = useDropdown()
 
     const disabled = inject('disabled')
     const blank = inject('blank')
@@ -25,12 +20,10 @@ export default {
         ? props.value.value
         : blank ? props.blankText : '&nbsp;'
     })
-    const triggerClasses = computed(() => {
-      return {
-        'rg-select__el': true,
-        'rg-select__el--active': visible.value,
-        'rg-select_el--disabled': disabled
-      }
+    const triggerClasses = reactive({
+      'rg-select__el': true,
+      'rg-select__el--active': visible,
+      'rg-select__el--disabled': disabled
     })
 
     function select (val) {
@@ -39,36 +32,39 @@ export default {
     }
 
     return () => {
-      const contents = []
-
       // dropdown trigger object
-      contents.push(
-        generateDropdownTrigger([
-          h('div', { class: triggerClasses.value }, [
-            h('div', { class: 'rg-select__content' }, content.value),
-            h('span', { class: 'rg-select__caret' })
-          ])
-        ])
+      const trigger = h(
+        'div',
+        { class: triggerClasses },
+        [
+          h('div', { class: 'rg-select__content' }, content.value),
+          h('span', { class: 'rg-select__caret' })
+        ]
       )
 
-      const listItems = props.list.map(val => {
+      const contents = []
+
+      const items = props.list.map(val => {
+        const selected = props.modelValue && props.modelValue.key === val.key
         const liOption = {
           key: val.key,
-          class: {
-            selected: props.modelValue && props.modelValue.key === val.key
-          },
+          class: { selected },
           onClick: () => { select(val) }
         }
         return h('li', liOption, val.value)
       })
-      // "Please select" option
-      if (blank) {
-        listItems.unshift(h('li', { onClick: select }, props.blankText))
+
+      if (blank) { // "Please select" option
+        items.unshift(h('li', { onClick: select }, props.blankText))
       }
 
-      contents.push(h('ul', { class: 'rg-select__list' }, listItems))
+      contents.push(h('ul', { class: 'rg-select__list' }, items))
 
-      return generateDropdown(contents, { disabled })
+      const dropdownProps = {
+        class: 'rg-select',
+        disabled: disabled.value
+      }
+      return generateDropdown(dropdownProps, trigger, contents)
     }
   }
 }

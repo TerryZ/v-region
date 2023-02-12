@@ -1,31 +1,32 @@
 import './styles/select.sass'
 
-import { h, provide } from 'vue'
+import { h, provide, toRef } from 'vue'
 import RegionSelect from './components/Select'
-// import data from './mixins/data'
-// import method from './mixins/method'
-import { useLanguage } from './utils/helper'
+import { useLanguage, useState } from './utils/helper'
+import { useData, commonProps } from './utils/data'
 
 export default {
   name: 'RegionSelects',
   props: {
+    ...commonProps,
     blank: { type: Boolean, default: true },
     disabled: { type: Boolean, default: false }
   },
   setup (props) {
+    const { list, data } = useData(props)
     const lang = useLanguage()
+    const { haveCity, haveArea, haveTown } = useState(props)
 
-    provide('disabled', props.disabled)
+    provide('disabled', toRef(props, 'disabled'))
     provide('blank', props.blank)
 
     function generateLevel ({ list, model, callback }) {
       return h(RegionSelect, {
-        class: 'rg-select',
         blankText: lang.pleaseSelect,
         modelValue: model,
         list,
-        onUpdateModelValue: val => {
-          console.log('onUpdateModelValue')
+        'onUpdate:modelValue': val => {
+          console.log(val)
           callback(val)
           // this.change()
         }
@@ -34,41 +35,34 @@ export default {
 
     return () => {
       const selects = []
-      const { province, city, area, town } = this.region
 
       selects.push(generateLevel({
-        list: this.listProvince,
-        model: province,
+        list: list.provinces,
+        model: data.province,
         callback: val => {
-          this.region.province = val
+          data.province = val
         }
       }))
 
-      if (this.city) {
+      if (haveCity) {
         selects.push(generateLevel({
-          list: this.listCity,
-          model: city,
-          callback: val => {
-            this.region.city = val
-          }
+          list: list.cities,
+          model: data.city,
+          callback: val => { data.city = val }
         }))
       }
-      if (this.city && this.area) {
+      if (haveArea) {
         selects.push(generateLevel({
-          list: this.listArea,
-          model: area,
-          callback: val => {
-            this.region.area = val
-          }
+          list: list.areas,
+          model: data.area,
+          callback: val => { data.area = val }
         }))
       }
-      if (this.city && this.area && this.town) {
+      if (haveTown) {
         selects.push(generateLevel({
-          list: this.listTown,
-          model: town,
-          callback: val => {
-            this.region.town = val
-          }
+          list: list.towns,
+          model: data.town,
+          callback: val => { data.town = val }
         }))
       }
 

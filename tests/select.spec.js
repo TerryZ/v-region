@@ -39,7 +39,7 @@ describe('v-region Select 表单元素下拉列表模式', function () {
         disabled: true
       }
     })
-    expect(wd.findAll('.rg-select_el--disabled').length).to.equal(4)
+    expect(wd.findAll('.rg-select__el--disabled').length).to.equal(4)
   })
 
   describe('功能操作', () => {
