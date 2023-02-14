@@ -20,7 +20,7 @@ export default {
     provide('disabled', toRef(props, 'disabled'))
     provide('blank', props.blank)
 
-    function generateLevel ({ list, model, callback }) {
+    function generateLevel (list, model, callback) {
       return h(RegionSelect, {
         blankText: lang.pleaseSelect,
         modelValue: model,
@@ -36,34 +36,26 @@ export default {
     return () => {
       const selects = []
 
-      selects.push(generateLevel({
-        list: list.provinces,
-        model: data.province,
-        callback: val => {
-          data.province = val
-        }
-      }))
+      selects.push(
+        generateLevel(list.provinces, data.province, val => {
+          Object.assign(data.province, val)
+        })
+      )
 
       if (haveCity) {
-        selects.push(generateLevel({
-          list: list.cities,
-          model: data.city,
-          callback: val => { data.city = val }
-        }))
+        selects.push(
+          generateLevel(list.cities, data.city, val => { data.city = val })
+        )
       }
       if (haveArea) {
-        selects.push(generateLevel({
-          list: list.areas,
-          model: data.area,
-          callback: val => { data.area = val }
-        }))
+        selects.push(
+          generateLevel(list.areas, data.area, val => { data.area = val })
+        )
       }
       if (haveTown) {
-        selects.push(generateLevel({
-          list: list.towns,
-          model: data.town,
-          callback: val => { data.town = val }
-        }))
+        selects.push(
+          generateLevel(list.towns, data.town, val => { data.town = val })
+        )
       }
 
       return h('div', selects)

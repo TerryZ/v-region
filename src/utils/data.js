@@ -18,7 +18,7 @@ export function useData (props) {
     towns: []
   })
   const data = reactive({
-    province: undefined,
+    province: {},
     city: undefined,
     area: undefined,
     town: undefined
