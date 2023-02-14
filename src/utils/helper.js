@@ -22,11 +22,6 @@ export function isCity (key) {
   return false
 }
 
-export function generateComponentName (typeName) {
-  if (!typeName) return
-  return `r-${typeName}`
-}
-
 /**
  * 根据省读取城市列表
  *
@@ -63,9 +58,9 @@ export function loadArea (city) {
   return list.length ? list : [city]
 }
 
-function townDataPath (areaKey) {
-  return `../town/${areaKey}.json`
-}
+// function townDataPath (areaKey) {
+//   return `../town/${areaKey}.json`
+// }
 
 /**
  * 根据区/县数据读取乡/镇列表
@@ -77,7 +72,8 @@ export async function loadTown (area) {
   if (!area || !Object.keys(area).length) return []
 
   try {
-    const { default: data } = await import(townDataPath(area.key))
+    // const { default: data } = await import(townDataPath(area.key))
+    const { default: data } = await import(`../town/${area.key}.json`)
     // console.log(towns)
     if (!data || typeof data !== 'object') {
       return []
