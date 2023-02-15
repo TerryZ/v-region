@@ -2,7 +2,7 @@ import {
   LEVEL_LIST,
   PROVINCE_KEY, CITY_KEY, AREA_KEY, TOWN_KEY
 } from '../constants'
-import { loadTown, getDetail } from './helper'
+import { loadTowns, getDetail } from './helper'
 import { regionProvinces, regionCities } from '../formatted'
 
 /**
@@ -53,7 +53,7 @@ export async function modelToRegion (model, levels = LEVEL_LIST) {
 
   if (!town || !inLevel(TOWN_KEY) || !region.area) return region
 
-  const towns = await loadTown(region.area)
+  const towns = await loadTowns(region.area)
   // console.log(towns)
   if (towns.length) {
     region.town = towns.find(val => val.key === town)

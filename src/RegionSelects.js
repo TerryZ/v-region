@@ -13,7 +13,7 @@ export default {
     disabled: { type: Boolean, default: false }
   },
   setup (props) {
-    const { list, data } = useData(props)
+    const { list, data, setProvince, setCity, setArea, setTown } = useData(props)
     const lang = useLanguage()
     const { haveCity, haveArea, haveTown } = useState(props)
 
@@ -37,22 +37,22 @@ export default {
       const selects = []
 
       selects.push(
-        generateLevel(list.provinces, data.province, val => { data.province = val })
+        generateLevel(list.provinces, data.province, val => setProvince(val))
       )
 
       if (haveCity) {
         selects.push(
-          generateLevel(list.cities, data.city, val => { data.city = val })
+          generateLevel(list.cities, data.city, val => setCity(val))
         )
       }
       if (haveArea) {
         selects.push(
-          generateLevel(list.areas, data.area, val => { data.area = val })
+          generateLevel(list.areas, data.area, val => setArea(val))
         )
       }
       if (haveTown) {
         selects.push(
-          generateLevel(list.towns, data.town, val => { data.town = val })
+          generateLevel(list.towns, data.town, val => setTown(val))
         )
       }
 

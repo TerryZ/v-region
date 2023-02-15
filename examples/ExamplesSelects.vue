@@ -33,15 +33,15 @@
           v-text="JSON.stringify(value1, null, 2)"
         />
       </div>
-      <!-- <region-selects
+      <region-selects
         :area="false"
         v-model="value1"
-      /> -->
+      />
 
       <h5 class="mt-3">
         省、市、区/县
       </h5>
-      <!-- <region-selects /> -->
+      <region-selects />
 
       <h5 class="mt-3">
         省、市、区/县、乡/镇/街道
@@ -56,12 +56,12 @@
           v-text="JSON.stringify(valuesSelect, null, 2)"
         />
       </div>
-      <!-- <region-selects
+      <region-selects
         language="en"
         :town="true"
         v-model="modelSelect"
         @change="change"
-      /> -->
+      />
 
       <h5 class="mt-3">
         初始化值
