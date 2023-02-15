@@ -1,4 +1,4 @@
-import { reactive, watch } from 'vue'
+import { reactive } from 'vue'
 import { CN } from '../language'
 import { regionProvinces } from '../formatted'
 
@@ -23,10 +23,6 @@ export function useData (props) {
     area: undefined,
     town: undefined
   })
-
-  watch(data, val => {
-    console.log(val)
-  }, { deep: true })
 
   function resetRegionList () {
     list.cities = []

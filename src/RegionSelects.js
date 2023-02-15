@@ -26,7 +26,7 @@ export default {
         modelValue: model,
         list,
         'onUpdate:modelValue': val => {
-          console.log(val)
+          // console.log(val)
           callback(val)
           // this.change()
         }
@@ -37,9 +37,7 @@ export default {
       const selects = []
 
       selects.push(
-        generateLevel(list.provinces, data.province, val => {
-          Object.assign(data.province, val)
-        })
+        generateLevel(list.provinces, data.province, val => { data.province = val })
       )
 
       if (haveCity) {

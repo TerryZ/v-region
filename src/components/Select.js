@@ -5,8 +5,8 @@ export default {
   name: 'RegionSelect',
   props: {
     list: { type: Array, required: true },
-    blankText: String,
-    modelValue: Object
+    blankText: { type: String, default: '' },
+    modelValue: { type: Object, default: undefined }
   },
   emits: ['update:modelValue'],
   setup (props, { emit }) {
@@ -15,11 +15,9 @@ export default {
     const disabled = inject('disabled')
     const blank = inject('blank')
 
-    const content = computed(() => {
-      return (props.value && props.value.value)
-        ? props.value.value
-        : blank ? props.blankText : '&nbsp;'
-    })
+    const blankContent = blank ? props.blankText : '&nbsp;'
+    const content = computed(() => props.modelValue?.value || blankContent)
+
     const triggerClasses = reactive({
       'rg-select__el': true,
       'rg-select__el--active': visible,
@@ -37,7 +35,7 @@ export default {
         'div',
         { class: triggerClasses },
         [
-          h('div', { class: 'rg-select__content' }, content.value),
+          h('div', { class: 'rg-select__content', innerHTML: content.value }),
           h('span', { class: 'rg-select__caret' })
         ]
       )
