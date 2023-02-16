@@ -46,6 +46,22 @@
       <h5 class="mt-3">
         省、市、区/县、乡/镇/街道
       </h5>
+      <region-selects
+        ref="regionSelected"
+        language="en"
+        :town="true"
+        v-model="modelSelect"
+        @change="change"
+      />
+      <div class="mb-3">
+        <button
+          type="button"
+          class="btn btn-light mt-3"
+          @click="reset"
+        >
+          Reset
+        </button>
+      </div>
       <div class="bg-light p-3 mb-3 rounded-3">
         <pre
           class="m-0"
@@ -57,22 +73,6 @@
           class="m-0"
           v-text="JSON.stringify(valuesSelect, null, 2)"
         />
-      </div>
-      <region-selects
-        ref="regionSelected"
-        language="en"
-        :town="true"
-        v-model="modelSelect"
-        @change="change"
-      />
-      <div>
-        <button
-          type="button"
-          class="btn btn-light mt-3"
-          @click="reset"
-        >
-          Reset
-        </button>
       </div>
 
       <h5 class="mt-3">
@@ -88,11 +88,11 @@
       <h5 class="mt-3">
         初始化值并禁用
       </h5>
-      <!-- <region-selects
+      <region-selects
         :town="true"
         :disabled="true"
         v-model="selected"
-      /> -->
+      />
     </div>
   </section>
 </template>

@@ -103,7 +103,7 @@ export function parseRegionToText (region, levels = LEVEL_KEYS) {
  */
 export function cityDirectory () {
   // 北京, 天津, 上海, 重庆
-  const municipalitys = ['110000', '120000', '310000', '500000']
+  const municipalities = ['110000', '120000', '310000', '500000']
   const municipality = '000000'
   // 香港, 澳门
   const specials = ['810000', '820000']
@@ -119,7 +119,7 @@ export function cityDirectory () {
   }
   // set provinces
   regionProvinces.forEach(val => {
-    if (municipalitys.includes(val.key)) municipalityObj.citys.push(val)
+    if (municipalities.includes(val.key)) municipalityObj.citys.push(val)
     else if (specials.includes(val.key)) specialObj.citys.push(val)
     else listTmp.push({ province: val, citys: [] })
   })

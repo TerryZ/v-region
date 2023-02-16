@@ -34,6 +34,7 @@ export default defineComponent({
         'onUpdate:modelValue': val => {
           callback(val)
           dataChange(emit, getData())
+          console.log('update:modelValue')
         },
         onVisibleChange (val) {
           console.log(val)
