@@ -1,5 +1,5 @@
 import {
-  LEVEL_LIST,
+  LEVEL_KEYS,
   PROVINCE_KEY, CITY_KEY, AREA_KEY, TOWN_KEY
 } from '../constants'
 import { loadTowns, getDetail } from './helper'
@@ -29,7 +29,7 @@ import { regionProvinces, regionCities } from '../formatted'
  *
  * @returns {object} 区域原始数据模型
  */
-export async function modelToRegion (model, levels = LEVEL_LIST) {
+export async function modelToRegion (model, levels = LEVEL_KEYS) {
   const { province, city, area, town } = model
   const region = {
     [PROVINCE_KEY]: undefined,
@@ -92,7 +92,7 @@ export function regionToModel (region) {
  *
  * @returns {object} 区域原始数据模型
  */
-export function parseRegionToText (region, levels = LEVEL_LIST) {
+export function parseRegionToText (region, levels = LEVEL_KEYS) {
   return levels
     .map(val => region[val] && region[val].value)
     .filter(val => val)

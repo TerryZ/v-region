@@ -1,6 +1,7 @@
-import { reactive } from 'vue'
+import { reactive, toRaw } from 'vue'
 import { CN } from '../language'
 import { regionProvinces } from '../formatted'
+import { regionToModel } from './parse'
 import { loadCities, loadAreas, loadTowns } from './helper'
 
 export const commonProps = {
@@ -9,6 +10,18 @@ export const commonProps = {
   town: { type: Boolean, default: false },
   language: { type: String, default: CN },
   modelValue: { type: Object, default: undefined }
+}
+
+/**
+ * 响应 `v-model` 与 `change` 事件
+ *
+ * 要求组件中已定义 `update:modelValue` 与 `change`
+ * @param {function} emit 事件响应对象
+ * @param {object} data 数据
+ */
+export function dataChange (emit, data) {
+  emit('update:modelValue', regionToModel(data))
+  emit('change', data)
 }
 
 export function useData (props) {
@@ -25,6 +38,10 @@ export function useData (props) {
     town: undefined
   })
 
+  function reset () {
+    resetRegionList()
+    resetRegionData()
+  }
   function resetRegionList () {
     list.cities = []
     list.areas = []
@@ -35,6 +52,9 @@ export function useData (props) {
     data.city = undefined
     data.area = undefined
     data.town = undefined
+  }
+  function setData (val) {
+    Object.assign(data, val)
   }
   function setProvince (val) {
     data.province = val
@@ -62,15 +82,21 @@ export function useData (props) {
   function setTown (val) {
     data.town = val
   }
+  function getData () {
+    return toRaw(data)
+  }
 
   return {
     list,
     data,
+    reset,
     resetRegionList,
     resetRegionData,
+    setData,
     setProvince,
     setCity,
     setArea,
-    setTown
+    setTown,
+    getData
   }
 }

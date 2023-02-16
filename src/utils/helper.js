@@ -1,6 +1,6 @@
 import { regionFull, regionCities, regionAreas } from '../formatted'
 import {
-  LEVEL_LIST,
+  LEVEL_KEYS,
   PROVINCE_KEY,
   CITY_LEVEL, AREA_LEVEL, TOWN_LEVEL
 } from '../constants'
@@ -106,22 +106,19 @@ export function getLoader (level) {
 /**
  * Get available region levels
  *
- * @param {boolean} city
- * @param {boolean} area
- * @param {boolean} town
+ * @param {object} props
  */
-export function availableLevels () {
+export function availableLevels (props) {
   const result = [PROVINCE_KEY]
-  const switches = Array.from(arguments)
+  const levels = [props.city, props.area, props.town]
 
-  for (let i = 0; i < switches.length; i++) {
-    if (switches[i]) {
-      result.push(LEVEL_LIST[i + 1])
+  for (let i = 0; i < levels.length; i++) {
+    if (levels[i]) {
+      result.push(LEVEL_KEYS[i + 1])
     } else {
       return result
     }
   }
-
   return result
 }
 
@@ -135,7 +132,7 @@ export function validModel (model) {
   if (
     model &&
     Object.keys(model).length &&
-    LEVEL_LIST.every(val => val in model)
+    LEVEL_KEYS.every(val => val in model)
   ) {
     return true
   } else {

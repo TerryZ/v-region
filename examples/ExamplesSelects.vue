@@ -1,6 +1,6 @@
 <template>
   <section>
-    <h3 class="mt-5">
+    <h3 class="">
       Select
       <small>下拉列表模式</small>
     </h3>
@@ -48,28 +48,42 @@
       </h5>
       <div class="bg-light p-3 mb-3 rounded-3">
         <pre
-          class="m-0 mb-3"
+          class="m-0"
           v-text="JSON.stringify(modelSelect, null, 2)"
         />
+      </div>
+      <div class="bg-light p-3 mb-3 rounded-3">
         <pre
           class="m-0"
           v-text="JSON.stringify(valuesSelect, null, 2)"
         />
       </div>
       <region-selects
+        ref="regionSelected"
         language="en"
         :town="true"
         v-model="modelSelect"
         @change="change"
       />
+      <div>
+        <button
+          type="button"
+          class="btn btn-light mt-3"
+          @click="reset"
+        >
+          Reset
+        </button>
+      </div>
 
       <h5 class="mt-3">
         初始化值
       </h5>
-      <!-- <region-selects
+      <region-selects
+        :city="true"
+        :area="true"
         :town="true"
         v-model="selected"
-      /> -->
+      />
 
       <h5 class="mt-3">
         初始化值并禁用
@@ -97,11 +111,18 @@ const selected = ref({
 const modelSelect = ref(undefined)
 const valuesSelect = ref(undefined)
 const disabled = ref(false)
+const regionSelected = ref(null)
 
 function change (data) {
   valuesSelect.value = data
+
+  console.log(modelSelect.value)
+  console.log(data)
 }
 function toggleDisabled () {
   disabled.value = !disabled.value
+}
+function reset () {
+  regionSelected.value.reset()
 }
 </script>

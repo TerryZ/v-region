@@ -1,19 +1,25 @@
 import './styles/select.sass'
 
-import { h, provide, toRef } from 'vue'
+import { h, provide, toRef, defineComponent } from 'vue'
 import RegionSelect from './components/Select'
-import { useLanguage, useState } from './utils/helper'
-import { useData, commonProps } from './utils/data'
+import { useLanguage, useState, availableLevels } from './utils/helper'
+import { modelToRegion } from './utils/parse'
+import { commonProps, useData, dataChange } from './utils/data'
 
-export default {
+export default defineComponent({
   name: 'RegionSelects',
   props: {
     ...commonProps,
     blank: { type: Boolean, default: true },
     disabled: { type: Boolean, default: false }
   },
-  setup (props) {
-    const { list, data, setProvince, setCity, setArea, setTown } = useData(props)
+  emits: ['update:modelValue', 'change'],
+  setup (props, { emit, expose }) {
+    const {
+      list, data,
+      setData, setProvince, setCity, setArea, setTown,
+      getData, reset
+    } = useData(props)
     const lang = useLanguage()
     const { haveCity, haveArea, haveTown } = useState(props)
 
@@ -22,16 +28,26 @@ export default {
 
     function generateLevel (list, model, callback) {
       return h(RegionSelect, {
+        list,
         blankText: lang.pleaseSelect,
         modelValue: model,
-        list,
         'onUpdate:modelValue': val => {
-          // console.log(val)
           callback(val)
-          // this.change()
+          dataChange(emit, getData())
+        },
+        onVisibleChange (val) {
+          console.log(val)
         }
       })
     }
+
+    if (props.modelValue && Object.keys(props.modelValue).length) {
+      modelToRegion(props.modelValue, availableLevels(props)).then(resp => {
+        setData(resp)
+      })
+    }
+
+    expose({ reset })
 
     return () => {
       const selects = []
@@ -59,4 +75,4 @@ export default {
       return h('div', selects)
     }
   }
-}
+})
