@@ -28,7 +28,7 @@ export function isCity (key) {
  * @param {object} province - 省
  * @returns {object[]} - 城市列表
  */
-export function loadCities (province) {
+export function getCities (province) {
   if (!province || !Object.keys(province).length) return []
 
   const list = regionCities.filter(val => {
@@ -45,7 +45,7 @@ export function loadCities (province) {
  * @param {object} city - 城市
  * @returns {object[]} 区/县列表
  */
-export function loadAreas (city) {
+export function getAreas (city) {
   if (!city || !Object.keys(city).length) return []
 
   const cityKey = Number.parseInt(city.key)
@@ -68,7 +68,7 @@ export function loadAreas (city) {
  * @param {object} area - 区/县
  * @returns {object[]} 乡/镇列表
  */
-export async function loadTowns (area) {
+export async function getTowns (area) {
   if (!area || !Object.keys(area).length) return []
 
   try {
@@ -97,9 +97,9 @@ export async function loadTowns (area) {
  */
 export function getLoader (level) {
   switch (level) {
-    case CITY_LEVEL: return loadCities
-    case AREA_LEVEL: return loadAreas
-    case TOWN_LEVEL: return loadTowns
+    case CITY_LEVEL: return getCities
+    case AREA_LEVEL: return getAreas
+    case TOWN_LEVEL: return getTowns
   }
 }
 

@@ -1,8 +1,9 @@
 import { reactive, toRaw } from 'vue'
+import { CITY_KEY, AREA_KEY, TOWN_KEY } from '../constants'
 import { CN } from '../language'
 import { regionProvinces } from '../formatted'
 import { regionToModel } from './parse'
-import { loadCities, loadAreas, loadTowns } from './helper'
+import { getCities, getAreas, getTowns } from './helper'
 
 export const commonProps = {
   city: { type: Boolean, default: true },
@@ -24,13 +25,7 @@ export function dataChange (emit, data) {
   emit('change', data)
 }
 
-export function useData (props) {
-  const list = reactive({
-    provinces: regionProvinces,
-    cities: [],
-    areas: [],
-    towns: []
-  })
+function useRegionData () {
   const data = reactive({
     province: {},
     city: undefined,
@@ -39,15 +34,6 @@ export function useData (props) {
   })
 
   function reset () {
-    resetRegionList()
-    resetRegionData()
-  }
-  function resetRegionList () {
-    list.cities = []
-    list.areas = []
-    list.towns = []
-  }
-  function resetRegionData () {
     data.province = undefined
     data.city = undefined
     data.area = undefined
@@ -56,12 +42,63 @@ export function useData (props) {
   function setData (val) {
     Object.assign(data, val)
   }
+
+  return {
+    data,
+    reset,
+    setData
+  }
+}
+
+function useRegionList () {
+  const list = reactive({
+    provinces: regionProvinces,
+    cities: [],
+    areas: [],
+    towns: []
+  })
+
+  function reset () {
+    list.cities = []
+    list.areas = []
+    list.towns = []
+  }
+
+  function loadLevelList (level, parentData) {
+    switch (level) {
+      case CITY_KEY: return (list.cities = getCities(parentData))
+      case AREA_KEY: return (list.areas = getAreas(parentData))
+      case TOWN_KEY:
+        getTowns(parentData).then(resp => { list.towns = resp })
+    }
+  }
+
+  return {
+    list,
+    reset,
+    loadLevelList
+  }
+}
+
+export function useData (props) {
+  const data = useRegionData()
+  const list = useRegionList()
+
+  function reset () {
+    list.reset()
+    data.reset()
+  }
+  function setData (val) {
+    Object.assign(data, val)
+
+    list.reset()
+  }
   function setProvince (val) {
     data.province = val
     data.city = undefined
     data.area = undefined
     data.town = undefined
-    list.cities = loadCities(val)
+    list.cities = getCities(val)
     list.areas = []
     list.towns = []
   }
@@ -69,13 +106,13 @@ export function useData (props) {
     data.city = val
     data.area = undefined
     data.town = undefined
-    list.areas = loadAreas(val)
+    list.areas = getAreas(val)
     list.towns = []
   }
   function setArea (val) {
     data.area = val
     data.town = undefined
-    loadTowns(val).then(resp => {
+    getTowns(val).then(resp => {
       list.towns = resp
     })
   }
@@ -83,15 +120,13 @@ export function useData (props) {
     data.town = val
   }
   function getData () {
-    return toRaw(data)
+    return toRaw(data.data)
   }
 
   return {
     list,
     data,
     reset,
-    resetRegionList,
-    resetRegionData,
     setData,
     setProvince,
     setCity,
