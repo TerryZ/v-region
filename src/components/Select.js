@@ -4,7 +4,7 @@ import { useDropdown } from '../utils/selector'
 export default {
   name: 'RegionSelect',
   props: {
-    list: { type: Array, required: true },
+    list: { type: Object, required: true },
     blankText: { type: String, default: '' },
     modelValue: { type: Object, default: undefined }
   },
@@ -42,7 +42,7 @@ export default {
 
       const contents = []
 
-      const items = props.list.map(val => {
+      const items = props.list.value.map(val => {
         const selected = props.modelValue && props.modelValue.key === val.key
         const liOption = {
           key: val.key,

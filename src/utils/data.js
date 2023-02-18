@@ -1,5 +1,5 @@
-import { reactive, toRaw } from 'vue'
-import { CITY_KEY, AREA_KEY, TOWN_KEY } from '../constants'
+import { ref, reactive, computed, toRaw, watch } from 'vue'
+import { TOWN_KEY, LEVEL_KEYS } from '../constants'
 import { CN } from '../language'
 import { regionProvinces } from '../formatted'
 import { regionToModel } from './parse'
@@ -25,113 +25,60 @@ export function dataChange (emit, data) {
   emit('change', data)
 }
 
-function useRegionData () {
+export function useData (props) {
   const data = reactive({
-    province: {},
+    province: undefined,
     city: undefined,
     area: undefined,
     town: undefined
   })
 
-  function reset () {
-    data.province = undefined
-    data.city = undefined
-    data.area = undefined
-    data.town = undefined
-  }
-  function setData (val) {
-    Object.assign(data, val)
-  }
+  const provinces = computed(() => regionProvinces)
+  const cities = computed(() => getCities(data.province))
+  const areas = computed(() => getAreas(data.city))
+  const towns = ref([])
 
-  return {
-    data,
-    reset,
-    setData
-  }
-}
-
-function useRegionList () {
-  const list = reactive({
-    provinces: regionProvinces,
-    cities: [],
-    areas: [],
-    towns: []
+  watch(() => data.area, val => {
+    getTowns(val).then(resp => { towns.value = resp })
   })
 
-  function reset () {
-    list.cities = []
-    list.areas = []
-    list.towns = []
-  }
+  /**
+   * 清除级别数据
+   * @param {string} level 级别编码，传递空内容则清除所有级别数据
+   */
+  function clearData (level) {
+    if (level === TOWN_KEY) return
 
-  function loadLevelList (level, parentData) {
-    switch (level) {
-      case CITY_KEY: return (list.cities = getCities(parentData))
-      case AREA_KEY: return (list.areas = getAreas(parentData))
-      case TOWN_KEY:
-        getTowns(parentData).then(resp => { list.towns = resp })
-    }
-  }
+    const index = LEVEL_KEYS.findIndex(val => val === level)
+    const levels = level
+      ? LEVEL_KEYS.filter((val, idx) => idx > index)
+      : LEVEL_KEYS
 
-  return {
-    list,
-    reset,
-    loadLevelList
-  }
-}
-
-export function useData (props) {
-  const data = useRegionData()
-  const list = useRegionList()
-
-  function reset () {
-    list.reset()
-    data.reset()
+    levels.forEach(key => { data[key] = undefined })
   }
   function setData (val) {
     Object.assign(data, val)
+  }
+  function setLevel (level, val) {
+    data[level] = val
 
-    list.reset()
-  }
-  function setProvince (val) {
-    data.province = val
-    data.city = undefined
-    data.area = undefined
-    data.town = undefined
-    list.cities = getCities(val)
-    list.areas = []
-    list.towns = []
-  }
-  function setCity (val) {
-    data.city = val
-    data.area = undefined
-    data.town = undefined
-    list.areas = getAreas(val)
-    list.towns = []
-  }
-  function setArea (val) {
-    data.area = val
-    data.town = undefined
-    getTowns(val).then(resp => {
-      list.towns = resp
-    })
-  }
-  function setTown (val) {
-    data.town = val
+    clearData(level)
   }
   function getData () {
-    return toRaw(data.data)
+    return toRaw(data)
   }
 
   return {
-    list,
     data,
-    reset,
+
+    provinces,
+    cities,
+    areas,
+    towns,
+
+    reset: clearData,
     setData,
-    setProvince,
-    setCity,
-    setArea,
-    setTown,
+    setLevel,
     getData
   }
 }

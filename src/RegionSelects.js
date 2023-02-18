@@ -5,6 +5,7 @@ import RegionSelect from './components/Select'
 import { useLanguage, useState, availableLevels } from './utils/helper'
 import { modelToRegion } from './utils/parse'
 import { commonProps, useData, dataChange } from './utils/data'
+import { PROVINCE_KEY, CITY_KEY, AREA_KEY, TOWN_KEY } from './constants'
 
 export default defineComponent({
   name: 'RegionSelects',
@@ -16,8 +17,9 @@ export default defineComponent({
   emits: ['update:modelValue', 'change'],
   setup (props, { emit, expose }) {
     const {
-      list, data,
-      setData, setProvince, setCity, setArea, setTown,
+      data,
+      provinces, cities, areas, towns,
+      setData, setLevel,
       getData, reset
     } = useData(props)
     const lang = useLanguage()
@@ -34,10 +36,9 @@ export default defineComponent({
         'onUpdate:modelValue': val => {
           callback(val)
           dataChange(emit, getData())
-          console.log('update:modelValue')
         },
         onVisibleChange (val) {
-          console.log(val)
+          // console.log(val)
         }
       })
     }
@@ -54,22 +55,22 @@ export default defineComponent({
       const selects = []
 
       selects.push(
-        generateLevel(list.provinces, data.province, val => setProvince(val))
+        generateLevel(provinces, data.province, val => { setLevel(PROVINCE_KEY, val) })
       )
 
       if (haveCity) {
         selects.push(
-          generateLevel(list.cities, data.city, val => setCity(val))
+          generateLevel(cities, data.city, val => { setLevel(CITY_KEY, val) })
         )
       }
       if (haveArea) {
         selects.push(
-          generateLevel(list.areas, data.area, val => setArea(val))
+          generateLevel(areas, data.area, val => { setLevel(AREA_KEY, val) })
         )
       }
       if (haveTown) {
         selects.push(
-          generateLevel(list.towns, data.town, val => setTown(val))
+          generateLevel(towns, data.town, val => { setLevel(TOWN_KEY, val) })
         )
       }
 
