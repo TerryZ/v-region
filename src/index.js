@@ -3,7 +3,7 @@ import './styles/region.sass'
 // import RegionGroupCore from './components/Group'
 // import RegionGroup from './RegionGroup'
 import RegionSelects from './RegionSelects'
-// import RegionColumnsCore from './components/Columns'
+import RegionColumnsCore from './components/Columns'
 // import RegionColumns from './RegionColumns'
 // import RegionCityPicker from './RegionCityPicker'
 import RegionText from './RegionText'
@@ -29,7 +29,7 @@ export {
   // RegionGroupCore,
   // RegionGroup,
   RegionSelects,
-  // RegionColumnsCore,
+  RegionColumnsCore,
   // RegionColumns,
   // RegionCityPicker,
   RegionText

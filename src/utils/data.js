@@ -3,7 +3,10 @@ import { TOWN_KEY } from '../constants'
 import { CN } from '../language'
 import { regionProvinces } from '../formatted'
 import { regionToModel, modelToRegion } from './parse'
-import { getCities, getAreas, getTowns, availableLevels, getLevels } from './helper'
+import {
+  getCities, getAreas, getTowns,
+  availableLevels, getLevels, useState
+} from './helper'
 
 export const commonProps = {
   city: { type: Boolean, default: true },
@@ -28,6 +31,7 @@ function useEvent (emit) {
 
 export function useData (props, emit) {
   const { updateModelValue, change } = useEvent(emit)
+  const { haveCity, haveArea, haveTown } = useState(props)
   const data = reactive({
     province: undefined,
     city: undefined,
@@ -39,6 +43,12 @@ export function useData (props, emit) {
   const cities = computed(() => getCities(data.province))
   const areas = computed(() => getAreas(data.city))
   const towns = ref([])
+  const isComplete = computed(() => {
+    if (!haveCity && data.province) return true
+    if (!haveArea && data.city) return true
+    if (!haveTown && data.area) return true
+    return false
+  })
 
   watch(() => data.area, val => {
     getTowns(val).then(resp => { towns.value = resp })
@@ -91,6 +101,7 @@ export function useData (props, emit) {
     reset,
     setData,
     setLevel,
-    getData
+    getData,
+    isComplete
   }
 }

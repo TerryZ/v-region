@@ -1,25 +1,27 @@
+import { h } from 'vue'
+
 export default {
+  name: 'RegionColumnItem',
   props: {
-    value: { type: Object, default: undefined },
+    modelValue: { type: Object, default: undefined },
     selected: { type: Boolean, default: false },
     haveChild: { type: Boolean, default: true }
   },
-  render (h) {
-    const { value, selected, haveChild } = this
-    const content = []
+  setup (props) {
+    return () => {
+      const contents = []
 
-    content.push(h('span', value.value))
+      contents.push(h('span', props.modelValue.value))
 
-    if (haveChild) {
-      const classNames = 'rg-iconfont rg-icon-right rg-caret-right'
-      content.push(h('i', { class: classNames }))
-    }
-
-    const itemOption = {
-      class: {
-        selected
+      if (props.haveChild) {
+        const classNames = 'rg-iconfont rg-icon-right rg-caret-right'
+        contents.push(h('i', { class: classNames }))
       }
+
+      const option = {
+        class: props.selected ? 'selected' : ''
+      }
+      return h('li', option, contents)
     }
-    return h('li', itemOption, content)
   }
 }

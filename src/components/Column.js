@@ -1,37 +1,28 @@
+import { h } from 'vue'
 import ColumnItem from './ColumnItem'
 
 export default {
-  components: {
-    ColumnItem
-  },
+  name: 'RegionColumn',
   props: {
-    list: {
-      type: Array,
-      required: true
-    },
-    haveChild: {
-      type: Boolean,
-      default: true
-    },
+    list: { type: Object, required: true },
+    haveChild: { type: Boolean, default: true },
     /** 当前选择的项目 */
-    value: Object
+    modelValue: { type: Object, default: undefined }
   },
-  render (h) {
-    const { value, list, haveChild } = this
-    const listItems = list.map(val => {
-      const itemOption = {
-        key: val.key,
-        props: {
-          value: val,
-          selected: value && val.key === value.key,
-          haveChild
-        },
-        nativeOn: {
-          click: () => this.$emit('input', val)
+  emits: ['update:modelValue'],
+  setup (props, { emit }) {
+    return () => {
+      const items = props.list.value.map(val => {
+        const itemOption = {
+          key: val.key,
+          modelValue: val,
+          selected: props.modelValue && val.key === props.modelValue.key,
+          haveChild: props.haveChild,
+          onClick: () => emit('update:modelValue', val)
         }
-      }
-      return h('column-item', itemOption)
-    })
-    return h('ul', { class: 'rg-column' }, listItems)
+        return h(ColumnItem, itemOption)
+      })
+      return h('ul', { class: 'rg-column' }, items)
+    }
   }
 }

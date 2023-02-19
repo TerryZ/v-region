@@ -1,83 +1,76 @@
 // import '../styles/icons.sass'
 import '../styles/column.sass'
 
+import { h } from 'vue'
 import RegionColumn from './Column'
 
-import data from '../mixins/data'
-import method from '../mixins/method'
+import { PROVINCE_KEY, CITY_KEY, AREA_KEY, TOWN_KEY } from '../constants'
+import { useState } from '../utils/helper'
+import { commonProps, useData } from '../utils/data'
 
 /**
  * 级联数据列核心模块
  */
 export default {
-  name: 'Columns',
-  mixins: [data, method],
-  inheritAttrs: false,
-  components: {
-    RegionColumn
+  name: 'RegionColumns',
+  props: {
+    ...commonProps
   },
-  render (h) {
-    const { region, buildColumn, listProvince, listCity, listArea, listTown } = this
-    const columns = []
-    // province
-    columns.push(buildColumn({
-      list: listProvince,
-      haveChild: this.city,
-      value: region.province,
-      callback: val => { this.region.province = val }
-    }))
-    // city
-    if (listCity.length) {
-      columns.push(buildColumn({
-        list: listCity,
-        haveChild: this.area,
-        value: region.city,
-        callback: val => { this.region.city = val }
-      }))
-    }
-    // area
-    if (listArea.length) {
-      columns.push(buildColumn({
-        list: listArea,
-        haveChild: this.town,
-        value: region.area,
-        callback: val => { this.region.area = val }
-      }))
-    }
-    // town
-    if (listTown.length) {
-      columns.push(buildColumn({
-        list: listTown,
-        haveChild: false,
-        value: region.town,
-        callback: val => { this.region.town = val }
-      }))
-    }
+  emits: ['update:modelValue', 'change', 'adjust', 'complete'],
+  setup (props, { emit, expose }) {
+    const {
+      data, provinces, cities, areas, towns,
+      setLevel, reset, isComplete
+    } = useData(props, emit)
+    const { haveCity, haveArea, haveTown } = useState(props)
 
-    return h('div', { class: 'rg-column-container' }, columns)
-  },
-  methods: {
-    buildColumn ({ list, haveChild, value, callback }) {
-      return this.$createElement('region-column', {
-        props: {
-          list,
-          haveChild,
-          value
-        },
-        on: {
-          input: val => {
-            callback(val)
-            this.change()
-            this.$emit('adjust')
-            if (this.isComplete()) {
-              this.$emit('complete')
-            }
+    function generateColumn (list, haveChild, value, callback) {
+      return h(RegionColumn, {
+        list,
+        haveChild,
+        modelValue: value,
+        'onUpdate:modelValue': val => {
+          callback(val)
+          emit('adjust')
+          if (isComplete.value) {
+            emit('complete')
           }
         }
       })
-    },
-    isComplete () {
-      return this.availableLevels.join(',') === this.currentLevels.join(',')
+    }
+
+    expose({ reset })
+
+    return () => {
+      const columns = []
+      columns.push( // province
+        generateColumn(
+          provinces, haveCity, data.province, val => { setLevel(PROVINCE_KEY, val) }
+        )
+      )
+      if (cities.value.length) { // city
+        columns.push(
+          generateColumn(
+            cities, haveArea, data.city, val => { setLevel(CITY_KEY, val) }
+          )
+        )
+      }
+      if (areas.value.length) { // area
+        columns.push(
+          generateColumn(
+            areas, haveTown, data.area, val => { setLevel(AREA_KEY, val) }
+          )
+        )
+      }
+      if (towns.value.length) { // town
+        columns.push(
+          generateColumn(
+            towns, false, data.town, val => { setLevel(TOWN_KEY, val) }
+          )
+        )
+      }
+
+      return h('div', { class: 'rg-column-container' }, columns)
     }
   }
 }
