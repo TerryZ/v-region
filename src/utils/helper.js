@@ -104,6 +104,18 @@ export function getLoader (level) {
 }
 
 /**
+ * 获得指定行政级别的下级项目
+ * @param {string} level 指定行政级别，空内容则获得所有级别
+ * @returns {string[]}
+ */
+export function getLevels (level) {
+  if (!level) return LEVEL_KEYS
+
+  const index = LEVEL_KEYS.findIndex(val => val === level)
+  return LEVEL_KEYS.filter((val, idx) => idx > index)
+}
+
+/**
  * Get available region levels
  *
  * @param {object} props

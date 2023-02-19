@@ -1,9 +1,9 @@
-import { ref, reactive, computed, toRaw, watch } from 'vue'
-import { TOWN_KEY, LEVEL_KEYS } from '../constants'
+import { ref, reactive, computed, toRaw, watch, onBeforeMount } from 'vue'
+import { TOWN_KEY } from '../constants'
 import { CN } from '../language'
 import { regionProvinces } from '../formatted'
-import { regionToModel } from './parse'
-import { getCities, getAreas, getTowns } from './helper'
+import { regionToModel, modelToRegion } from './parse'
+import { getCities, getAreas, getTowns, availableLevels, getLevels } from './helper'
 
 export const commonProps = {
   city: { type: Boolean, default: true },
@@ -18,14 +18,16 @@ export const commonProps = {
  *
  * 要求组件中已定义 `update:modelValue` 与 `change`
  * @param {function} emit 事件响应对象
- * @param {object} data 数据
  */
-export function dataChange (emit, data) {
-  emit('update:modelValue', regionToModel(data))
-  emit('change', data)
+function useEvent (emit) {
+  return {
+    updateModelValue: data => emit('update:modelValue', regionToModel(data)),
+    change: data => emit('change', data)
+  }
 }
 
-export function useData (props) {
+export function useData (props, emit) {
+  const { updateModelValue, change } = useEvent(emit)
   const data = reactive({
     province: undefined,
     city: undefined,
@@ -41,7 +43,10 @@ export function useData (props) {
   watch(() => data.area, val => {
     getTowns(val).then(resp => { towns.value = resp })
   })
+  watch(() => props.modelValue, () => modelToData())
 
+  const getData = () => toRaw(data)
+  const setData = val => Object.assign(data, val)
   /**
    * 清除级别数据
    * @param {string} level 级别编码，传递空内容则清除所有级别数据
@@ -49,34 +54,41 @@ export function useData (props) {
   function clearData (level) {
     if (level === TOWN_KEY) return
 
-    const index = LEVEL_KEYS.findIndex(val => val === level)
-    const levels = level
-      ? LEVEL_KEYS.filter((val, idx) => idx > index)
-      : LEVEL_KEYS
-
-    levels.forEach(key => { data[key] = undefined })
+    getLevels(level).forEach(key => { data[key] = undefined })
   }
-  function setData (val) {
-    Object.assign(data, val)
+  function reset () {
+    clearData()
+    updateModelValue(getData())
+    change(getData())
   }
   function setLevel (level, val) {
     data[level] = val
 
     clearData(level)
+
+    updateModelValue(getData())
+    change(getData())
   }
-  function getData () {
-    return toRaw(data)
+  function modelToData () {
+    if (!props.modelValue || !Object.keys(props.modelValue).length) {
+      return
+    }
+    modelToRegion(props.modelValue, availableLevels(props)).then(resp => {
+      setData(resp)
+
+      change(getData())
+    })
   }
+
+  onBeforeMount(() => { modelToData() })
 
   return {
     data,
-
     provinces,
     cities,
     areas,
     towns,
-
-    reset: clearData,
+    reset,
     setData,
     setLevel,
     getData

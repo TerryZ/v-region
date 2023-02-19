@@ -53,10 +53,10 @@
         v-model="modelSelect"
         @change="change"
       />
-      <div class="mb-3">
+      <div class="my-3">
         <button
           type="button"
-          class="btn btn-light mt-3"
+          class="btn btn-light me-3"
           @click="reset"
         >
           Reset
@@ -83,7 +83,17 @@
         :area="true"
         :town="true"
         v-model="selected"
+        @change="changeSelected"
       />
+      <div class="mt-3">
+        <button
+          type="button"
+          class="btn btn-light"
+          @click="setSelected"
+        >
+          Change region
+        </button>
+      </div>
 
       <h5 class="mt-3">
         初始化值并禁用
@@ -118,6 +128,18 @@ function change (data) {
 
   console.log(modelSelect.value)
   console.log(data)
+}
+function changeSelected (data) {
+  console.log(selected.value)
+  console.log(data)
+}
+function setSelected () {
+  selected.value = {
+    province: '350000',
+    city: '350500',
+    area: '350582',
+    town: '350582105'
+  }
 }
 function toggleDisabled () {
   disabled.value = !disabled.value

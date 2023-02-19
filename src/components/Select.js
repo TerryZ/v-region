@@ -1,7 +1,7 @@
-import { reactive, inject, computed, h } from 'vue'
+import { reactive, inject, computed, h, defineComponent } from 'vue'
 import { useDropdown } from '../utils/selector'
 
-export default {
+export default defineComponent({
   name: 'RegionSelect',
   props: {
     list: { type: Object, required: true },
@@ -65,4 +65,4 @@ export default {
       return generateDropdown(dropdownProps, trigger, contents)
     }
   }
-}
+})
