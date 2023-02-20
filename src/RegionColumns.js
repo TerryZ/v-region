@@ -1,58 +1,48 @@
-import Columns from './components/Columns'
-import selector from './mixins/selector'
+import { ref, h, useAttrs, mergeProps } from 'vue'
+import RegionColumnsCore from './components/Columns'
 
-import { PROVINCE_LEVEL } from './constants.js'
 import { CN } from './language'
+import { useDropdown } from './utils/selector'
 
 export default {
   name: 'RegionColumns',
-  mixins: [selector],
-  components: {
-    Columns
-  },
+  inheritAttrs: false,
   props: {
-    language: { type: String, default: CN }
+    language: { type: String, default: CN },
+    disabled: { type: Boolean, default: false }
   },
-  render (h) {
-    const contents = []
+  emits: ['complete', 'visible-change'],
+  setup (props, { emit, slots }) {
+    const {
+      generateDropdown,
+      generateDropdownTriggerButton,
+      closeDropdown,
+      adjustDropdown
+    } = useDropdown(props, emit)
+    const columns = ref(null)
+    const attrs = useAttrs()
 
-    contents.push(this.buildCaller())
-
-    const columnsOption = {
-      ref: 'module',
-      props: this.$attrs,
-      on: {
-        ...this.$listeners,
-        complete: this.complete,
-        adjust: this.adjust
-      }
+    function clear () {
+      columns.value && columns.value.reset()
+      closeDropdown()
     }
-    contents.push(h('columns', columnsOption))
 
-    return this.buildDropdown(contents)
-  },
-  methods: {
-    complete () {
-      this.close()
-      this.$emit('complete')
-    },
-    /**
-     * @override
-     */
-    clear () {
-      const { module } = this.$refs
-      if (module) {
-        module.clearRegion(PROVINCE_LEVEL)
-        module.change()
+    return () => {
+      const trigger = generateDropdownTriggerButton(
+        slots, columns?.value?.region, columns?.value?.regionText, clear
+      )
+
+      const columnsOption = {
+        ref: columns,
+        onComplete: () => {
+          closeDropdown()
+          emit('complete')
+        },
+        onAdjust: adjustDropdown
       }
-      this.close()
-    },
-    /**
-     * @override
-     */
-    getSelectedText () {
-      if (!this.$refs.module) return ''
-      return this.$refs.module.selectedText
+      const contents = h(RegionColumnsCore, mergeProps(columnsOption, attrs))
+
+      return generateDropdown({}, trigger, contents)
     }
   }
 }

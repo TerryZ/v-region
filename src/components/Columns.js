@@ -12,7 +12,7 @@ import { commonProps, useData } from '../utils/data'
  * 级联数据列核心模块
  */
 export default {
-  name: 'RegionColumns',
+  name: 'RegionColumnsCore',
   props: {
     ...commonProps
   },
@@ -20,7 +20,7 @@ export default {
   setup (props, { emit, expose }) {
     const {
       data, provinces, cities, areas, towns,
-      setLevel, reset, isComplete
+      setLevel, reset, isComplete, regionText
     } = useData(props, emit)
     const { haveCity, haveArea, haveTown } = useState(props)
 
@@ -32,6 +32,7 @@ export default {
         'onUpdate:modelValue': val => {
           callback(val)
           emit('adjust')
+          console.log('complete:', isComplete.value)
           if (isComplete.value) {
             emit('complete')
           }
@@ -39,7 +40,7 @@ export default {
       })
     }
 
-    expose({ reset })
+    expose({ region: data, reset, regionText })
 
     return () => {
       const columns = []
@@ -48,21 +49,21 @@ export default {
           provinces, haveCity, data.province, val => { setLevel(PROVINCE_KEY, val) }
         )
       )
-      if (cities.value.length) { // city
+      if (haveCity && cities.value.length) { // city
         columns.push(
           generateColumn(
             cities, haveArea, data.city, val => { setLevel(CITY_KEY, val) }
           )
         )
       }
-      if (areas.value.length) { // area
+      if (haveArea && areas.value.length) { // area
         columns.push(
           generateColumn(
             areas, haveTown, data.area, val => { setLevel(AREA_KEY, val) }
           )
         )
       }
-      if (towns.value.length) { // town
+      if (haveTown && towns.value.length) { // town
         columns.push(
           generateColumn(
             towns, false, data.town, val => { setLevel(TOWN_KEY, val) }

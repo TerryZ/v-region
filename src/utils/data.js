@@ -47,7 +47,12 @@ export function useData (props, emit) {
     if (!haveCity && data.province) return true
     if (!haveArea && data.city) return true
     if (!haveTown && data.area) return true
-    return false
+    return Boolean(data.town)
+  })
+  const regionText = computed(() => {
+    return Object.values(data)
+      .filter(val => val)
+      .map(val => val.value)
   })
 
   watch(() => data.area, val => {
@@ -102,6 +107,7 @@ export function useData (props, emit) {
     setData,
     setLevel,
     getData,
-    isComplete
+    isComplete,
+    regionText
   }
 }

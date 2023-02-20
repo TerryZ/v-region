@@ -6,15 +6,15 @@
     </h3>
     <div class="p-3 shadow-sm rounded-3 border">
       <div class="mb-3">
-        <!-- <region-columns
+        <RegionColumns
           :city="true"
-          :area="true"
+          :area="false"
           :town="true"
           language="en"
           v-model="modelColumn"
           @change="cbColumn"
           @complete="columnGroupCoreDone"
-        /> -->
+        />
       </div>
       <div class="bg-light p-3 mb-3 rounded-3">
         <pre
@@ -58,7 +58,7 @@
 
 <script setup>
 import { ref } from 'vue'
-import { RegionColumnsCore } from '@/'
+import { RegionColumnsCore, RegionColumns } from '@/'
 
 const modelCore = ref(null)
 const modelColumn = ref({
