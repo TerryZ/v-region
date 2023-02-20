@@ -10,7 +10,7 @@ export default defineComponent({
   },
   emits: ['update:modelValue'],
   setup (props, { emit }) {
-    const { visible, closeDropdown, generateDropdown } = useDropdown()
+    const { visible, closeDropdown, generateDropdown } = useDropdown(props)
 
     const disabled = inject('disabled')
     const blank = inject('blank')

@@ -13,14 +13,14 @@ export default {
   },
   emits: ['complete', 'visible-change'],
   setup (props, { emit, slots }) {
+    const attrs = useAttrs()
     const {
       generateDropdown,
       generateDropdownTriggerButton,
       closeDropdown,
       adjustDropdown
-    } = useDropdown(props, emit)
+    } = useDropdown(props)
     const columns = ref(null)
-    const attrs = useAttrs()
 
     function clear () {
       columns.value && columns.value.reset()
@@ -29,7 +29,7 @@ export default {
 
     return () => {
       const trigger = generateDropdownTriggerButton(
-        slots, columns?.value?.region, columns?.value?.regionText, clear
+        slots, () => columns, clear
       )
 
       const columnsOption = {
@@ -42,7 +42,12 @@ export default {
       }
       const contents = h(RegionColumnsCore, mergeProps(columnsOption, attrs))
 
-      return generateDropdown({}, trigger, contents)
+      const dropdownOption = {
+        onVisibleChange (val) {
+          emit('visible-change', val)
+        }
+      }
+      return generateDropdown(dropdownOption, trigger, contents)
     }
   }
 }

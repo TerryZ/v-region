@@ -1,6 +1,6 @@
 <template>
   <section>
-    <h3 class="mt-5">
+    <h3 class="">
       Column
       <small>下拉选择器多列竖排模式</small>
     </h3>
@@ -40,17 +40,17 @@
         下拉选择器多列竖排模式（自定义呼出按钮）
       </h4>
       <div>
-        <!-- <region-columns>
-          <template #default="{ region, show }">
+        <RegionColumns>
+          <template #default="{ region, visible }">
             <button
               type="button"
               class="btn btn-primary"
             >
               region:{{ resultText(region) }},
-              show: {{ show }}
+              show: {{ visible }}
             </button>
           </template>
-        </region-columns> -->
+        </RegionColumns>
       </div>
     </div>
   </section>
