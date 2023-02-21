@@ -201,11 +201,11 @@ export function inputFocus (input) {
    * only work on Chrome and EDGE
    */
   if (isChrome() || isEdge()) {
-    input.focus({ preventScroll: true })
+    input.value.focus({ preventScroll: true })
   } else {
     const x = window.pageXOffset
     const y = window.pageYOffset
-    input.focus()
+    input.value.focus()
     if (window.pageYOffset !== y) {
       setTimeout(() => { window.scrollTo(x, y) }, 0)
     }

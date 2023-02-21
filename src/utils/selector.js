@@ -21,15 +21,7 @@ export function useDropdown (props) {
       ref: dropdown,
       border: true,
       disabled: props.disabled,
-      onVisibleChange (val) {
-        visible.value = val
-
-        // if (!val) return
-
-        // 打开下拉层时激活查询输入框的焦点
-        // const { searchFocus } = this
-        // searchFocus && searchFocus()
-      }
+      onVisibleChange (val) { visible.value = val }
     }
     return h(Dropdown, mergeProps(dropdownOption, customProps), {
       trigger: () => trigger,
@@ -42,8 +34,7 @@ export function useDropdown (props) {
     const content = useContent()
     const elements = []
 
-    if ('default' in slots) {
-      // scoped slot
+    if (slots && 'default' in slots) { // scoped slot
       elements.push(slots.default({ region: content?.value?.region, visible }))
     } else {
       const buttonElements = [

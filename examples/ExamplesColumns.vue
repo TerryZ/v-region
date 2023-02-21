@@ -47,7 +47,7 @@
               class="btn btn-primary"
             >
               region:{{ resultText(region) }},
-              show: {{ visible }}
+              visible: {{ visible }}
             </button>
           </template>
         </RegionColumns>

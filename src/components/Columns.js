@@ -32,7 +32,6 @@ export default {
         'onUpdate:modelValue': val => {
           callback(val)
           emit('adjust')
-          console.log('complete:', isComplete.value)
           if (isComplete.value) {
             emit('complete')
           }

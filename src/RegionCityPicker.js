@@ -1,23 +1,22 @@
 // import './styles/icons.sass'
 import './styles/city.sass'
 
-import selector from './mixins/selector'
-
-import language, { CN } from './language'
+import { ref, computed, watch, nextTick, h } from 'vue'
+import { CN } from './language'
 import { regionProvinces, regionCities } from './formatted'
 import { PLACEHOLDER_OTHER_CITIES } from './constants'
-import { keysEqualModels, isSelected, inputFocus } from './utils/helper'
+import { keysEqualModels, isSelected, inputFocus, useLanguage } from './utils/helper'
 import { cityDirectory } from './utils/parse'
+import { useDropdown } from './utils/selector'
 
 const maxDisplayCities = 2
 // 完整的城市列表（基于省份进行分组）
 const fullCityDirectory = cityDirectory()
 
 export default {
-  name: 'CityPicker',
-  mixins: [selector],
+  name: 'RegionCityPicker',
   props: {
-    value: Array,
+    modelValue: { type: Array, default: [] },
     /**
      * 按钮中显示选中城市模式
      * true: 显示所有选中城市名称
@@ -26,145 +25,81 @@ export default {
     overflow: { type: Boolean, default: false },
     language: { type: String, default: CN }
   },
-  data () {
-    return {
-      /**
-       * 数据列表格式
-       * [{
-       *   province: { key: string, value: string},
-       *   citys: { key: string, value: string }[]
-       * }]
-       */
-      list: fullCityDirectory,
-      picked: []
-    }
-  },
-  computed: {
-    selectedText () {
-      const { picked, overflow } = this
-      const values = picked.map(val => val.value)
+  emits: ['update:modelValue', 'change', 'visible-change'],
+  setup (props, { emit }) {
+    const {
+      generateDropdown,
+      generateDropdownTriggerButton,
+      closeDropdown,
+      adjustDropdown
+    } = useDropdown(props)
+    const lang = useLanguage(props.language)
+    const search = ref(null)
 
-      if (overflow || picked.length <= maxDisplayCities) {
+    /**
+     * 数据列表格式
+     * [{
+     *   province: { key: string, value: string},
+     *   cities: { key: string, value: string }[]
+     * }]
+     */
+    const list = ref(fullCityDirectory)
+    const picked = ref([])
+
+    const selectedText = computed(() => {
+      const values = picked.value.map(val => val.value)
+
+      if (props.overflow || picked.value.length <= maxDisplayCities) {
         return values.join(',')
       }
 
-      const lang = language[this.language.toLowerCase()]
-      const othersLength = picked.length - maxDisplayCities
+      const othersLength = picked.value.length - maxDisplayCities
       const others = lang.others.replace(PLACEHOLDER_OTHER_CITIES, othersLength)
       return values.slice(0, maxDisplayCities).join(',') + `,${others}`
-    }
-  },
-  watch: {
-    // 初始化数据
-    value: {
-      handler (val) {
-        if (!Array.isArray(val) || keysEqualModels(val, this.picked)) return
-
-        if (val.length) {
-          const provincialCity = regionProvinces.filter(item => val.includes(item.key))
-          // marge province and city
-          this.picked = [
-            ...provincialCity,
-            ...regionCities.filter(item => val.includes(item.key))
-          ]
-        } else {
-          this.picked = []
-        }
-
-        this.emit(false)
-      },
-      immediate: true
-    }
-  },
-  render (h) {
-    const contents = []
-
-    contents.push(this.buildCaller())
-
-    // 搜索栏
-    const search = h('input', {
-      ref: 'search',
-      class: 'rg-input',
-      attrs: {
-        type: 'text',
-        autocomplete: 'off'
-      },
-      on: {
-        input: e => this.query(e.target.value.trim())
-      }
     })
-    contents.push(h('div', { class: 'rg-search-bar' }, [search]))
 
-    // 基于省份分组的城市列表
-    const provinces = this.list.map(val => {
-      const { province, citys } = val
-      const listItems = citys.map(city => {
-        const liOption = {
-          key: city.key,
-          class: {
-            selected: isSelected(city, this.picked)
-          },
-          on: {
-            click: () => {
-              this.pick(city)
-            }
-          }
-        }
-        return h('li', liOption, city.value)
-      })
-      const ul = h('ul', listItems)
+    watch(() => props.modelValue, val => {
+      if (!Array.isArray(val) || keysEqualModels(val, picked.value)) return
 
-      return h('div', {
-        key: province.key,
-        class: 'rg-picker__row'
-      }, [
-        h('dl', [
-          h('dt', province.value),
-          h('dd', [ul])
-        ])
-      ])
-    })
-    contents.push(h('div', { class: 'rg-picker' }, provinces))
-
-    return this.buildDropdown(contents)
-  },
-  methods: {
-    /**
-     * @override
-     */
-    clear () {
-      this.picked = []
-      this.close()
-      this.emit()
-    },
-    /**
-     * @override
-     */
-    searchFocus () {
-      this.$nextTick(() => {
-        inputFocus(this.$refs.search)
-      })
-    },
-    /**
-     * @override
-     * @returns {string}
-     */
-    getSelectedText () {
-      return this.selectedText
-    },
-    emit (input = true) {
-      if (input) this.$emit('input', this.picked.map(val => val.key))
-      this.$emit('change', this.picked)
-    },
-    pick (item) {
-      if (isSelected(item, this.picked)) {
-        this.picked.splice(this.picked.findIndex(val => val.key === item.key), 1)
+      if (val.length) {
+        const provincialCity = regionProvinces.filter(item => val.includes(item.key))
+        // marge provinces and cities
+        picked.value = [
+          ...provincialCity,
+          ...regionCities.filter(item => val.includes(item.key))
+        ]
       } else {
-        this.picked.push(item)
+        picked.value = []
       }
-      this.emit()
-      this.adjust()
-    },
+
+      emitData(false)
+    }, { immediate: true })
+
+    function clear () {
+      picked.value = []
+      closeDropdown()
+      emitData()
+    }
+    function searchFocus () {
+      nextTick(() => {
+        inputFocus(search)
+      })
+    }
+    function emitData (updateModelValue = true) {
+      if (updateModelValue) {
+        emit('update:modelValue', picked.value.map(val => val.key))
+      }
+      emit('change', picked.value)
+    }
+    function pick (item) {
+      if (isSelected(item, picked.value)) {
+        picked.value.splice(picked.value.findIndex(val => val.key === item.key), 1)
+      } else {
+        picked.value.push(item)
+      }
+      emitData()
+      adjustDropdown()
+    }
     /**
      * 城市快速搜索
      *
@@ -172,18 +107,80 @@ export default {
      * 1. 城市名称
      * 2. 城市编码
      */
-    query (value) {
+    function query (value) {
       if (value) {
-        const list = []
+        const result = []
         fullCityDirectory.forEach(val => {
-          const citys = val.citys.filter(city => new RegExp(value).test(city.value))
-          if (citys.length) list.push({ province: val.province, citys })
+          const cities = val.cities.filter(city => new RegExp(value).test(city.value))
+          if (cities.length) {
+            result.push({ province: val.province, cities })
+          }
         })
-        this.list = list
+        list.value = result
       } else {
-        this.list = fullCityDirectory
+        list.value = fullCityDirectory
       }
-      this.adjust()
+      adjustDropdown()
+    }
+
+    return () => {
+      const trigger = generateDropdownTriggerButton(
+        undefined, () => {
+          return ref({
+            regionText: selectedText.value
+          })
+        }, clear
+      )
+
+      const contents = []
+
+      // 搜索栏
+      const searchInput = h('input', {
+        ref: search,
+        class: 'rg-input',
+        type: 'text',
+        autocomplete: 'off',
+        onInput: e => query(e.target.value.trim())
+      })
+      contents.push(h('div', { class: 'rg-search-bar' }, [searchInput]))
+
+      // 基于省份分组的城市列表
+      const provinces = list.value.map(val => {
+        const { province, cities } = val
+        const items = cities.map(city => {
+          const liOption = {
+            key: city.key,
+            class: {
+              selected: isSelected(city, picked.value)
+            },
+            onClick: () => pick(city)
+          }
+          return h('li', liOption, city.value)
+        })
+        const ul = h('ul', items)
+
+        return h('div', {
+          key: province.key,
+          class: 'rg-picker__row'
+        }, [
+          h('dl', [
+            h('dt', province.value),
+            h('dd', [ul])
+          ])
+        ])
+      })
+      contents.push(h('div', { class: 'rg-picker' }, provinces))
+
+      const dropdownOption = {
+        onVisibleChange (val) {
+          emit('visible-change', val)
+
+          if (!val) return
+
+          searchFocus()
+        }
+      }
+      return generateDropdown(dropdownOption, trigger, contents)
     }
   }
 }

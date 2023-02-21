@@ -111,20 +111,20 @@ export function cityDirectory () {
   const listTmp = []
   const municipalityObj = {
     province: { key: municipality, value: '直辖市' },
-    citys: []
+    cities: []
   }
   const specialObj = {
     province: { key: special, value: '特别行政区' },
-    citys: []
+    cities: []
   }
   // set provinces
   regionProvinces.forEach(val => {
-    if (municipalities.includes(val.key)) municipalityObj.citys.push(val)
-    else if (specials.includes(val.key)) specialObj.citys.push(val)
-    else listTmp.push({ province: val, citys: [] })
+    if (municipalities.includes(val.key)) municipalityObj.cities.push(val)
+    else if (specials.includes(val.key)) specialObj.cities.push(val)
+    else listTmp.push({ province: val, cities: [] })
   })
   listTmp.forEach(val => {
-    val.citys = regionCities.filter(value => {
+    val.cities = regionCities.filter(value => {
       const num = Number.parseInt(val.province.key)
       return (value.key - num) < 1e4 && (value.key % num) < 1e4
     })

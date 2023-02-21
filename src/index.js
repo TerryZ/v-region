@@ -5,7 +5,7 @@ import './styles/region.sass'
 import RegionSelects from './RegionSelects'
 import RegionColumnsCore from './components/Columns'
 import RegionColumns from './RegionColumns'
-// import RegionCityPicker from './RegionCityPicker'
+import RegionCityPicker from './RegionCityPicker'
 import RegionText from './RegionText'
 
 export {
@@ -21,7 +21,7 @@ Region.install = (Vue, options = {}) => {
   // Vue.component('VRegionGroup', RegionGroup)
   Vue.component('VRegionSelects', RegionSelects)
   Vue.component('VRegionColumns', RegionColumns)
-  // Vue.component('VRegionCityPicker', RegionCityPicker)
+  Vue.component('VRegionCityPicker', RegionCityPicker)
   Vue.component('VRegionText', RegionText)
 }
 
@@ -31,7 +31,7 @@ export {
   RegionSelects,
   RegionColumnsCore,
   RegionColumns,
-  // RegionCityPicker,
+  RegionCityPicker,
   RegionText
 }
 
