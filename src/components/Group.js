@@ -38,9 +38,8 @@ export default {
     })
 
     function clear () {
-      this.clearRegion(PROVINCE_LEVEL)
-      level.value = PROVINCE_LEVEL
       reset()
+      level.value = PROVINCE_LEVEL
       emit('adjust')
     }
 
@@ -57,10 +56,10 @@ export default {
       const btnOption = {
         type: 'button',
         title: lang.clear,
-        onClick: this.clear
+        onClick: clear
       }
       const btn = h('button', btnOption, h(IconTrash))
-      contents.push(h('div', { class: 'rg-header-control' }, [btn]))
+      contents.push(h('div', { class: 'rg-header-control' }, btn))
 
       return h('div', { class: 'rg-header' }, contents)
     }
@@ -69,64 +68,45 @@ export default {
         .filter(val => this.levelAvailable(val.index))
         .map(val => {
           const link = h('a', {
-            attrs: {
-              href: 'javascript:void(0)'
-            },
-            on: {
-              click: () => {
-                this.level = val.index
-              }
-            }
+            href: 'javascript:void(0)',
+            onClick: () => { level.value = val.index }
           }, val.title)
           const option = {
             key: val.index,
-            class: {
-              active: val.index === this.level
-            }
+            class: { active: val.index === level.value }
           }
-          return h('li', option, [link])
+          return h('li', option, link)
         })
-      return h('div', { class: 'rg-level-tabs' }, [
-        h('ul', tabs)
-      ])
+      return h('div', { class: 'rg-level-tabs' }, h('ul', tabs))
     }
-    // 构建内容区域
     function generateContent () {
-      const h = this.$createElement
-      const { list } = this
       const child = []
-      if (list.length) {
-        const items = list.map(val => {
+      if (list.value.length) {
+        const items = list.value.map(val => {
           const option = {
             key: val.key,
             class: {
               'rg-item': true,
               active: this.match(val)
             },
-            on: {
-              mouseup: () => { this.pick(val) }
-            }
+            onMouseup: () => { this.pick(val) }
           }
           return h('li', option, val.value)
         })
         child.push(...items)
       } else {
-        child.push(h('li', { class: 'rg-message-box' }, this.lang.noMatch))
+        child.push(h('li', { class: 'rg-message-box' }, lang.noMatch))
       }
       return h('div', { class: 'rg-results-container' }, [
         h('ul', { class: 'rg-results' }, child)
       ])
     }
 
-    return () => {
-      const contents = []
-
-      contents.push(generateHeader())
-      contents.push(generateTabs())
-      contents.push(generateContent())
-
-      return h('div', { class: 'rg-group' }, contents)
-    }
+    return () => h('div', { class: 'rg-group' }, [
+      generateHeader(),
+      generateTabs(),
+      generateContent()
+    ])
   },
   methods: {
     // check level available
@@ -174,12 +154,6 @@ export default {
         this.$emit('complete')
       }
     },
-    clear () {
-      this.clearRegion(PROVINCE_LEVEL)
-      this.level = PROVINCE_LEVEL
-      this.change()
-      this.$emit('adjust')
-    },
     /**
      * region search
      * search region description first, if no result, then search region key
@@ -190,11 +164,11 @@ export default {
       let tmp = []
       // 首先匹配描述内容
       tmp = list.filter(val => val.value.toLowerCase().includes(value.toLowerCase()))
-      if (tmp.length === 0) {
+      if (!tmp.length) {
         // 其次使用编码进行匹配查询
         tmp = list.filter(val => val.key.includes(value))
       }
-      this.list = tmp
+      list.value = tmp
     },
     /**
      * @override
