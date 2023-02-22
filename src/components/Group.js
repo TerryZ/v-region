@@ -1,11 +1,15 @@
-import cloneDeep from 'lodash.clonedeep'
-import { regionProvinces } from '../formatted.js'
-
-// import '../styles/icons.sass'
 import '../styles/group.sass'
 
-import data from '../mixins/data'
-import method from '../mixins/method'
+import { ref, watch, h } from 'vue'
+import cloneDeep from 'lodash.clonedeep'
+
+import IconTrash from '../icons/IconTrash.vue'
+
+import { CN } from '../language'
+import { regionProvinces } from '../formatted.js'
+import { commonProps, useData } from '../utils/data'
+import { useLanguage } from '../utils/helper'
+
 import {
   PROVINCE_LEVEL,
   CITY_LEVEL,
@@ -16,101 +20,51 @@ import {
 } from '../constants'
 
 export default {
-  name: 'Group',
-  mixins: [data, method],
-  inheritAttrs: false,
+  name: 'RegionGroupCore',
   props: {
-    search: {
-      type: Boolean,
-      default: true
-    }
+    ...commonProps,
+    language: { type: String, default: CN }
   },
-  data () {
-    return {
-      list: [],
-      level: -1
-    }
-  },
-  watch: {
+  emits: ['adjust', 'change'],
+  setup (props, { emit }) {
+    const { data, regionText, reset } = useData(props, emit)
+    const lang = useLanguage(props.language)
+    const list = ref([])
+    const level = ref(-1)
     // 当前分组
-    level (val) {
-      this.list = this.getList(val)
-      this.$emit('adjust')
+    watch(level, val => {
+      list.value = this.getList(val)
+      emit('adjust')
+    })
+
+    function clear () {
+      this.clearRegion(PROVINCE_LEVEL)
+      level.value = PROVINCE_LEVEL
+      reset()
+      emit('adjust')
     }
-  },
-  render (h) {
-    const contents = []
 
-    contents.push(this.buildHeader())
-    contents.push(this.buildSearch())
-    contents.push(this.buildTabs())
-    contents.push(this.buildContent())
-
-    return h('div', { class: 'rg-group' }, contents)
-  },
-  methods: {
-    buildHeader () {
-      const h = this.$createElement
+    function generateHeader () {
       const contents = []
 
-      const title = this.selectedText || this.lang.defaultHead
+      const title = regionText.value || lang.defaultHead
       const titleOption = {
         class: 'rg-header-text',
-        domProps: { title }
+        title
       }
-      contents.push(h('div', titleOption, [title]))
+      contents.push(h('div', titleOption, title))
 
-      const btnIcon = h('i', { class: 'rg-iconfont rg-icon-remove' })
       const btnOption = {
-        attrs: {
-          type: 'button',
-          title: this.lang.clear
-        },
-        class: 'rg-removeall-button',
-        on: {
-          click: this.clear
-        }
+        type: 'button',
+        title: lang.clear,
+        onClick: this.clear
       }
-      const btn = h('button', btnOption, [btnIcon])
+      const btn = h('button', btnOption, h(IconTrash))
       contents.push(h('div', { class: 'rg-header-control' }, [btn]))
 
-      // child.push(h('button', {
-      //   attrs: {
-      //     type: 'button',
-      //     title: this.lang.done
-      //   },
-      //   class: 'rg-done-button',
-      //   on: {
-      //     click: this.close
-      //   }
-      // }, [
-      //   h('i', { class: 'rg-iconfont rg-icon-done' })
-      // ]))
-
       return h('div', { class: 'rg-header' }, contents)
-    },
-    // 构建搜索栏
-    buildSearch () {
-      if (!this.search) return
-
-      const h = this.$createElement
-      const option = {
-        ref: 'search',
-        class: 'rg-input',
-        attrs: {
-          type: 'text',
-          autocomplete: 'off'
-        },
-        on: {
-          input: e => this.query(e.target.value.trim())
-        }
-      }
-      const input = h('input', option)
-      return h('div', { class: 'rg-search' }, [input])
-    },
-    // 构建选择卡栏
-    buildTabs () {
-      const h = this.$createElement
+    }
+    function generateTabs () {
       const tabs = LEVELS
         .filter(val => this.levelAvailable(val.index))
         .map(val => {
@@ -135,14 +89,14 @@ export default {
       return h('div', { class: 'rg-level-tabs' }, [
         h('ul', tabs)
       ])
-    },
+    }
     // 构建内容区域
-    buildContent () {
+    function generateContent () {
       const h = this.$createElement
       const { list } = this
       const child = []
       if (list.length) {
-        const listItmes = list.map(val => {
+        const items = list.map(val => {
           const option = {
             key: val.key,
             class: {
@@ -155,14 +109,26 @@ export default {
           }
           return h('li', option, val.value)
         })
-        child.push(...listItmes)
+        child.push(...items)
       } else {
         child.push(h('li', { class: 'rg-message-box' }, this.lang.noMatch))
       }
       return h('div', { class: 'rg-results-container' }, [
         h('ul', { class: 'rg-results' }, child)
       ])
-    },
+    }
+
+    return () => {
+      const contents = []
+
+      contents.push(generateHeader())
+      contents.push(generateTabs())
+      contents.push(generateContent())
+
+      return h('div', { class: 'rg-group' }, contents)
+    }
+  },
+  methods: {
     // check level available
     levelAvailable (level) {
       switch (level) {

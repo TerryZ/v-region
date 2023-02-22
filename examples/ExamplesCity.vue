@@ -5,7 +5,7 @@
       <small>城市选择器</small>
     </h3>
     <div class="p-3 shadow-sm rounded-3 border">
-      <div class="bg-light p-3 mb-3">
+      <div class="bg-light p-3 rounded-3 mb-3">
         <pre
           class="m-0 mb-3"
           v-text="modelCity"
@@ -15,7 +15,7 @@
           v-text="JSON.stringify(valuesCity, null, 2)"
         />
       </div>
-      <div>
+      <div class="">
         <region-city-picker
           language="EN"
           v-model="modelCity"

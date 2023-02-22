@@ -1,5 +1,4 @@
 import Group from './components/Group'
-import selector from './mixins/selector'
 import { inputFocus } from './utils/helper'
 import { PROVINCE_LEVEL } from './constants'
 
@@ -8,7 +7,7 @@ export default {
   components: {
     Group
   },
-  mixins: [selector],
+  inheritAttrs: false,
   render (h) {
     const contents = []
 

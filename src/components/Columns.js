@@ -1,4 +1,3 @@
-// import '../styles/icons.sass'
 import '../styles/column.sass'
 
 import { h } from 'vue'

@@ -1,4 +1,3 @@
-// import './styles/icons.sass'
 import './styles/city.sass'
 
 import { ref, computed, watch, nextTick, h } from 'vue'
@@ -62,10 +61,10 @@ export default {
       if (!Array.isArray(val) || keysEqualModels(val, picked.value)) return
 
       if (val.length) {
-        const provincialCity = regionProvinces.filter(item => val.includes(item.key))
+        const provincialCities = regionProvinces.filter(item => val.includes(item.key))
         // marge provinces and cities
         picked.value = [
-          ...provincialCity,
+          ...provincialCities,
           ...regionCities.filter(item => val.includes(item.key))
         ]
       } else {
@@ -98,7 +97,9 @@ export default {
         picked.value.push(item)
       }
       emitData()
-      adjustDropdown()
+      nextTick(() => {
+        adjustDropdown()
+      })
     }
     /**
      * 城市快速搜索
@@ -120,7 +121,9 @@ export default {
       } else {
         list.value = fullCityDirectory
       }
-      adjustDropdown()
+      nextTick(() => {
+        adjustDropdown()
+      })
     }
 
     return () => {
