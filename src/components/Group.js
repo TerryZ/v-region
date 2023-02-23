@@ -1,6 +1,6 @@
 import '../styles/group.sass'
 
-import { ref, watch, h, nextTick, onBeforeMount } from 'vue'
+import { ref, h, nextTick, onBeforeMount } from 'vue'
 
 import IconTrash from '../icons/IconTrash.vue'
 
@@ -22,7 +22,6 @@ export default {
     const lang = useLanguage(props.language)
     const levels = availableLevels(props)
 
-    const list = ref([])
     const level = ref(undefined)
 
     function getNextLevel () {
@@ -33,12 +32,6 @@ export default {
         ? levels[index + 1]
         : undefined
     }
-
-    // 当前分组
-    watch(level, val => {
-      list.value = getListByLevel(val)
-      emit('adjust')
-    })
 
     function clear () {
       reset()
@@ -58,6 +51,7 @@ export default {
       }
       nextTick(() => {
         level.value = next
+        emit('adjust')
       })
     }
     function match (item) {
@@ -103,8 +97,9 @@ export default {
     }
     function generateContent () {
       const child = []
-      if (list.value.length) {
-        const items = list.value.map(val => {
+
+      child.push(
+        ...getListByLevel(level.value).value.map(val => {
           const option = {
             key: val.key,
             class: {
@@ -115,10 +110,12 @@ export default {
           }
           return h('li', option, val.value)
         })
-        child.push(...items)
-      } else {
+      )
+
+      if (!child.length) {
         child.push(h('li', { class: 'rg-message-box' }, lang.noMatch))
       }
+
       return h('div', { class: 'rg-results-container' }, [
         h('ul', { class: 'rg-results' }, child)
       ])
