@@ -1,66 +1,56 @@
-import Group from './components/Group'
-import { inputFocus } from './utils/helper'
-import { PROVINCE_LEVEL } from './constants'
+import { ref, h, useAttrs, mergeProps } from 'vue'
+
+import RegionGroupCore from './components/Group'
+
+import { CN } from './language'
+import { useDropdown } from './utils/selector'
 
 export default {
   name: 'RegionGroup',
-  components: {
-    Group
-  },
   inheritAttrs: false,
-  render (h) {
-    const contents = []
-
-    contents.push(this.buildCaller())
-
-    const groupOption = {
-      ref: 'module',
-      props: this.$attrs,
-      on: {
-        ...this.$listeners,
-        complete: this.complete,
-        adjust: this.adjust
-      }
-    }
-    contents.push(h('group', groupOption))
-
-    return this.buildDropdown(contents)
+  props: {
+    language: { type: String, default: CN },
+    disabled: { type: Boolean, default: false }
   },
-  methods: {
-    /**
-     * 查询输入设置焦点
-     * @override
-     */
-    searchFocus () {
-      const { search } = this.$attrs
-      if (typeof search !== 'undefined' && !search) return
-      if (!this.$refs.module) return
-      this.$nextTick(() => {
-        inputFocus(this.$refs.module.$refs.search)
-      })
-    },
-    /**
-     * 清理数据
-     * @override
-     */
-    clear () {
-      const { module } = this.$refs
-      if (!module) return
+  emits: ['complete', 'visible-change'],
+  setup (props, { emit, slots }) {
+    const attrs = useAttrs()
+    const {
+      generateDropdown,
+      generateDropdownTriggerButton,
+      closeDropdown,
+      adjustDropdown
+    } = useDropdown(props)
 
-      module.clearRegion(PROVINCE_LEVEL)
-      module.level = PROVINCE_LEVEL
-      module.change()
-    },
-    /**
-     * @override
-     */
-    getSelectedText () {
-      if (!this.$refs.module) return ''
-      return this.$refs.module.selectedText
-    },
-    complete () {
-      this.close()
-      this.$emit('complete')
+    const group = ref(null)
+
+    function clear () {
+      group.value && group.value.reset()
+      closeDropdown()
+    }
+
+    return () => {
+      const trigger = generateDropdownTriggerButton(
+        slots, () => group, clear
+      )
+
+      const groupOption = {
+        ref: group,
+        language: props.language,
+        onComplete: () => {
+          closeDropdown()
+          emit('complete')
+        },
+        onAdjust: adjustDropdown
+      }
+      const contents = h(RegionGroupCore, mergeProps(groupOption, attrs))
+
+      const dropdownOption = {
+        onVisibleChange (val) {
+          emit('visible-change', val)
+        }
+      }
+      return generateDropdown(dropdownOption, trigger, contents)
     }
   }
 }

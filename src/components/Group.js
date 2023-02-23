@@ -17,7 +17,7 @@ export default {
     language: { type: String, default: CN }
   },
   emits: ['adjust', 'change', 'update:modelValue', 'complete'],
-  setup (props, { emit }) {
+  setup (props, { emit, expose }) {
     const { data, setLevel, regionText, reset, getListByLevel } = useData(props, emit)
     const lang = useLanguage(props.language)
     const levels = availableLevels(props)
@@ -46,11 +46,10 @@ export default {
       const next = getNextLevel()
 
       if (!next) {
-        emit('complete')
-        return
+        return emit('complete')
       }
+      level.value = next
       nextTick(() => {
-        level.value = next
         emit('adjust')
       })
     }
@@ -63,7 +62,7 @@ export default {
     function generateHeader () {
       const contents = []
 
-      const title = regionText.value || lang.defaultHead
+      const title = regionText.value.join('') || lang.defaultHead
       const titleOption = {
         class: 'rg-header-text',
         title
@@ -124,6 +123,8 @@ export default {
     onBeforeMount(() => {
       level.value = PROVINCE_KEY
     })
+
+    expose({ region: data, reset, regionText })
 
     return () => h('div', { class: 'rg-group' }, [
       generateHeader(),

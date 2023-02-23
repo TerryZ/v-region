@@ -215,7 +215,7 @@ export function inputFocus (input) {
 export function useLanguage (lang) {
   if (!lang) return languages[CN]
 
-  const key = String(lang).toUpperCase()
+  const key = String(lang).toLowerCase()
 
   if (key in languages) return languages[key]
 

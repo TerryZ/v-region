@@ -99,7 +99,6 @@ export function useData (props, emit) {
     }
     modelToRegion(props.modelValue, availableLevels(props)).then(resp => {
       setData(resp)
-
       change(getData())
     })
   }

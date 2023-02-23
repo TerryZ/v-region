@@ -1,6 +1,6 @@
 <template>
   <section>
-    <h3 class="mt-3">
+    <h3 class="">
       Group
       <small>下拉选择器模式</small>
     </h3>
@@ -9,11 +9,47 @@
       <div class="mb-3">
         <RegionGroupCore
           class="border rounded-3 shadow-sm"
+          language="en"
           :city="true"
           :area="true"
           :town="true"
+          v-model="model"
+          @change="change"
           @complete="complete"
         />
+      </div>
+
+      <div class="bg-light p-3 mb-3 rounded-3">
+        <pre
+          class="m-0 mb-3"
+          v-text="JSON.stringify(model, null, 2)"
+        />
+        <pre
+          class="m-0"
+          v-text="JSON.stringify(values, null, 2)"
+        />
+      </div>
+
+      <h5>选择器模式</h5>
+      <div class="mb-3">
+        <RegionGroup
+          :city="true"
+          :area="true"
+          :town="true"
+          v-model="modelGroup"
+          class="me-3"
+          @change="changeGroup"
+          @complete="complete"
+        />
+      </div>
+      <div class="mb-3">
+        <button
+          type="button"
+          class="btn btn-secondary"
+          @click="resetGroup"
+        >
+          reset region
+        </button>
       </div>
 
       <div class="bg-light p-3 mb-3 rounded-3">
@@ -27,41 +63,21 @@
         />
       </div>
 
-      <div>
-        <!-- <region-group
-          :city="true"
-          :area="true"
-          :town="true"
-          v-model="modelGroup"
-          class="me-3"
-          @complete="complete"
-          @change="cbGroup"
-          @input="input"
-        /> -->
-        <button
-          type="button"
-          class="btn btn-secondary btn-sm"
-          @click="resetGroup"
-        >
-          reset region
-        </button>
-      </div>
-
       <h5 class="mt-3">
         下拉选择器模式（自定义呼出按钮）
       </h5>
       <div>
-        <!-- <region-group>
-          <template #default="{ region, show }">
+        <RegionGroup>
+          <template #default="{ region, visible }">
             <button
               type="button"
               class="btn btn-primary"
             >
               region:{{ resultText(region) }},
-              show: {{ show }}
+              visible: {{ visible }}
             </button>
           </template>
-        </region-group> -->
+        </RegionGroup>
       </div>
     </div>
   </section>
@@ -69,23 +85,26 @@
 
 <script setup>
 import { ref } from 'vue'
-import { RegionGroupCore } from '@/'
+import { RegionGroupCore, RegionGroup } from '@/'
+
+const model = ref(null)
+const values = ref(null)
 
 const modelGroup = ref(null)
 const valuesGroup = ref(null)
 
+function change (data) {
+  values.value = data
+}
 function complete () {
   console.log('complete')
 }
-function input (data) {
-  console.log(data)
-}
-function cbGroup (data) {
+function changeGroup (data) {
   // console.log(data)
-  this.valuesGroup = data
+  valuesGroup.value = data
 }
 function resetGroup () {
-  this.modelGroup = {
+  modelGroup.value = {
     province: '350000',
     city: '350100',
     area: '350104',

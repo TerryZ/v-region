@@ -6,6 +6,8 @@ $bg-light: #f9f9f9
 .rg-group
   width: 400px
   overflow: hidden
+  display: flex
+  flex-direction: column
   .rg-header
     display: flex
     justify-content: space-between
@@ -56,10 +58,9 @@ $bg-light: #f9f9f9
           a
             color: #333
             background-color: #fff
-            // font-weight: 600
             border-top-left-radius: .3rem
             border-top-right-radius: .3rem
-            box-shadow: 0 5px 12px rgba(0, 0, 0, .2)
+            box-shadow: 0 3px 12px rgba(0, 0, 0, .2)
         a
           display: block
           padding: 0.5rem 1rem
@@ -76,21 +77,22 @@ $bg-light: #f9f9f9
     list-style: none
     margin: 0
     padding: 0
-    position: relative
     width: 100%
     overflow-y: auto
     overflow-x: hidden
-    clear: both
     ul.rg-results
       background-color: white
       list-style: none
       margin: 0
+      margin-top: 5px
       padding: 5px
       /*height: 300px*/
       width: 400px
       line-height: 1.5
+      display: flex
+      flex-wrap: wrap
       li.rg-item
-        display: inline-block
+        display: inline-flex
         /*border: 1px solid white*/
         border-radius: 2px
         margin-right: 5px
@@ -110,9 +112,10 @@ $bg-light: #f9f9f9
         // height: auto
         // line-height: 1
         margin: 0
+        margin-bottom: 5px
         overflow: hidden
         padding: 3px 10px
-        position: relative
+        // position: relative
         text-align: left
         white-space: nowrap
         font-size: 14px
