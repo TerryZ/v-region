@@ -1,23 +1,14 @@
 import '../styles/group.sass'
 
-import { ref, watch, h } from 'vue'
-import cloneDeep from 'lodash.clonedeep'
+import { ref, watch, h, nextTick, onBeforeMount } from 'vue'
 
 import IconTrash from '../icons/IconTrash.vue'
 
 import { CN } from '../language'
-import { regionProvinces } from '../formatted.js'
 import { commonProps, useData } from '../utils/data'
-import { useLanguage } from '../utils/helper'
+import { useLanguage, availableLevels } from '../utils/helper'
 
-import {
-  PROVINCE_LEVEL,
-  CITY_LEVEL,
-  AREA_LEVEL,
-  TOWN_LEVEL,
-  LEVELS,
-  LEVEL_LIST
-} from '../constants'
+import { LEVELS, PROVINCE_KEY } from '../constants'
 
 export default {
   name: 'RegionGroupCore',
@@ -25,22 +16,54 @@ export default {
     ...commonProps,
     language: { type: String, default: CN }
   },
-  emits: ['adjust', 'change'],
+  emits: ['adjust', 'change', 'update:modelValue', 'complete'],
   setup (props, { emit }) {
-    const { data, regionText, reset } = useData(props, emit)
+    const { data, setLevel, regionText, reset, getListByLevel } = useData(props, emit)
     const lang = useLanguage(props.language)
+    const levels = availableLevels(props)
+
     const list = ref([])
-    const level = ref(-1)
+    const level = ref(undefined)
+
+    function getNextLevel () {
+      if (!level.value) return
+      const index = levels.findIndex(val => val === level.value)
+
+      return index < (levels.length - 1)
+        ? levels[index + 1]
+        : undefined
+    }
+
     // 当前分组
     watch(level, val => {
-      list.value = this.getList(val)
+      list.value = getListByLevel(val)
       emit('adjust')
     })
 
     function clear () {
       reset()
-      level.value = PROVINCE_LEVEL
+      level.value = PROVINCE_KEY
       emit('adjust')
+    }
+    function pick (item) {
+      if (!level.value) return
+
+      setLevel(level.value, item)
+
+      const next = getNextLevel()
+
+      if (!next) {
+        emit('complete')
+        return
+      }
+      nextTick(() => {
+        level.value = next
+      })
+    }
+    function match (item) {
+      if (!item) return false
+      if (!level.value) return false
+      return data[level.value]?.key === item.key
     }
 
     function generateHeader () {
@@ -64,19 +87,18 @@ export default {
       return h('div', { class: 'rg-header' }, contents)
     }
     function generateTabs () {
-      const tabs = LEVELS
-        .filter(val => this.levelAvailable(val.index))
-        .map(val => {
-          const link = h('a', {
-            href: 'javascript:void(0)',
-            onClick: () => { level.value = val.index }
-          }, val.title)
-          const option = {
-            key: val.index,
-            class: { active: val.index === level.value }
-          }
-          return h('li', option, link)
-        })
+      const tabs = levels.map(val => {
+        const levelItem = LEVELS.find(value => value.key === val)
+        const link = h('a', {
+          href: 'javascript:void(0)',
+          onClick: () => { level.value = levelItem.key }
+        }, levelItem.title)
+        const option = {
+          key: levelItem.key,
+          class: { active: levelItem.key === level.value }
+        }
+        return h('li', option, link)
+      })
       return h('div', { class: 'rg-level-tabs' }, h('ul', tabs))
     }
     function generateContent () {
@@ -87,9 +109,9 @@ export default {
             key: val.key,
             class: {
               'rg-item': true,
-              active: this.match(val)
+              active: match(val)
             },
-            onMouseup: () => { this.pick(val) }
+            onMouseup: () => { pick(val) }
           }
           return h('li', option, val.value)
         })
@@ -102,90 +124,14 @@ export default {
       ])
     }
 
+    onBeforeMount(() => {
+      level.value = PROVINCE_KEY
+    })
+
     return () => h('div', { class: 'rg-group' }, [
       generateHeader(),
       generateTabs(),
       generateContent()
     ])
-  },
-  methods: {
-    // check level available
-    levelAvailable (level) {
-      switch (level) {
-        case PROVINCE_LEVEL: return true
-        case CITY_LEVEL: return this.city
-        case AREA_LEVEL: return this.city && this.area
-        case TOWN_LEVEL: return this.city && this.area && this.town
-      }
-    },
-    // load list when switch to next level
-    getList (val) {
-      switch (val) {
-        case PROVINCE_LEVEL: return this.listProvince
-        case CITY_LEVEL: return this.listCity
-        case AREA_LEVEL: return this.listArea
-        case TOWN_LEVEL: return this.listTown
-      }
-    },
-    match (item) {
-      if (!item || !Object.keys(item).length) return false
-      const { province, city, area, town } = this.region
-      const key = item.key
-      switch (this.level) {
-        case PROVINCE_LEVEL: return province && province.key === key
-        case CITY_LEVEL: return city && city.key === key
-        case AREA_LEVEL: return area && area.key === key
-        case TOWN_LEVEL: return town && town.key === key
-      }
-    },
-    nextLevel (level) {
-      if (level === TOWN_LEVEL) return level
-      return LEVELS[level + 1].index
-    },
-    pick (item) {
-      const nextLevel = this.nextLevel(this.level)
-      const attr = LEVEL_LIST[this.level]
-      this.region[attr] = item
-      this.change()
-
-      if (this.levelAvailable(nextLevel) && this.level !== nextLevel) {
-        this.level = nextLevel
-      } else {
-        this.$emit('complete')
-      }
-    },
-    /**
-     * region search
-     * search region description first, if no result, then search region key
-     * @param value
-     */
-    query (value) {
-      const list = this.getList(this.level)
-      let tmp = []
-      // 首先匹配描述内容
-      tmp = list.filter(val => val.value.toLowerCase().includes(value.toLowerCase()))
-      if (!tmp.length) {
-        // 其次使用编码进行匹配查询
-        tmp = list.filter(val => val.key.includes(value))
-      }
-      list.value = tmp
-    },
-    /**
-     * @override
-     */
-    prepareProvinceList () {
-      const { value } = this
-      // sort by length and code
-      this.listProvince = cloneDeep(regionProvinces).sort((a, b) => {
-        const gap = a.value.length - b.value.length
-        return gap === 0 ? Number(a.key) - Number(b.key) : gap
-      })
-      if (value && Object.keys(value).length) {
-        this.modelChange(value)
-      }
-    }
-  },
-  beforeMount () {
-    this.level = PROVINCE_LEVEL
   }
 }

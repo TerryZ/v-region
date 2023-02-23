@@ -7,8 +7,10 @@
     <div class="p-3 shadow-sm rounded-3 border">
       <h5>核心功能模块</h5>
       <div class="mb-3">
-        <region-group-core
+        <RegionGroupCore
           class="border rounded-3 shadow-sm"
+          :city="true"
+          :area="true"
           :town="true"
           @complete="complete"
         />
@@ -26,7 +28,7 @@
       </div>
 
       <div>
-        <region-group
+        <!-- <region-group
           :city="true"
           :area="true"
           :town="true"
@@ -35,7 +37,7 @@
           @complete="complete"
           @change="cbGroup"
           @input="input"
-        />
+        /> -->
         <button
           type="button"
           class="btn btn-secondary btn-sm"
@@ -49,7 +51,7 @@
         下拉选择器模式（自定义呼出按钮）
       </h5>
       <div>
-        <region-group>
+        <!-- <region-group>
           <template #default="{ region, show }">
             <button
               type="button"
@@ -59,57 +61,47 @@
               show: {{ show }}
             </button>
           </template>
-        </region-group>
+        </region-group> -->
       </div>
     </div>
   </section>
 </template>
 
-<script>
-import { RegionGroupCore, RegionGroup } from '@/components/v-region'
+<script setup>
+import { ref } from 'vue'
+import { RegionGroupCore } from '@/'
 
-export default {
-  components: {
-    RegionGroupCore,
-    RegionGroup
-  },
-  data () {
-    return {
-      modelGroup: null,
-      valuesGroup: null
-    }
-  },
-  methods: {
-    complete () {
-      console.log('complete')
-    },
-    input (data) {
-      console.log(data)
-    },
-    cbGroup (data) {
-      // console.log(data)
-      this.valuesGroup = data
-    },
-    resetGroup () {
-      this.modelGroup = {
-        province: '350000',
-        city: '350100',
-        area: '350104',
-        town: '350104008'
-      }
-    },
-    resultText (region) {
-      if (!region) return '无数据'
+const modelGroup = ref(null)
+const valuesGroup = ref(null)
 
-      if (!Object.values(region).some(val => val) || !region) {
-        return '无数据'
-      }
-      return Object
-        .values(region)
-        .filter(val => val)
-        .map(val => val.value)
-        .join(',')
-    }
+function complete () {
+  console.log('complete')
+}
+function input (data) {
+  console.log(data)
+}
+function cbGroup (data) {
+  // console.log(data)
+  this.valuesGroup = data
+}
+function resetGroup () {
+  this.modelGroup = {
+    province: '350000',
+    city: '350100',
+    area: '350104',
+    town: '350104008'
   }
+}
+function resultText (region) {
+  if (!region) return '无数据'
+
+  if (!Object.values(region).some(val => val) || !region) {
+    return '无数据'
+  }
+  return Object
+    .values(region)
+    .filter(val => val)
+    .map(val => val.value)
+    .join(',')
 }
 </script>

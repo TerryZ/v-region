@@ -1,5 +1,5 @@
 import { ref, reactive, computed, toRaw, watch, onBeforeMount } from 'vue'
-import { TOWN_KEY } from '../constants'
+import { PROVINCE_KEY, CITY_KEY, AREA_KEY, TOWN_KEY } from '../constants'
 import { CN } from '../language'
 import { regionProvinces } from '../formatted'
 import { regionToModel, modelToRegion } from './parse'
@@ -32,6 +32,7 @@ function useEvent (emit) {
 export function useData (props, emit) {
   const { updateModelValue, change } = useEvent(emit)
   const { haveCity, haveArea, haveTown } = useState(props)
+
   const data = reactive({
     province: undefined,
     city: undefined,
@@ -84,6 +85,14 @@ export function useData (props, emit) {
     updateModelValue(getData())
     change(getData())
   }
+  function getListByLevel (level) {
+    switch (level) {
+      case PROVINCE_KEY: return provinces
+      case CITY_KEY: return cities
+      case AREA_KEY: return areas
+      case TOWN_KEY: return towns
+    }
+  }
   function modelToData () {
     if (!props.modelValue || !Object.keys(props.modelValue).length) {
       return
@@ -108,6 +117,7 @@ export function useData (props, emit) {
     setLevel,
     getData,
     isComplete,
-    regionText
+    regionText,
+    getListByLevel
   }
 }

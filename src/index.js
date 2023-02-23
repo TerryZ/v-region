@@ -1,6 +1,6 @@
 import './styles/region.sass'
 
-// import RegionGroupCore from './components/Group'
+import RegionGroupCore from './components/Group'
 // import RegionGroup from './RegionGroup'
 import RegionSelects from './RegionSelects'
 import RegionColumnsCore from './components/Columns'
@@ -26,7 +26,7 @@ Region.install = (Vue, options = {}) => {
 }
 
 export {
-  // RegionGroupCore,
+  RegionGroupCore,
   // RegionGroup,
   RegionSelects,
   RegionColumnsCore,
