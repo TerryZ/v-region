@@ -1,5 +1,4 @@
 import { ref, h, useAttrs, mergeProps } from 'vue'
-
 import RegionGroupCore from './components/Group'
 
 import { CN } from './language'

@@ -37,11 +37,12 @@ export function useDropdown (props) {
     if (slots && 'default' in slots) { // scoped slot
       elements.push(slots.default({ region: content?.value?.region, visible }))
     } else {
+      console.log(content?.value?.regionText)
       const buttonElements = [
-        h('span', content?.value?.regionText || lang.pleaseSelect)
+        h('span', content?.value?.regionText?.join('') || lang.pleaseSelect)
       ]
 
-      if (content?.value?.regionText?.value) { // 清除图标
+      if (content?.value?.regionText?.length) { // 清除图标
         const clearOption = {
           class: 'rg-clear-btn',
           title: lang.clear,

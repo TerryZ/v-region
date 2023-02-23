@@ -37,7 +37,6 @@
           :area="true"
           :town="true"
           v-model="modelGroup"
-          class="me-3"
           @change="changeGroup"
           @complete="complete"
         />
@@ -87,11 +86,11 @@
 import { ref } from 'vue'
 import { RegionGroupCore, RegionGroup } from '@/'
 
-const model = ref(null)
-const values = ref(null)
+const model = ref(undefined)
+const values = ref(undefined)
 
-const modelGroup = ref(null)
-const valuesGroup = ref(null)
+const modelGroup = ref(undefined)
+const valuesGroup = ref(undefined)
 
 function change (data) {
   values.value = data
