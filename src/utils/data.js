@@ -54,6 +54,7 @@ export function useData (props, emit) {
     return Object.values(data)
       .filter(val => val)
       .map(val => val.value)
+      .join('')
   })
 
   watch(() => data.area, val => {
@@ -85,7 +86,7 @@ export function useData (props, emit) {
     updateModelValue(getData())
     change(getData())
   }
-  function getListByLevel (level) {
+  function getLevelList (level) {
     switch (level) {
       case PROVINCE_KEY: return provinces
       case CITY_KEY: return cities
@@ -117,6 +118,6 @@ export function useData (props, emit) {
     getData,
     isComplete,
     regionText,
-    getListByLevel
+    getLevelList
   }
 }

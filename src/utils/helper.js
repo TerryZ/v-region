@@ -1,9 +1,5 @@
 import { regionFull, regionCities, regionAreas } from '../formatted'
-import {
-  LEVEL_KEYS,
-  PROVINCE_KEY,
-  CITY_LEVEL, AREA_LEVEL, TOWN_LEVEL
-} from '../constants'
+import { LEVEL_KEYS, PROVINCE_KEY } from '../constants'
 import languages, { CN } from '../language'
 
 // xx0000 为省级编码格式
@@ -85,21 +81,6 @@ export async function getTowns (area) {
   } catch (e) {
     console.warn(`The "${area.value}" area have no towns data.`)
     return []
-  }
-}
-
-/**
- * Get level list loader
- *
- * @export
- * @param {number} level
- * @returns
- */
-export function getLoader (level) {
-  switch (level) {
-    case CITY_LEVEL: return getCities
-    case AREA_LEVEL: return getAreas
-    case TOWN_LEVEL: return getTowns
   }
 }
 

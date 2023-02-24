@@ -18,7 +18,7 @@ export default {
   },
   emits: ['adjust', 'change', 'update:modelValue', 'complete'],
   setup (props, { emit, expose }) {
-    const { data, setLevel, regionText, reset, getListByLevel } = useData(props, emit)
+    const { data, setLevel, regionText, reset, getLevelList } = useData(props, emit)
     const lang = useLanguage(props.language)
     const levels = availableLevels(props)
 
@@ -62,7 +62,7 @@ export default {
     function generateHeader () {
       const contents = []
 
-      const title = regionText.value.join('') || lang.defaultHead
+      const title = regionText.value || lang.defaultHead
       const titleOption = {
         class: 'rg-header-text',
         title
@@ -98,7 +98,7 @@ export default {
       const child = []
 
       child.push(
-        ...getListByLevel(level.value).value.map(val => {
+        ...getLevelList(level.value).value.map(val => {
           const option = {
             key: val.key,
             class: {
