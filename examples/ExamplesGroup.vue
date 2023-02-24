@@ -39,6 +39,7 @@
           v-model="modelGroup"
           @change="changeGroup"
           @complete="complete"
+          @visible-change="visibleChange"
         />
       </div>
       <div class="mb-3">
@@ -109,6 +110,9 @@ function resetGroup () {
     area: '350104',
     town: '350104008'
   }
+}
+function visibleChange (val) {
+  console.log('dropdown visible: ', val)
 }
 function resultText (region) {
   if (!region) return '无数据'

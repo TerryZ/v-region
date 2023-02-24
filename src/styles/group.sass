@@ -1,4 +1,4 @@
-$bg-light: #f9f9f9
+$bg-light: #f4f4f4
 
 @mixin transition-all()
   transition: all .3s ease-out
@@ -24,7 +24,7 @@ $bg-light: #f9f9f9
       font-size: 14px
       // max-width: 310px
       display: inline-block
-      color: #24292e
+      color: #666
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif
     .rg-header-control
       button
@@ -52,8 +52,9 @@ $bg-light: #f9f9f9
       padding: 0
       margin: 0
       line-height: 1.5
+      display: flex
       li
-        display: inline-block
+        display: inline-flex
         &.active
           a
             color: #333
@@ -66,6 +67,7 @@ $bg-light: #f9f9f9
           padding: 0.5rem 1rem
           font-size: 14px
           color: #bbb
+          font-weight: 600
           text-decoration: none
           cursor: pointer
           line-height: 1.43
@@ -80,6 +82,7 @@ $bg-light: #f9f9f9
     width: 100%
     overflow-y: auto
     overflow-x: hidden
+    // box-shadow: 0 0 8px rgba(0, 0, 0, .1)
     ul.rg-results
       background-color: white
       list-style: none
@@ -118,6 +121,7 @@ $bg-light: #f9f9f9
         // position: relative
         text-align: left
         white-space: nowrap
+        user-select: none
         font-size: 14px
         color: black
         cursor: pointer
