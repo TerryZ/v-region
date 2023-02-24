@@ -47,7 +47,7 @@ export function useDropdown (props) {
           title: lang.clear,
           onClick: e => {
             e.stopPropagation()
-            clear()
+            clear && clear()
           }
         }
         buttonElements.push(h('span', clearOption, h(IconX)))

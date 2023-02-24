@@ -2,9 +2,6 @@ import { h, ref } from 'vue'
 import { validModel } from './utils/helper'
 import { modelToRegion, parseRegionToText } from './utils/parse'
 
-/**
- * 纯文本显示区域信息
- */
 export default {
   name: 'RegionText',
   props: {

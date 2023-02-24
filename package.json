@@ -46,8 +46,7 @@
   },
   "dependencies": {
     "vue": "^3.2.47",
-    "v-dropdown": "^3.0.0-beta.1",
-    "lodash.clonedeep": "^4.5.0"
+    "v-dropdown": "^3.0.0-beta.1"
   },
   "devDependencies": {
     "@rushstack/eslint-patch": "^1.2.0",

@@ -4,7 +4,6 @@ import { ref, h, nextTick, onBeforeMount } from 'vue'
 
 import IconTrash from '../icons/IconTrash.vue'
 
-import { CN } from '../language'
 import { commonProps, useData } from '../utils/data'
 import { useLanguage, availableLevels } from '../utils/helper'
 
@@ -13,8 +12,7 @@ import { LEVELS, PROVINCE_KEY } from '../constants'
 export default {
   name: 'RegionGroupCore',
   props: {
-    ...commonProps,
-    language: { type: String, default: CN }
+    ...commonProps
   },
   emits: ['adjust', 'change', 'update:modelValue', 'complete'],
   setup (props, { emit, expose }) {
@@ -32,7 +30,6 @@ export default {
         ? levels[index + 1]
         : undefined
     }
-
     function clear () {
       reset()
       level.value = PROVINCE_KEY
@@ -44,14 +41,11 @@ export default {
       setLevel(level.value, item)
 
       const next = getNextLevel()
-
       if (!next) {
         return emit('complete')
       }
       level.value = next
-      nextTick(() => {
-        emit('adjust')
-      })
+      nextTick(() => { emit('adjust') })
     }
     function match (item) {
       if (!item) return false
@@ -82,10 +76,11 @@ export default {
     function generateTabs () {
       const tabs = levels.map(val => {
         const levelItem = LEVELS.find(value => value.key === val)
-        const link = h('a', {
+        const linkOption = {
           href: 'javascript:void(0)',
           onClick: () => { level.value = levelItem.key }
-        }, levelItem.title)
+        }
+        const link = h('a', linkOption, levelItem.title)
         const option = {
           key: levelItem.key,
           class: { active: levelItem.key === level.value }
@@ -101,10 +96,7 @@ export default {
         ...getLevelList(level.value).value.map(val => {
           const option = {
             key: val.key,
-            class: {
-              'rg-item': true,
-              active: match(val)
-            },
+            class: { 'rg-item': true, active: match(val) },
             onMouseup: () => { pick(val) }
           }
           return h('li', option, val.value)
@@ -120,9 +112,7 @@ export default {
       ])
     }
 
-    onBeforeMount(() => {
-      level.value = PROVINCE_KEY
-    })
+    onBeforeMount(() => { level.value = PROVINCE_KEY })
 
     expose({ region: data, reset, regionText })
 
