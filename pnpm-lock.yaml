@@ -17,7 +17,7 @@ specifiers:
   v-dropdown: ^3.0.0-beta.1
   vite: ^4.1.4
   vite-plugin-css-injected-by-js: ^3.0.1
-  vitest: ^0.28.5
+  vitest: ^0.29.1
   vue: ^3.2.47
   vue-router: ^4.1.6
 
@@ -41,7 +41,7 @@ devDependencies:
   typescript: registry.npmmirror.com/typescript/4.9.5
   vite: registry.npmmirror.com/vite/4.1.4_sass@1.58.3
   vite-plugin-css-injected-by-js: registry.npmmirror.com/vite-plugin-css-injected-by-js/3.0.1_vite@4.1.4
-  vitest: registry.npmmirror.com/vitest/0.28.5_jsdom@21.1.0+sass@1.58.3
+  vitest: registry.npmmirror.com/vitest/0.29.1_jsdom@21.1.0+sass@1.58.3
   vue-router: registry.npmmirror.com/vue-router/4.1.6_vue@3.2.47
 
 packages:
@@ -916,38 +916,38 @@ packages:
       vue: registry.npmmirror.com/vue/3.2.47
     dev: true
 
-  registry.npmmirror.com/@vitest/expect/0.28.5:
-    resolution: {integrity: sha512-gqTZwoUTwepwGIatnw4UKpQfnoyV0Z9Czn9+Lo2/jLIt4/AXLTn+oVZxlQ7Ng8bzcNkR+3DqLJ08kNr8jRmdNQ==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@vitest/expect/-/expect-0.28.5.tgz}
+  registry.npmmirror.com/@vitest/expect/0.29.1:
+    resolution: {integrity: sha512-VFt1u34D+/L4pqjLA8VGPdHbdF8dgjX9Nq573L9KG6/7MIAL9jmbEIKpXudmxjoTwcyczOXRyDuUWBQHZafjoA==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@vitest/expect/-/expect-0.29.1.tgz}
     name: '@vitest/expect'
-    version: 0.28.5
+    version: 0.29.1
     dependencies:
-      '@vitest/spy': registry.npmmirror.com/@vitest/spy/0.28.5
-      '@vitest/utils': registry.npmmirror.com/@vitest/utils/0.28.5
+      '@vitest/spy': registry.npmmirror.com/@vitest/spy/0.29.1
+      '@vitest/utils': registry.npmmirror.com/@vitest/utils/0.29.1
       chai: registry.npmmirror.com/chai/4.3.7
     dev: true
 
-  registry.npmmirror.com/@vitest/runner/0.28.5:
-    resolution: {integrity: sha512-NKkHtLB+FGjpp5KmneQjTcPLWPTDfB7ie+MmF1PnUBf/tGe2OjGxWyB62ySYZ25EYp9krR5Bw0YPLS/VWh1QiA==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@vitest/runner/-/runner-0.28.5.tgz}
+  registry.npmmirror.com/@vitest/runner/0.29.1:
+    resolution: {integrity: sha512-VZ6D+kWpd/LVJjvxkt79OA29FUpyrI5L/EEwoBxH5m9KmKgs1QWNgobo/CGQtIWdifLQLvZdzYEK7Qj96w/ixQ==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@vitest/runner/-/runner-0.29.1.tgz}
     name: '@vitest/runner'
-    version: 0.28.5
+    version: 0.29.1
     dependencies:
-      '@vitest/utils': registry.npmmirror.com/@vitest/utils/0.28.5
+      '@vitest/utils': registry.npmmirror.com/@vitest/utils/0.29.1
       p-limit: registry.npmmirror.com/p-limit/4.0.0
       pathe: registry.npmmirror.com/pathe/1.1.0
     dev: true
 
-  registry.npmmirror.com/@vitest/spy/0.28.5:
-    resolution: {integrity: sha512-7if6rsHQr9zbmvxN7h+gGh2L9eIIErgf8nSKYDlg07HHimCxp4H6I/X/DPXktVPPLQfiZ1Cw2cbDIx9fSqDjGw==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@vitest/spy/-/spy-0.28.5.tgz}
+  registry.npmmirror.com/@vitest/spy/0.29.1:
+    resolution: {integrity: sha512-sRXXK44pPzaizpiZOIQP7YMhxIs80J/b6v1yR3SItpxG952c8tdA7n0O2j4OsVkjiO/ZDrjAYFrXL3gq6hLx6Q==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@vitest/spy/-/spy-0.29.1.tgz}
     name: '@vitest/spy'
-    version: 0.28.5
+    version: 0.29.1
     dependencies:
       tinyspy: registry.npmmirror.com/tinyspy/1.0.2
     dev: true
 
-  registry.npmmirror.com/@vitest/utils/0.28.5:
-    resolution: {integrity: sha512-UyZdYwdULlOa4LTUSwZ+Paz7nBHGTT72jKwdFSV4IjHF1xsokp+CabMdhjvVhYwkLfO88ylJT46YMilnkSARZA==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@vitest/utils/-/utils-0.28.5.tgz}
+  registry.npmmirror.com/@vitest/utils/0.29.1:
+    resolution: {integrity: sha512-6npOEpmyE6zPS2wsWb7yX5oDpp6WY++cC5BX6/qaaMhGC3ZlPd8BbTz3RtGPi1PfPerPvfs4KqS/JDOIaB6J3w==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@vitest/utils/-/utils-0.29.1.tgz}
     name: '@vitest/utils'
-    version: 0.28.5
+    version: 0.29.1
     dependencies:
       cli-truncate: registry.npmmirror.com/cli-truncate/3.1.0
       diff: registry.npmmirror.com/diff/5.1.0
@@ -1354,12 +1354,6 @@ packages:
       electron-to-chromium: registry.npmmirror.com/electron-to-chromium/1.4.254
       node-releases: registry.npmmirror.com/node-releases/2.0.6
       update-browserslist-db: registry.npmmirror.com/update-browserslist-db/1.0.9_browserslist@4.21.4
-    dev: true
-
-  registry.npmmirror.com/buffer-from/1.1.2:
-    resolution: {integrity: sha512-E+XQCRwSbaaiChtv6k6Dwgc+bx+Bs6vuKJHHl5kox/BaKbhiXzqQOwK4cO22yElGp2OCmjwVhT3HmxgyPGnJfQ==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/buffer-from/-/buffer-from-1.1.2.tgz}
-    name: buffer-from
-    version: 1.1.2
     dev: true
 
   registry.npmmirror.com/builtins/5.0.1:
@@ -3680,15 +3674,6 @@ packages:
     version: 1.0.2
     engines: {node: '>=0.10.0'}
 
-  registry.npmmirror.com/source-map-support/0.5.21:
-    resolution: {integrity: sha512-uBHU3L3czsIyYXKX88fdrGovxdSCoTGDRZ6SYXtSRxLZUzHg5P/66Ht6uoUlHu9EZod+inXhKo3qQgwXUT/y1w==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/source-map-support/-/source-map-support-0.5.21.tgz}
-    name: source-map-support
-    version: 0.5.21
-    dependencies:
-      buffer-from: registry.npmmirror.com/buffer-from/1.1.2
-      source-map: registry.npmmirror.com/source-map/0.6.1
-    dev: true
-
   registry.npmmirror.com/source-map/0.6.1:
     resolution: {integrity: sha512-UjgapumWlbMhkBgzT7Ykc5YXUT46F0iKu8SGXq0bcwP5dz/h0Plj6enJqjz1Zbq2l5WaqYnrVbwWOWMyF3F47g==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/source-map/-/source-map-0.6.1.tgz}
     name: source-map
@@ -4039,11 +4024,11 @@ packages:
       convert-source-map: registry.npmmirror.com/convert-source-map/1.8.0
     dev: true
 
-  registry.npmmirror.com/vite-node/0.28.5_jwgphxole5tuhzacciupzfrlie:
-    resolution: {integrity: sha512-LmXb9saMGlrMZbXTvOveJKwMTBTNUH66c8rJnQ0ZPNX+myPEol64+szRzXtV5ORb0Hb/91yq+/D3oERoyAt6LA==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/vite-node/-/vite-node-0.28.5.tgz}
-    id: registry.npmmirror.com/vite-node/0.28.5
+  registry.npmmirror.com/vite-node/0.29.1_jwgphxole5tuhzacciupzfrlie:
+    resolution: {integrity: sha512-Ey9bTlQOQrCxQN0oJ7sTg+GrU4nTMLg44iKTFCKf31ry60csqQz4E+Q04hdWhwE4cTgpxUC+zEB1kHbf5jNkFA==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/vite-node/-/vite-node-0.29.1.tgz}
+    id: registry.npmmirror.com/vite-node/0.29.1
     name: vite-node
-    version: 0.28.5
+    version: 0.29.1
     engines: {node: '>=v14.16.0'}
     hasBin: true
     dependencies:
@@ -4052,8 +4037,6 @@ packages:
       mlly: registry.npmmirror.com/mlly/1.1.0
       pathe: registry.npmmirror.com/pathe/1.1.0
       picocolors: registry.npmmirror.com/picocolors/1.0.0
-      source-map: registry.npmmirror.com/source-map/0.6.1
-      source-map-support: registry.npmmirror.com/source-map-support/0.5.21
       vite: registry.npmmirror.com/vite/4.1.4_jwgphxole5tuhzacciupzfrlie
     transitivePeerDependencies:
       - '@types/node'
@@ -4151,11 +4134,11 @@ packages:
       fsevents: registry.npmmirror.com/fsevents/2.3.2
     dev: true
 
-  registry.npmmirror.com/vitest/0.28.5_jsdom@21.1.0+sass@1.58.3:
-    resolution: {integrity: sha512-pyCQ+wcAOX7mKMcBNkzDwEHRGqQvHUl0XnoHR+3Pb1hytAHISgSxv9h0gUiSiYtISXUU3rMrKiKzFYDrI6ZIHA==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/vitest/-/vitest-0.28.5.tgz}
-    id: registry.npmmirror.com/vitest/0.28.5
+  registry.npmmirror.com/vitest/0.29.1_jsdom@21.1.0+sass@1.58.3:
+    resolution: {integrity: sha512-iSy6d9VwsIn7pz5I8SjVwdTLDRGKNZCRJVzROwjt0O0cffoymKwazIZ2epyMpRGpeL5tsXAl1cjXiT7agTyVug==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/vitest/-/vitest-0.29.1.tgz}
+    id: registry.npmmirror.com/vitest/0.29.1
     name: vitest
-    version: 0.28.5
+    version: 0.29.1
     engines: {node: '>=v14.16.0'}
     hasBin: true
     peerDependencies:
@@ -4179,10 +4162,10 @@ packages:
       '@types/chai': registry.npmmirror.com/@types/chai/4.3.4
       '@types/chai-subset': registry.npmmirror.com/@types/chai-subset/1.3.3
       '@types/node': registry.npmmirror.com/@types/node/18.7.18
-      '@vitest/expect': registry.npmmirror.com/@vitest/expect/0.28.5
-      '@vitest/runner': registry.npmmirror.com/@vitest/runner/0.28.5
-      '@vitest/spy': registry.npmmirror.com/@vitest/spy/0.28.5
-      '@vitest/utils': registry.npmmirror.com/@vitest/utils/0.28.5
+      '@vitest/expect': registry.npmmirror.com/@vitest/expect/0.29.1
+      '@vitest/runner': registry.npmmirror.com/@vitest/runner/0.29.1
+      '@vitest/spy': registry.npmmirror.com/@vitest/spy/0.29.1
+      '@vitest/utils': registry.npmmirror.com/@vitest/utils/0.29.1
       acorn: registry.npmmirror.com/acorn/8.8.2
       acorn-walk: registry.npmmirror.com/acorn-walk/8.2.0
       cac: registry.npmmirror.com/cac/6.7.14
@@ -4199,7 +4182,7 @@ packages:
       tinypool: registry.npmmirror.com/tinypool/0.3.1
       tinyspy: registry.npmmirror.com/tinyspy/1.0.2
       vite: registry.npmmirror.com/vite/4.1.4_jwgphxole5tuhzacciupzfrlie
-      vite-node: registry.npmmirror.com/vite-node/0.28.5_jwgphxole5tuhzacciupzfrlie
+      vite-node: registry.npmmirror.com/vite-node/0.29.1_jwgphxole5tuhzacciupzfrlie
       why-is-node-running: registry.npmmirror.com/why-is-node-running/2.2.2
     transitivePeerDependencies:
       - less

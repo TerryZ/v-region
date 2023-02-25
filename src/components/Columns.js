@@ -1,15 +1,12 @@
 import '../styles/column.sass'
 
-import { h } from 'vue'
+import { h, ref } from 'vue'
 import RegionColumn from './Column'
 
 import { PROVINCE_KEY, CITY_KEY, AREA_KEY, TOWN_KEY } from '../constants'
 import { useState } from '../utils/helper'
 import { commonProps, useData } from '../utils/data'
 
-/**
- * 级联数据列核心模块
- */
 export default {
   name: 'RegionColumnsCore',
   props: {
@@ -47,24 +44,24 @@ export default {
           provinces, haveCity, data.province, val => { setLevel(PROVINCE_KEY, val) }
         )
       )
-      if (haveCity && cities.value.length) { // city
+      if (haveCity.value && cities.value.length) { // city
         columns.push(
           generateColumn(
             cities, haveArea, data.city, val => { setLevel(CITY_KEY, val) }
           )
         )
       }
-      if (haveArea && areas.value.length) { // area
+      if (haveArea.value && areas.value.length) { // area
         columns.push(
           generateColumn(
             areas, haveTown, data.area, val => { setLevel(AREA_KEY, val) }
           )
         )
       }
-      if (haveTown && towns.value.length) { // town
+      if (haveTown.value && towns.value.length) { // town
         columns.push(
           generateColumn(
-            towns, false, data.town, val => { setLevel(TOWN_KEY, val) }
+            towns, ref(false), data.town, val => { setLevel(TOWN_KEY, val) }
           )
         )
       }

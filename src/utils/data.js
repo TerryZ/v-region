@@ -45,9 +45,9 @@ export function useData (props, emit) {
   const areas = computed(() => getAreas(data.city))
   const towns = ref([])
   const isComplete = computed(() => {
-    if (!haveCity && data.province) return true
-    if (!haveArea && data.city) return true
-    if (!haveTown && data.area) return true
+    if (!haveCity.value && data.province) return true
+    if (!haveArea.value && data.city) return true
+    if (!haveTown.value && data.area) return true
     return Boolean(data.town)
   })
   const regionText = computed(() => {

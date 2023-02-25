@@ -1,3 +1,7 @@
+<div align="center">
+  <img src="./examples/assets/v-region.png" width="730" height="637" />
+</div>
+
 # [v-region](https://terryz.github.io/vue/#/region)
 
 [![CircleCI](https://circleci.com/gh/TerryZ/v-region/tree/master.svg?style=svg)](https://circleci.com/gh/TerryZ/v-region/tree/master)
@@ -11,12 +15,11 @@ A simple region cascade selector for vue, provide 4 levels Chinese administrativ
 
 行政区划数据源更新日期：`2022年05月18日`
 
-## 实例和文档（Examples and Documentation）
+## 文档与实例（Documentation and Examples）
 
-在 [CodePen](https://codepen.io/terry05/pen/ERNvzJ) 上快速预览插件功能，更多的实例与文档请浏览（Explorer on）
+更多的实例与文档请浏览（Explorer on）
 
-- [English site](https://terryz.github.io/vue/#/region)
-- [国内站点](https://terryz.gitee.io/vue/#/region)
+- [Github pages](https://terryz.github.io/vue3/region/)
 
 ## 功能特性（Features）
 
@@ -34,99 +37,61 @@ A simple region cascade selector for vue, provide 4 levels Chinese administrativ
 [![https://nodei.co/npm/v-region.png?downloads=true&downloadRank=true&stars=true](https://nodei.co/npm/v-region.png?downloads=true&downloadRank=true&stars=true)](https://www.npmjs.com/package/v-region)
 
 ```sh
-npm i -S v-region
+npm i v-region
 ```
 
-在工程里全局安装使用各个功能模块 `要求 vuejs 版本 2.6.0+`
+在项目里全局安装所有功能模块
 
 ```js
-import Vue from 'vue'
+import { createApp } from 'vue'
+import App from './app.vue'
 import Region from 'v-region'
 // 全局安装
-// v-region-group
-// v-region-selects
-// v-region-columns
-// v-region-city-picker
-// v-region-text
+// RegionGroup
+// RegionSelects
+// RegionColumns
+// RegionCityPicker
+// RegionText
 // 模块
-Vue.use(Region)
+const app = createApp(App)
+app.use(Region)
+app.mount('#app')
 ```
 
 自定义全局安装模块
 
 ```js
-import Vue from 'vue'
 import { RegionSelects } from 'v-region'
-Vue.component('v-region-selects', RegionSelects)
+
+const app = createApp(App)
+app.component('v-region-selects', RegionSelects)
 ```
 
 ## 在页面中使用（Usage）
 
-直接使用全局注册的模块
-
 ```vue
 <template>
-  <v-region-selects
+  <RegionSelects
     v-model="region"
-    @change="regionChange"
+    @change="change"
   />
 </template>
 
-<script>
-export default {
-  data () {
-    return {
-      region: undefined
-    }
-  },
-  methods: {
-    regionChange (data) {
-      console.log(data)
-    }
-  }
-}
-</script>
-```
-
-使用本地引用的模块
-
-```vue
-<template>
-  <region-selects
-    v-model="region"
-    @change="regionChange"
-  />
-</template>
-
-<script>
+<script setup>
+import { ref } from 'vue'
 import { RegionSelects } from 'v-region'
 
-export default {
-  components: {
-    RegionSelects
-  },
-  ...
+const region = {
+  'province': '350000',
+  'city': '350100',
+  'area': '350104',
+  'town': '350104008'
+}
+function change (data) {
+  console.log(data)
 }
 </script>
 ```
-
-## 插件预览（Plugin preview）
-
-- *表单元素模式（form element mode）*
-
-![base](https://terryz.github.io/image/v-region/v-region-base.png)
-
-- *下拉选择器模式（dropdown selector mode）*
-
-![ui](https://terryz.github.io/image/v-region/v-region-ui.png)
-
-- *多列竖排选择器模式 (selector with column group)*
-
-![column](https://terryz.github.io/image/v-region/v-region-column.png)
-
-- *城市选择器模式 (city picker selector mode)*
-
-![city-picker](https://terryz.github.io/image/v-region/v-region-city-picker.png)
 
 ## License
 

@@ -6,13 +6,13 @@ export default {
   props: {
     modelValue: { type: Object, default: undefined },
     selected: { type: Boolean, default: false },
-    haveChild: { type: Boolean, default: true }
+    haveChild: { type: Object, default: undefined }
   },
   setup (props) {
     return () => {
       const contents = [h('span', props.modelValue.value)]
 
-      if (props.haveChild) {
+      if (props.haveChild.value) {
         contents.push(h(IconChevronRight))
       }
 

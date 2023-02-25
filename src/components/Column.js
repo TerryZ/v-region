@@ -5,7 +5,7 @@ export default {
   name: 'RegionColumn',
   props: {
     list: { type: Object, required: true },
-    haveChild: { type: Boolean, default: true },
+    haveChild: { type: Object, default: undefined },
     /** 当前选择的项目 */
     modelValue: { type: Object, default: undefined }
   },

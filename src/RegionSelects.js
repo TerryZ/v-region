@@ -20,8 +20,8 @@ export default defineComponent({
       data, provinces, cities, areas, towns,
       setLevel, reset
     } = useData(props, emit)
-    const lang = useLanguage(props.language)
     const { haveCity, haveArea, haveTown } = useState(props)
+    const lang = useLanguage(props.language)
 
     provide('disabled', toRef(props, 'disabled'))
     provide('blank', props.blank)
@@ -44,17 +44,17 @@ export default defineComponent({
         generateLevel(provinces, data.province, val => { setLevel(PROVINCE_KEY, val) })
       )
 
-      if (haveCity) {
+      if (haveCity.value) {
         selects.push(
           generateLevel(cities, data.city, val => { setLevel(CITY_KEY, val) })
         )
       }
-      if (haveArea) {
+      if (haveArea.value) {
         selects.push(
           generateLevel(areas, data.area, val => { setLevel(AREA_KEY, val) })
         )
       }
-      if (haveTown) {
+      if (haveTown.value) {
         selects.push(
           generateLevel(towns, data.town, val => { setLevel(TOWN_KEY, val) })
         )

@@ -9,8 +9,13 @@ export default defineComponent({
     modelValue: { type: Object, default: undefined }
   },
   emits: ['update:modelValue'],
-  setup (props, { emit }) {
-    const { visible, closeDropdown, generateDropdown } = useDropdown(props)
+  setup (props, { emit, expose }) {
+    const {
+      visible,
+      dropdown,
+      closeDropdown,
+      generateDropdown
+    } = useDropdown(props)
 
     const disabled = inject('disabled')
     const blank = inject('blank')
@@ -28,6 +33,8 @@ export default defineComponent({
       emit('update:modelValue', val)
       closeDropdown()
     }
+
+    expose({ dropdown })
 
     return () => {
       // dropdown trigger object

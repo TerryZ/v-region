@@ -46,10 +46,56 @@
       <h5 class="mt-3">
         省、市、区/县、乡/镇/街道
       </h5>
+      <div class="my-3">
+        <div class="form-check form-check-inline">
+          <input
+            class="form-check-input"
+            type="checkbox"
+            id="inlineCheckboxCity"
+            v-model="enabledCity"
+            :true-value="true"
+            :false-value="false"
+          >
+          <label
+            class="form-check-label"
+            for="inlineCheckboxCity"
+          >City</label>
+        </div>
+        <div class="form-check form-check-inline">
+          <input
+            class="form-check-input"
+            type="checkbox"
+            id="inlineCheckboxArea"
+            v-model="enabledArea"
+            :true-value="true"
+            :false-value="false"
+          >
+          <label
+            class="form-check-label"
+            for="inlineCheckboxArea"
+          >Area</label>
+        </div>
+        <div class="form-check form-check-inline">
+          <input
+            class="form-check-input"
+            type="checkbox"
+            id="inlineCheckboxTown"
+            v-model="enabledTown"
+            :true-value="true"
+            :false-value="false"
+          >
+          <label
+            class="form-check-label"
+            for="inlineCheckboxTown"
+          >Town</label>
+        </div>
+      </div>
       <region-selects
         ref="regionSelected"
         language="en"
-        :town="true"
+        :city="enabledCity"
+        :area="enabledArea"
+        :town="enabledTown"
         v-model="modelSelect"
         @change="change"
       />
@@ -122,6 +168,9 @@ const modelSelect = ref(undefined)
 const valuesSelect = ref(undefined)
 const disabled = ref(false)
 const regionSelected = ref(null)
+const enabledCity = ref(true)
+const enabledArea = ref(true)
+const enabledTown = ref(true)
 
 function change (data) {
   valuesSelect.value = data

@@ -26,9 +26,58 @@
           v-text="JSON.stringify(valuesColumn, null, 2)"
         />
       </div>
+
+      <h4>核心模块</h4>
+      <div class="my-3">
+        <div class="form-check form-check-inline">
+          <input
+            class="form-check-input"
+            type="checkbox"
+            id="inlineCheckboxCity"
+            v-model="enabledCity"
+            :true-value="true"
+            :false-value="false"
+          >
+          <label
+            class="form-check-label"
+            for="inlineCheckboxCity"
+          >City</label>
+        </div>
+        <div class="form-check form-check-inline">
+          <input
+            class="form-check-input"
+            type="checkbox"
+            id="inlineCheckboxArea"
+            v-model="enabledArea"
+            :true-value="true"
+            :false-value="false"
+          >
+          <label
+            class="form-check-label"
+            for="inlineCheckboxArea"
+          >Area</label>
+        </div>
+        <div class="form-check form-check-inline">
+          <input
+            class="form-check-input"
+            type="checkbox"
+            id="inlineCheckboxTown"
+            v-model="enabledTown"
+            :true-value="true"
+            :false-value="false"
+          >
+          <label
+            class="form-check-label"
+            for="inlineCheckboxTown"
+          >Town</label>
+        </div>
+      </div>
+
       <div class="d-flex mb-3">
         <RegionColumnsCore
-          :town="true"
+          :city="enabledCity"
+          :area="enabledArea"
+          :town="enabledTown"
           class="border rounded-3"
           language="en"
           v-model="modelCore"
@@ -68,6 +117,9 @@ const modelColumn = ref({
   town: '350104008'
 })
 const valuesColumn = ref(null)
+const enabledCity = ref(true)
+const enabledArea = ref(true)
+const enabledTown = ref(true)
 
 function cbColumn (data) {
   // if (!this.valuesColumn) {

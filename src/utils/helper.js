@@ -1,3 +1,4 @@
+import { computed } from 'vue'
 import { regionFull, regionCities, regionAreas } from '../formatted'
 import { LEVEL_KEYS, PROVINCE_KEY } from '../constants'
 import languages, { CN } from '../language'
@@ -205,8 +206,8 @@ export function useLanguage (lang) {
 
 export function useState (props) {
   return {
-    haveCity: props.city,
-    haveArea: props.city && props.area,
-    haveTown: props.city && props.area && props.town
+    haveCity: computed(() => props.city),
+    haveArea: computed(() => props.city && props.area),
+    haveTown: computed(() => props.city && props.area && props.town)
   }
 }
