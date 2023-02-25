@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="./examples/assets/v-region.png" width="730" height="637" />
+  <img src="./examples/assets/v-region.png" width="400" />
 </div>
 
 # [v-region](https://terryz.github.io/vue/#/region)
