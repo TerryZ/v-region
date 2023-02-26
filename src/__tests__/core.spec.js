@@ -10,32 +10,9 @@ import {
   useLanguage
 } from '../utils/helper'
 import { modelToRegion, regionToModel, regionToText } from '../utils/parse'
+import { data, model } from './data'
 
 describe('v-region 核心工具模块', () => {
-  const data = {
-    province: {
-      key: '350000',
-      value: '福建省'
-    },
-    city: {
-      key: '350100',
-      value: '福州市'
-    },
-    area: {
-      key: '350103',
-      value: '台江区'
-    },
-    town: {
-      key: '350103001',
-      value: '瀛洲街道'
-    }
-  }
-  const model = {
-    province: '350000',
-    city: '350100',
-    area: '350103',
-    town: '350103001'
-  }
   describe('行政级别开关状态模块(state)', () => {
     const wrapper = mount(Component, {
       props: {

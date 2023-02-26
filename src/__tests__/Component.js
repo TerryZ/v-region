@@ -1,13 +1,28 @@
 import { h } from 'vue'
 import { useState, availableLevels } from '../utils/helper'
+import { useData, commonProps } from '../utils/data'
 
 export default {
   props: {
-    city: Boolean,
-    area: Boolean,
-    town: Boolean
+    ...commonProps
   },
-  setup (props, { expose }) {
+  emits: ['update:modelValue', 'change'],
+  setup (props, { emit, expose }) {
+    const {
+      data,
+      provinces,
+      cities,
+      areas,
+      towns,
+      reset,
+      setData,
+      setLevel,
+      getData,
+      isComplete,
+      regionText,
+      getLevelList
+    } = useData(props, emit)
+
     const { haveCity, haveArea, haveTown } = useState(props)
 
     function getAvailableLevels () {
@@ -18,7 +33,20 @@ export default {
       haveCity,
       haveArea,
       haveTown,
-      getAvailableLevels
+      getAvailableLevels,
+
+      data,
+      provinces,
+      cities,
+      areas,
+      towns,
+      reset,
+      setData,
+      setLevel,
+      getData,
+      isComplete,
+      regionText,
+      getLevelList
     })
 
     return () => h('div')

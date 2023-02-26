@@ -1,4 +1,4 @@
-import { h, ref, defineComponent } from 'vue'
+import { h, ref, onBeforeMount, defineComponent } from 'vue'
 import { validModel } from './utils/helper'
 import { modelToRegion, regionToText } from './utils/parse'
 
@@ -13,7 +13,12 @@ export default defineComponent({
 
     const text = ref('')
 
-    modelToRegion(props.modelValue).then(resp => {
+    // modelToRegion(props.modelValue).then(resp => {
+    //   text.value = regionToText(resp).join(props.separator)
+    // })
+
+    onBeforeMount(async () => {
+      const resp = await modelToRegion(props.modelValue)
       text.value = regionToText(resp).join(props.separator)
     })
 
