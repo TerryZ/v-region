@@ -1,5 +1,5 @@
 import { describe, test, expect, vi } from 'vitest'
-import { mount, flushPromises } from '@vue/test-utils'
+import { mount } from '@vue/test-utils'
 import { nextTick } from 'vue'
 
 import { RegionText } from '@/'
@@ -17,20 +17,9 @@ describe('v-region Text 纯文本模式', () => {
         }
       }
     })
-    vi.useFakeTimers()
+    await vi.dynamicImportSettled()
 
-    await nextTick()
-    await flushPromises()
-    await flushPromises()
-    await flushPromises()
-    await flushPromises()
-    await vi.advanceTimersByTimeAsync(3000)
-
-    // window.setTimeout(() => {
-    // 北京市北京市东城区东华门街道
     expect(wrapper.text()).to.equal('北京市北京市东城区东华门街道')
-    // }, 1000)
-    vi.useRealTimers()
   })
   test('"separator" prop 设置为 "-"，输出的内容应为："北京市-北京市-东城区-东华门街道"', async () => {
     const wrapper = mount(RegionText, {
@@ -44,8 +33,7 @@ describe('v-region Text 纯文本模式', () => {
         separator: '-'
       }
     })
-    window.setTimeout(() => {
-      expect(wrapper.text()).to.equal('北京市-北京市-东城区-东华门街道')
-    })
+    await vi.dynamicImportSettled()
+    expect(wrapper.text()).to.equal('北京市-北京市-东城区-东华门街道')
   })
 })
