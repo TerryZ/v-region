@@ -1,6 +1,6 @@
 import '../styles/group.sass'
 
-import { ref, h, nextTick, onBeforeMount } from 'vue'
+import { ref, h, nextTick, onBeforeMount, defineComponent } from 'vue'
 
 import IconTrash from '../icons/IconTrash.vue'
 
@@ -9,7 +9,7 @@ import { useLanguage, availableLevels } from '../utils/helper'
 
 import { LEVELS, PROVINCE_KEY } from '../constants'
 
-export default {
+export default defineComponent({
   name: 'RegionGroupCore',
   props: {
     ...commonProps
@@ -122,4 +122,4 @@ export default {
       generateContent()
     ])
   }
-}
+})

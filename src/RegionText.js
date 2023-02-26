@@ -1,8 +1,8 @@
-import { h, ref } from 'vue'
+import { h, ref, defineComponent } from 'vue'
 import { validModel } from './utils/helper'
-import { modelToRegion, parseRegionToText } from './utils/parse'
+import { modelToRegion, regionToText } from './utils/parse'
 
-export default {
+export default defineComponent({
   name: 'RegionText',
   props: {
     modelValue: { type: Object, default: undefined },
@@ -14,9 +14,9 @@ export default {
     const text = ref('')
 
     modelToRegion(props.modelValue).then(resp => {
-      text.value = parseRegionToText(resp).join(props.separator)
+      text.value = regionToText(resp).join(props.separator)
     })
 
     return () => h('span', text.value)
   }
-}
+})

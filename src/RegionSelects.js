@@ -26,8 +26,9 @@ export default defineComponent({
     provide('disabled', toRef(props, 'disabled'))
     provide('blank', props.blank)
 
-    function generateLevel (list, model, callback) {
+    function generateLevel (list, model, callback, refObject) {
       return h(RegionSelect, {
+        ref: refObject,
         list,
         blankText: lang.pleaseSelect,
         modelValue: model,

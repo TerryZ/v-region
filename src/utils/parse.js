@@ -92,7 +92,7 @@ export function regionToModel (region) {
  *
  * @returns {object} 区域原始数据模型
  */
-export function parseRegionToText (region, levels = LEVEL_KEYS) {
+export function regionToText (region, levels = LEVEL_KEYS) {
   return levels
     .map(val => region[val] && region[val].value)
     .filter(val => val)

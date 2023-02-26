@@ -3,22 +3,6 @@ import { regionFull, regionCities, regionAreas } from '../formatted'
 import { LEVEL_KEYS, PROVINCE_KEY } from '../constants'
 import languages, { CN } from '../language'
 
-// xx0000 为省级编码格式
-export function isProvince (key) {
-  return !(window.Number(key) % 1e4)
-}
-// xxxx00 为市级编码格式
-export function isCity (key) {
-  if (!(window.Number(key) % 100)) {
-    return true
-  }
-  // 后四位数处理
-  if (window.Number(key.substring(2)) > 9000) {
-    return true
-  }
-  return false
-}
-
 /**
  * 根据省读取城市列表
  *

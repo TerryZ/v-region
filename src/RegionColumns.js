@@ -1,10 +1,10 @@
-import { ref, h, useAttrs, mergeProps } from 'vue'
+import { ref, h, useAttrs, mergeProps, defineComponent } from 'vue'
 import RegionColumnsCore from './components/Columns'
 
 import { CN } from './language'
 import { useDropdown } from './utils/selector'
 
-export default {
+export default defineComponent({
   name: 'RegionColumns',
   inheritAttrs: false,
   props: {
@@ -50,4 +50,4 @@ export default {
       return generateDropdown(dropdownOption, trigger, contents)
     }
   }
-}
+})

@@ -1,13 +1,13 @@
 import '../styles/column.sass'
 
-import { h, ref } from 'vue'
+import { h, ref, defineComponent } from 'vue'
 import RegionColumn from './Column'
 
 import { PROVINCE_KEY, CITY_KEY, AREA_KEY, TOWN_KEY } from '../constants'
 import { useState } from '../utils/helper'
 import { commonProps, useData } from '../utils/data'
 
-export default {
+export default defineComponent({
   name: 'RegionColumnsCore',
   props: {
     ...commonProps
@@ -69,4 +69,4 @@ export default {
       return h('div', { class: 'rg-column-container' }, columns)
     }
   }
-}
+})
