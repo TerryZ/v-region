@@ -56,7 +56,7 @@
     "@vue/test-utils": "^2.3.0",
     "bootstrap": "^5.2.3",
     "c8": "^7.13.0",
-    "eslint": "^8.34.0",
+    "eslint": "^8.35.0",
     "eslint-plugin-vue": "^9.9.0",
     "jsdom": "^21.1.0",
     "sass": "^1.58.3",

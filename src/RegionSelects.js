@@ -5,7 +5,7 @@ import RegionSelect from './components/Select'
 
 import { PROVINCE_KEY, CITY_KEY, AREA_KEY, TOWN_KEY } from './constants'
 import { useLanguage, useState } from './utils/helper'
-import { commonProps, useData } from './utils/data'
+import { commonProps, commonEmits, useData } from './utils/data'
 
 export default defineComponent({
   name: 'RegionSelects',
@@ -14,7 +14,7 @@ export default defineComponent({
     blank: { type: Boolean, default: true },
     disabled: { type: Boolean, default: false }
   },
-  emits: ['update:modelValue', 'change'],
+  emits: commonEmits,
   setup (props, { emit, expose }) {
     const {
       data, provinces, cities, areas, towns,

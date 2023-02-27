@@ -16,6 +16,8 @@ export const commonProps = {
   modelValue: { type: Object, default: undefined }
 }
 
+export const commonEmits = ['update:modelValue', 'change']
+
 /**
  * 响应 `v-model` 与 `change` 事件
  *
@@ -24,13 +26,13 @@ export const commonProps = {
  */
 function useEvent (emit) {
   return {
-    updateModelValue: data => emit('update:modelValue', regionToModel(data)),
-    change: data => emit('change', data)
+    emitUpdateModelValue: data => emit('update:modelValue', regionToModel(data)),
+    emitChange: data => emit('change', data)
   }
 }
 
 export function useData (props, emit) {
-  const { updateModelValue, change } = useEvent(emit)
+  const { emitUpdateModelValue, emitChange } = useEvent(emit)
   const { haveCity, haveArea, haveTown } = useState(props)
 
   const data = reactive({
@@ -75,16 +77,16 @@ export function useData (props, emit) {
   }
   function reset () {
     clearData()
-    updateModelValue(getData())
-    change(getData())
+    emitUpdateModelValue(getData())
+    emitChange(getData())
   }
   function setLevel (level, val) {
     data[level] = val
 
     clearData(level)
 
-    updateModelValue(getData())
-    change(getData())
+    emitUpdateModelValue(getData())
+    emitChange(getData())
   }
   function getLevelList (level) {
     switch (level) {
@@ -100,7 +102,7 @@ export function useData (props, emit) {
     }
     modelToRegion(props.modelValue, availableLevels(props)).then(resp => {
       setData(resp)
-      change(getData())
+      emitChange(getData())
     })
   }
 

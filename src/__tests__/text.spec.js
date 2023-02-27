@@ -1,6 +1,5 @@
 import { describe, test, expect, vi } from 'vitest'
 import { mount } from '@vue/test-utils'
-import { nextTick } from 'vue'
 
 import { RegionText } from '@/'
 

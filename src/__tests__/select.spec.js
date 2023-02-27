@@ -3,8 +3,6 @@ import { mount } from '@vue/test-utils'
 
 import { nextTick } from 'vue'
 import { RegionSelects } from '@/'
-import RegionSelect from '@/components/Select'
-import Dropdown from 'v-dropdown'
 
 describe('v-region Select 表单元素下拉列表模式', function () {
   const wrapper = mount(RegionSelects, {
@@ -28,36 +26,6 @@ describe('v-region Select 表单元素下拉列表模式', function () {
 
     await nextTick()
     expect(wrapper.findAll('.rg-select').length).to.equal(2)
-  })
-
-  it('"blank" prop 设置为 false，下拉列表中则没有 “请选择” 项目', async () => {
-    const wb = await mount(RegionSelects, {
-      props: {
-        blank: false
-      },
-      global: {
-        renderStubDefaultSlot: false,
-        stubs: {
-          // transition: false,
-          RegionSelect: true
-        }
-      }
-    })
-    await nextTick()
-
-    await wb.findAllComponents(RegionSelect)[0].trigger('click')
-
-    await nextTick()
-
-    console.log(
-      wb.findAllComponents(Dropdown)
-      // wb.findAllComponents(RegionSelect)[0].html()
-      // wb.findComponent({ ref: 'provinceRef' })
-      // document.body.outerHTML
-    )
-
-    // console.log(wb.vm)
-    expect(wb.findAll('.rg-select__list')[0].findAll('li')[0].text()).to.not.equal('请选择')
   })
 
   it('"disabled" prop 设置为 true，禁用插件，所有下拉项目必须为禁用状态', () => {

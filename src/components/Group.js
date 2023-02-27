@@ -4,7 +4,7 @@ import { ref, h, nextTick, onBeforeMount, defineComponent } from 'vue'
 
 import IconTrash from '../icons/IconTrash.vue'
 
-import { commonProps, useData } from '../utils/data'
+import { commonProps, commonEmits, useData } from '../utils/data'
 import { useLanguage, availableLevels } from '../utils/helper'
 
 import { LEVELS, PROVINCE_KEY } from '../constants'
@@ -14,7 +14,7 @@ export default defineComponent({
   props: {
     ...commonProps
   },
-  emits: ['adjust', 'change', 'update:modelValue', 'complete'],
+  emits: [...commonEmits, 'adjust', 'complete'],
   setup (props, { emit, expose }) {
     const { data, setLevel, regionText, reset, getLevelList } = useData(props, emit)
     const lang = useLanguage(props.language)

@@ -1,12 +1,12 @@
 import { h } from 'vue'
 import { useState, availableLevels } from '../utils/helper'
-import { useData, commonProps } from '../utils/data'
+import { useData, commonProps, commonEmits } from '../utils/data'
 
 export default {
   props: {
     ...commonProps
   },
-  emits: ['update:modelValue', 'change'],
+  emits: commonEmits,
   setup (props, { emit, expose }) {
     const {
       data,

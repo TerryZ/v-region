@@ -5,14 +5,14 @@ import RegionColumn from './Column'
 
 import { PROVINCE_KEY, CITY_KEY, AREA_KEY, TOWN_KEY } from '../constants'
 import { useState } from '../utils/helper'
-import { commonProps, useData } from '../utils/data'
+import { commonProps, commonEmits, useData } from '../utils/data'
 
 export default defineComponent({
   name: 'RegionColumnsCore',
   props: {
     ...commonProps
   },
-  emits: ['update:modelValue', 'change', 'adjust', 'complete'],
+  emits: [...commonEmits, 'adjust', 'complete'],
   setup (props, { emit, expose }) {
     const {
       data, provinces, cities, areas, towns,
