@@ -42,7 +42,8 @@ export default defineComponent({
 
       const next = getNextLevel()
       if (!next) {
-        return emit('complete')
+        emit('complete')
+        return
       }
       level.value = next
       nextTick(() => { emit('adjust') })

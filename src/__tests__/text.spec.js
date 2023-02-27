@@ -3,7 +3,6 @@ import { mount } from '@vue/test-utils'
 
 import { RegionText } from '@/'
 
-// 测试虚拟地级北京市（市级为虚拟级别，数据直接使用父级）
 describe('v-region Text 纯文本模式', () => {
   test('使用数据初始化插件后，输出的内容应为："北京市北京市东城区东华门街道"', async () => {
     const wrapper = mount(RegionText, {
@@ -17,7 +16,6 @@ describe('v-region Text 纯文本模式', () => {
       }
     })
     await vi.dynamicImportSettled()
-
     expect(wrapper.text()).to.equal('北京市北京市东城区东华门街道')
   })
   test('"separator" prop 设置为 "-"，输出的内容应为："北京市-北京市-东城区-东华门街道"', async () => {
