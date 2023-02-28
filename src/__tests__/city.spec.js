@@ -23,8 +23,6 @@ describe('v-region CityPicker 城市选择器模式', function () {
 
   it('点击 X 图标，所有选中城市应被清空', async () => {
     await wrapper.find('.rg-clear-btn').trigger('click')
-    console.log(wrapper.emitted())
-    console.log(wrapper.html())
     expect(wrapper.find('.rg-default-btn').text()).toBe('请选择')
   })
 

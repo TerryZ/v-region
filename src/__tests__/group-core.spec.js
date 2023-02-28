@@ -35,7 +35,7 @@ describe('v-region RegionGroupCore 多级别分组横心模块', function () {
     await vi.dynamicImportSettled()
     expect(wrapper.findAll('.rg-level-tabs li')[3].classes('active')).toBe(true)
   })
-  it('选择 `劝业场街道`，选择器应自动被关闭/收起', async () => {
+  it('选择 `劝业场街道`，选择后，应响应 complete 事件，代表所有级别均选择完成', async () => {
     await wrapper.findAll('.rg-results li')[0].trigger('mouseup')
     expect(wrapper.emitted()).toHaveProperty('complete')
   })

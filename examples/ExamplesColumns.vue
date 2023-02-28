@@ -78,6 +78,7 @@
           :city="enabledCity"
           :area="enabledArea"
           :town="enabledTown"
+          ref="columnCore"
           class="border rounded-3"
           language="en"
           v-model="modelCore"
@@ -85,7 +86,24 @@
         />
       </div>
 
-      <h4 class="">
+      <div>
+        <button
+          type="button"
+          class="btn btn-secondary me-3"
+          @click="setRegion"
+        >
+          Set Region
+        </button>
+        <button
+          type="button"
+          class="btn btn-secondary"
+          @click="reset"
+        >
+          Reset
+        </button>
+      </div>
+
+      <h4 class="mt-3">
         下拉选择器多列竖排模式（自定义呼出按钮）
       </h4>
       <div>
@@ -120,6 +138,7 @@ const valuesColumn = ref(null)
 const enabledCity = ref(true)
 const enabledArea = ref(true)
 const enabledTown = ref(true)
+const columnCore = ref()
 
 function cbColumn (data) {
   // if (!this.valuesColumn) {
@@ -142,5 +161,16 @@ function resultText (region) {
     .filter(val => val)
     .map(val => val.value)
     .join(',')
+}
+function reset () {
+  columnCore.value.reset()
+}
+function setRegion () {
+  modelCore.value = {
+    province: '410000',
+    city: '419001',
+    area: '419001',
+    town: '419001001'
+  }
 }
 </script>
