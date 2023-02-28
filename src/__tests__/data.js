@@ -22,3 +22,10 @@ export const model = {
   area: '350103',
   town: '350103001'
 }
+export const regionText = '福建省福州市台江区瀛洲街道'
+export const emptyDataModel = {
+  province: undefined,
+  city: undefined,
+  area: undefined,
+  town: undefined
+}

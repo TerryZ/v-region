@@ -8,13 +8,23 @@
       <div class="mb-3">
         <RegionColumns
           :city="true"
-          :area="false"
+          :area="true"
           :town="true"
           language="en"
           v-model="modelColumn"
+          ref="columnSelector"
           @change="cbColumn"
           @complete="columnGroupCoreDone"
         />
+      </div>
+      <div class="mb-3">
+        <button
+          type="button"
+          class="btn btn-secondary"
+          @click="setSelectorRegion"
+        >
+          Set region
+        </button>
       </div>
       <div class="bg-light p-3 mb-3 rounded-3">
         <pre
@@ -127,6 +137,13 @@
 import { ref } from 'vue'
 import { RegionColumnsCore, RegionColumns } from '@/'
 
+const model = {
+  province: '410000',
+  city: '419001',
+  area: '419001',
+  town: '419001001'
+}
+
 const modelCore = ref(null)
 const modelColumn = ref({
   province: '350000',
@@ -139,6 +156,7 @@ const enabledCity = ref(true)
 const enabledArea = ref(true)
 const enabledTown = ref(true)
 const columnCore = ref()
+const columnSelector = ref()
 
 function cbColumn (data) {
   // if (!this.valuesColumn) {
@@ -166,11 +184,9 @@ function reset () {
   columnCore.value.reset()
 }
 function setRegion () {
-  modelCore.value = {
-    province: '410000',
-    city: '419001',
-    area: '419001',
-    town: '419001001'
-  }
+  modelCore.value = model
+}
+function setSelectorRegion () {
+  modelColumn.value = model
 }
 </script>

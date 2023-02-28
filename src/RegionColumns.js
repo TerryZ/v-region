@@ -1,4 +1,4 @@
-import { ref, h, useAttrs, mergeProps, defineComponent } from 'vue'
+import { ref, h, mergeProps, defineComponent } from 'vue'
 import RegionColumnsCore from './components/Columns'
 
 import { CN } from './language'
@@ -12,8 +12,7 @@ export default defineComponent({
     disabled: { type: Boolean, default: false }
   },
   emits: ['complete', 'visible-change'],
-  setup (props, { emit, slots }) {
-    const attrs = useAttrs()
+  setup (props, { emit, slots, expose, attrs }) {
     const {
       generateDropdown,
       generateDropdownTriggerButton,
@@ -26,6 +25,8 @@ export default defineComponent({
       columns.value && columns.value.reset()
       closeDropdown()
     }
+
+    expose({ reset: clear })
 
     return () => {
       const trigger = generateDropdownTriggerButton(
