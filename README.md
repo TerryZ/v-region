@@ -32,7 +32,7 @@ A simple region cascade selector for vue, provide 4 levels Chinese administrativ
   - 多列竖排模式 `RegionColumns`
   - 城市选择器模式 `RegionCityPicker`
   - 纯文本模式 `RegionText`
-- 分组 `Group` 与多列 `Columns` 模式可直接使用核心模块 `RegionGroupCore 与 RegionColumnsCore`，便于自由组合更多种多样的使用形式，例如结合抽屉 `Drawer`、气泡 `Popover` 或对话框 `Dialog` 使用
+- 分组 `Group` 与多列 `Columns` 模式可直接使用核心模块 `RegionGroupCore 与 RegionColumnsCore`，结合其他交互形式可自由组合更多种多样的使用形式，例如结合抽屉 `Drawer`、气泡 `Popover` 或对话框 `Dialog` 使用
 - 部分模式允许使用作用域插槽 `Scoped Slots` 的方式自定义触发对象，让组件更方便于整合在业务场景中
 - 除省级以外，其它行政区域级别可通过参数进行切换
 - 支持 “直辖市”、“特别行政区” 、“地级市（直筒子市）” 和 “省辖县/省辖县级市” 等特殊行政区域的数据和内容处理
@@ -86,12 +86,12 @@ app.component('v-region-selects', RegionSelects)
 import { ref } from 'vue'
 import { RegionSelects } from 'v-region'
 
-const region = {
+const region = ref({
   'province': '350000',
   'city': '350100',
   'area': '350104',
   'town': '350104008'
-}
+})
 function change (data) {
   console.log(data)
 }
