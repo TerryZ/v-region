@@ -1,9 +1,10 @@
-import { RegionComponent } from './component'
+import { DefineComponent, ComputedOptions } from 'vue'
+import { CommonProps, CommonMethods } from './component'
 
 /**
  * 级联下拉列表模式
  */
-export declare class RegionSelects extends RegionComponent {
+interface Props extends CommonProps {
   /**
    * 未选择时显示 `请选择` 的提示文本
    * @default true
@@ -15,3 +16,11 @@ export declare class RegionSelects extends RegionComponent {
    */
   disabled?: boolean
 }
+
+export const RegionSelects: DefineComponent<
+  Props,
+  {},
+  {},
+  ComputedOptions,
+  CommonMethods
+>

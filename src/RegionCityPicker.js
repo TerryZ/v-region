@@ -25,7 +25,7 @@ export default defineComponent({
     language: { type: String, default: CN }
   },
   emits: ['update:modelValue', 'change', 'visible-change'],
-  setup (props, { emit }) {
+  setup (props, { emit, expose }) {
     const {
       generateDropdown,
       generateDropdownTriggerButton,
@@ -125,6 +125,8 @@ export default defineComponent({
         adjustDropdown()
       })
     }
+
+    expose({ reset: clear })
 
     return () => {
       const trigger = generateDropdownTriggerButton(

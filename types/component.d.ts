@@ -1,4 +1,4 @@
-import Vue from 'vue'
+import { MethodOptions } from 'vue'
 
 /**
  * 区域元素基本模型
@@ -33,9 +33,9 @@ export declare interface RegionInputModel {
   town: string
 }
 
-export declare class RegionComponent extends Vue {
+export declare interface CommonProps {
   /** 输入区域模型 */
-  value: RegionInputModel
+  modelValue: RegionInputModel
   /**
    * 启用城市级别
    * @default true
@@ -57,7 +57,12 @@ export declare class RegionComponent extends Vue {
    */
   language?: string
   /** v-model 内容修改响应事件 */
-  $emit(eventName:'input', event: RegionInputModel): this
+  'onUpdate:modelValue': (val: RegionInputModel) => void
   /** 内容修改后的响应事件 */
-  $emit(eventName:'change', event: RegionModel): this
+  onChange?: (data: RegionModel) => void
+}
+
+export declare interface CommonMethods extends MethodOptions {
+  /** 重置数据 */
+  reset: () => void
 }

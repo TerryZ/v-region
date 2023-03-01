@@ -17,12 +17,12 @@ export {
 
 const Region = {}
 
-Region.install = (Vue, options = {}) => {
-  Vue.component('VRegionGroup', RegionGroup)
-  Vue.component('VRegionSelects', RegionSelects)
-  Vue.component('VRegionColumns', RegionColumns)
-  Vue.component('VRegionCityPicker', RegionCityPicker)
-  Vue.component('VRegionText', RegionText)
+Region.install = (app, options = {}) => {
+  app.component('VRegionGroup', RegionGroup)
+  app.component('VRegionSelects', RegionSelects)
+  app.component('VRegionColumns', RegionColumns)
+  app.component('VRegionCityPicker', RegionCityPicker)
+  app.component('VRegionText', RegionText)
 }
 
 export {

@@ -1,4 +1,4 @@
-import Vue from 'vue'
+import { App } from 'vue'
 import { RegionItem } from './component'
 import { RegionText } from './text'
 import { RegionCityPicker } from './city'
@@ -6,7 +6,7 @@ import { RegionSelects } from './selects'
 import { RegionColumnsCore, RegionColumns } from './columns'
 import { RegionGroupCore, RegionGroup } from './group'
 
-declare class Region extends Vue {
+declare class Region {
   /**
    * 全局安装
    *
@@ -18,7 +18,7 @@ declare class Region extends Vue {
    *
    * 五个功能模块
    */
-  install (Vue: Vue): void
+  install (app: App): void
 }
 
 /** 完整三级行政区划数据模型列表 */
