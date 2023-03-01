@@ -19,20 +19,23 @@ A simple region cascade selector for vue, provide 4 levels Chinese administrativ
 
 ## 文档与实例（Documentation and Examples）
 
-更多的实例与文档请浏览（Explorer on）
+更多的文档与实例请浏览（Explorer on）
 
 - [Github pages](https://terryz.github.io/vue3/region/)
 
 ## 功能特性（Features）
 
-- 支持 “省/直辖市”、“市”、“区/县”、“乡/镇/街道” 4 级行政区域选择
-- 传统表单多下拉列表（Select）多级联动模式
-- 下拉选择器模式
-- 多列竖排模式选择器模式
-- 下拉选择器模式自带默认呼出按钮，并允许自定义呼出对象（Scoped Slot）
-- 纯文本显示模式（指定初始值后）
-- 除省级以外，其它行政区域级别允许通过参数进行“打开/关闭”
-- 支持 “直辖市”、“特别行政区” 、“地级市（直筒子市）” 和 “省辖县/省辖县级市” 数据和内容处理
+- “省/直辖市”、“市”、“区/县”、“乡/镇/街道” 4 级行政区域选择
+- 丰富的使用形式，提供了
+  - 下拉列表级联模式 `RegionSelects`
+  - 分组模式 `RegionGroup`
+  - 多列竖排模式 `RegionColumns`
+  - 城市选择器模式 `RegionCityPicker`
+  - 纯文本模式 `RegionText`
+- 分组 `Group` 与多列 `Columns` 模式可直接使用核心模块 `RegionGroupCore 与 RegionColumnsCore`，便于自由组合更多种多样的使用形式，例如结合抽屉 `Drawer`、气泡 `Popover` 或对话框 `Dialog` 使用
+- 部分模式允许使用作用域插槽 `Scoped Slots` 的方式自定义触发对象，让组件更方便于整合在业务场景中
+- 除省级以外，其它行政区域级别可通过参数进行切换
+- 支持 “直辖市”、“特别行政区” 、“地级市（直筒子市）” 和 “省辖县/省辖县级市” 等特殊行政区域的数据和内容处理
 
 ## 安装插件（Installation）
 
