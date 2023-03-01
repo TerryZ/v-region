@@ -9,14 +9,14 @@ export declare interface RegionItem {
 }
 
 export declare interface RegionModel {
-    /** 省份模型 */
-    province: RegionItem
-    /** 城市模型 */
-    city: RegionItem
-    /** 区域模型 */
-    area: RegionItem
-    /** 村镇模型 */
-    town: RegionItem
+  /** 省份模型 */
+  province: RegionItem
+  /** 城市模型 */
+  city: RegionItem
+  /** 区域模型 */
+  area: RegionItem
+  /** 村镇模型 */
+  town: RegionItem
 }
 
 /**
