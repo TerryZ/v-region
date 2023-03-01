@@ -22,7 +22,14 @@ export const model = {
   area: '350103',
   town: '350103001'
 }
+export const model1 = {
+  province: '410000',
+  city: '419001',
+  area: '419001',
+  town: '419001001'
+}
 export const regionText = '福建省福州市台江区瀛洲街道'
+export const regionText1 = '河南省济源市济源市济源市沁园街道'
 export const emptyDataModel = {
   province: undefined,
   city: undefined,
