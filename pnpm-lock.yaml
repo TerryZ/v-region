@@ -4,10 +4,10 @@ specifiers:
   '@rushstack/eslint-patch': ^1.2.0
   '@vitejs/plugin-vue': ^4.0.0
   '@vitejs/plugin-vue-jsx': ^3.0.0
+  '@vitest/coverage-c8': ^0.29.2
   '@vue/eslint-config-standard': ^8.0.1
   '@vue/test-utils': ^2.3.0
   bootstrap: ^5.2.3
-  c8: ^7.13.0
   eslint: ^8.35.0
   eslint-plugin-vue: ^9.9.0
   jsdom: ^21.1.0
@@ -30,10 +30,10 @@ devDependencies:
   '@rushstack/eslint-patch': registry.npmmirror.com/@rushstack/eslint-patch/1.2.0
   '@vitejs/plugin-vue': registry.npmmirror.com/@vitejs/plugin-vue/4.0.0_vite@4.1.4+vue@3.2.47
   '@vitejs/plugin-vue-jsx': registry.npmmirror.com/@vitejs/plugin-vue-jsx/3.0.0_vite@4.1.4+vue@3.2.47
+  '@vitest/coverage-c8': registry.npmmirror.com/@vitest/coverage-c8/0.29.2_vitest@0.29.1
   '@vue/eslint-config-standard': registry.npmmirror.com/@vue/eslint-config-standard/8.0.1_erxkb7ufecpo5swcpy2242hbti
   '@vue/test-utils': registry.npmmirror.com/@vue/test-utils/2.3.0_vue@3.2.47
   bootstrap: registry.npmmirror.com/bootstrap/5.2.3
-  c8: registry.npmmirror.com/c8/7.13.0
   eslint: registry.npmmirror.com/eslint/8.35.0
   eslint-plugin-vue: registry.npmmirror.com/eslint-plugin-vue/9.9.0_eslint@8.35.0
   jsdom: registry.npmmirror.com/jsdom/21.1.0
@@ -923,6 +923,20 @@ packages:
     dependencies:
       vite: registry.npmmirror.com/vite/4.1.4_sass@1.58.3
       vue: registry.npmmirror.com/vue/3.2.47
+    dev: true
+
+  registry.npmmirror.com/@vitest/coverage-c8/0.29.2_vitest@0.29.1:
+    resolution: {integrity: sha512-NmD3WirQCeQjjKfHu4iEq18DVOBFbLn9TKVdMpyi5YW2EtnS+K22/WE+9/wRrepOhyeTxuEFgxUVkCAE1GhbnQ==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@vitest/coverage-c8/-/coverage-c8-0.29.2.tgz}
+    id: registry.npmmirror.com/@vitest/coverage-c8/0.29.2
+    name: '@vitest/coverage-c8'
+    version: 0.29.2
+    peerDependencies:
+      vitest: '>=0.29.0 <1'
+    dependencies:
+      c8: registry.npmmirror.com/c8/7.13.0
+      picocolors: registry.npmmirror.com/picocolors/1.0.0
+      std-env: registry.npmmirror.com/std-env/3.3.2
+      vitest: registry.npmmirror.com/vitest/0.29.1_jsdom@21.1.0+sass@1.58.3
     dev: true
 
   registry.npmmirror.com/@vitest/expect/0.29.1:
