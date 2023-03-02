@@ -87,10 +87,10 @@ import { ref } from 'vue'
 import { RegionSelects } from 'v-region'
 
 const region = ref({
-  'province': '350000',
-  'city': '350100',
-  'area': '350104',
-  'town': '350104008'
+  province: '350000',
+  city: '350100',
+  area: '350104',
+  town: '350104008'
 })
 function change (data) {
   console.log(data)
