@@ -169,6 +169,8 @@ export function inputFocus (input) {
   if (isChrome() || isEdge()) {
     input.value.focus({ preventScroll: true })
   } else {
+    if (typeof window === 'undefined') return
+
     const x = window.pageXOffset
     const y = window.pageYOffset
     input.value.focus()

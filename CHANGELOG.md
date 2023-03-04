@@ -2,6 +2,12 @@
 
 Please refer to [CHANGELOG-CN](CHANGELOG-CN.md) for Chinese changelog
 
+## [3.0.0-beta.2](https://github.com/TerryZ/v-page/compare/v3.0.0-beta.1...v3.0.0-beta.2) (2023-03-04)
+
+### Bug Fixes
+
+- Increase the judgment of `window` object to solve the packaging failure in non-browser environment
+
 ## [3.0.0-beta.1](https://github.com/TerryZ/v-page/compare/v2.3.0...v3.0.0-beta.1) (2023-03-02)
 
 ### Features
