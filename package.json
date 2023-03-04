@@ -1,7 +1,7 @@
 {
   "name": "v-region",
   "description": "Provide Chinese administrative division data selection",
-  "version": "3.0.0-beta.2",
+  "version": "3.0.0-beta.3",
   "author": "TerryZ <terry5@foxmail.com>",
   "type": "module",
   "files": [
