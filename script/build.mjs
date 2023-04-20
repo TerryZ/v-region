@@ -18,7 +18,7 @@ const libraries = [
 (async () => {
   for (let i = 0; i < libraries.length; i++) {
     const lib = libraries[i]
-    if (lib.fileName === 'v-region') {
+    if (lib.fileName === 'v-region-no-town') {
       process.env = {...process.env, VITE_NO_TOWN: true}
     }
     await build({
