@@ -54,7 +54,10 @@ export async function getTowns (area) {
 
   try {
     // const { default: data } = await import(townDataPath(area.key))
-    const { default: data } = await import(`../town/${area.key}.json`)
+    let data = {}
+    // #v-ifndef VITE_NO_TOWN
+    data = (await import(`../town/${area.key}.json`)).default
+    // #v-endif
     // console.log(towns)
     if (!data || typeof data !== 'object') {
       return []

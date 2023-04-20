@@ -5,6 +5,7 @@ import { defineConfig } from 'vitest/config'
 import vue from '@vitejs/plugin-vue'
 import vueJsx from '@vitejs/plugin-vue-jsx'
 import cssInJs from 'vite-plugin-css-injected-by-js'
+import ConditionalCompile from "vite-plugin-conditional-compiler"
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -37,6 +38,7 @@ export default defineConfig({
     }
   },
   plugins: [
+    ConditionalCompile(),
     vue(),
     vueJsx(),
     cssInJs()
