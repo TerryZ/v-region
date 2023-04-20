@@ -14,6 +14,10 @@
     ".": {
       "import": "./dist/v-region.js",
       "require": "./dist/v-region.umd.cjs"
+    },
+    "./no-town": {
+      "import": "./dist/v-region-no-town.js",
+      "require": "./dist/v-region-no-town.umd.cjs"
     }
   },
   "typings": "types/index.d.ts",
@@ -63,6 +67,7 @@
     "sass-loader": "^13.2.0",
     "typescript": "^4.9.5",
     "vite": "^4.1.4",
+    "vite-plugin-conditional-compiler": "^0.1.1",
     "vite-plugin-css-injected-by-js": "^3.0.1",
     "vitest": "^0.29.2",
     "vue-router": "^4.1.6",
