@@ -2,19 +2,19 @@
 
 英文 changelog 内容请访问 [CHANGELOG](CHANGELOG.md)
 
-## [3.0.0-beta.3](https://github.com/TerryZ/v-page/compare/v3.0.0-beta.2...v3.0.0-beta.3) (2023-03-04)
+## [3.0.0-beta.3](https://github.com/TerryZ/v-region/compare/v3.0.0-beta.2...v3.0.0-beta.3) (2023-03-04)
 
 ### 问题修复
 
 - 修复 `Group` 模式的 `乡/镇/街道` 级别列表数据加载有概率错误
 
-## [3.0.0-beta.2](https://github.com/TerryZ/v-page/compare/v3.0.0-beta.1...v3.0.0-beta.2) (2023-03-04)
+## [3.0.0-beta.2](https://github.com/TerryZ/v-region/compare/v3.0.0-beta.1...v3.0.0-beta.2) (2023-03-04)
 
 ### 问题修复
 
 - 增加对 `window` 对象的判断，解决在非浏览器环境中打包失败
 
-## [3.0.0-beta.1](https://github.com/TerryZ/v-page/compare/v2.3.0...v3.0.0-beta.1) (2023-03-02)
+## [3.0.0-beta.1](https://github.com/TerryZ/v-region/compare/v2.3.0...v3.0.0-beta.1) (2023-03-02)
 
 ### 新特性
 
