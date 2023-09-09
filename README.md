@@ -21,7 +21,7 @@ A simple region cascade selector for vue, provide 4 levels Chinese administrativ
 
 更多的文档与实例请浏览（Explorer on）
 
-- [Github pages](https://terryz.github.io/vue3/region/)
+- [github-pages](https://terryz.github.io/docs-vue3/cn/region/)
 
 ## 功能特性（Features）
 
