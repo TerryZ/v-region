@@ -35,7 +35,7 @@ export declare interface RegionInputModel {
 
 export declare interface CommonProps {
   /** 输入区域模型 */
-  modelValue: RegionInputModel
+  modelValue?: RegionInputModel
   /**
    * 启用城市级别
    * @default true

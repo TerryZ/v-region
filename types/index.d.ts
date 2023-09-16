@@ -1,5 +1,5 @@
 import { App } from 'vue'
-import { RegionItem } from './component'
+import { RegionItem, RegionInputModel, RegionModel } from './component'
 import { RegionText } from './text'
 import { RegionCityPicker } from './city'
 import { RegionSelects } from './selects'
@@ -31,6 +31,9 @@ export const regionCities: RegionItem[]
 export const regionAreas: RegionItem[]
 
 export {
+  RegionItem,
+  RegionInputModel,
+  RegionModel,
   RegionText,
   RegionCityPicker,
   RegionSelects,

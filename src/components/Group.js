@@ -1,6 +1,6 @@
 import '../styles/group.sass'
 
-import { ref, h, nextTick, onBeforeMount, defineComponent } from 'vue'
+import { ref, h, nextTick, onMounted, defineComponent } from 'vue'
 
 import IconTrash from '../icons/IconTrash.vue'
 
@@ -117,7 +117,7 @@ export default defineComponent({
       ])
     }
 
-    onBeforeMount(() => { level.value = PROVINCE_KEY })
+    onMounted(() => { level.value = PROVINCE_KEY })
 
     expose({ region: data, reset, regionText })
 

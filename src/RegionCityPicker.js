@@ -137,7 +137,7 @@ export default defineComponent({
         }, clear
       )
 
-      const contents = []
+
 
       // 搜索栏
       const searchInput = h('input', {
@@ -147,7 +147,7 @@ export default defineComponent({
         autocomplete: 'off',
         onInput: e => query(e.target.value.trim())
       })
-      contents.push(h('div', { class: 'rg-search-bar' }, [searchInput]))
+      const contents = [h('div', { class: 'rg-search-bar' }, searchInput)]
 
       // 基于省份分组的城市列表
       const provinces = list.value.map(val => {
@@ -185,7 +185,11 @@ export default defineComponent({
           searchFocus()
         }
       }
-      return generateDropdown(dropdownOption, trigger, contents)
+      return generateDropdown(
+        dropdownOption,
+        trigger,
+        h('div', { class: 'rg-city-picker' }, contents)
+      )
     }
   }
 })

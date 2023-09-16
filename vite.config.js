@@ -33,7 +33,9 @@ export default defineConfig({
     environment: 'jsdom',
     reporters: 'verbose',
     coverage: {
-      reporter: ['text', 'json', 'html']
+      provider: 'v8',
+      reporter: ['text', 'json', 'html'],
+      include: ['src/**']
     }
   },
   plugins: [

@@ -5,18 +5,21 @@
   "author": "TerryZ <terry5@foxmail.com>",
   "type": "module",
   "files": [
-    "/dist",
-    "/types"
+    "./dist",
+    "./types"
   ],
   "main": "./dist/v-region.umd.cjs",
   "module": "./dist/v-region.js",
   "exports": {
     ".": {
-      "import": "./dist/v-region.js",
+      "import": {
+        "types": "./types/index.d.ts",
+        "default": "./dist/v-region.js"
+      },
       "require": "./dist/v-region.umd.cjs"
     }
   },
-  "typings": "types/index.d.ts",
+  "typings": "./types/index.d.ts",
   "license": "MIT",
   "scripts": {
     "dev": "vite",
@@ -45,27 +48,27 @@
     "vue": "^3.2.0"
   },
   "dependencies": {
-    "v-dropdown": "^3.0.0-beta.1",
-    "vue": "^3.2.47"
+    "v-dropdown": "^3.0.0",
+    "vue": "^3.3.4"
   },
   "devDependencies": {
-    "@rushstack/eslint-patch": "^1.2.0",
-    "@vitejs/plugin-vue": "^4.0.0",
-    "@vitejs/plugin-vue-jsx": "^3.0.0",
-    "@vitest/coverage-c8": "^0.29.2",
+    "@rushstack/eslint-patch": "^1.4.0",
+    "@vitejs/plugin-vue": "^4.3.4",
+    "@vitejs/plugin-vue-jsx": "^3.0.2",
+    "@vitest/coverage-v8": "^0.34.4",
     "@vue/eslint-config-standard": "^8.0.1",
-    "@vue/test-utils": "^2.3.0",
-    "bootstrap": "^5.2.3",
-    "eslint": "^8.35.0",
-    "eslint-plugin-vue": "^9.9.0",
-    "jsdom": "^21.1.0",
-    "sass": "^1.58.3",
-    "sass-loader": "^13.2.0",
-    "typescript": "^4.9.5",
-    "vite": "^4.1.4",
-    "vite-plugin-css-injected-by-js": "^3.0.1",
-    "vitest": "^0.29.2",
-    "vue-router": "^4.1.6",
-    "vue-tsc": "^1.2.0"
+    "@vue/test-utils": "^2.4.1",
+    "bootstrap": "^5.3.2",
+    "eslint": "^8.49.0",
+    "eslint-plugin-vue": "^9.17.0",
+    "jsdom": "^22.1.0",
+    "sass": "^1.67.0",
+    "sass-loader": "^13.3.2",
+    "typescript": "^5.2.2",
+    "vite": "^4.4.9",
+    "vite-plugin-css-injected-by-js": "^3.3.0",
+    "vitest": "^0.34.4",
+    "vue-router": "^4.2.4",
+    "vue-tsc": "^1.8.11"
   }
 }
