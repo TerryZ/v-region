@@ -15,6 +15,7 @@ const fullCityDirectory = cityDirectory()
 export default defineComponent({
   name: 'RegionCityPicker',
   props: {
+    disabled: { type: Boolean, default: false },
     modelValue: { type: Array, default: () => [] },
     /**
      * 按钮中显示选中城市模式
@@ -136,8 +137,6 @@ export default defineComponent({
           })
         }, clear
       )
-
-
 
       // 搜索栏
       const searchInput = h('input', {

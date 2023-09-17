@@ -2,6 +2,8 @@ import { DefineComponent, ComputedOptions } from 'vue'
 import { RegionItem, CommonMethods } from './component'
 
 interface Props {
+  /** 禁用 */
+  disabled?: boolean
   /** 输入区域编码列表 */
   modelValue: string[]
   /**

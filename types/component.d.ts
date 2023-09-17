@@ -10,13 +10,13 @@ export declare interface RegionItem {
 
 export declare interface RegionModel {
   /** 省份模型 */
-  province: RegionItem
+  province?: RegionItem
   /** 城市模型 */
-  city: RegionItem
+  city?: RegionItem
   /** 区域模型 */
-  area: RegionItem
+  area?: RegionItem
   /** 村镇模型 */
-  town: RegionItem
+  town?: RegionItem
 }
 
 /**
@@ -24,13 +24,13 @@ export declare interface RegionModel {
  */
 export declare interface RegionInputModel {
   /** 省份编码 */
-  province: string
+  province?: string
   /** 城市编码 */
-  city: string
+  city?: string
   /** 区域编码 */
-  area: string
+  area?: string
   /** 村镇编码 */
-  town: string
+  town?: string
 }
 
 export declare interface CommonProps {
@@ -53,14 +53,22 @@ export declare interface CommonProps {
   town?: boolean
   /**
    * 语言
-   * @default 'CN'
+   * @default `CN`
    */
   language?: string
-  /** v-model 内容修改响应事件 */
-  'onUpdate:modelValue': (val: RegionInputModel) => void
-  /** 内容修改后的响应事件 */
-  onChange?: (data: RegionModel) => void
 }
+
+/** 更新选中区域的键值 */
+type EmitUpdateModelValue = (event: "update:modelValue", value: RegionInputModel) => void
+/** 内容修改后的响应事件 */
+type EmitChange = (event: "change", value: RegionModel) => void
+/** 下拉栏调整位置事件 */
+type EmitAdjust = () => void
+/** 选择完成 */
+type EmitComplete = () => void
+
+export declare type CommonEmits = EmitUpdateModelValue & EmitChange
+export declare type CoreModuleEmits = EmitAdjust & EmitComplete
 
 export declare interface CommonMethods extends MethodOptions {
   /** 重置数据 */

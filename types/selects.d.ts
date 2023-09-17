@@ -1,5 +1,5 @@
-import { DefineComponent, ComputedOptions } from 'vue'
-import { CommonProps, CommonMethods } from './component'
+import { AllowedComponentProps, ComponentCustomProps, VNodeProps } from 'vue'
+import { CommonProps, CommonEmits } from './component'
 
 /**
  * 级联下拉列表模式
@@ -17,10 +17,11 @@ interface Props extends CommonProps {
   disabled?: boolean
 }
 
-export const RegionSelects: DefineComponent<
-  Props,
-  {},
-  {},
-  ComputedOptions,
-  CommonMethods
->
+declare interface RegionSelects {
+  new (): {
+    $props: AllowedComponentProps & ComponentCustomProps & VNodeProps & Props,
+    $emit: CommonEmits
+  }
+}
+
+export const RegionSelects: RegionSelects

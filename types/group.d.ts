@@ -1,21 +1,23 @@
-import { DefineComponent, ComputedOptions } from 'vue'
-import { CommonProps, CommonMethods } from './component'
-/**
- * 多分组选择器核心模块
- */
-interface Props extends CommonProps {
-  /** 下拉栏调整位置事件 */
-  onAdjust?: () => void
-  /** 选择完成 */
-  onComplete?: () => void
+import { AllowedComponentProps, ComponentCustomProps, VNodeProps } from 'vue'
+import { CommonProps, CommonEmits, CoreModuleEmits } from './component'
+
+declare interface RegionGroupCore {
+  new (): {
+    $props: AllowedComponentProps & ComponentCustomProps & VNodeProps & CommonProps
+    $emit: CommonEmits & CoreModuleEmits
+  }
 }
-export const RegionGroupCore: DefineComponent<
-  Props,
-  {},
-  {},
-  ComputedOptions,
-  CommonMethods
->
+declare interface RegionGroup {
+  new (): {
+    $props: AllowedComponentProps & ComponentCustomProps & VNodeProps & CommonProps
+    $emit: CommonEmits & CoreModuleEmits
+  }
+}
+
+/**
+ * 多分组选择器组件核心模块
+ */
+export const RegionGroupCore: RegionGroupCore
 
 interface GroupProps extends CommonProps {
   /** 禁用 */
@@ -28,10 +30,4 @@ interface GroupProps extends CommonProps {
 /**
  * 多分组选择器组件
  */
-export const RegionGroup: DefineComponent<
-  GroupProps,
-  {},
-  {},
-  ComputedOptions,
-  CommonMethods
->
+export const RegionGroup: RegionGroup
