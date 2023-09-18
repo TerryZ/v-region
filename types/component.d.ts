@@ -67,6 +67,10 @@ export declare interface DropdownProps extends BaseProps {
    * @default false
    */
   disabled?: boolean
+  /** 为触发对象添加自定义样式类 */
+  customTriggerClass?: string
+  /** 为下拉容器添加自定义样式类 */
+  customContainerClass?: string
 }
 
 /** 更新选中区域的键值 */
