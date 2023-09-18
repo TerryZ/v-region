@@ -1,7 +1,7 @@
 import { AllowedComponentProps, ComponentCustomProps, VNodeProps } from 'vue'
-import { RegionInputModel } from './component'
+import { RegionInputModel, ComponentProps } from './component'
 
-interface Props {
+interface Props extends ComponentProps{
   /** 输入区域模型 */
   modelValue?: RegionInputModel
   /**
@@ -13,7 +13,7 @@ interface Props {
 
 declare interface RegionText {
   new (): {
-    $props: AllowedComponentProps & ComponentCustomProps & VNodeProps & Props
+    $props: Props
   }
 }
 

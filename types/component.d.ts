@@ -1,4 +1,5 @@
 import { MethodOptions } from 'vue'
+import { AllowedComponentProps, ComponentCustomProps, VNodeProps } from 'vue'
 
 /**
  * 区域元素基本模型
@@ -33,7 +34,9 @@ export declare interface RegionInputModel {
   town?: string
 }
 
-export declare interface CommonProps {
+export declare interface ComponentProps extends AllowedComponentProps, ComponentCustomProps, VNodeProps {}
+
+export declare interface BaseProps extends ComponentProps {
   /** 输入区域模型 */
   modelValue?: RegionInputModel
   /**
@@ -58,17 +61,28 @@ export declare interface CommonProps {
   language?: string
 }
 
-/** 更新选中区域的键值 */
-type EmitUpdateModelValue = (event: "update:modelValue", value: RegionInputModel) => void
-/** 内容修改后的响应事件 */
-type EmitChange = (event: "change", value: RegionModel) => void
-/** 下拉栏调整位置事件 */
-type EmitAdjust = () => void
-/** 选择完成 */
-type EmitComplete = () => void
+export declare interface DropdownProps extends BaseProps {
+  /**
+   * 禁用组件
+   * @default false
+   */
+  disabled?: boolean
+}
 
-export declare type CommonEmits = EmitUpdateModelValue & EmitChange
-export declare type CoreModuleEmits = EmitAdjust & EmitComplete
+/** 更新选中区域的键值 */
+export declare type EmitUpdateModelValue = (event: "update:modelValue", value: RegionInputModel) => void
+/** 内容修改后的响应事件 */
+export declare type EmitChange = (event: "change", value: RegionModel) => void
+/** 下拉栏调整位置事件 */
+export declare type EmitAdjust = (event: 'adjust') => void
+/** 选择完成 */
+export declare type EmitComplete = (event: 'complete') => void
+/** 下拉层显示状态 */
+export declare type EmitVisibleChange = (event: 'visible-change', value: boolean) => void
+
+export declare type BaseEmits = EmitUpdateModelValue & EmitChange
+export declare type CoreModuleEmits = BaseEmits & EmitAdjust & EmitComplete
+export declare type DropdownEmits = BaseEmits & EmitComplete & EmitVisibleChange
 
 export declare interface CommonMethods extends MethodOptions {
   /** 重置数据 */
