@@ -1,5 +1,6 @@
 import { reactive, inject, computed, h, defineComponent } from 'vue'
 import { useDropdown } from '../utils/selector'
+import SelectList from './SelectList'
 
 export default defineComponent({
   name: 'RegionSelect',
@@ -18,7 +19,7 @@ export default defineComponent({
     const customContainerClass = inject('customContainerClass')
 
     const blankContent = blank ? props.blankText : '&nbsp;'
-    const content = computed(() => props.modelValue?.value || blankContent)
+    const contentText = computed(() => props.modelValue?.value || blankContent)
 
     const triggerClasses = reactive({
       'rg-select__el': true,
@@ -36,28 +37,17 @@ export default defineComponent({
         'div',
         { class: triggerClasses },
         [
-          h('div', { class: 'rg-select__content', innerHTML: content.value }),
+          h('div', { class: 'rg-select__content', innerHTML: contentText.value }),
           h('span', { class: 'rg-select__caret' })
         ]
       )
 
-      const contents = []
-
-      const items = props.list.value.map(val => {
-        const selected = props.modelValue && props.modelValue.key === val.key
-        const liOption = {
-          key: val.key,
-          class: { selected },
-          onClick: () => { select(val) }
-        }
-        return h('li', liOption, val.value)
+      const content = h(SelectList, {
+        list: props.list,
+        blank,
+        selected: props.modelValue,
+        onSelect: select
       })
-
-      if (blank) { // "Please select" option
-        items.unshift(h('li', { onClick: select }, props.blankText))
-      }
-
-      contents.push(h('ul', { class: 'rg-select__list' }, items))
 
       const dropdownProps = {
         class: 'rg-select',
@@ -65,7 +55,7 @@ export default defineComponent({
         customTriggerClass,
         customContainerClass
       }
-      return generateDropdown(dropdownProps, trigger, contents)
+      return generateDropdown(dropdownProps, trigger, content)
     }
   }
 })
