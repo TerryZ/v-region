@@ -1,12 +1,12 @@
 import './styles/city.sass'
 
 import { ref, computed, watch, nextTick, h, defineComponent } from 'vue'
-import { CN } from './language'
 import { regionProvinces, regionCities } from './formatted'
 import { PLACEHOLDER_OTHER_CITIES } from './constants'
 import { keysEqualModels, isSelected, inputFocus, useLanguage } from './utils/helper'
 import { cityDirectory } from './utils/parse'
 import { useDropdown } from './utils/selector'
+import { dropdownProps } from './utils/data'
 
 const maxDisplayCities = 2
 // 完整的城市列表（基于省份进行分组）
@@ -15,15 +15,14 @@ const fullCityDirectory = cityDirectory()
 export default defineComponent({
   name: 'RegionCityPicker',
   props: {
-    disabled: { type: Boolean, default: false },
+    ...dropdownProps,
     modelValue: { type: Array, default: () => [] },
     /**
      * 按钮中显示选中城市模式
      * true: 显示所有选中城市名称
      * false: 选中的城市多于两个时，仅显示前两个城市名称，其他城市会被收起
      */
-    overflow: { type: Boolean, default: false },
-    language: { type: String, default: CN }
+    overflow: { type: Boolean, default: false }
   },
   emits: ['update:modelValue', 'change', 'visible-change'],
   setup (props, { emit, expose }) {
