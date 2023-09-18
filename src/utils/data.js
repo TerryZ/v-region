@@ -16,6 +16,14 @@ export const commonProps = {
   modelValue: { type: Object, default: undefined }
 }
 
+export const dropdownProps = {
+  ...commonProps,
+  /** 为触发对象添加自定义样式类 */
+  customTriggerClass: { type: String, default: '' },
+  /** 为下拉容器添加自定义样式类 */
+  customContainerClass: { type: String, default: '' }
+}
+
 export const commonEmits = ['update:modelValue', 'change']
 
 /**

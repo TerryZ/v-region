@@ -14,6 +14,8 @@ export default defineComponent({
 
     const disabled = inject('disabled')
     const blank = inject('blank')
+    const customTriggerClass = inject('customTriggerClass')
+    const customContainerClass = inject('customContainerClass')
 
     const blankContent = blank ? props.blankText : '&nbsp;'
     const content = computed(() => props.modelValue?.value || blankContent)
@@ -59,7 +61,9 @@ export default defineComponent({
 
       const dropdownProps = {
         class: 'rg-select',
-        disabled: disabled.value
+        disabled: disabled.value,
+        customTriggerClass,
+        customContainerClass
       }
       return generateDropdown(dropdownProps, trigger, contents)
     }

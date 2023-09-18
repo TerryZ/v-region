@@ -41,7 +41,10 @@
       <h5 class="mt-3">
         省、市、区/县
       </h5>
-      <region-selects />
+      <region-selects
+        custom-trigger-class="bg-secondary-subtle"
+        custom-container-class="border-0 bg-success-subtle"
+      />
 
       <h5 class="mt-3">
         省、市、区/县、乡/镇/街道
