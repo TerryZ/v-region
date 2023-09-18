@@ -4,13 +4,14 @@ import { ref, computed, watch, nextTick, h, defineComponent } from 'vue'
 import { regionProvinces, regionCities } from './formatted'
 import { PLACEHOLDER_OTHER_CITIES } from './constants'
 import { keysEqualModels, isSelected, inputFocus, useLanguage } from './utils/helper'
-import { cityDirectory } from './utils/parse'
+// import { cityDirectory } from './utils/parse'
 import { useDropdown } from './utils/selector'
 import { dropdownProps } from './utils/data'
+import CityPicker from './components/CityPicker'
 
 const maxDisplayCities = 2
 // 完整的城市列表（基于省份进行分组）
-const fullCityDirectory = cityDirectory()
+// const fullCityDirectory = cityDirectory()
 
 export default defineComponent({
   name: 'RegionCityPicker',
@@ -33,7 +34,9 @@ export default defineComponent({
       adjustDropdown
     } = useDropdown(props)
     const lang = useLanguage(props.language)
-    const search = ref(null)
+    // const search = ref(null)
+    const picker = ref()
+    const selected = ref([])
 
     /**
      * 数据列表格式
@@ -42,59 +45,59 @@ export default defineComponent({
      *   cities: { key: string, value: string }[]
      * }]
      */
-    const list = ref(fullCityDirectory)
-    const picked = ref([])
+    // const list = ref(fullCityDirectory)
+    // const selected = ref([])
 
     const selectedText = computed(() => {
-      const values = picked.value.map(val => val.value)
+      const values = selected.value.map(val => val.value)
 
-      if (props.overflow || picked.value.length <= maxDisplayCities) {
+      if (props.overflow || selected.value.length <= maxDisplayCities) {
         return values.join(',')
       }
 
-      const othersLength = picked.value.length - maxDisplayCities
+      const othersLength = selected.value.length - maxDisplayCities
       const others = lang.others.replace(PLACEHOLDER_OTHER_CITIES, othersLength)
       return values.slice(0, maxDisplayCities).join(',') + `,${others}`
     })
 
     watch(() => props.modelValue, val => {
-      if (!Array.isArray(val) || keysEqualModels(val, picked.value)) return
+      if (!Array.isArray(val) || keysEqualModels(val, selected.value)) return
 
       if (val.length) {
         const provincialCities = regionProvinces.filter(item => val.includes(item.key))
         // marge provinces and cities
-        picked.value = [
+        selected.value = [
           ...provincialCities,
           ...regionCities.filter(item => val.includes(item.key))
         ]
       } else {
-        picked.value = []
+        selected.value = []
       }
 
       emitData(false)
     }, { immediate: true })
 
     function clear () {
-      picked.value = []
+      selected.value = []
       closeDropdown()
       emitData()
     }
     function searchFocus () {
       nextTick(() => {
-        inputFocus(search)
+        inputFocus(picker.value.search)
       })
     }
     function emitData (updateModelValue = true) {
       if (updateModelValue) {
-        emit('update:modelValue', picked.value.map(val => val.key))
+        emit('update:modelValue', selected.value.map(val => val.key))
       }
-      emit('change', picked.value)
+      emit('change', selected.value)
     }
-    function pick (item) {
-      if (isSelected(item, picked.value)) {
-        picked.value.splice(picked.value.findIndex(val => val.key === item.key), 1)
+    function selectCity (item) {
+      if (isSelected(item, selected.value)) {
+        selected.value.splice(selected.value.findIndex(val => val.key === item.key), 1)
       } else {
-        picked.value.push(item)
+        selected.value.push(item)
       }
       emitData()
       nextTick(() => {
@@ -108,23 +111,23 @@ export default defineComponent({
      * 1. 城市名称
      * 2. 城市编码
      */
-    function query (value) {
-      if (value) {
-        const result = []
-        fullCityDirectory.forEach(val => {
-          const cities = val.cities.filter(city => new RegExp(value).test(city.value))
-          if (cities.length) {
-            result.push({ province: val.province, cities })
-          }
-        })
-        list.value = result
-      } else {
-        list.value = fullCityDirectory
-      }
-      nextTick(() => {
-        adjustDropdown()
-      })
-    }
+    // function query (value) {
+    //   if (value) {
+    //     const result = []
+    //     fullCityDirectory.forEach(val => {
+    //       const cities = val.cities.filter(city => new RegExp(value).test(city.value))
+    //       if (cities.length) {
+    //         result.push({ province: val.province, cities })
+    //       }
+    //     })
+    //     list.value = result
+    //   } else {
+    //     list.value = fullCityDirectory
+    //   }
+    //   nextTick(() => {
+    //     adjustDropdown()
+    //   })
+    // }
 
     expose({ reset: clear })
 
@@ -137,42 +140,48 @@ export default defineComponent({
         }, clear
       )
 
-      // 搜索栏
-      const searchInput = h('input', {
-        ref: search,
-        class: 'rg-input',
-        type: 'text',
-        autocomplete: 'off',
-        onInput: e => query(e.target.value.trim())
-      })
-      const contents = [h('div', { class: 'rg-search-bar' }, searchInput)]
+      // // 搜索栏
+      // const searchInput = h('input', {
+      //   ref: search,
+      //   class: 'rg-input',
+      //   type: 'text',
+      //   autocomplete: 'off',
+      //   onInput: e => query(e.target.value.trim())
+      // })
+      // const contents = [h('div', { class: 'rg-search-bar' }, searchInput)]
 
-      // 基于省份分组的城市列表
-      const provinces = list.value.map(val => {
-        const { province, cities } = val
-        const items = cities.map(city => {
-          const liOption = {
-            key: city.key,
-            class: {
-              selected: isSelected(city, picked.value)
-            },
-            onClick: () => pick(city)
-          }
-          return h('li', liOption, city.value)
-        })
-        const ul = h('ul', items)
+      // // 基于省份分组的城市列表
+      // const provinces = list.value.map(val => {
+      //   const { province, cities } = val
+      //   const items = cities.map(city => {
+      //     const liOption = {
+      //       key: city.key,
+      //       class: {
+      //         selected: isSelected(city, selected.value)
+      //       },
+      //       onClick: () => pick(city)
+      //     }
+      //     return h('li', liOption, city.value)
+      //   })
+      //   const ul = h('ul', items)
 
-        return h('div', {
-          key: province.key,
-          class: 'rg-picker__row'
-        }, [
-          h('dl', [
-            h('dt', province.value),
-            h('dd', [ul])
-          ])
-        ])
+      //   return h('div', {
+      //     key: province.key,
+      //     class: 'rg-picker__row'
+      //   }, [
+      //     h('dl', [
+      //       h('dt', province.value),
+      //       h('dd', [ul])
+      //     ])
+      //   ])
+      // })
+      // contents.push(h('div', { class: 'rg-picker' }, provinces))
+      const content = h(CityPicker, {
+        ref: picker,
+        selected: selected.value,
+        onSelect: selectCity,
+        onAdjustDropdown: adjustDropdown
       })
-      contents.push(h('div', { class: 'rg-picker' }, provinces))
 
       const dropdownOption = {
         onVisibleChange (val) {
@@ -183,11 +192,7 @@ export default defineComponent({
           searchFocus()
         }
       }
-      return generateDropdown(
-        dropdownOption,
-        trigger,
-        h('div', { class: 'rg-city-picker' }, contents)
-      )
+      return generateDropdown(dropdownOption, trigger, content)
     }
   }
 })
