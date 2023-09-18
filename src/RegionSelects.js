@@ -5,14 +5,14 @@ import RegionSelect from './components/Select'
 
 import { PROVINCE_KEY, CITY_KEY, AREA_KEY, TOWN_KEY } from './constants'
 import { useLanguage, useState } from './utils/helper'
-import { dropdownProps, commonEmits, useData } from './utils/data'
+import { commonProps, dropdownProps, commonEmits, useData } from './utils/data'
 
 export default defineComponent({
   name: 'RegionSelects',
   props: {
+    ...commonProps,
     ...dropdownProps,
-    blank: { type: Boolean, default: true },
-    disabled: { type: Boolean, default: false }
+    blank: { type: Boolean, default: true }
   },
   emits: commonEmits,
   setup (props, { emit, expose }) {

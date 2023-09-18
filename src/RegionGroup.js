@@ -1,15 +1,14 @@
 import { ref, h, mergeProps, defineComponent } from 'vue'
 import RegionGroupCore from './components/Group'
 
-import { CN } from './language'
 import { useDropdown } from './utils/selector'
+import { dropdownProps } from './utils/data'
 
 export default defineComponent({
   name: 'RegionGroup',
   inheritAttrs: false,
   props: {
-    language: { type: String, default: CN },
-    disabled: { type: Boolean, default: false }
+    ...dropdownProps
   },
   emits: ['complete', 'visible-change'],
   setup (props, { emit, slots, expose, attrs }) {
@@ -46,6 +45,8 @@ export default defineComponent({
       const contents = h(RegionGroupCore, mergeProps(groupOption, attrs))
 
       const dropdownOption = {
+        customTriggerClass: props.customTriggerClass,
+        customContainerClass: props.customContainerClass,
         onVisibleChange (val) {
           emit('visible-change', val)
         }

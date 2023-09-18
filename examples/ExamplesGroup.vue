@@ -67,7 +67,10 @@
         下拉选择器模式（自定义呼出按钮）
       </h5>
       <div>
-        <RegionGroup>
+        <RegionGroup
+          custom-trigger-class="border border-secondary-subtle border-4"
+          custom-container-class="border-0"
+        >
           <template #default="{ region, visible }">
             <button
               type="button"

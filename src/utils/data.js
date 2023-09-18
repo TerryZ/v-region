@@ -17,7 +17,8 @@ export const commonProps = {
 }
 
 export const dropdownProps = {
-  ...commonProps,
+  language: { type: String, default: CN },
+  disabled: { type: Boolean, default: false },
   /** 为触发对象添加自定义样式类 */
   customTriggerClass: { type: String, default: '' },
   /** 为下拉容器添加自定义样式类 */
