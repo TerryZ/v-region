@@ -1,15 +1,14 @@
 import { ref, h, mergeProps, defineComponent } from 'vue'
 import RegionColumnsCore from './components/Columns'
 
-import { CN } from './language'
 import { useDropdown } from './utils/selector'
+import { dropdownProps } from './utils/data'
 
 export default defineComponent({
   name: 'RegionColumns',
   inheritAttrs: false,
   props: {
-    language: { type: String, default: CN },
-    disabled: { type: Boolean, default: false }
+    ...dropdownProps
   },
   emits: ['complete', 'visible-change'],
   setup (props, { emit, slots, expose, attrs }) {
@@ -44,9 +43,7 @@ export default defineComponent({
       const contents = h(RegionColumnsCore, mergeProps(columnsOption, attrs))
 
       const dropdownOption = {
-        onVisibleChange (val) {
-          emit('visible-change', val)
-        }
+        onVisibleChange: val => emit('visible-change', val)
       }
       return generateDropdown(dropdownOption, trigger, contents)
     }

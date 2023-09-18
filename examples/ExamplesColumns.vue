@@ -117,7 +117,10 @@
         下拉选择器多列竖排模式（自定义呼出按钮）
       </h4>
       <div>
-        <RegionColumns>
+        <RegionColumns
+          custom-trigger-class="border border-secondary-subtle border-4 rounded-3"
+          custom-container-class="border-0"
+        >
           <template #default="{ region, visible }">
             <button
               type="button"

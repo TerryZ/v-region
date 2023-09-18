@@ -45,11 +45,7 @@ export default defineComponent({
       const contents = h(RegionGroupCore, mergeProps(groupOption, attrs))
 
       const dropdownOption = {
-        customTriggerClass: props.customTriggerClass,
-        customContainerClass: props.customContainerClass,
-        onVisibleChange (val) {
-          emit('visible-change', val)
-        }
+        onVisibleChange: (val) => emit('visible-change', val)
       }
       return generateDropdown(dropdownOption, trigger, contents)
     }
