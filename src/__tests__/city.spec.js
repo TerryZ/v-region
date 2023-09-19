@@ -1,7 +1,8 @@
 import { describe, it, expect } from 'vitest'
 import { mount } from '@vue/test-utils'
 
-import { RegionCityPicker } from '@/'
+import { RegionCityPicker } from '@/index'
+import CityPicker from '@/components/CityPicker'
 
 describe('v-region CityPicker 城市选择器模式', function () {
   const wrapper = mount(RegionCityPicker, {
@@ -12,8 +13,12 @@ describe('v-region CityPicker 城市选择器模式', function () {
       customContainerClass: 'custom-container'
     }
   })
-  it('', () => {
-    console.log(wrapper.findComponent('.rg-city-picker'))
+  it('设置 `customTriggerClass` prop，触发对象容器应添加相应样式类', () => {
+    expect(wrapper.classes('custom-trigger')).toBeTruthy()
+  })
+  it('设置 `customContainerClass` prop，下拉容器应添加相应样式类', () => {
+    const picker = wrapper.findComponent(CityPicker)
+    expect(picker.element.parentElement.classList.contains('custom-container')).toBeTruthy()
   })
   it('使用数据进行初始化后，应有 2 个城市被选中（“北京市,福州市”）', () => {
     expect(wrapper.find('.rg-default-btn').text()).toBe('北京市,福州市')
