@@ -2,6 +2,8 @@ import { describe, it, expect, vi } from 'vitest'
 import { mount } from '@vue/test-utils'
 
 import { RegionGroup } from '@/'
+import Group from '@/components/Group'
+
 import { model, regionText, regionText1, model1 } from './data'
 
 // TODO: 组件内透传的事件无法向外传递
@@ -11,20 +13,26 @@ describe('v-region RegionGroup 多分组择器模式', () => {
   const wrapper = mount(RegionGroup, {
     props: {
       language: 'en',
-      town: true
+      town: true,
+      customTriggerClass: 'custom-trigger',
+      customContainerClass: 'custom-container'
     }
   })
-
+  it('设置 `customTriggerClass` prop，触发对象容器应添加相应样式类', () => {
+    expect(wrapper.classes('custom-trigger')).toBeTruthy()
+  })
+  it('设置 `customContainerClass` prop，下拉容器应添加相应样式类', () => {
+    const core = wrapper.findComponent(Group)
+    expect(core.element.parentElement.classList.contains('custom-container')).toBeTruthy()
+  })
   it('触发对象应显示文本 `Please select`(设置英文语言)', () => {
     expect(wrapper.find('.rg-default-btn').text()).toBe('Please select')
   })
-
   it('设置 modelValue，触发对象按钮中应显示 `福建省福州市台江区瀛洲街道`', async () => {
     await wrapper.setProps({ modelValue: model })
     await vi.dynamicImportSettled()
     expect(wrapper.find('.rg-default-btn').text()).toBe(regionText)
   })
-
   // test('响应 change 事件', async () => {
   //   wrapper.vm.reset()
   //   await nextTick()
@@ -35,24 +43,20 @@ describe('v-region RegionGroup 多分组择器模式', () => {
 
   //   expect(wrapper.emitted('change')[0]).toEqual([data])
   // })
-
   it('点击 X 图标，所有选中的行政级别应被清空', async () => {
     await wrapper.find('.rg-clear-btn').trigger('click')
     expect(wrapper.find('.rg-default-btn').text()).toBe('Please select')
   })
-
   it('再次设置 modelValue，触发对象按钮中应显示 `河南省济源市济源市济源市沁园街道`', async () => {
     await wrapper.setProps({ modelValue: model1 })
     await vi.dynamicImportSettled()
     expect(wrapper.find('.rg-default-btn').text()).toBe(regionText1)
   })
-
   it('调用 reset 方法，所有选中的行政级别应被清空', async () => {
     await wrapper.vm.reset()
     await vi.dynamicImportSettled()
     expect(wrapper.find('.rg-default-btn').text()).toBe('Please select')
   })
-
   // it('响应 v-model 为空数据', () => {
   //   console.log(wrapper.emitted())
   //   expect(wrapper.emitted('update:modelValue')[0]).toEqual([emptyDataModel])
