@@ -2,6 +2,17 @@
 
 英文 changelog 内容请访问 [CHANGELOG](CHANGELOG.md)
 
+## [3.0.0-beta.4](https://github.com/TerryZ/v-region/compare/v3.0.0-beta.3...v3.0.0-beta.4) (2023-09-19)
+
+### 新特性
+
+- 更新 `v-dropdown` 至 `v3.0.0`
+- 重构 `RegionCityPicker` 与 `RegionSelects` 结构，使其更多功能可测试化
+
+### 问题修复
+
+- 更新 `.d.ts` 文档
+
 ## [3.0.0-beta.3](https://github.com/TerryZ/v-region/compare/v3.0.0-beta.2...v3.0.0-beta.3) (2023-03-04)
 
 ### 问题修复

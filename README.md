@@ -42,7 +42,12 @@ A simple region cascade selector for vue, provide 4 levels Chinese administrativ
 [![https://nodei.co/npm/v-region.png?downloads=true&downloadRank=true&stars=true](https://nodei.co/npm/v-region.png?downloads=true&downloadRank=true&stars=true)](https://www.npmjs.com/package/v-region)
 
 ```sh
+# npm
 npm i v-region
+# yarn
+yarn add v-region
+# pnpm
+pnpm add v-region
 ```
 
 在项目里全局安装所有功能模块
@@ -51,13 +56,12 @@ npm i v-region
 import { createApp } from 'vue'
 import App from './app.vue'
 import Region from 'v-region'
-// 全局安装
+// 全局安装以下模块
 // RegionGroup
 // RegionSelects
 // RegionColumns
 // RegionCityPicker
 // RegionText
-// 模块
 const app = createApp(App)
 app.use(Region)
 app.mount('#app')
@@ -96,6 +100,24 @@ function change (data) {
   console.log(data)
 }
 </script>
+```
+
+使用 TypeScript
+
+```ts
+import { ref } from 'vue'
+import { RegionSelects } from 'v-region'
+import type { RegionInputModel, RegionModel } from 'v-region'
+
+const region = ref<RegionInputModel>({
+  province: '350000',
+  city: '350100',
+  area: '350104',
+  town: '350104008'
+})
+function change (data: RegionModel): void {
+  console.log(data)
+}
 ```
 
 ## License
