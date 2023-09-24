@@ -2,6 +2,12 @@
 
 英文 changelog 内容请访问 [CHANGELOG](CHANGELOG.md)
 
+## [3.0.0](https://github.com/TerryZ/v-region/compare/v3.0.0-beta.4...v3.0.0) (2023-09-24)
+
+### 新特性
+
+- 重构 `RegionCityPicker` 排版结构与样式
+
 ## [3.0.0-beta.4](https://github.com/TerryZ/v-region/compare/v3.0.0-beta.3...v3.0.0-beta.4) (2023-09-19)
 
 ### 新特性
