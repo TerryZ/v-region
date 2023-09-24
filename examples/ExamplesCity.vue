@@ -4,6 +4,14 @@
       City
       <small>城市选择器</small>
     </h3>
+    <h5>核心模块</h5>
+    <div class="mb-3 bg-light rounded-3 p-3 d-flex">
+      <CityPicker
+        class="border rounded-3 bg-white shadow overflow-hidden"
+        :selected="selected"
+        @select="select"
+      />
+    </div>
     <div class="p-3 shadow-sm rounded-3 border">
       <div class="bg-light p-3 rounded-3 mb-3">
         <pre
@@ -28,23 +36,24 @@
   </section>
 </template>
 
-<script>
-import { RegionCityPicker } from '@/'
+<script setup>
+import { ref } from 'vue'
+import { RegionCityPicker } from '@/index'
+import CityPicker from '@/components/CityPicker'
 
-export default {
-  components: {
-    RegionCityPicker
-  },
-  data () {
-    return {
-      modelCity: ['110000', '350100'],
-      valuesCity: null
-    }
-  },
-  methods: {
-    cbCity (data) {
-      this.valuesCity = data
-    }
+const selected = ref([])
+const modelCity = ref(['110000', '350100'])
+const valuesCity = ref(null)
+
+function cbCity (data) {
+  valuesCity.value = data
+}
+function select (data) {
+  console.log(data)
+  if (selected.value.some(val => val.key === data.key)) {
+    selected.value = selected.value.filter(val => val.key !== data.key)
+  } else {
+    selected.value.push(data)
   }
 }
 </script>

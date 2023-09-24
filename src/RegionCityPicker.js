@@ -1,5 +1,3 @@
-import './styles/city.sass'
-
 import { ref, computed, watch, nextTick, h, defineComponent } from 'vue'
 import { regionProvinces, regionCities } from './formatted'
 import { PLACEHOLDER_OTHER_CITIES } from './constants'

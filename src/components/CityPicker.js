@@ -3,6 +3,8 @@ import { ref, h, nextTick } from 'vue'
 import { cityDirectory } from '../utils/parse'
 import { isSelected } from '../utils/helper'
 
+import '../styles/city.sass'
+
 // 完整的城市列表（基于省份进行分组）
 const fullCityDirectory = cityDirectory()
 
@@ -57,26 +59,24 @@ export default {
       // 基于省份分组的城市列表
       const provinces = list.value.map(val => {
         const { province, cities } = val
-        const items = cities.map(city => {
+        const cityList = cities.map(city => {
           const liOption = {
             key: city.key,
             class: {
+              'rg-picker__city': true,
               selected: isSelected(city, props.selected)
             },
             onClick: () => emit('select', city)
           }
-          return h('li', liOption, city.value)
+          return h('div', liOption, city.value)
         })
-        const ul = h('ul', items)
 
         return h('div', {
           key: province.key,
-          class: 'rg-picker__row'
+          class: 'rg-picker__province'
         }, [
-          h('dl', [
-            h('dt', province.value),
-            h('dd', ul)
-          ])
+          h('div', { class: 'rg-picker__title' }, province.value),
+          h('div', { class: 'rg-picker__body' }, cityList)
         ])
       })
       contents.push(h('div', { class: 'rg-picker' }, provinces))
