@@ -4,6 +4,7 @@ export default defineComponent({
   props: {
     list: { type: Object, default: undefined },
     blank: { type: Boolean, default: true },
+    blankText: { type: String, default: '' },
     selected: { type: Object, default: undefined }
   },
   emits: ['select'],

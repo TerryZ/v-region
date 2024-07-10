@@ -45,6 +45,7 @@ export default defineComponent({
       const content = h(SelectList, {
         list: props.list,
         blank,
+        blankText: props.blankText,
         selected: props.modelValue,
         onSelect: select
       })
