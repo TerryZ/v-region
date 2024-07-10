@@ -2,6 +2,17 @@
 
 Please refer to [CHANGELOG-CN](CHANGELOG-CN.md) for Chinese changelog
 
+## [3.1.0](https://github.com/TerryZ/v-region/compare/v3.0.0...v3.1.0) (2024-07-10)
+
+### Features
+
+- `RegionText` adds data change response
+- Update region data source
+
+### Bug Fixes
+
+- `RegionSelects` Empty list does not display placeholder text
+
 ## [3.0.0](https://github.com/TerryZ/v-region/compare/v3.0.0-beta.4...v3.0.0) (2023-09-24)
 
 ### Features

@@ -2,6 +2,17 @@
 
 英文 changelog 内容请访问 [CHANGELOG](CHANGELOG.md)
 
+## [3.1.0](https://github.com/TerryZ/v-region/compare/v3.0.0...v3.1.0) (2024-07-10)
+
+### 新特性
+
+- `RegionText` 添加数据变更响应
+- 更新数据源
+
+### 问题修复
+
+- `RegionSelects` 空列表未显示占位文字
+
 ## [3.0.0](https://github.com/TerryZ/v-region/compare/v3.0.0-beta.4...v3.0.0) (2023-09-24)
 
 ### 新特性
