@@ -40,26 +40,27 @@ export async function modelToRegion (model, levels = LEVEL_KEYS) {
   const inLevel = key => levels.includes(key)
 
   if (!province) return region
+  region[PROVINCE_KEY] = getDetail(province)
 
-  region.province = getDetail(province)
+  if (!city || !inLevel(CITY_KEY) || !region[PROVINCE_KEY]) return region
+  region[CITY_KEY] = getDetail(city)
 
-  if (!city || !inLevel(CITY_KEY) || !region.province) return region
+  if (!area || !inLevel(AREA_KEY) || !region[CITY_KEY]) return region
+  region[AREA_KEY] = getDetail(area)
 
-  region.city = getDetail(city)
-
-  if (!area || !inLevel(AREA_KEY) || !region.city) return region
-
-  region.area = getDetail(area)
-
-  if (!town || !inLevel(TOWN_KEY) || !region.area) return region
-
-  const towns = await getTowns(region.area)
-  // console.log(towns)
-  if (towns.length) {
-    region.town = towns.find(val => val.key === town)
-  }
+  if (!town || !inLevel(TOWN_KEY) || !region[AREA_KEY]) return region
+  region[TOWN_KEY] = await getTownModel(region[AREA_KEY], town)
 
   return region
+}
+
+async function getTownModel (areaModel, townKey) {
+  // 获得区/县的下级乡镇/街道列表
+  const towns = await getTowns(areaModel)
+  // console.log(towns)
+  if (!towns.length) return
+
+  return towns.find(val => val.key === townKey)
 }
 
 /**

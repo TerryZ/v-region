@@ -1,4 +1,3 @@
-import { AllowedComponentProps, ComponentCustomProps, VNodeProps } from 'vue'
 import { RegionInputModel, ComponentProps } from './component'
 
 interface Props extends ComponentProps{

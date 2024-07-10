@@ -1,4 +1,4 @@
-import { h, ref, defineComponent } from 'vue'
+import { h, ref, defineComponent, watchEffect } from 'vue'
 import { validModel } from './utils/helper'
 import { modelToRegion, regionToText } from './utils/parse'
 
@@ -9,12 +9,13 @@ export default defineComponent({
     separator: { type: String, default: '' }
   },
   setup (props) {
-    if (!validModel(props.modelValue)) return
-
     const text = ref('')
 
-    modelToRegion(props.modelValue).then(resp => {
-      text.value = regionToText(resp).join(props.separator)
+    watchEffect(() => {
+      if (!validModel(props.modelValue)) return
+      modelToRegion(props.modelValue).then(resp => {
+        text.value = regionToText(resp).join(props.separator)
+      })
     })
 
     return () => h('span', text.value)
