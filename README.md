@@ -13,7 +13,7 @@
 简洁强大的中国行政区划选择器，可选择 “省/直辖市”、“市”、“区/县”、“乡/镇/街道” 4 级行政区域
 A simple region cascade selector for vue, provide 4 levels Chinese administrative division data
 
-行政区划数据源更新日期：`2022年05月18日`
+行政区划数据源更新日期：`2024年07月10日`
 
 如果你的项目正在使用 vue `2.x` 版本，请使用 [v-region 2.x](https://github.com/TerryZ/v-region/tree/dev-vue2) 版本
 
@@ -62,9 +62,7 @@ import Region from 'v-region'
 // RegionColumns
 // RegionCityPicker
 // RegionText
-const app = createApp(App)
-app.use(Region)
-app.mount('#app')
+createApp(App).use(Region).mount('#app')
 ```
 
 自定义全局安装模块
