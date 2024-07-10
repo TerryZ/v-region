@@ -13,6 +13,9 @@ module.exports = {
   parserOptions: {
     ecmaVersion: 'latest'
   },
+  ignorePatterns: [
+    'types/'
+  ],
   settings: {
     ...createAliasSetting({
       '@': `${path.resolve(__dirname, './src')}`
