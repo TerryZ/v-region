@@ -1,31 +1,38 @@
-import { ref, reactive, computed, toRaw, watch, onBeforeMount } from 'vue'
+import { reactive, computed, toRaw, watch, onBeforeMount } from 'vue'
+
 import { PROVINCE_KEY, CITY_KEY, AREA_KEY, TOWN_KEY } from '../constants'
 import { CN } from '../language'
 import { regionProvinces } from '../formatted'
-import { regionToModel, modelToRegion } from './parse'
+import { regionToModel, modelToRegion } from '../utils/parse'
 import {
-  getCities, getAreas, getTowns,
+  getCities, getAreas,
   availableLevels, getLevels, useState
-} from './helper'
+} from '../utils/helper'
 
-export const commonProps = {
-  city: { type: Boolean, default: true },
-  area: { type: Boolean, default: true },
-  town: { type: Boolean, default: false },
-  language: { type: String, default: CN },
-  modelValue: { type: Object, default: undefined }
+export function mergeBaseProps (props) {
+  return {
+    city: { type: Boolean, default: true },
+    area: { type: Boolean, default: true },
+    town: { type: Boolean, default: false },
+    language: { type: String, default: CN },
+    modelValue: { type: Object, default: undefined },
+    ...props
+  }
+}
+export function mergeSelectorProps (props) {
+  return mergeBaseProps({
+    disabled: { type: Boolean, default: false },
+    /** 为触发对象添加自定义样式类 */
+    customTriggerClass: { type: String, default: '' },
+    /** 为下拉容器添加自定义样式类 */
+    customContainerClass: { type: String, default: '' },
+    ...props
+  })
 }
 
-export const dropdownProps = {
-  language: { type: String, default: CN },
-  disabled: { type: Boolean, default: false },
-  /** 为触发对象添加自定义样式类 */
-  customTriggerClass: { type: String, default: '' },
-  /** 为下拉容器添加自定义样式类 */
-  customContainerClass: { type: String, default: '' }
+export function mergeEmits (emit) {
+  return ['update:modelValue', 'change', ...(emit || [])]
 }
-
-export const commonEmits = ['update:modelValue', 'change']
 
 /**
  * 响应 `v-model` 与 `change` 事件
@@ -33,14 +40,14 @@ export const commonEmits = ['update:modelValue', 'change']
  * 要求组件中已定义 `update:modelValue` 与 `change`
  * @param {function} emit 事件响应对象
  */
-function useEvent (emit) {
+export function useEvent (emit) {
   return {
     emitUpdateModelValue: data => emit('update:modelValue', regionToModel(data)),
     emitChange: data => emit('change', data)
   }
 }
 
-export function useData (props, emit) {
+export function useRegion (props, emit) {
   const { emitUpdateModelValue, emitChange } = useEvent(emit)
   const { haveCity, haveArea, haveTown } = useState(props)
 
@@ -54,7 +61,6 @@ export function useData (props, emit) {
   const provinces = computed(() => regionProvinces)
   const cities = computed(() => getCities(data.province))
   const areas = computed(() => getAreas(data.city))
-  const towns = ref([])
   const isComplete = computed(() => {
     if (!haveCity.value && data.province) return true
     if (!haveArea.value && data.city) return true
@@ -68,9 +74,6 @@ export function useData (props, emit) {
       .join('')
   })
 
-  watch(() => data.area, val => {
-    getTowns(val).then(resp => { towns.value = resp })
-  })
   watch(() => props.modelValue, () => modelToData())
 
   const getData = () => toRaw(data)
@@ -102,7 +105,6 @@ export function useData (props, emit) {
       case PROVINCE_KEY: return provinces
       case CITY_KEY: return cities
       case AREA_KEY: return areas
-      case TOWN_KEY: return towns
     }
   }
   function modelToData () {
@@ -122,13 +124,13 @@ export function useData (props, emit) {
     provinces,
     cities,
     areas,
-    towns,
+    isComplete,
+    regionText,
+
     reset,
     setData,
     setLevel,
     getData,
-    isComplete,
-    regionText,
     getLevelList
   }
 }

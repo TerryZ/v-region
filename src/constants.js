@@ -13,3 +13,5 @@ export const LEVELS = [
 export const LEVEL_KEYS = [PROVINCE_KEY, CITY_KEY, AREA_KEY, TOWN_KEY]
 // 多语言占位符
 export const PLACEHOLDER_OTHER_CITIES = '#others-number#'
+
+export const injectKeyProps = Symbol('props')

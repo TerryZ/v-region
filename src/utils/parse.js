@@ -30,6 +30,28 @@ import { regionProvinces, regionCities } from '../formatted'
  * @returns {object} 区域原始数据模型
  */
 export async function modelToRegion (model, levels = LEVEL_KEYS) {
+  const { province, city, area } = model
+  const region = {
+    [PROVINCE_KEY]: undefined,
+    [CITY_KEY]: undefined,
+    [AREA_KEY]: undefined,
+    [TOWN_KEY]: undefined
+  }
+  const inLevel = key => levels.includes(key)
+
+  if (!province) return region
+  region[PROVINCE_KEY] = getDetail(province)
+
+  if (!city || !inLevel(CITY_KEY) || !region[PROVINCE_KEY]) return region
+  region[CITY_KEY] = getDetail(city)
+
+  if (!area || !inLevel(AREA_KEY) || !region[CITY_KEY]) return region
+  region[AREA_KEY] = getDetail(area)
+
+  return region
+}
+
+export async function modelToFullRegion (model, levels = LEVEL_KEYS) {
   const { province, city, area, town } = model
   const region = {
     [PROVINCE_KEY]: undefined,

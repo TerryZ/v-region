@@ -1,46 +1,14 @@
 import { ref, reactive, computed, toRaw, watch, onBeforeMount } from 'vue'
 import { PROVINCE_KEY, CITY_KEY, AREA_KEY, TOWN_KEY } from '../constants'
-import { CN } from '../language'
 import { regionProvinces } from '../formatted'
-import { regionToModel, modelToRegion } from './parse'
+import { modelToRegion } from '../utils/parse'
 import {
   getCities, getAreas, getTowns,
   availableLevels, getLevels, useState
-} from './helper'
+} from '../utils/helper'
+import { useEvent } from './base'
 
-export const commonProps = {
-  city: { type: Boolean, default: true },
-  area: { type: Boolean, default: true },
-  town: { type: Boolean, default: false },
-  language: { type: String, default: CN },
-  modelValue: { type: Object, default: undefined }
-}
-
-export const dropdownProps = {
-  language: { type: String, default: CN },
-  disabled: { type: Boolean, default: false },
-  /** 为触发对象添加自定义样式类 */
-  customTriggerClass: { type: String, default: '' },
-  /** 为下拉容器添加自定义样式类 */
-  customContainerClass: { type: String, default: '' }
-}
-
-export const commonEmits = ['update:modelValue', 'change']
-
-/**
- * 响应 `v-model` 与 `change` 事件
- *
- * 要求组件中已定义 `update:modelValue` 与 `change`
- * @param {function} emit 事件响应对象
- */
-function useEvent (emit) {
-  return {
-    emitUpdateModelValue: data => emit('update:modelValue', regionToModel(data)),
-    emitChange: data => emit('change', data)
-  }
-}
-
-export function useData (props, emit) {
+export function useFullRegion (props, emit) {
   const { emitUpdateModelValue, emitChange } = useEvent(emit)
   const { haveCity, haveArea, haveTown } = useState(props)
 
