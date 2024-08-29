@@ -15,3 +15,4 @@ export const LEVEL_KEYS = [PROVINCE_KEY, CITY_KEY, AREA_KEY, TOWN_KEY]
 export const PLACEHOLDER_OTHER_CITIES = '#others-number#'
 
 export const injectKeyProps = Symbol('props')
+export const injectKeySelector = Symbol('selector')
