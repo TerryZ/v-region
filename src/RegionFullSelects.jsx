@@ -8,7 +8,7 @@ import { useLanguage, useState } from './utils/helper'
 import { commonProps, dropdownProps, commonEmits, useData } from './utils/data'
 
 export default defineComponent({
-  name: 'RegionSelects',
+  name: 'RegionFullSelects',
   props: {
     ...commonProps,
     ...dropdownProps,
