@@ -5,7 +5,7 @@ import { injectKeyProps } from '../constants'
 export default defineComponent({
   name: 'RegionSelectList',
   props: {
-    list: { type: Object, default: undefined },
+    list: { type: Array, default: undefined },
     selected: { type: Object, default: undefined }
   },
   emits: ['select'],

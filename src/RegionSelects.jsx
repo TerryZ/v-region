@@ -41,35 +41,64 @@ export default defineComponent({
       customContainerClass: props.customContainerClass
     })
 
-    function generateLevel (list, model, callback) {
+    // function generateLevel (list, model, callback) {
+    //   return h(RegionSelect, {
+    //     list,
+    //     modelValue: model,
+    //     'onUpdate:modelValue': val => callback(val)
+    //   })
+    // }
+    function RegionLevel ({ hasLevel = true, list, value, levelKey }) {
+      if (!hasLevel) return null
       return h(RegionSelect, {
         list,
-        modelValue: model,
-        'onUpdate:modelValue': val => callback(val)
+        modelValue: value,
+        'onUpdate:modelValue': val => setLevel(levelKey, val)
       })
     }
 
     expose({ reset })
 
     return () => {
-      const selects = []
+      // const selects = []
 
-      selects.push(
-        generateLevel(provinces, data.province, val => { setLevel(PROVINCE_KEY, val) })
+      // selects.push(
+      //   generateLevel(provinces, data.province, val => { setLevel(PROVINCE_KEY, val) })
+      // )
+
+      // if (haveCity.value) {
+      //   selects.push(
+      //     generateLevel(cities, data.city, val => { setLevel(CITY_KEY, val) })
+      //   )
+      // }
+      // if (haveArea.value) {
+      //   selects.push(
+      //     generateLevel(areas, data.area, val => { setLevel(AREA_KEY, val) })
+      //   )
+      // }
+
+      // return h('div', selects)
+      return (
+        <div>
+          <RegionLevel
+            list={provinces}
+            value={data.province}
+            level-key={PROVINCE_KEY}
+          />
+          <RegionLevel
+            has-level={haveCity.value}
+            list={cities}
+            value={data.city}
+            level-key={CITY_KEY}
+          />
+          <RegionLevel
+            has-level={haveArea.value}
+            list={areas}
+            value={data.area}
+            level-key={AREA_KEY}
+          />
+        </div>
       )
-
-      if (haveCity.value) {
-        selects.push(
-          generateLevel(cities, data.city, val => { setLevel(CITY_KEY, val) })
-        )
-      }
-      if (haveArea.value) {
-        selects.push(
-          generateLevel(areas, data.area, val => { setLevel(AREA_KEY, val) })
-        )
-      }
-
-      return h('div', selects)
     }
   }
 })

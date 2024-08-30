@@ -13,7 +13,7 @@ export function mergeBaseProps (props) {
   return {
     city: { type: Boolean, default: true },
     area: { type: Boolean, default: true },
-    town: { type: Boolean, default: false },
+    // town: { type: Boolean, default: false },
     language: { type: String, default: CN },
     modelValue: { type: Object, default: undefined },
     ...props

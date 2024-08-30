@@ -1,5 +1,6 @@
 import { inject, computed, h, defineComponent } from 'vue'
 
+import DropdownContainer from '../components/DropdownContainer'
 import SelectList from './SelectList'
 
 import { useDropdown } from '../utils/selector'

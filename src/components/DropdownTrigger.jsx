@@ -51,10 +51,6 @@ export default {
       )
     }
 
-    return () => (
-      <div class='rg-trigger-container'>
-        {buttonContent()}
-      </div>
-    )
+    return () => <div class='rg-trigger-container'>{buttonContent()}</div>
   }
 }
