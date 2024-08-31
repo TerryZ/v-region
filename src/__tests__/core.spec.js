@@ -23,33 +23,33 @@ describe('v-region 核心工具模块', () => {
     })
 
     it('默认的行政级别状态应均为启用', () => {
-      expect(wrapper.vm.haveCity).equal(true)
-      expect(wrapper.vm.haveArea).equal(true)
-      expect(wrapper.vm.haveTown).equal(true)
+      expect(wrapper.vm.hasCity).equal(true)
+      expect(wrapper.vm.hasArea).equal(true)
+      expect(wrapper.vm.hasTown).equal(true)
       expect(wrapper.vm.getAvailableLevels()).toEqual(
         ['province', 'city', 'area', 'town']
       )
     })
     it('关闭 town prop，town 级别应为关闭状态', async () => {
       await wrapper.setProps({ town: false })
-      expect(wrapper.vm.haveTown).equal(false)
+      expect(wrapper.vm.hasTown).equal(false)
       expect(wrapper.vm.getAvailableLevels()).toEqual(
         ['province', 'city', 'area']
       )
     })
     it('关闭 area prop，area 与 town 级别应均为关闭状态', async () => {
       await wrapper.setProps({ area: false })
-      expect(wrapper.vm.haveArea).equal(false)
-      expect(wrapper.vm.haveTown).equal(false)
+      expect(wrapper.vm.hasArea).equal(false)
+      expect(wrapper.vm.hasTown).equal(false)
       expect(wrapper.vm.getAvailableLevels()).toEqual(
         ['province', 'city']
       )
     })
     it('关闭 city prop，city、area 与 town 级别应均为关闭状态', async () => {
       await wrapper.setProps({ city: false })
-      expect(wrapper.vm.haveCity).equal(false)
-      expect(wrapper.vm.haveArea).equal(false)
-      expect(wrapper.vm.haveTown).equal(false)
+      expect(wrapper.vm.hasCity).equal(false)
+      expect(wrapper.vm.hasArea).equal(false)
+      expect(wrapper.vm.hasTown).equal(false)
       expect(wrapper.vm.getAvailableLevels()).toEqual(
         ['province']
       )
@@ -57,9 +57,9 @@ describe('v-region 核心工具模块', () => {
     it('默认全启用状态下，关闭 city prop，city、area 与 town 级别应均为关闭状态', async () => {
       await wrapper.setProps({ city: true, area: true, town: true })
       await wrapper.setProps({ city: false })
-      expect(wrapper.vm.haveCity).equal(false)
-      expect(wrapper.vm.haveArea).equal(false)
-      expect(wrapper.vm.haveTown).equal(false)
+      expect(wrapper.vm.hasCity).equal(false)
+      expect(wrapper.vm.hasArea).equal(false)
+      expect(wrapper.vm.hasTown).equal(false)
       expect(wrapper.vm.getAvailableLevels()).toEqual(
         ['province']
       )

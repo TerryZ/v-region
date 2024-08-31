@@ -1,9 +1,8 @@
-import { inject, computed, h, defineComponent } from 'vue'
+import { inject, computed, defineComponent } from 'vue'
 
 import DropdownContainer from '../components/DropdownContainer'
 import SelectList from './SelectList'
 
-import { useDropdown } from '../utils/selector'
 import { injectKeyProps } from '../constants'
 
 export default defineComponent({
@@ -14,8 +13,6 @@ export default defineComponent({
   },
   emits: ['update:modelValue'],
   setup (props, { emit }) {
-    const { visible, closeDropdown, generateDropdown } = useDropdown(props)
-
     const {
       disabled,
       blank,
@@ -23,10 +20,6 @@ export default defineComponent({
       customTriggerClass,
       customContainerClass
     } = inject(injectKeyProps)
-    // const disabled = inject('disabled')
-    // const blank = inject('blank')
-    // const customTriggerClass = inject('customTriggerClass')
-    // const customContainerClass = inject('customContainerClass')
 
     const blankContent = blank ? blankText : '&nbsp;'
     const contentText = computed(() => props.modelValue?.value || blankContent)
@@ -39,34 +32,31 @@ export default defineComponent({
 
     function select (val) {
       emit('update:modelValue', val)
-      closeDropdown()
     }
 
-    return () => {
-      const trigger = h( // dropdown trigger object
-        'div',
-        { class: triggerClasses.value },
-        [
-          h('div', { class: 'rg-select__content', innerHTML: contentText.value }),
-          h('span', { class: 'rg-select__caret' })
-        ]
-      )
-
-      const content = h(SelectList, {
-        list: props.list,
-        blank,
-        blankText,
-        selected: props.modelValue,
-        onSelect: select
-      })
-
-      const dropdownProps = {
-        class: 'rg-select',
-        disabled: disabled.value,
-        customTriggerClass,
-        customContainerClass
-      }
-      return generateDropdown(dropdownProps, trigger, content)
-    }
+    return () => (
+      <DropdownContainer
+        class='rg-select'
+        disabled={disabled.value}
+        custom-trigger-class={customTriggerClass}
+        custom-container-class={customContainerClass}
+      >
+        {{
+          trigger: () => (
+            <div class={triggerClasses.value}>
+              <div class='rg-select__content'>{contentText.value}</div>
+              <span class='rg-select__caret' />
+            </div>
+          ),
+          default: () => (
+            <SelectList
+              list={props.list}
+              selected={props.modelValue}
+              onSelect={select}
+            />
+          )
+        }}
+      </DropdownContainer>
+    )
   }
 })

@@ -1,11 +1,11 @@
-import { reactive, computed, toRaw, watch, onBeforeMount } from 'vue'
+import { ref, reactive, computed, toRaw, watch, onBeforeMount } from 'vue'
 
 import { PROVINCE_KEY, CITY_KEY, AREA_KEY, TOWN_KEY } from '../constants'
 import { CN } from '../language'
 import { regionProvinces } from '../formatted'
 import { regionToModel, modelToRegion } from '../utils/parse'
 import {
-  getCities, getAreas,
+  getCities, getAreas, getTowns,
   availableLevels, getLevels, useState
 } from '../utils/helper'
 
@@ -49,7 +49,7 @@ export function useEvent (emit) {
 
 export function useRegion (props, emit) {
   const { emitUpdateModelValue, emitChange } = useEvent(emit)
-  const { haveCity, haveArea, haveTown } = useState(props)
+  const { hasCity, hasArea, hasTown } = useState(props)
 
   const data = reactive({
     province: undefined,
@@ -62,10 +62,10 @@ export function useRegion (props, emit) {
   const cities = computed(() => getCities(data.province))
   const areas = computed(() => getAreas(data.city))
   const isComplete = computed(() => {
-    if (!haveCity.value && data.province) return true
-    if (!haveArea.value && data.city) return true
-    if (!haveTown.value && data.area) return true
-    return Boolean(data.town)
+    if (!hasCity.value && data.province) return true
+    if (!hasArea.value && data.city) return true
+    if (!hasTown.value && data.area) return true
+    return !!data.town
   })
   const regionText = computed(() => {
     return Object.values(data)
@@ -132,5 +132,26 @@ export function useRegion (props, emit) {
     setLevel,
     getData,
     getLevelList
+  }
+}
+
+export function useRegionTown (props) {
+  const towns = ref([])
+  // const isFullyComplete = computed(() => {
+  //   if (!hasTown.value && isComplete.value) return true
+  //   return Boolean(data.town)
+  // })
+
+  watch(() => data.area, val => {
+    getTowns(val).then(resp => { towns.value = resp })
+  })
+
+  // function getFullyLevelList (level) {
+  //   if (level === TOWN_KEY) return towns
+  //   return getLevelList(level)
+  // }
+
+  return {
+    towns
   }
 }

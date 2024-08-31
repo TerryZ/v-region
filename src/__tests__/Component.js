@@ -23,16 +23,16 @@ export default {
       getLevelList
     } = useData(props, emit)
 
-    const { haveCity, haveArea, haveTown } = useState(props)
+    const { hasCity, hasArea, hasTown } = useState(props)
 
     function getAvailableLevels () {
       return availableLevels(props)
     }
 
     expose({
-      haveCity,
-      haveArea,
-      haveTown,
+      hasCity,
+      hasArea,
+      hasTown,
       getAvailableLevels,
 
       data,

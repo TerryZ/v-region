@@ -1,22 +1,30 @@
 import { defineComponent, inject } from 'vue'
 
-import { injectKeyProps } from '../constants'
+import { injectKeyProps, injectKeySelector } from '../constants'
 
 export default defineComponent({
   name: 'RegionSelectList',
   props: {
-    list: { type: Array, default: undefined },
+    list: { type: Object, default: undefined },
     selected: { type: Object, default: undefined }
   },
   emits: ['select'],
   setup (props, { emit }) {
     const { blank, blankText } = inject(injectKeyProps)
+    const { closeDropdown } = inject(injectKeySelector)
 
-    const select = val => emit('select', val)
+    const select = val => {
+      emit('select', val)
+      closeDropdown()
+    }
+    const BlankItem = () => {
+      if (blank) return null
+      return <li onClick={select}>{blankText}</li>
+    }
 
     return () => (
       <ul class='rg-select__list'>
-        {blank && <li onClick={select}>{blankText}</li>}
+        <BlankItem />
         {props.list.value.map(val => (
           <li
             key={val.key}

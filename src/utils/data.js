@@ -42,7 +42,7 @@ function useEvent (emit) {
 
 export function useData (props, emit) {
   const { emitUpdateModelValue, emitChange } = useEvent(emit)
-  const { haveCity, haveArea, haveTown } = useState(props)
+  const { hasCity, hasArea, hasTown } = useState(props)
 
   const data = reactive({
     province: undefined,
@@ -56,9 +56,9 @@ export function useData (props, emit) {
   const areas = computed(() => getAreas(data.city))
   const towns = ref([])
   const isComplete = computed(() => {
-    if (!haveCity.value && data.province) return true
-    if (!haveArea.value && data.city) return true
-    if (!haveTown.value && data.area) return true
+    if (!hasCity.value && data.province) return true
+    if (!hasArea.value && data.city) return true
+    if (!hasTown.value && data.area) return true
     return Boolean(data.town)
   })
   const regionText = computed(() => {

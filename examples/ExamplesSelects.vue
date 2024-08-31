@@ -93,35 +93,44 @@
           >Town</label>
         </div>
       </div>
-      <region-selects
-        ref="regionSelected"
-        language="en"
-        :city="enabledCity"
-        :area="enabledArea"
-        :town="enabledTown"
-        v-model="modelSelect"
-        @change="change"
-      />
-      <div class="my-3">
+
+      <div class="my-3 d-flex align-items-center">
+        <region-selects
+          ref="regionSelected"
+          language="en"
+          :city="enabledCity"
+          :area="enabledArea"
+          :town="enabledTown"
+          v-model="modelSelect"
+          @change="change"
+        />
         <button
           type="button"
-          class="btn btn-light me-3"
+          class="btn btn-light ms-3"
           @click="reset"
         >
           Reset
         </button>
       </div>
-      <div class="bg-light p-3 mb-3 rounded-3">
-        <pre
-          class="m-0"
-          v-text="JSON.stringify(modelSelect, null, 2)"
-        />
-      </div>
-      <div class="bg-light p-3 mb-3 rounded-3">
-        <pre
-          class="m-0"
-          v-text="JSON.stringify(valuesSelect, null, 2)"
-        />
+      <div class="row">
+        <div class="col-md-6">
+          <h6>model</h6>
+          <div class="bg-light p-3 mb-3 rounded-3">
+            <pre
+              class="m-0"
+              v-text="JSON.stringify(modelSelect, null, 2)"
+            />
+          </div>
+        </div>
+        <div class="col-md-6">
+          <h6>内部完整数据</h6>
+          <div class="bg-light p-3 mb-3 rounded-3">
+            <pre
+              class="m-0"
+              v-text="JSON.stringify(valuesSelect, null, 2)"
+            />
+          </div>
+        </div>
       </div>
 
       <h5 class="mt-3">

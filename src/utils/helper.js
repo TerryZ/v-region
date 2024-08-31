@@ -176,8 +176,8 @@ export function useLanguage (lang) {
 
 export function useState (props) {
   return {
-    haveCity: computed(() => props.city),
-    haveArea: computed(() => props.city && props.area),
-    haveTown: computed(() => props.city && props.area && props.town)
+    hasCity: computed(() => props.city),
+    hasArea: computed(() => props.city && props.area),
+    hasTown: computed(() => props.city && props.area && props.town)
   }
 }

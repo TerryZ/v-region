@@ -1,69 +1,61 @@
 import './styles/select.sass'
 
 import { h, provide, toRef, defineComponent } from 'vue'
-import RegionSelect from './components/Select'
 
-import { PROVINCE_KEY, CITY_KEY, AREA_KEY, TOWN_KEY } from './constants'
+import RegionSelectLevel from './modules/select/SelectLevel'
+import RegionSelects from './RegionSelects'
+
+import {
+  TOWN_KEY,
+  injectKeyProps
+} from './constants'
 import { useLanguage, useState } from './utils/helper'
-import { commonProps, dropdownProps, commonEmits, useData } from './utils/data'
+import { mergeSelectorProps, mergeEmits } from './core/base'
+import { useFullRegion } from './core/base-full'
 
 export default defineComponent({
   name: 'RegionFullSelects',
-  props: {
-    ...commonProps,
-    ...dropdownProps,
+  props: mergeSelectorProps({
+    town: { type: Boolean, default: true },
     blank: { type: Boolean, default: true }
-  },
-  emits: commonEmits,
+  }),
+  emits: mergeEmits(),
   setup (props, { emit, expose }) {
     const {
-      data, provinces, cities, areas, towns,
+      data, towns,
       setLevel, reset
-    } = useData(props, emit)
-    const { haveCity, haveArea, haveTown } = useState(props)
+    } = useFullRegion(props, emit)
+    const { hasTown } = useState(props)
     const lang = useLanguage(props.language)
 
-    provide('disabled', toRef(props, 'disabled'))
-    provide('blank', props.blank)
-    provide('customTriggerClass', props.customTriggerClass)
-    provide('customContainerClass', props.customContainerClass)
+    provide(injectKeyProps, {
+      disabled: toRef(props, 'disabled'),
+      blank: props.blank,
+      blankText: lang.pleaseSelect,
+      customTriggerClass: props.customTriggerClass,
+      customContainerClass: props.customContainerClass
+    })
 
-    function generateLevel (list, model, callback, refObject) {
-      return h(RegionSelect, {
-        ref: refObject,
+    function RegionLevel ({ hasLevel = true, list, value, levelKey }) {
+      if (!hasLevel) return null
+      return h(RegionSelectLevel, {
         list,
-        blankText: lang.pleaseSelect,
-        modelValue: model,
-        'onUpdate:modelValue': val => callback(val)
+        modelValue: value,
+        'onUpdate:modelValue': val => setLevel(levelKey, val)
       })
     }
 
     expose({ reset })
 
-    return () => {
-      const selects = []
-
-      selects.push(
-        generateLevel(provinces, data.province, val => { setLevel(PROVINCE_KEY, val) })
-      )
-
-      if (haveCity.value) {
-        selects.push(
-          generateLevel(cities, data.city, val => { setLevel(CITY_KEY, val) })
-        )
-      }
-      if (haveArea.value) {
-        selects.push(
-          generateLevel(areas, data.area, val => { setLevel(AREA_KEY, val) })
-        )
-      }
-      if (haveTown.value) {
-        selects.push(
-          generateLevel(towns, data.town, val => { setLevel(TOWN_KEY, val) })
-        )
-      }
-
-      return h('div', selects)
-    }
+    return () => (
+      <RegionSelects>
+        <RegionLevel
+          hasLevel={hasTown.value}
+          list={towns}
+          value={data.town}
+          levelKey={TOWN_KEY}
+        />
+      </RegionSelects>
+    )
   }
 })

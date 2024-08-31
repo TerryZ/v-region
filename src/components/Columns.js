@@ -18,7 +18,7 @@ export default defineComponent({
       data, provinces, cities, areas, towns,
       setLevel, reset, isComplete, regionText
     } = useData(props, emit)
-    const { haveCity, haveArea, haveTown } = useState(props)
+    const { hasCity, hasArea, hasTown } = useState(props)
 
     function generateColumn (list, haveChild, value, callback) {
       return h(RegionColumn, {
@@ -41,24 +41,24 @@ export default defineComponent({
       const columns = []
       columns.push( // province
         generateColumn(
-          provinces, haveCity, data.province, val => { setLevel(PROVINCE_KEY, val) }
+          provinces, hasCity, data.province, val => { setLevel(PROVINCE_KEY, val) }
         )
       )
-      if (haveCity.value && cities.value.length) { // city
+      if (hasCity.value && cities.value.length) { // city
         columns.push(
           generateColumn(
-            cities, haveArea, data.city, val => { setLevel(CITY_KEY, val) }
+            cities, hasArea, data.city, val => { setLevel(CITY_KEY, val) }
           )
         )
       }
-      if (haveArea.value && areas.value.length) { // area
+      if (hasArea.value && areas.value.length) { // area
         columns.push(
           generateColumn(
-            areas, haveTown, data.area, val => { setLevel(AREA_KEY, val) }
+            areas, hasTown, data.area, val => { setLevel(AREA_KEY, val) }
           )
         )
       }
-      if (haveTown.value && towns.value.length) { // town
+      if (hasTown.value && towns.value.length) { // town
         columns.push(
           generateColumn(
             towns, ref(false), data.town, val => { setLevel(TOWN_KEY, val) }

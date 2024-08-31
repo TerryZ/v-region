@@ -23,19 +23,22 @@ export default {
         props.removeAllSelected && props.removeAllSelected()
       ), ['stop'])
     )
-    const buttonIcon = () => {
-      if (!regionText.value) return <span class='rg-caret-down' />
-      return (
-        <span
-          class='rg-clear-btn'
-          title={lang.clear}
-          onClick={handleClear}
-        >
-          <IconClose />
-        </span>
-      )
+    const ButtonText = () => regionText.value || lang.pleaseSelect
+    const ButtonIcon = () => {
+      if (regionText.value) {
+        return (
+          <span
+            class='rg-clear-btn'
+            title={lang.clear}
+            onClick={handleClear}
+          >
+            <IconClose />
+          </span>
+        )
+      }
+      return <span class='rg-caret-down' />
     }
-    const buttonContent = () => {
+    const TriggerButton = () => {
       if (props.customTrigger) {
         return props.customTrigger({ region: props.region, visible })
       }
@@ -45,12 +48,12 @@ export default {
           type='button'
           class={['rg-default-btn', { 'rg-opened': visible.value }]}
         >
-          <span>{regionText.value || lang.pleaseSelect}</span>
-          {buttonIcon()}
+          <ButtonText />
+          <ButtonIcon />
         </button>
       )
     }
 
-    return () => <div class='rg-trigger-container'>{buttonContent()}</div>
+    return () => <div class='rg-trigger-container'><TriggerButton /></div>
   }
 }
