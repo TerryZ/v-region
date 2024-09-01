@@ -1,4 +1,5 @@
 import languages, { CN } from '../language'
+import { regionToModel } from '../utils/parse'
 
 /**
  * Get language resource by language code
@@ -18,4 +19,9 @@ export function getRegionText (region, separator = '') {
     .filter(val => val)
     .map(val => val.value)
     .join(separator)
+}
+export function modelEqualToRegion (model, region) {
+  if (!model) return false
+  const regionModel = regionToModel(region)
+  return Object.keys(regionModel).every(key => model[key] === regionModel[key])
 }
