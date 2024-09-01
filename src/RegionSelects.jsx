@@ -8,7 +8,7 @@ import {
   PROVINCE_KEY,
   CITY_KEY,
   AREA_KEY,
-  injectKeyProps
+  injectKeyBase
 } from './constants'
 import { useLanguage, useState } from './utils/helper'
 import { mergeSelectorProps, mergeEmits, useRegion } from './core/base'
@@ -24,10 +24,13 @@ export default defineComponent({
       data, provinces, cities, areas,
       setLevel, reset
     } = useRegion(props, emit)
-    const { hasCity, hasArea } = useState(props)
+    const { hasCity, hasArea, hasTown } = useState(props)
     const lang = useLanguage(props.language)
 
-    provide(injectKeyProps, {
+    provide(injectKeyBase, {
+      data,
+      hasTown,
+      setLevel,
       disabled: toRef(props, 'disabled'),
       blank: props.blank,
       blankText: lang.pleaseSelect,

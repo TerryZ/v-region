@@ -1,11 +1,11 @@
 import { computed, inject } from 'vue'
 
-import { injectKeySelector, injectKeyProps } from '../../constants'
+import { injectKeySelector, injectKeyBase } from '../../constants'
 
 export default {
   setup (props, { slots }) {
     const { dropdownVisible } = inject(injectKeySelector)
-    const { disabled } = inject(injectKeyProps)
+    const { disabled } = inject(injectKeyBase)
 
     const triggerClasses = computed(() => ({
       'rg-select__el': true,

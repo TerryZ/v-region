@@ -4,7 +4,7 @@ import DropdownContainer from '../../components/DropdownContainer'
 import SelectLevelList from './SelectLevelList'
 import SelectDropdownTrigger from './SelectDropdownTrigger'
 
-import { injectKeyProps } from '../../constants'
+import { injectKeyBase } from '../../constants'
 
 export default defineComponent({
   name: 'RegionSelect',
@@ -20,7 +20,7 @@ export default defineComponent({
       blankText,
       customTriggerClass,
       customContainerClass
-    } = inject(injectKeyProps)
+    } = inject(injectKeyBase)
 
     const blankContent = blank ? blankText : '&nbsp;'
     const contentText = computed(() => props.modelValue?.value || blankContent)

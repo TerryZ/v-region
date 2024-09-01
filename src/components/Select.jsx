@@ -3,7 +3,7 @@ import { inject, computed, defineComponent } from 'vue'
 import DropdownContainer from '../components/DropdownContainer'
 import SelectList from './SelectList'
 
-import { injectKeyProps } from '../constants'
+import { injectKeyBase } from '../constants'
 
 export default defineComponent({
   name: 'RegionSelect',
@@ -19,7 +19,7 @@ export default defineComponent({
       blankText,
       customTriggerClass,
       customContainerClass
-    } = inject(injectKeyProps)
+    } = inject(injectKeyBase)
 
     const blankContent = blank ? blankText : '&nbsp;'
     const contentText = computed(() => props.modelValue?.value || blankContent)

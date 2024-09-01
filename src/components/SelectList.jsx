@@ -1,6 +1,6 @@
 import { defineComponent, inject } from 'vue'
 
-import { injectKeyProps, injectKeySelector } from '../constants'
+import { injectKeyBase, injectKeySelector } from '../constants'
 
 export default defineComponent({
   name: 'RegionSelectList',
@@ -10,7 +10,7 @@ export default defineComponent({
   },
   emits: ['select'],
   setup (props, { emit }) {
-    const { blank, blankText } = inject(injectKeyProps)
+    const { blank, blankText } = inject(injectKeyBase)
     const { closeDropdown } = inject(injectKeySelector)
 
     const select = val => {

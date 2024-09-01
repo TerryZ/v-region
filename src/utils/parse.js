@@ -76,7 +76,7 @@ export async function modelToFullRegion (model, levels = LEVEL_KEYS) {
   return region
 }
 
-async function getTownModel (areaModel, townKey) {
+export async function getTownModel (areaModel, townKey) {
   // 获得区/县的下级乡镇/街道列表
   const towns = await getTowns(areaModel)
   // console.log(towns)
@@ -93,9 +93,7 @@ async function getTownModel (areaModel, townKey) {
 export function regionToModel (region) {
   if (!region) return {}
   return Object.fromEntries(
-    Object
-      .entries(region)
-      .map(([key, value]) => [key, value && value.key])
+    Object.entries(region).map(([key, value]) => [key, value && value.key])
   )
 }
 

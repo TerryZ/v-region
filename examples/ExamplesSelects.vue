@@ -95,7 +95,7 @@
       </div>
 
       <div class="my-3 d-flex align-items-center">
-        <region-selects
+        <region-full-selects
           ref="regionSelected"
           language="en"
           :city="enabledCity"
@@ -156,7 +156,7 @@
       <h5 class="mt-3">
         初始化值并禁用
       </h5>
-      <region-selects
+      <region-full-selects
         :town="true"
         :disabled="true"
         v-model="selected"
@@ -167,7 +167,7 @@
 
 <script setup>
 import { ref } from 'vue'
-import { RegionSelects } from '@/'
+import { RegionSelects, RegionFullSelects } from '@/'
 
 const value1 = ref({})
 const selected = ref({
@@ -176,10 +176,10 @@ const selected = ref({
   area: '350103',
   town: '350103012'
 })
-const modelSelect = ref(undefined)
-const valuesSelect = ref(undefined)
+const modelSelect = ref()
+const valuesSelect = ref()
 const disabled = ref(false)
-const regionSelected = ref(null)
+const regionSelected = ref()
 const enabledCity = ref(true)
 const enabledArea = ref(true)
 const enabledTown = ref(true)
