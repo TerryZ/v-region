@@ -9,7 +9,7 @@ import {
   getLevels,
   useLanguage
 } from '../utils/helper'
-import { modelToRegion, regionToModel, regionToText } from '../utils/parse'
+import { valueToModel, regionToModel, regionToText } from '../utils/parse'
 import { data, model } from './data'
 
 describe('v-region 核心工具模块', () => {
@@ -130,13 +130,13 @@ describe('v-region 核心工具模块', () => {
     })
   })
 
-  describe('参数数据模型转换为行政区划数据模型(modelToRegion)', () => {
+  describe('参数数据模型转换为行政区划数据模型(valueToModel)', () => {
     it('获得完整行政区划数据', async () => {
-      const value = await modelToRegion(model)
+      const value = await valueToModel(model)
       expect(value).toEqual(data)
     })
     it('设置有效区域级别仅为省、市时，仅返回有效级别的数据内容', async () => {
-      const value = await modelToRegion(model, ['province', 'city'])
+      const value = await valueToModel(model, ['province', 'city'])
       expect(value).toEqual({
         province: {
           key: '350000',

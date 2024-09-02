@@ -1,14 +1,14 @@
-import { ref, reactive, computed, toRaw, watch, watchEffect, onBeforeMount } from 'vue'
+import { ref, computed, watch, watchEffect, onBeforeMount } from 'vue'
 
 import { PROVINCE_KEY, CITY_KEY, AREA_KEY, TOWN_KEY } from '../constants'
 import { CN } from '../language'
 import { regionProvinces } from '../formatted'
-import { regionToModel, modelToRegion, getTownModel } from '../utils/parse'
+import { regionToModel, valueToModel, getTownModel } from '../utils/parse'
 import {
   getCities, getAreas, getTowns,
   availableLevels, getLevels, useState
 } from '../utils/helper'
-import { getRegionText, modelEqualToRegion } from './helper'
+import { getRegionText, valueEqualToModel } from './helper'
 
 export function mergeBaseProps (props) {
   return {
@@ -52,7 +52,7 @@ export function useRegion (props, emit) {
   const { emitUpdateModelValue, emitChange } = useEvent(emit)
   const { hasCity, hasArea, hasTown } = useState(props)
 
-  const data = reactive({
+  const data = ref({
     province: undefined,
     city: undefined,
     area: undefined,
@@ -60,40 +60,40 @@ export function useRegion (props, emit) {
   })
 
   const provinces = computed(() => regionProvinces)
-  const cities = computed(() => getCities(data.province))
-  const areas = computed(() => getAreas(data.city))
+  const cities = computed(() => getCities(data.value.province))
+  const areas = computed(() => getAreas(data.value.city))
   const regionText = computed(() => getRegionText(data))
   const isComplete = computed(() => {
-    if (!hasCity.value && data.province) return true
-    if (!hasArea.value && data.city) return true
-    if (!hasTown.value && data.area) return true
-    return !!data.town
+    if (!hasCity.value && data.value.province) return true
+    if (!hasArea.value && data.value.city) return true
+    if (!hasTown.value && data.value.area) return true
+    return !!data.value.town
   })
 
   watch(() => props.modelValue, () => modelToData())
 
-  const getData = () => toRaw(data)
-  const setData = val => Object.assign(data, val)
+  // TODO: data 从 reactive 换成 ref，评估是否还需要 set
+  const setData = val => Object.assign(data.value, val)
+  function emitData (emitModel = true) {
+    if (emitModel) emitUpdateModelValue(data.value)
+    emitChange(data.value)
+  }
   /**
    * 清除级别数据
    * @param {string} level 级别编码，传递空内容则清除所有级别数据
    */
-  function clearData (level) {
+  function resetLowerLevel (level) {
     if (level === TOWN_KEY) return
-    getLevels(level).forEach(key => { data[key] = undefined })
-  }
-  function emitData (emitModel = true) {
-    if (emitModel) emitUpdateModelValue(getData())
-    emitChange(getData())
+    getLevels(level).forEach(key => { data.value[key] = undefined })
   }
   function reset () {
-    clearData()
+    resetLowerLevel()
     emitData()
   }
   function setLevel (level, val) {
-    data[level] = val
+    data.value[level] = val
 
-    clearData(level)
+    resetLowerLevel(level)
     emitData()
   }
   function getLevelList (level) {
@@ -107,12 +107,12 @@ export function useRegion (props, emit) {
     if (!props.modelValue || !Object.keys(props.modelValue).length) {
       return
     }
-    if (modelEqualToRegion(props.modelValue, getData())) {
+    if (valueEqualToModel(props.modelValue, data.value)) {
       return
     }
-    modelToRegion(props.modelValue, availableLevels(props)).then(resp => {
+    valueToModel(props.modelValue, availableLevels(props)).then(resp => {
       setData(resp)
-      emitData(false)
+      emitData(false) // only trigger `change` event
     })
   }
 
@@ -129,7 +129,6 @@ export function useRegion (props, emit) {
     reset,
     setData,
     setLevel,
-    getData,
     getLevelList
   }
 }
@@ -138,10 +137,12 @@ export function useRegionTown (data, setLevel) {
   const towns = ref([])
 
   watchEffect(async () => {
-    towns.value = await getTowns(data?.area)
+    towns.value = await getTowns(data.value?.area)
     // if (!town || !inLevel(TOWN_KEY) || !region[AREA_KEY]) return region
     // TODO: 设置 town 的数据模型
-    data[TOWN_KEY] = await getTownModel(data[AREA_KEY], data?.town)
+    data.value[TOWN_KEY] = await getTownModel(
+      data.value[AREA_KEY], data.value?.town
+    )
   })
 
   // function getFullyLevelList (level) {

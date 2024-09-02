@@ -29,7 +29,7 @@ import { regionProvinces, regionCities } from '../formatted'
  *
  * @returns {object} 区域原始数据模型
  */
-export async function modelToRegion (model, levels = LEVEL_KEYS) {
+export async function valueToModel (model, levels = LEVEL_KEYS) {
   const { province, city, area } = model
   const region = {
     [PROVINCE_KEY]: undefined,

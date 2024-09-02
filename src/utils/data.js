@@ -2,7 +2,7 @@ import { ref, reactive, computed, toRaw, watch, onBeforeMount } from 'vue'
 import { PROVINCE_KEY, CITY_KEY, AREA_KEY, TOWN_KEY } from '../constants'
 import { CN } from '../language'
 import { regionProvinces } from '../formatted'
-import { regionToModel, modelToRegion } from './parse'
+import { regionToModel, valueToModel } from './parse'
 import {
   getCities, getAreas, getTowns,
   availableLevels, getLevels, useState
@@ -109,7 +109,7 @@ export function useData (props, emit) {
     if (!props.modelValue || !Object.keys(props.modelValue).length) {
       return
     }
-    modelToRegion(props.modelValue, availableLevels(props)).then(resp => {
+    valueToModel(props.modelValue, availableLevels(props)).then(resp => {
       setData(resp)
       emitChange(getData())
     })

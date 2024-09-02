@@ -53,19 +53,19 @@ export default defineComponent({
       <div>
         <RegionLevel
           list={provinces}
-          value={data.province}
+          value={data.value.province}
           levelKey={PROVINCE_KEY}
         />
         <RegionLevel
           hasLevel={hasCity.value}
           list={cities}
-          value={data.city}
+          value={data.value.city}
           levelKey={CITY_KEY}
         />
         <RegionLevel
           hasLevel={hasArea.value}
           list={areas}
-          value={data.area}
+          value={data.value.area}
           levelKey={AREA_KEY}
         />
         {slots.default?.()}

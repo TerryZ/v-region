@@ -19,7 +19,7 @@ export default {
       if (!hasTown.value) return null
       return h(RegionSelectLevel, {
         list: towns,
-        modelValue: data.town,
+        modelValue: data.value.town,
         'onUpdate:modelValue': val => setLevel(TOWN_KEY, val)
       })
     }

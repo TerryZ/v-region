@@ -20,8 +20,8 @@ export function getRegionText (region, separator = '') {
     .map(val => val.value)
     .join(separator)
 }
-export function modelEqualToRegion (model, region) {
-  if (!model) return false
-  const regionModel = regionToModel(region)
-  return Object.keys(regionModel).every(key => model[key] === regionModel[key])
+export function valueEqualToModel (values, model) {
+  if (!values) return false
+  const regionModel = regionToModel(model)
+  return Object.keys(regionModel).every(key => values[key] === regionModel[key])
 }
