@@ -54,7 +54,7 @@ export async function getTowns (area) {
 
   try {
     // const { default: data } = await import(townDataPath(area.key))
-    const { default: data } = await import(`../town/${area.key}.json`)
+    const { default: data } = await import(`../data/town/${area.key}.json`)
     // console.log(towns)
     if (!data || typeof data !== 'object') {
       return []

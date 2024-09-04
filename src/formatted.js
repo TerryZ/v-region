@@ -1,4 +1,4 @@
-import data from './data.json'
+import data from './data/data.json'
 
 // xx0000 为省级编码格式
 function isProvince (key) {
