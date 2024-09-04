@@ -1,6 +1,6 @@
 import { inject, h } from 'vue'
 
-import { injectKeyBase, TOWN_KEY } from '../../constants'
+import { injectKeyBase, KEY_TOWN } from '../../constants'
 import { useRegionTown } from '../../core/base'
 
 import RegionSelectLevel from './SelectLevel'
@@ -20,7 +20,7 @@ export default {
       return h(RegionSelectLevel, {
         list: towns,
         modelValue: data.value.town,
-        'onUpdate:modelValue': val => setLevel(TOWN_KEY, val)
+        'onUpdate:modelValue': val => setLevel(KEY_TOWN, val)
       })
     }
 

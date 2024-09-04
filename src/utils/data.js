@@ -1,5 +1,5 @@
 import { ref, reactive, computed, toRaw, watch, onBeforeMount } from 'vue'
-import { PROVINCE_KEY, CITY_KEY, AREA_KEY, TOWN_KEY } from '../constants'
+import { KEY_PROVINCE, KEY_CITY, KEY_AREA, KEY_TOWN } from '../constants'
 import { CN } from '../language'
 import { regionProvinces } from '../formatted'
 import { regionToModel, valueToModel } from './parse'
@@ -80,7 +80,7 @@ export function useData (props, emit) {
    * @param {string} level 级别编码，传递空内容则清除所有级别数据
    */
   function clearData (level) {
-    if (level === TOWN_KEY) return
+    if (level === KEY_TOWN) return
 
     getLevels(level).forEach(key => { data[key] = undefined })
   }
@@ -99,10 +99,10 @@ export function useData (props, emit) {
   }
   function getLevelList (level) {
     switch (level) {
-      case PROVINCE_KEY: return provinces
-      case CITY_KEY: return cities
-      case AREA_KEY: return areas
-      case TOWN_KEY: return towns
+      case KEY_PROVINCE: return provinces
+      case KEY_CITY: return cities
+      case KEY_AREA: return areas
+      case KEY_TOWN: return towns
     }
   }
   function modelToData () {

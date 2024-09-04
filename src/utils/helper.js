@@ -1,6 +1,6 @@
 import { computed } from 'vue'
 import { regionFull, regionCities, regionAreas } from '../formatted'
-import { LEVEL_KEYS, PROVINCE_KEY } from '../constants'
+import { LEVEL_KEYS } from '../constants'
 import languages, { CN } from '../language'
 
 /**
@@ -87,17 +87,11 @@ export function getLevels (level) {
  * @param {object} props
  */
 export function availableLevels (props) {
-  const result = [PROVINCE_KEY]
   const levels = [props.city, props.area, props.town]
 
-  for (let i = 0; i < levels.length; i++) {
-    if (levels[i]) {
-      result.push(LEVEL_KEYS[i + 1])
-    } else {
-      return result
-    }
-  }
-  return result
+  const index = levels.findIndex(val => !val)
+  if (index === -1) return LEVEL_KEYS
+  return LEVEL_KEYS.filter((val, idx) => idx <= index)
 }
 
 /**

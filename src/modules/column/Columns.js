@@ -3,7 +3,7 @@ import '../styles/column.sass'
 import { h, ref, defineComponent } from 'vue'
 import RegionColumn from './Column'
 
-import { PROVINCE_KEY, CITY_KEY, AREA_KEY, TOWN_KEY } from '../constants'
+import { KEY_PROVINCE, KEY_CITY, KEY_AREA, KEY_TOWN } from '../constants'
 import { useState } from '../utils/helper'
 import { commonProps, commonEmits, useData } from '../utils/data'
 
@@ -41,27 +41,27 @@ export default defineComponent({
       const columns = []
       columns.push( // province
         generateColumn(
-          provinces, hasCity, data.province, val => { setLevel(PROVINCE_KEY, val) }
+          provinces, hasCity, data.province, val => { setLevel(KEY_PROVINCE, val) }
         )
       )
       if (hasCity.value && cities.value.length) { // city
         columns.push(
           generateColumn(
-            cities, hasArea, data.city, val => { setLevel(CITY_KEY, val) }
+            cities, hasArea, data.city, val => { setLevel(KEY_CITY, val) }
           )
         )
       }
       if (hasArea.value && areas.value.length) { // area
         columns.push(
           generateColumn(
-            areas, hasTown, data.area, val => { setLevel(AREA_KEY, val) }
+            areas, hasTown, data.area, val => { setLevel(KEY_AREA, val) }
           )
         )
       }
       if (hasTown.value && towns.value.length) { // town
         columns.push(
           generateColumn(
-            towns, ref(false), data.town, val => { setLevel(TOWN_KEY, val) }
+            towns, ref(false), data.town, val => { setLevel(KEY_TOWN, val) }
           )
         )
       }

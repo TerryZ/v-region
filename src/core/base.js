@@ -1,6 +1,6 @@
 import { ref, computed, watch, watchEffect, onBeforeMount } from 'vue'
 
-import { PROVINCE_KEY, CITY_KEY, AREA_KEY, TOWN_KEY } from '../constants'
+import { KEY_PROVINCE, KEY_CITY, KEY_AREA, KEY_TOWN } from '../constants'
 import { CN } from '../language'
 import { regionProvinces } from '../formatted'
 import { regionToModel, valueToModel, getTownModel } from '../utils/parse'
@@ -83,7 +83,7 @@ export function useRegion (props, emit) {
    * @param {string} level 级别编码，传递空内容则清除所有级别数据
    */
   function resetLowerLevel (level) {
-    if (level === TOWN_KEY) return
+    if (level === KEY_TOWN) return
     getLevels(level).forEach(key => { data.value[key] = undefined })
   }
   function reset () {
@@ -98,9 +98,9 @@ export function useRegion (props, emit) {
   }
   function getLevelList (level) {
     switch (level) {
-      case PROVINCE_KEY: return provinces
-      case CITY_KEY: return cities
-      case AREA_KEY: return areas
+      case KEY_PROVINCE: return provinces
+      case KEY_CITY: return cities
+      case KEY_AREA: return areas
     }
   }
   function modelToData () {
@@ -138,15 +138,15 @@ export function useRegionTown (data, setLevel) {
 
   watchEffect(async () => {
     towns.value = await getTowns(data.value?.area)
-    // if (!town || !inLevel(TOWN_KEY) || !region[AREA_KEY]) return region
+    // if (!town || !inLevel(KEY_TOWN) || !region[KEY_AREA]) return region
     // TODO: 设置 town 的数据模型
-    data.value[TOWN_KEY] = await getTownModel(
-      data.value[AREA_KEY], data.value?.town
+    data.value[KEY_TOWN] = await getTownModel(
+      data.value[KEY_AREA], data.value?.town
     )
   })
 
   // function getFullyLevelList (level) {
-  //   if (level === TOWN_KEY) return towns
+  //   if (level === KEY_TOWN) return towns
   //   return getLevelList(level)
   // }
 

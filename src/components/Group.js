@@ -7,7 +7,7 @@ import IconTrash from '../icons/IconTrash.vue'
 import { commonProps, commonEmits, useData } from '../utils/data'
 import { useLanguage, availableLevels } from '../utils/helper'
 
-import { LEVELS, PROVINCE_KEY } from '../constants'
+import { LEVELS, KEY_PROVINCE } from '../constants'
 
 export default defineComponent({
   name: 'RegionGroupCore',
@@ -32,7 +32,7 @@ export default defineComponent({
     }
     function clear () {
       reset()
-      level.value = PROVINCE_KEY
+      level.value = KEY_PROVINCE
       emit('adjust')
     }
     function pick (item) {
@@ -117,7 +117,7 @@ export default defineComponent({
       ])
     }
 
-    onMounted(() => { level.value = PROVINCE_KEY })
+    onMounted(() => { level.value = KEY_PROVINCE })
 
     expose({ region: data, reset, regionText })
 

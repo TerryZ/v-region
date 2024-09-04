@@ -1,5 +1,5 @@
 import { ref, computed, watch } from 'vue'
-import { TOWN_KEY } from '../constants'
+import { KEY_TOWN } from '../constants'
 import { getTowns, useState } from '../utils/helper'
 import { useRegion } from './base'
 
@@ -29,7 +29,7 @@ export function useFullRegion (props, emit) {
   })
 
   function getFullyLevelList (level) {
-    if (level === TOWN_KEY) return towns
+    if (level === KEY_TOWN) return towns
     return getLevelList(level)
   }
 

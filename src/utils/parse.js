@@ -1,6 +1,6 @@
 import {
   LEVEL_KEYS,
-  PROVINCE_KEY, CITY_KEY, AREA_KEY, TOWN_KEY
+  KEY_PROVINCE, KEY_CITY, KEY_AREA, KEY_TOWN
 } from '../constants'
 import { getDetail, getTowns } from './helper'
 import { regionProvinces, regionCities } from '../formatted'
@@ -29,24 +29,30 @@ import { regionProvinces, regionCities } from '../formatted'
  *
  * @returns {object} 区域原始数据模型
  */
-export async function valueToModel (model, levels = LEVEL_KEYS) {
+export async function valueToModel (model, levels) {
   const { province, city, area } = model
   const region = {
-    [PROVINCE_KEY]: undefined,
-    [CITY_KEY]: undefined,
-    [AREA_KEY]: undefined,
-    [TOWN_KEY]: undefined
+    [KEY_PROVINCE]: undefined,
+    [KEY_CITY]: undefined,
+    [KEY_AREA]: undefined,
+    [KEY_TOWN]: undefined
   }
+
+  levels.forEach(level => {
+    const levelValue = model[level]
+    if (levelValue) region[level] = getDetail(levelValue)
+  })
+
   const inLevel = key => levels.includes(key)
 
   if (!province) return region
-  region[PROVINCE_KEY] = getDetail(province)
+  region[KEY_PROVINCE] = getDetail(province)
 
-  if (!city || !inLevel(CITY_KEY) || !region[PROVINCE_KEY]) return region
-  region[CITY_KEY] = getDetail(city)
+  if (!city || !inLevel(KEY_CITY) || !region[KEY_PROVINCE]) return region
+  region[KEY_CITY] = getDetail(city)
 
-  if (!area || !inLevel(AREA_KEY) || !region[CITY_KEY]) return region
-  region[AREA_KEY] = getDetail(area)
+  if (!area || !inLevel(KEY_AREA) || !region[KEY_CITY]) return region
+  region[KEY_AREA] = getDetail(area)
 
   return region
 }
@@ -54,24 +60,24 @@ export async function valueToModel (model, levels = LEVEL_KEYS) {
 export async function modelToFullRegion (model, levels = LEVEL_KEYS) {
   const { province, city, area, town } = model
   const region = {
-    [PROVINCE_KEY]: undefined,
-    [CITY_KEY]: undefined,
-    [AREA_KEY]: undefined,
-    [TOWN_KEY]: undefined
+    [KEY_PROVINCE]: undefined,
+    [KEY_CITY]: undefined,
+    [KEY_AREA]: undefined,
+    [KEY_TOWN]: undefined
   }
   const inLevel = key => levels.includes(key)
 
   if (!province) return region
-  region[PROVINCE_KEY] = getDetail(province)
+  region[KEY_PROVINCE] = getDetail(province)
 
-  if (!city || !inLevel(CITY_KEY) || !region[PROVINCE_KEY]) return region
-  region[CITY_KEY] = getDetail(city)
+  if (!city || !inLevel(KEY_CITY) || !region[KEY_PROVINCE]) return region
+  region[KEY_CITY] = getDetail(city)
 
-  if (!area || !inLevel(AREA_KEY) || !region[CITY_KEY]) return region
-  region[AREA_KEY] = getDetail(area)
+  if (!area || !inLevel(KEY_AREA) || !region[KEY_CITY]) return region
+  region[KEY_AREA] = getDetail(area)
 
-  if (!town || !inLevel(TOWN_KEY) || !region[AREA_KEY]) return region
-  region[TOWN_KEY] = await getTownModel(region[AREA_KEY], town)
+  if (!town || !inLevel(KEY_TOWN) || !region[KEY_AREA]) return region
+  region[KEY_TOWN] = await getTownModel(region[KEY_AREA], town)
 
   return region
 }

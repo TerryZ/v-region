@@ -5,9 +5,9 @@ import { h, provide, toRef, defineComponent } from 'vue'
 import RegionSelectLevel from './modules/select/SelectLevel'
 
 import {
-  PROVINCE_KEY,
-  CITY_KEY,
-  AREA_KEY,
+  KEY_PROVINCE,
+  KEY_CITY,
+  KEY_AREA,
   injectKeyBase
 } from './constants'
 import { useLanguage, useState } from './utils/helper'
@@ -54,19 +54,19 @@ export default defineComponent({
         <RegionLevel
           list={provinces}
           value={data.value.province}
-          levelKey={PROVINCE_KEY}
+          levelKey={KEY_PROVINCE}
         />
         <RegionLevel
           hasLevel={hasCity.value}
           list={cities}
           value={data.value.city}
-          levelKey={CITY_KEY}
+          levelKey={KEY_CITY}
         />
         <RegionLevel
           hasLevel={hasArea.value}
           list={areas}
           value={data.value.area}
-          levelKey={AREA_KEY}
+          levelKey={KEY_AREA}
         />
         {slots.default?.()}
       </div>
