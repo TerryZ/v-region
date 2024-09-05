@@ -3,12 +3,15 @@ import { ref, computed, watch, watchEffect, onBeforeMount } from 'vue'
 import { KEY_PROVINCE, KEY_CITY, KEY_AREA, KEY_TOWN } from '../constants'
 import { CN } from '../language'
 import { regionProvinces } from '../formatted'
-import { regionToModel, valueToModel, getTownModel } from '../utils/parse'
+import { getCities, getAreas, getLevels, useState } from '../utils/helper'
 import {
-  getCities, getAreas, getTowns,
-  availableLevels, getLevels, useState
-} from '../utils/helper'
-import { getRegionText, valueEqualToModel } from './helper'
+  getRegionText,
+  getTowns,
+  valueEqualToModel,
+  availableValues,
+  availableLevels
+} from './helper'
+import { valueToModel, getTownModel, modelToValue } from './parse'
 
 export function mergeBaseProps (props) {
   return {
@@ -43,7 +46,7 @@ export function mergeEmits (emit) {
  */
 export function useEvent (emit) {
   return {
-    emitUpdateModelValue: data => emit('update:modelValue', regionToModel(data)),
+    emitUpdateModelValue: data => emit('update:modelValue', modelToValue(data)),
     emitChange: data => emit('change', data)
   }
 }
@@ -58,6 +61,8 @@ export function useRegion (props, emit) {
     area: undefined,
     town: undefined
   })
+  // 初始为空，应用到乡镇级别时，再设置相关处理函数
+  const getTown = ref()
 
   const provinces = computed(() => regionProvinces)
   const cities = computed(() => getCities(data.value.province))
@@ -70,7 +75,7 @@ export function useRegion (props, emit) {
     return !!data.value.town
   })
 
-  watch(() => props.modelValue, () => modelToData())
+  watch(() => props.modelValue, () => parseValuesToModel())
 
   // TODO: data 从 reactive 换成 ref，评估是否还需要 set
   const setData = val => Object.assign(data.value, val)
@@ -103,20 +108,29 @@ export function useRegion (props, emit) {
       case KEY_AREA: return areas
     }
   }
-  function modelToData () {
+  // 将 v-model 输入的值转换为数据模型
+  async function parseValuesToModel () {
     if (!props.modelValue || !Object.keys(props.modelValue).length) {
       return
     }
+    // 值与模型一致，不进行转换
     if (valueEqualToModel(props.modelValue, data.value)) {
       return
     }
-    valueToModel(props.modelValue, availableLevels(props)).then(resp => {
-      setData(resp)
-      emitData(false) // only trigger `change` event
-    })
+    const values = availableValues(props.modelValue)
+    const levels = availableLevels(props)
+    const model = valueToModel(values, levels)
+
+    console.log(typeof getTown.value)
+    if (typeof getTown.value === 'function' && values.town) {
+      model[KEY_TOWN] = await getTown.value(model.area, values.town)
+    }
+
+    setData(model)
+    emitData(false) // only trigger `change` event
   }
 
-  onBeforeMount(() => modelToData())
+  onBeforeMount(() => parseValuesToModel())
 
   return {
     data,
@@ -125,6 +139,7 @@ export function useRegion (props, emit) {
     areas,
     isComplete,
     regionText,
+    getTown,
 
     reset,
     setData,
@@ -133,22 +148,12 @@ export function useRegion (props, emit) {
   }
 }
 
-export function useRegionTown (data, setLevel) {
+export function useRegionTown (modelValue, data) {
   const towns = ref([])
 
   watchEffect(async () => {
     towns.value = await getTowns(data.value?.area)
-    // if (!town || !inLevel(KEY_TOWN) || !region[KEY_AREA]) return region
-    // TODO: 设置 town 的数据模型
-    data.value[KEY_TOWN] = await getTownModel(
-      data.value[KEY_AREA], data.value?.town
-    )
   })
-
-  // function getFullyLevelList (level) {
-  //   if (level === KEY_TOWN) return towns
-  //   return getLevelList(level)
-  // }
 
   return {
     towns

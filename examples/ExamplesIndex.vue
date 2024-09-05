@@ -42,7 +42,7 @@
       </div>
     </nav>
 
-    <div class="p-5">
+    <div class="p-3">
       <router-view />
     </div>
   </div>

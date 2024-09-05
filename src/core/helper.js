@@ -84,3 +84,28 @@ export function validityValues (modelValue) {
   value[KEY_TOWN] = town
   return value
 }
+/**
+ * 根据区/县数据读取乡/镇列表
+ *
+ * @param {object} area - 区/县
+ * @returns {object[]} 乡/镇列表
+ */
+export async function getTowns (area) {
+  if (!area || !Object.keys(area).length) return []
+
+  try {
+    // const { default: data } = await import(townDataPath(area.key))
+    const { default: data } = await import(`../data/town/${area.key}.json`)
+    // console.log(towns)
+    if (!data || typeof data !== 'object') {
+      return []
+    }
+
+    return Object
+      .entries(data)
+      .map(([key, value]) => ({ key, value }))
+  } catch (e) {
+    console.warn(`The "${area.value}" area have no towns data.`)
+    return []
+  }
+}

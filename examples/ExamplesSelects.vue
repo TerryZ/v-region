@@ -206,6 +206,12 @@ function toggleDisabled () {
   disabled.value = !disabled.value
 }
 function reset () {
-  regionSelected.value.reset()
+  // regionSelected.value.reset()
+  modelSelect.value = {
+    province: '350000',
+    city: '350100',
+    area: '350103',
+    town: '350103012'
+  }
 }
 </script>

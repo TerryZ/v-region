@@ -22,15 +22,17 @@ export default defineComponent({
   setup (props, { emit, expose, slots }) {
     const {
       data, provinces, cities, areas,
-      setLevel, reset
+      setLevel, reset, getTown
     } = useRegion(props, emit)
     const { hasCity, hasArea, hasTown } = useState(props)
     const lang = useLanguage(props.language)
-
+    console.log(props.modelValue)
     provide(injectKeyBase, {
+      modelValue: toRef(props, 'modelValue'),
       data,
       hasTown,
       setLevel,
+      getTown,
       disabled: toRef(props, 'disabled'),
       blank: props.blank,
       blankText: lang.pleaseSelect,
