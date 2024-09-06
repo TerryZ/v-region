@@ -2,7 +2,7 @@ import { App } from 'vue'
 import { RegionItem, RegionInputModel, RegionModel } from './component'
 import { RegionText } from './text'
 import { RegionCityPicker } from './city'
-import { RegionSelects } from './selects'
+import { RegionSelects, RegionFullSelects } from './selects'
 import { RegionColumnsCore, RegionColumns } from './columns'
 import { RegionGroupCore, RegionGroup } from './group'
 
@@ -37,6 +37,7 @@ export {
   RegionText,
   RegionCityPicker,
   RegionSelects,
+  RegionFullSelects,
   RegionColumnsCore,
   RegionColumns,
   RegionGroupCore,

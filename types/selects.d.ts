@@ -19,3 +19,4 @@ declare interface RegionSelects {
 }
 
 export const RegionSelects: RegionSelects
+export const RegionFullSelects: RegionSelects
