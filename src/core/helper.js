@@ -1,7 +1,7 @@
 import languages, { CN } from '../language'
 import { LEVEL_KEYS, KEY_PROVINCE, KEY_CITY, KEY_AREA, KEY_TOWN } from '../constants'
 import { regionProvinces, regionCities, regionAreas } from '../formatted'
-import { regionToModel } from '../utils/parse'
+import { modelToValue } from './parse'
 
 /**
  * Get language resource by language code
@@ -22,10 +22,12 @@ export function getRegionText (region, separator = '') {
     .map(val => val.value)
     .join(separator)
 }
+export function valueEqual (values1, values2) {
+  return Object.keys(values1).every(key => values1[key] === values2[key])
+}
 export function valueEqualToModel (values, model) {
   if (!values) return false
-  const regionModel = regionToModel(model)
-  return Object.keys(regionModel).every(key => values[key] === regionModel[key])
+  return valueEqual(values, modelToValue(model))
 }
 /**
  * 获得组件配置的有效区域级别列表
@@ -94,18 +96,20 @@ export async function getTowns (area) {
   if (!area || !Object.keys(area).length) return []
 
   try {
-    // const { default: data } = await import(townDataPath(area.key))
     const { default: data } = await import(`../data/town/${area.key}.json`)
     // console.log(towns)
     if (!data || typeof data !== 'object') {
       return []
     }
 
-    return Object
-      .entries(data)
-      .map(([key, value]) => ({ key, value }))
+    return Object.entries(data).map(([key, value]) => ({ key, value }))
   } catch (e) {
     console.warn(`The "${area.value}" area have no towns data.`)
     return []
   }
+}
+export async function getTownModel (areaModel, townKey) {
+  // 获得区/县的下级乡镇/街道列表，再从列表中获得目标节点
+  const towns = await getTowns(areaModel)
+  return towns.find(val => val.key === townKey)
 }

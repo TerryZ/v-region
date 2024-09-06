@@ -7,11 +7,12 @@ import { getCities, getAreas, getLevels, useState } from '../utils/helper'
 import {
   getRegionText,
   getTowns,
+  getTownModel,
   valueEqualToModel,
   availableValues,
   availableLevels
 } from './helper'
-import { valueToModel, getTownModel, modelToValue } from './parse'
+import { valueToModel, modelToValue } from './parse'
 
 export function mergeBaseProps (props) {
   return {
@@ -78,7 +79,10 @@ export function useRegion (props, emit) {
   watch(() => props.modelValue, () => parseValuesToModel())
 
   // TODO: data 从 reactive 换成 ref，评估是否还需要 set
-  const setData = val => Object.assign(data.value, val)
+  const setData = val => {
+    // Object.assign(data.value, val)
+    data.value = val
+  }
   function emitData (emitModel = true) {
     if (emitModel) emitUpdateModelValue(data.value)
     emitChange(data.value)
@@ -109,6 +113,7 @@ export function useRegion (props, emit) {
     }
   }
   // 将 v-model 输入的值转换为数据模型
+  // TODO: 改造第 4 级的数据处理
   async function parseValuesToModel () {
     if (!props.modelValue || !Object.keys(props.modelValue).length) {
       return
@@ -119,15 +124,17 @@ export function useRegion (props, emit) {
     }
     const values = availableValues(props.modelValue)
     const levels = availableLevels(props)
+    console.log(values)
+    console.log(levels)
     const model = valueToModel(values, levels)
 
-    console.log(typeof getTown.value)
     if (typeof getTown.value === 'function' && values.town) {
       model[KEY_TOWN] = await getTown.value(model.area, values.town)
     }
 
     setData(model)
-    emitData(false) // only trigger `change` event
+    console.log(valueEqualToModel(props.modelValue, model))
+    emitData(!valueEqualToModel(props.modelValue, model))
   }
 
   onBeforeMount(() => parseValuesToModel())
@@ -153,9 +160,30 @@ export function useRegionTown (modelValue, data) {
 
   watchEffect(async () => {
     towns.value = await getTowns(data.value?.area)
+    // console.log(towns.value)
+    const townKey = modelValue.value?.town
+    console.log(modelValue.value)
+    if (townKey && towns.value.some(item => item.key === townKey)) {
+      data.value.town = towns.value.find(item => item.key === townKey)
+    }
   })
 
+  async function getRegionTown (areaModel, townKey) {
+    // if (!townKey) return
+    // if (towns.value.some(item => item.key === townKey)) {
+    //   return towns.value.find(item => item.key === townKey)
+    // }
+    // console.log('not in towns')
+    // return await getTownModel(areaModel, townKey)
+  }
+
+  // onBeforeMount(async () => {
+  //   if (!modelValue.value?.town) return
+  //   data.value.town = await getRegionTown(data.value.area, modelValue.value.town)
+  // })
+
   return {
-    towns
+    towns,
+    getRegionTown
   }
 }

@@ -4,7 +4,8 @@
       Select
       <small>下拉列表模式</small>
     </h3>
-    <div class="p-3 shadow-sm rounded-3 border">
+    <hr>
+    <div class="">
       <h5>
         省
       </h5>
@@ -158,9 +159,19 @@
       </h5>
       <region-full-selects
         :town="true"
-        :disabled="true"
-        v-model="selected"
+        :disabled="false"
+        v-model="fullSelected"
+        @change="changeSelected"
       />
+      <div class="mt-3">
+        <button
+          type="button"
+          class="btn btn-light"
+          @click="setFullSelected"
+        >
+          Change full region
+        </button>
+      </div>
     </div>
   </section>
 </template>
@@ -176,6 +187,12 @@ const selected = ref({
   area: '350103',
   town: '350103012'
 })
+const fullSelected = ref({
+  province: '350000',
+  city: '350100',
+  area: '350103',
+  town: '350103012'
+})
 const modelSelect = ref()
 const valuesSelect = ref()
 const disabled = ref(false)
@@ -184,12 +201,6 @@ const enabledCity = ref(true)
 const enabledArea = ref(true)
 const enabledTown = ref(true)
 
-function change (data) {
-  valuesSelect.value = data
-
-  console.log(modelSelect.value)
-  console.log(data)
-}
 function changeSelected (data) {
   console.log(selected.value)
   console.log(data)
@@ -199,11 +210,25 @@ function setSelected () {
     province: '350000',
     city: '350500',
     area: '350582',
+    town: undefined
+  }
+}
+function setFullSelected () {
+  fullSelected.value = {
+    province: '350000',
+    city: '350500',
+    area: '350582',
     town: '350582105'
   }
 }
 function toggleDisabled () {
   disabled.value = !disabled.value
+}
+function change (data) {
+  valuesSelect.value = data
+
+  console.log(modelSelect.value)
+  console.log(data)
 }
 function reset () {
   // regionSelected.value.reset()

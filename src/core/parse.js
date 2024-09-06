@@ -2,7 +2,6 @@ import {
   KEY_PROVINCE, KEY_CITY, KEY_AREA, KEY_TOWN
 } from '../constants'
 import { regionProvinces, regionCities, regionAreas } from '../formatted'
-import { getTowns } from './helper'
 /**
  * 入参数据模型转换为完整数据
  *
@@ -46,14 +45,6 @@ export function valueToModel (values, levels) {
   setLevelModel(KEY_AREA, area, regionAreas)
 
   return region
-}
-export async function getTownModel (areaModel, townKey) {
-  // 获得区/县的下级乡镇/街道列表
-  const towns = await getTowns(areaModel)
-  // console.log(towns)
-  if (!towns.length) return
-
-  return towns.find(val => val.key === townKey)
 }
 /**
  * 区域完整数据模型转换为入参数据模型

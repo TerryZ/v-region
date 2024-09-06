@@ -26,7 +26,7 @@ export default defineComponent({
     } = useRegion(props, emit)
     const { hasCity, hasArea, hasTown } = useState(props)
     const lang = useLanguage(props.language)
-    console.log(props.modelValue)
+
     provide(injectKeyBase, {
       modelValue: toRef(props, 'modelValue'),
       data,
@@ -51,27 +51,29 @@ export default defineComponent({
 
     expose({ reset })
 
-    return () => (
-      <div>
-        <RegionLevel
-          list={provinces}
-          value={data.value.province}
-          levelKey={KEY_PROVINCE}
-        />
-        <RegionLevel
-          hasLevel={hasCity.value}
-          list={cities}
-          value={data.value.city}
-          levelKey={KEY_CITY}
-        />
-        <RegionLevel
-          hasLevel={hasArea.value}
-          list={areas}
-          value={data.value.area}
-          levelKey={KEY_AREA}
-        />
-        {slots.default?.()}
-      </div>
-    )
+    return () => {
+      return (
+        <div>
+          <RegionLevel
+            list={provinces}
+            value={data.value.province}
+            levelKey={KEY_PROVINCE}
+          />
+          <RegionLevel
+            hasLevel={hasCity.value}
+            list={cities}
+            value={data.value.city}
+            levelKey={KEY_CITY}
+          />
+          <RegionLevel
+            hasLevel={hasArea.value}
+            list={areas}
+            value={data.value.area}
+            levelKey={KEY_AREA}
+          />
+          {slots.default?.()}
+        </div>
+      )
+    }
   }
 })
