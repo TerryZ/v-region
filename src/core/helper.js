@@ -3,6 +3,14 @@ import { LEVEL_KEYS, KEY_PROVINCE, KEY_CITY, KEY_AREA, KEY_TOWN } from '../const
 import { regionProvinces, regionCities, regionAreas } from '../formatted'
 import { modelToValue } from './parse'
 
+export function createLevel (list) {
+  return {
+    key: undefined,
+    name: undefined,
+    parentKey: undefined,
+    list
+  }
+}
 /**
  * Get language resource by language code
  * @param {string} code - language code
@@ -14,6 +22,17 @@ export function getLanguage (lang = CN) {
   if (key in languages) return languages[key]
 
   return languages[CN]
+}
+/**
+ * 获得指定行政级别的下级项目
+ * @param {string} level 指定行政级别，空内容则获得所有级别
+ * @returns {string[]}
+ */
+export function getLowerLevels (level) {
+  if (!level) return LEVEL_KEYS
+
+  const index = LEVEL_KEYS.findIndex(val => val === level)
+  return LEVEL_KEYS.filter((val, idx) => idx > index)
 }
 export function getRegionText (region, separator = '') {
   if (!region || !Object.keys(region).length) return ''
@@ -85,6 +104,10 @@ export function validityValues (modelValue) {
   if (levelInvalid(KEY_AREA, area, regionAreas)) return value
   value[KEY_TOWN] = town
   return value
+}
+export function getNextLevel (level) {
+  const index = LEVEL_KEYS.findIndex(val => val === level)
+  return LEVEL_KEYS.at(index + 1)
 }
 /**
  * 根据区/县数据读取乡/镇列表

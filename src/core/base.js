@@ -1,6 +1,9 @@
-import { ref, computed, watch, watchEffect, onBeforeMount } from 'vue'
+import { ref, computed, watch, watchEffect, onBeforeMount, provide, toRef } from 'vue'
 
-import { KEY_PROVINCE, KEY_CITY, KEY_AREA, KEY_TOWN } from '../constants'
+import {
+  KEY_PROVINCE, KEY_CITY, KEY_AREA, KEY_TOWN, LEVEL_KEYS,
+  injectKeyCore
+} from '../constants'
 import { CN } from '../language'
 import { regionProvinces } from '../formatted'
 import { getCities, getAreas, getLevels, useState } from '../utils/helper'
@@ -8,11 +11,14 @@ import {
   getRegionText,
   getTowns,
   getTownModel,
+  getLowerLevels,
   valueEqualToModel,
   availableValues,
-  availableLevels
+  availableLevels,
+  createLevel
 } from './helper'
 import { valueToModel, modelToValue } from './parse'
+import { regionCities } from 'types'
 
 export function mergeBaseProps (props) {
   return {
@@ -51,17 +57,60 @@ export function useEvent (emit) {
     emitChange: data => emit('change', data)
   }
 }
+function useData () {
+  const data = ref({
+    [KEY_PROVINCE]: createLevel(regionProvinces),
+    [KEY_CITY]: createLevel(),
+    [KEY_AREA]: createLevel(),
+    [KEY_TOWN]: createLevel()
+  })
+  const loader = {
+    [KEY_CITY]: parentKey => getCities(parentKey),
+    [KEY_AREA]: parentKey => getAreas(parentKey),
+    [KEY_TOWN]: undefined
+  }
 
+  const getDataValues = () => modelToValue(data)
+
+  const resetLevel = (level) => {
+    data.value[level].key = undefined
+    data.value[level].name = undefined
+    data.value[level].list = []
+  }
+  /**
+   * 清除级别数据
+   * @param {string} level 级别编码，传递空内容则清除所有级别数据
+   */
+  const resetLowerLevel = level => {
+    if (level === KEY_TOWN) return
+    getLowerLevels(level).forEach(level => resetLevel(level))
+  }
+  const setLevelByKey = (level, key, list) => {
+    const model = list.find(val => val.key === key)
+    data.value[level].key = model?.key
+    data.value[level].name = model?.value
+  }
+  const setTownListLoader = fn => {
+    loader[KEY_TOWN] = parentKey => fn(parentKey)
+  }
+
+  return {
+    data,
+    getDataValues,
+    resetLowerLevel,
+    setTownListLoader
+  }
+}
 export function useRegion (props, emit) {
   const { emitUpdateModelValue, emitChange } = useEvent(emit)
   const { hasCity, hasArea, hasTown } = useState(props)
+  const {
+    data,
+    getDataValues,
+    resetLowerLevel,
+    setTownListLoader
+  } = useData()
 
-  const data = ref({
-    province: undefined,
-    city: undefined,
-    area: undefined,
-    town: undefined
-  })
   // 初始为空，应用到乡镇级别时，再设置相关处理函数
   const getTown = ref()
 
@@ -87,14 +136,6 @@ export function useRegion (props, emit) {
     if (emitModel) emitUpdateModelValue(data.value)
     emitChange(data.value)
   }
-  /**
-   * 清除级别数据
-   * @param {string} level 级别编码，传递空内容则清除所有级别数据
-   */
-  function resetLowerLevel (level) {
-    if (level === KEY_TOWN) return
-    getLevels(level).forEach(key => { data.value[key] = undefined })
-  }
   function reset () {
     resetLowerLevel()
     emitData()
@@ -106,11 +147,12 @@ export function useRegion (props, emit) {
     emitData()
   }
   function getLevelList (level) {
-    switch (level) {
-      case KEY_PROVINCE: return provinces
-      case KEY_CITY: return cities
-      case KEY_AREA: return areas
-    }
+    // switch (level) {
+    //   case KEY_PROVINCE: return provinces
+    //   case KEY_CITY: return cities
+    //   case KEY_AREA: return areas
+    // }
+    return data.value[level].list
   }
   // 将 v-model 输入的值转换为数据模型
   // TODO: 改造第 4 级的数据处理
@@ -124,20 +166,31 @@ export function useRegion (props, emit) {
     }
     const values = availableValues(props.modelValue)
     const levels = availableLevels(props)
-    console.log(values)
-    console.log(levels)
+
+    resetLowerLevel()
+    //
     const model = valueToModel(values, levels)
 
-    if (typeof getTown.value === 'function' && values.town) {
+    if (
+      typeof getTown.value === 'function' &&
+      levels.includes(KEY_TOWN) &&
+      values.town
+    ) {
       model[KEY_TOWN] = await getTown.value(model.area, values.town)
     }
 
     setData(model)
-    console.log(valueEqualToModel(props.modelValue, model))
+    // 经过校验和清洗后，若值发生变化，则响应 modelValue 变更事件
     emitData(!valueEqualToModel(props.modelValue, model))
   }
 
   onBeforeMount(() => parseValuesToModel())
+
+  provide(injectKeyCore, {
+    modelValue: toRef(props, 'modelValue'),
+    data,
+    setTownListLoader
+  })
 
   return {
     data,
@@ -149,9 +202,9 @@ export function useRegion (props, emit) {
     getTown,
 
     reset,
-    setData,
     setLevel,
-    getLevelList
+    getLevelList,
+    setTownListLoader
   }
 }
 

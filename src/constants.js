@@ -14,5 +14,6 @@ export const LEVEL_KEYS = [KEY_PROVINCE, KEY_CITY, KEY_AREA, KEY_TOWN]
 // city-picker 多语言占位符
 export const PLACEHOLDER_OTHER_CITIES = '#others-number#'
 
+export const injectKeyCore = Symbol('core')
 export const injectKeyBase = Symbol('base')
 export const injectKeySelector = Symbol('selector')
