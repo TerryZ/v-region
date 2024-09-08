@@ -65,14 +65,27 @@ function useData () {
     [KEY_AREA]: createLevel(),
     [KEY_TOWN]: createLevel()
   })
-  const loader = {
-    [KEY_CITY]: getCities,
-    [KEY_AREA]: getAreas,
+  const listLoader = {
+    [KEY_CITY]: () => levelListLoader(KEY_CITY, KEY_PROVINCE, getCities),
+    [KEY_AREA]: () => levelListLoader(KEY_AREA, KEY_CITY, getAreas),
     [KEY_TOWN]: undefined
   }
 
-  const getDataValues = () => modelToValue(data)
-
+  const levelListLoader = (level, parentLevel, loader) => {
+    const model = getLevelModel(parentLevel)
+    data.value[level].list = loader(model)
+    data.value[level].parentKey = model.key
+  }
+  const setupTownListLoader = async (fn, townKey) => {
+    const townListLoader = async () => {
+      const areaModel = getLevelModel(KEY_AREA)
+      data.value[KEY_TOWN].list = await fn(areaModel)
+    }
+    listLoader[KEY_TOWN] = townListLoader
+    // if (!data.value[KEY_TOWN].key) return
+    await townListLoader()
+    setLevelByKey(KEY_TOWN, townKey)
+  }
   const resetLevel = (level) => {
     data.value[level].key = undefined
     data.value[level].name = undefined
@@ -96,26 +109,7 @@ function useData () {
     data.value[level].name = model.value
 
     const nextLevel = getNextLevel(level)
-
-    if (!nextLevel) return
-
-    const listLoader = loader[nextLevel]
-
-    if (!listLoader) return
-
-    const setList = list => {
-      data.value[nextLevel].list = list
-      data.value[nextLevel].parentKey = model.key
-    }
-
-    const result = listLoader(model)
-    // setList(result)
-    // console.log(result)
-    if (isPromise(result)) {
-      result.then(list => setList(list))
-    } else {
-      setList(result)
-    }
+    nextLevel && listLoader[nextLevel]?.()
   }
   // 响应 modelValue 变更
   const setLevelByKey = (level, key) => {
@@ -127,14 +121,7 @@ function useData () {
     if (!levelModel.key) return
     return { key: levelModel.key, value: levelModel.name }
   }
-  const setupTownListLoader = async (fn, townKey) => {
-    loader[KEY_TOWN] = fn
-    // if (!data.value[KEY_TOWN].key) return
-
-    const areaModel = getLevelModel(KEY_AREA)
-    data.value[KEY_TOWN].list = await fn(areaModel)
-    setLevelByKey(KEY_TOWN, townKey)
-  }
+  const getDataValues = () => modelToValue(data)
   const parseDataModel = () => {
     const model = {}
     LEVEL_KEYS.forEach(level => {
@@ -145,7 +132,7 @@ function useData () {
 
   return {
     data,
-    loader,
+    loader: listLoader,
     getDataValues,
     resetLowerLevel,
     parseDataModel,
@@ -168,9 +155,6 @@ export function useRegion (props, emit) {
     setupTownListLoader
   } = useData()
 
-  // 初始为空，应用到乡镇级别时，再设置相关处理函数
-  const getTown = ref()
-
   const provinces = computed(() => regionProvinces)
   const cities = computed(() => getCities(data.value.province))
   const areas = computed(() => getAreas(data.value.city))
@@ -186,10 +170,10 @@ export function useRegion (props, emit) {
   watch(() => props.modelValue, () => parseValueToModel())
 
   // TODO: data 从 reactive 换成 ref，评估是否还需要 set
-  const setData = val => {
-    // Object.assign(data.value, val)
-    data.value = val
-  }
+  // const setData = val => {
+  //   // Object.assign(data.value, val)
+  //   data.value = val
+  // }
   function emitData (emitModel = true) {
     if (emitModel) emitUpdateModelValue(data.value)
     emitChange(parseDataModel())
@@ -225,7 +209,7 @@ export function useRegion (props, emit) {
     // console.log(values)
     // console.log(levels)
 
-    resetLowerLevel()
+    // resetLowerLevel()
     levels.forEach(level => {
       setLevelByKey(level, values[level])
     })
@@ -261,7 +245,6 @@ export function useRegion (props, emit) {
     areas,
     isComplete,
     regionText,
-    getTown,
 
     reset,
     setLevel,
@@ -298,7 +281,7 @@ export function useRegionTown (modelValue, data) {
 
   return {
     towns,
-    townLostLoader: getTowns,
+    townListLoader: getTowns,
     getRegionTown
   }
 }

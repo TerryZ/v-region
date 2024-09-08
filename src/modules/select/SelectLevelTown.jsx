@@ -9,10 +9,10 @@ export default {
   name: 'RegionSelectTown',
   setup () {
     const { hasTown } = inject(injectKeyBase)
-    const { townLostLoader } = useRegionTown()
+    const { townListLoader } = useRegionTown()
     const { modelValue, setupTownListLoader } = inject(injectKeyCore)
 
-    setupTownListLoader(townLostLoader, modelValue.value[KEY_TOWN])
+    setupTownListLoader(townListLoader, modelValue.value[KEY_TOWN])
 
     function RegionLevel () {
       if (!hasTown.value) return null
