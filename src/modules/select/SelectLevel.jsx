@@ -4,18 +4,16 @@ import DropdownContainer from '../../components/DropdownContainer'
 import SelectLevelList from './SelectLevelList'
 import SelectDropdownTrigger from './SelectDropdownTrigger'
 
-import { injectKeyBase } from '../../constants'
+import { injectKeyCore, injectKeyBase } from '../../constants'
 
 export default defineComponent({
   name: 'RegionSelect',
   props: {
-    list: { type: Object, required: true },
-    modelValue: { type: Object, default: undefined }
+    level: { type: String, default: '' }
   },
-  emits: ['update:modelValue'],
-  setup (props, { emit }) {
+  setup (props) {
+    const { data, disabled } = inject(injectKeyCore)
     const {
-      disabled,
       blank,
       blankText,
       customTriggerClass,
@@ -23,9 +21,9 @@ export default defineComponent({
     } = inject(injectKeyBase)
 
     const blankContent = blank ? blankText : '&nbsp;'
-    const contentText = computed(() => props.modelValue?.value || blankContent)
-
-    const updateModelValue = val => emit('update:modelValue', val)
+    const contentText = computed(() => (
+      data.value[props.level]?.name || blankContent
+    ))
 
     return () => (
       <DropdownContainer
@@ -37,13 +35,7 @@ export default defineComponent({
         trigger: () => (
           <SelectDropdownTrigger>{contentText.value}</SelectDropdownTrigger>
         ),
-        default: () => (
-          <SelectLevelList
-            list={props.list}
-            selected={props.modelValue}
-            onSelect={updateModelValue}
-          />
-        )
+        default: () => <SelectLevelList level={props.level} />
       }}</DropdownContainer>
     )
   }

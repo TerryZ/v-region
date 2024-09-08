@@ -1,6 +1,6 @@
-import { inject, h } from 'vue'
+import { inject } from 'vue'
 
-import { injectKeyBase, KEY_TOWN } from '../../constants'
+import { injectKeyBase, injectKeyCore, KEY_TOWN } from '../../constants'
 import { useRegionTown } from '../../core/base'
 
 import RegionSelectLevel from './SelectLevel'
@@ -8,18 +8,15 @@ import RegionSelectLevel from './SelectLevel'
 export default {
   name: 'RegionSelectTown',
   setup () {
-    const { modelValue, data, hasTown, setLevel, getTown } = inject(injectKeyBase)
-    const { towns, getRegionTown } = useRegionTown(modelValue, data)
+    const { hasTown } = inject(injectKeyBase)
+    const { townLostLoader } = useRegionTown()
+    const { modelValue, setupTownListLoader } = inject(injectKeyCore)
 
-    // getTown.value = getRegionTown
+    setupTownListLoader(townLostLoader, modelValue.value[KEY_TOWN])
 
     function RegionLevel () {
       if (!hasTown.value) return null
-      return h(RegionSelectLevel, {
-        list: towns,
-        modelValue: data.value.town,
-        'onUpdate:modelValue': val => setLevel(KEY_TOWN, val)
-      })
+      return <RegionSelectLevel level={KEY_TOWN} />
     }
 
     return () => <RegionLevel />

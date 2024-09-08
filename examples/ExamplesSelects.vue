@@ -96,6 +96,7 @@
       </div>
 
       <div class="my-3 d-flex align-items-center">
+        <!--
         <region-full-selects
           ref="regionSelected"
           language="en"
@@ -105,6 +106,7 @@
           v-model="modelSelect"
           @change="change"
         />
+        -->
         <button
           type="button"
           class="btn btn-light ms-3"
@@ -157,12 +159,14 @@
       <h5 class="mt-3">
         初始化值并禁用
       </h5>
+
       <region-full-selects
         :town="true"
         :disabled="false"
         v-model="fullSelected"
         @change="changeSelected"
       />
+
       <div class="mt-3">
         <button
           type="button"

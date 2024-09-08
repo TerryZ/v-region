@@ -3,7 +3,7 @@ import { LEVEL_KEYS, KEY_PROVINCE, KEY_CITY, KEY_AREA, KEY_TOWN } from '../const
 import { regionProvinces, regionCities, regionAreas } from '../formatted'
 import { modelToValue } from './parse'
 
-export function createLevel (list) {
+export function createLevel (list = []) {
   return {
     key: undefined,
     name: undefined,
@@ -110,6 +110,41 @@ export function getNextLevel (level) {
   return LEVEL_KEYS.at(index + 1)
 }
 /**
+ * 根据省读取城市列表
+ *
+ * @param {object} province - 省
+ * @returns {object[]} - 城市列表
+ */
+export function getCities (province) {
+  if (!province || !Object.keys(province).length) return []
+
+  const list = regionCities.filter(val => {
+    const num = Number.parseInt(province.key)
+    return (val.key - num) < 1e4 && (val.key % num) < 1e4
+  })
+  // Municipalities directly under the central government
+  return list.length ? list : [province]
+}
+
+/**
+ * 根据城市读取区/县列表
+ *
+ * @param {object} city - 城市
+ * @returns {object[]} 区/县列表
+ */
+export function getAreas (city) {
+  if (!city || !Object.keys(city).length) return []
+
+  const cityKey = Number.parseInt(city.key)
+  const isNotProvince = cityKey % 1e4
+  const calcNum = isNotProvince ? 100 : 1e4
+  const list = regionAreas.filter(val => {
+    return (val.key - cityKey) < calcNum && val.key % cityKey < calcNum
+  })
+  // Prefecture-level city
+  return list.length ? list : [city]
+}
+/**
  * 根据区/县数据读取乡/镇列表
  *
  * @param {object} area - 区/县
@@ -135,4 +170,7 @@ export async function getTownModel (areaModel, townKey) {
   // 获得区/县的下级乡镇/街道列表，再从列表中获得目标节点
   const towns = await getTowns(areaModel)
   return towns.find(val => val.key === townKey)
+}
+export function isPromise (p) {
+  return p && Object.prototype.toString.call(p) === '[object Promise]'
 }

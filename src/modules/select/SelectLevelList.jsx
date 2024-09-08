@@ -1,39 +1,44 @@
 import { defineComponent, inject } from 'vue'
 
-import { injectKeyBase, injectKeySelector } from '../../constants'
+import { injectKeyCore, injectKeyBase, injectKeySelector } from '../../constants'
 
 export default defineComponent({
   name: 'RegionSelectList',
   props: {
-    list: { type: Object, default: undefined },
-    selected: { type: Object, default: undefined }
+    level: { type: String, default: '' }
   },
-  emits: ['select'],
-  setup (props, { emit }) {
+  setup (props) {
+    const { data, setLevelByModel } = inject(injectKeyCore)
     const { blank, blankText } = inject(injectKeyBase)
     const { closeDropdown } = inject(injectKeySelector)
+    const { level } = props
 
-    const select = val => {
-      emit('select', val)
+    const selectItem = val => {
+      setLevelByModel(level, val)
       closeDropdown()
     }
     const BlankItem = () => {
       if (!blank) return null
-      return <li onClick={select}>{blankText}</li>
+      return <li onClick={selectItem}>{blankText}</li>
+    }
+    const levelItems = () => {
+      const regionLevel = data.value[level]
+      if (!regionLevel.list.length) return null
+      return regionLevel.list.map(item => (
+        <li
+          key={item.key}
+          class={{ selected: regionLevel.key === item.key }}
+          onClick={() => selectItem(item) }
+        >
+          {item.value}
+        </li>
+      ))
     }
 
     return () => (
       <ul class='rg-select__list'>
         <BlankItem />
-        {props.list.value.map(val => (
-          <li
-            key={val.key}
-            class={{ selected: props.selected?.key === val.key }}
-            onClick={() => select(val) }
-          >
-            {val.value}
-          </li>
-        ))}
+        {levelItems()}
       </ul>
     )
   }
