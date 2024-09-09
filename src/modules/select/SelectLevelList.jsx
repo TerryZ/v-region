@@ -8,13 +8,13 @@ export default defineComponent({
     level: { type: String, default: '' }
   },
   setup (props) {
-    const { data, setLevelByModel } = inject(injectKeyCore)
+    const { data, setLevel } = inject(injectKeyCore)
     const { blank, blankText } = inject(injectKeyBase)
     const { closeDropdown } = inject(injectKeySelector)
     const { level } = props
 
     const selectItem = val => {
-      setLevelByModel(level, val)
+      setLevel(level, val)
       closeDropdown()
     }
     const BlankItem = () => {

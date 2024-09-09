@@ -96,7 +96,6 @@
       </div>
 
       <div class="my-3 d-flex align-items-center">
-        <!--
         <region-full-selects
           ref="regionSelected"
           language="en"
@@ -106,7 +105,7 @@
           v-model="modelSelect"
           @change="change"
         />
-        -->
+
         <button
           type="button"
           class="btn btn-light ms-3"
