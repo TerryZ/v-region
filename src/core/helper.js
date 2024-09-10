@@ -115,7 +115,7 @@ export function getNextLevel (level) {
  * @param {object} province - 省
  * @returns {object[]} - 城市列表
  */
-export function getCities (province) {
+export async function getCities (province) {
   if (!province || !Object.keys(province).length) return []
 
   const list = regionCities.filter(val => {
@@ -132,7 +132,7 @@ export function getCities (province) {
  * @param {object} city - 城市
  * @returns {object[]} 区/县列表
  */
-export function getAreas (city) {
+export async function getAreas (city) {
   if (!city || !Object.keys(city).length) return []
 
   const cityKey = Number.parseInt(city.key)
@@ -159,7 +159,6 @@ export async function getTowns (area) {
     if (!data || typeof data !== 'object') {
       return []
     }
-
     return Object.entries(data).map(([key, value]) => ({ key, value }))
   } catch (e) {
     console.warn(`The "${area.value}" area have no towns data.`)

@@ -93,6 +93,20 @@
             for="inlineCheckboxTown"
           >Town</label>
         </div>
+        <button
+          type="button"
+          class="btn btn-dark me-3"
+          @click="reset"
+        >
+          Reset
+        </button>
+        <button
+          type="button"
+          class="btn btn-dark me-3"
+          @click="reset1"
+        >
+          Reset 3 level
+        </button>
       </div>
 
       <div class="my-3 d-flex align-items-center">
@@ -105,14 +119,6 @@
           v-model="modelSelect"
           @change="change"
         />
-
-        <button
-          type="button"
-          class="btn btn-light ms-3"
-          @click="reset"
-        >
-          Reset
-        </button>
       </div>
       <div class="row">
         <div class="col-md-6">
@@ -163,7 +169,7 @@
         :town="true"
         :disabled="false"
         v-model="fullSelected"
-        @change="changeSelected"
+        @change="fullChangeSelected"
       />
 
       <div class="mt-3">
@@ -208,6 +214,10 @@ function changeSelected (data) {
   console.log(selected.value)
   console.log(data)
 }
+function fullChangeSelected (data) {
+  console.log(fullSelected.value)
+  console.log(data)
+}
 function setSelected () {
   selected.value = {
     province: '350000',
@@ -240,6 +250,15 @@ function reset () {
     city: '350100',
     area: '350103',
     town: '350103012'
+  }
+}
+function reset1 () {
+  // regionSelected.value.reset()
+  modelSelect.value = {
+    province: '130000',
+    city: '130300',
+    area: '130304',
+    town: undefined
   }
 }
 </script>
