@@ -8,18 +8,18 @@ export default defineComponent({
     level: { type: String, default: '' }
   },
   setup (props) {
-    const { data, setLevel } = inject(injectKeyCore)
-    const { blank, blankText } = inject(injectKeyBase)
+    const { data, lang, setLevel } = inject(injectKeyCore)
+    const { blank } = inject(injectKeyBase)
     const { closeDropdown } = inject(injectKeySelector)
     const { level } = props
 
-    const selectItem = val => {
-      setLevel(level, val)
+    const selectItem = item => {
+      setLevel(level, item)
       closeDropdown()
     }
     const BlankItem = () => {
       if (!blank) return null
-      return <li onClick={selectItem}>{blankText}</li>
+      return <li onClick={selectItem}>{lang.pleaseSelect}</li>
     }
     const levelItems = () => {
       const regionLevel = data.value[level]

@@ -1,3 +1,5 @@
+import { computed } from 'vue'
+
 import languages, { CN } from '../language'
 import { LEVEL_KEYS, KEY_PROVINCE, KEY_CITY, KEY_AREA, KEY_TOWN } from '../constants'
 import { regionProvinces, regionCities, regionAreas } from '../formatted'
@@ -38,7 +40,7 @@ export function getRegionText (region, separator = '') {
   if (!region || !Object.keys(region).length) return ''
   return Object.values(region)
     .filter(val => val)
-    .map(val => val.value)
+    .map(val => val.name)
     .join(separator)
 }
 export function valueEqual (values1, values2) {
@@ -172,4 +174,11 @@ export async function getTownModel (areaModel, townKey) {
 }
 export function isPromise (p) {
   return p && Object.prototype.toString.call(p) === '[object Promise]'
+}
+export function useState (props) {
+  return {
+    hasCity: computed(() => props.city),
+    hasArea: computed(() => props.city && props.area),
+    hasTown: computed(() => props.city && props.area && props.town)
+  }
 }

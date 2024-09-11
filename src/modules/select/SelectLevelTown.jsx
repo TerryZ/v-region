@@ -1,6 +1,6 @@
 import { inject } from 'vue'
 
-import { injectKeyBase, injectKeyCore, KEY_TOWN } from '../../constants'
+import { injectKeyCore, KEY_TOWN } from '../../constants'
 import { getTowns } from '../../core/helper'
 
 import RegionSelectLevel from './SelectLevel'
@@ -8,8 +8,7 @@ import RegionSelectLevel from './SelectLevel'
 export default {
   name: 'RegionSelectTown',
   setup () {
-    const { hasTown } = inject(injectKeyBase)
-    const { modelValue, setupTownListLoader } = inject(injectKeyCore)
+    const { hasTown, modelValue, setupTownListLoader } = inject(injectKeyCore)
 
     setupTownListLoader(getTowns, modelValue.value?.[KEY_TOWN])
 

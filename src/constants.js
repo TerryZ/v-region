@@ -13,7 +13,9 @@ export const LEVELS = [
 export const LEVEL_KEYS = [KEY_PROVINCE, KEY_CITY, KEY_AREA, KEY_TOWN]
 // city-picker 多语言占位符
 export const PLACEHOLDER_OTHER_CITIES = '#others-number#'
-
+// 数据核心模块提供的依赖注入
 export const injectKeyCore = Symbol('core')
+// 根级组件提供的依赖注入
 export const injectKeyBase = Symbol('base')
+// 选择器提供的依赖注入
 export const injectKeySelector = Symbol('selector')

@@ -10,7 +10,6 @@ import {
   KEY_AREA,
   injectKeyBase
 } from './constants'
-import { useLanguage, useState } from './utils/helper'
 import { mergeSelectorProps, mergeEmits, useRegion } from './core/base'
 
 export default defineComponent({
@@ -20,14 +19,10 @@ export default defineComponent({
   }),
   emits: mergeEmits(),
   setup (props, { emit, slots }) {
-    useRegion(props, emit)
-    const { hasCity, hasArea, hasTown } = useState(props)
-    const lang = useLanguage(props.language)
+    const { hasCity, hasArea } = useRegion(props, emit)
 
     provide(injectKeyBase, {
-      hasTown,
       blank: props.blank,
-      blankText: lang.pleaseSelect,
       customTriggerClass: props.customTriggerClass,
       customContainerClass: props.customContainerClass
     })
@@ -41,14 +36,8 @@ export default defineComponent({
       return (
         <div>
           <RegionLevel level={KEY_PROVINCE} />
-          <RegionLevel
-            hasLevel={hasCity.value}
-            level={KEY_CITY}
-          />
-          <RegionLevel
-            hasLevel={hasArea.value}
-            level={KEY_AREA}
-          />
+          <RegionLevel hasLevel={hasCity.value} level={KEY_CITY} />
+          <RegionLevel hasLevel={hasArea.value} level={KEY_AREA} />
           {slots.default?.()}
         </div>
       )

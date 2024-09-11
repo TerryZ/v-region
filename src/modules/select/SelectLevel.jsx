@@ -12,15 +12,14 @@ export default defineComponent({
     level: { type: String, default: '' }
   },
   setup (props) {
-    const { data, disabled } = inject(injectKeyCore)
+    const { data, disabled, lang } = inject(injectKeyCore)
     const {
       blank,
-      blankText,
       customTriggerClass,
       customContainerClass
     } = inject(injectKeyBase)
 
-    const blankContent = blank ? blankText : '&nbsp;'
+    const blankContent = blank ? lang.pleaseSelect : '&nbsp;'
     const contentText = computed(() => (
       data.value[props.level]?.name || blankContent
     ))
