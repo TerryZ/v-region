@@ -10,8 +10,8 @@ import {
   getRegionText,
   getLowerLevels,
   valueEqualToModel,
-  availableValues,
-  availableLevels,
+  getAvailableValues,
+  getAvailableLevels,
   createLevel,
   getCities,
   getAreas,
@@ -53,15 +53,15 @@ export function mergeEmits (emit) {
  */
 export function useEvent (emit) {
   return {
-    emitUpdateModelValue: data => emit('update:modelValue', modelToValue(data)),
-    emitChange: data => emit('change', data)
+    emitUpdateModelValue: data => emit && emit('update:modelValue', data),
+    emitChange: data => emit && emit('change', data)
   }
 }
 /**
  * Region 核心数据模块
  * @returns {object}
  */
-function useData () {
+function useData (props) {
   const data = ref({
     [KEY_PROVINCE]: createLevel(regionProvinces),
     [KEY_CITY]: createLevel(),
@@ -74,7 +74,31 @@ function useData () {
     [KEY_AREA]: () => {},
     [KEY_TOWN]: () => {}
   }
+  // props 设置的有效的级别列表
+  const availableLevels = computed(() => getAvailableLevels(props))
+  const hasNextLevel = level => {
+    const index = availableLevels.value.findIndex(val => val === level)
+    return index !== -1 && index < availableLevels.value.length - 1
+  }
 
+  const levelListLoader = async (level, parentLevel, loader) => {
+    const model = getLevelModel(parentLevel)
+    data.value[level].list = await loader(model)
+    data.value[level].parentKey = model.key
+  }
+  const setupTownListLoader = async (fn, townKey) => {
+    nextLevelListLoader[KEY_AREA] = async () => {
+      const areaModel = getLevelModel(KEY_AREA)
+      if (!areaModel) return
+      data.value[KEY_TOWN].list = await fn(areaModel)
+      data.value[KEY_TOWN].parentKey = areaModel.key
+    }
+
+    await nextLevelListLoader[KEY_AREA]()
+    const model = getModel(KEY_TOWN, townKey)
+    setLevelByModel(KEY_TOWN, model)
+  }
+  // 在列表中查找数据模型
   const getModel = (level, key) => (
     data.value[level].list.find(val => val.key === key)
   )
@@ -82,53 +106,21 @@ function useData () {
     data.value[level].key = model ? model.key : undefined
     data.value[level].name = model ? model.value : undefined
   }
-  const levelListLoader = async (level, parentLevel, loader) => {
-    const model = getLevelModel(parentLevel)
-    data.value[level].list = await loader(model)
-    data.value[level].parentKey = model.key
-  }
-  const setupTownListLoader = async (fn, townKey) => {
-    const townListLoader = async () => {
-      const areaModel = getLevelModel(KEY_AREA)
-      if (!areaModel) return
-      data.value[KEY_TOWN].list = await fn(areaModel)
-      data.value[KEY_TOWN].parentKey = areaModel.key
-    }
-    nextLevelListLoader[KEY_AREA] = townListLoader
-
-    await townListLoader()
-    const model = getModel(KEY_TOWN, townKey)
-    setLevelByModel(KEY_TOWN, model)
-  }
   // ui 操作设置级别
   const setLevelByModel = async (level, model) => {
     if (!model) return
 
     resetLowerLevel(level)
-
     setModel(level, model)
+    if (!hasNextLevel(level)) return
+
     await nextLevelListLoader[level]?.()
   }
-  const setModelByValues = async (availableLevels, availableValues) => {
-    const hasNextLevel = level => {
-      const index = availableLevels.findIndex(val => val === level)
-      return index !== -1 && index < availableLevels.length - 1
-    }
-    const setLevelData = async (level, key) => {
-      const model = getModel(level, key)
-
-      if (!model) return
-
-      resetLowerLevel(level)
-      setModel(level, model)
-
-      if (!hasNextLevel(level)) return
-
-      await nextLevelListLoader[level]?.()
-    }
-
-    for (const level of availableLevels) {
-      await setLevelData(level, availableValues[level])
+  // 响应 v-model 变更
+  const setModelByValues = async (availableValues) => {
+    for (const level of availableLevels.value) {
+      const model = getModel(level, availableValues[level])
+      await setLevelByModel(level, model)
     }
   }
   const resetLevel = (level) => {
@@ -143,12 +135,13 @@ function useData () {
     if (level === KEY_TOWN) return
     getLowerLevels(level).forEach(level => resetLevel(level))
   }
+  // 在 data 数据对象中获得级别的数据模型
   const getLevelModel = level => {
     const model = data.value[level]
     if (!model.key) return
     return { key: model.key, value: model.name }
   }
-  const getDataValues = () => modelToValue(data)
+  const getDataValues = () => modelToValue(data.value)
   const parseDataModel = () => {
     return Object.fromEntries(
       LEVEL_KEYS.map(level => [level, getLevelModel(level)])
@@ -166,7 +159,7 @@ function useData () {
   }
 }
 /**
- * Region 核心数据与组件交互
+ * Region 核心数据与组件交互，与组件对接
  * @param {object} props
  * @param {string[]} emit
  * @returns {object}
@@ -177,30 +170,32 @@ export function useRegion (props, emit) {
   const lang = getLanguage(props.language)
   const {
     data,
+    getDataValues,
     setLevelByModel,
     setModelByValues,
     resetLowerLevel,
     parseDataModel,
     setupTownListLoader
-  } = useData()
+  } = useData(props)
 
   // TODO: to remove
   const provinces = computed(() => regionProvinces)
   const cities = computed(() => getCities(data.value.province))
   const areas = computed(() => getAreas(data.value.city))
-  const regionText = computed(() => getRegionText(data))
+  const regionText = computed(() => getRegionText(data.value, props.separator))
   // ?
   const isComplete = computed(() => {
-    if (!hasCity.value && data.value[KEY_PROVINCE]) return true
-    if (!hasArea.value && data.value[KEY_CITY]) return true
-    if (!hasTown.value && data.value[KEY_AREA]) return true
-    return !!data.value[KEY_TOWN]
+    if (!hasCity.value && data.value[KEY_PROVINCE].key) return true
+    if (!hasArea.value && data.value[KEY_CITY].key) return true
+    if (!hasTown.value && data.value[KEY_AREA].key) return true
+    return !!data.value[KEY_TOWN].key
   })
 
   watch(() => props.modelValue, () => parseValueToModel(), { immediate: true })
 
   // 将 v-model 输入的值转换为数据模型
   async function parseValueToModel () {
+    console.log(props.modelValue)
     if (!props.modelValue || !Object.keys(props.modelValue).length) {
       return
     }
@@ -209,15 +204,14 @@ export function useRegion (props, emit) {
       return
     }
     // 校验与清洗后的 modelValue 值
-    const values = availableValues(props.modelValue)
-    // props 设置的有效的级别列表
-    const levels = availableLevels(props)
-    await setModelByValues(levels, values)
+    const values = getAvailableValues(props.modelValue)
+    await setModelByValues(values)
+    console.log(data.value)
     // 经过校验和清洗后，若值发生变化，则响应 modelValue 变更事件
     emitData(!valueEqualToModel(props.modelValue, data.value))
   }
   function emitData (emitModel = true) {
-    if (emitModel) emitUpdateModelValue(data.value)
+    if (emitModel) emitUpdateModelValue(getDataValues())
     emitChange(parseDataModel())
   }
   function reset () {

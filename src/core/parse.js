@@ -26,6 +26,7 @@ import { regionProvinces, regionCities, regionAreas } from '../formatted'
  *
  * @returns {object} 区域原始数据模型
  */
+// TODO: to remove
 export function valueToModel (values, levels) {
   const { province, city, area } = values
   const region = {

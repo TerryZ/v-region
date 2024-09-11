@@ -39,8 +39,8 @@ export function getLowerLevels (level) {
 export function getRegionText (region, separator = '') {
   if (!region || !Object.keys(region).length) return ''
   return Object.values(region)
-    .filter(val => val)
     .map(val => val.name)
+    .filter(val => val)
     .join(separator)
 }
 export function valueEqual (values1, values2) {
@@ -56,7 +56,7 @@ export function valueEqualToModel (values, model) {
  * @param {object} props
  */
 // TODO: unit-test
-export function availableLevels (props) {
+export function getAvailableLevels (props) {
   const levels = [props.city, props.area, props.town]
 
   const unavailableLevelIndex = levels.findIndex(val => !val)
@@ -68,7 +68,7 @@ export function availableLevels (props) {
  * @param {object} modelValue
  */
 // TODO: unit-test
-export function availableValues (modelValue) {
+export function getAvailableValues (modelValue) {
   const { province, city, area, town } = modelValue
   const levelValues = [province, city, area, town]
   const unavailableLevelIndex = levelValues.findIndex(val => !val)
@@ -167,6 +167,7 @@ export async function getTowns (area) {
     return []
   }
 }
+// TODO: to remove
 export async function getTownModel (areaModel, townKey) {
   // 获得区/县的下级乡镇/街道列表，再从列表中获得目标节点
   const towns = await getTowns(areaModel)
