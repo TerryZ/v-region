@@ -39,7 +39,7 @@
 <script setup>
 import { ref } from 'vue'
 import { RegionCityPicker } from '@/index'
-import CityPicker from '@/components/CityPicker'
+import CityPicker from '@/modules/city/CityPicker'
 
 const selected = ref([])
 const modelCity = ref(['110000', '350100'])
