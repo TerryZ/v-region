@@ -6,7 +6,7 @@ import RegionSelects from './modules/select/RegionSelects'
 import RegionFullSelects from './modules/select/RegionFullSelects'
 import RegionColumnsCore from './components/Columns'
 import RegionColumns from './RegionColumns'
-import RegionCityPicker from './RegionCityPicker'
+import RegionCityPicker from './modules/city/RegionCityPicker'
 import RegionText from './modules/text/RegionText'
 import RegionFullText from './modules/text/RegionFullText'
 
