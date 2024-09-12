@@ -4,7 +4,6 @@ import {
   KEY_PROVINCE, KEY_CITY, KEY_AREA, KEY_TOWN, LEVEL_KEYS,
   injectKeyCore
 } from '../constants'
-import { CN } from '../language'
 import { regionProvinces } from '../formatted'
 import {
   getRegionText,
@@ -19,31 +18,6 @@ import {
   useState
 } from './helper'
 import { modelToValue } from './parse'
-
-export function mergeBaseProps (props) {
-  return {
-    city: { type: Boolean, default: true },
-    area: { type: Boolean, default: true },
-    town: { type: Boolean, default: true },
-    language: { type: String, default: CN },
-    modelValue: { type: Object, default: undefined },
-    ...props
-  }
-}
-export function mergeSelectorProps (props) {
-  return mergeBaseProps({
-    disabled: { type: Boolean, default: false },
-    /** 为触发对象添加自定义样式类 */
-    customTriggerClass: { type: String, default: '' },
-    /** 为下拉容器添加自定义样式类 */
-    customContainerClass: { type: String, default: '' },
-    ...props
-  })
-}
-
-export function mergeEmits (emit) {
-  return ['update:modelValue', 'change', ...(emit || [])]
-}
 
 /**
  * 响应 `v-model` 与 `change` 事件
@@ -86,7 +60,7 @@ function useData (props) {
     data.value[level].list = await loader(model)
     data.value[level].parentKey = model.key
   }
-  const setupTownListLoader = async (fn, townKey) => {
+  const setupTownListLoader = async (fn) => {
     nextLevelListLoader[KEY_AREA] = async () => {
       const areaModel = getLevelModel(KEY_AREA)
       if (!areaModel) return
@@ -95,7 +69,7 @@ function useData (props) {
     }
 
     await nextLevelListLoader[KEY_AREA]()
-    const model = getModel(KEY_TOWN, townKey)
+    const model = getModel(KEY_TOWN, props.modelValue?.[KEY_TOWN])
     setLevelByModel(KEY_TOWN, model)
   }
   // 在列表中查找数据模型
@@ -137,16 +111,13 @@ function useData (props) {
   }
   // 在 data 数据对象中获得级别的数据模型
   const getLevelModel = level => {
-    const model = data.value[level]
-    if (!model.key) return
-    return { key: model.key, value: model.name }
+    const { key, name } = data.value[level]
+    return key ? { key, value: name } : undefined
   }
   const getDataValues = () => modelToValue(data.value)
-  const parseDataModel = () => {
-    return Object.fromEntries(
-      LEVEL_KEYS.map(level => [level, getLevelModel(level)])
-    )
-  }
+  const parseDataModel = () => Object.fromEntries(
+    LEVEL_KEYS.map(level => [level, getLevelModel(level)])
+  )
 
   return {
     data,
@@ -195,7 +166,6 @@ export function useRegion (props, emit) {
 
   // 将 v-model 输入的值转换为数据模型
   async function parseValueToModel () {
-    console.log(props.modelValue)
     if (!props.modelValue || !Object.keys(props.modelValue).length) {
       return
     }
@@ -206,7 +176,6 @@ export function useRegion (props, emit) {
     // 校验与清洗后的 modelValue 值
     const values = getAvailableValues(props.modelValue)
     await setModelByValues(values)
-    console.log(data.value)
     // 经过校验和清洗后，若值发生变化，则响应 modelValue 变更事件
     emitData(!valueEqualToModel(props.modelValue, data.value))
   }
