@@ -121,6 +121,8 @@ function useData (props) {
 
   return {
     data,
+    availableLevels,
+    hasNextLevel,
     getDataValues,
     resetLowerLevel,
     parseDataModel,
@@ -141,6 +143,7 @@ export function useRegion (props, emit) {
   const lang = getLanguage(props.language)
   const {
     data,
+    availableLevels,
     getDataValues,
     setLevelByModel,
     setModelByValues,
@@ -219,6 +222,7 @@ export function useRegion (props, emit) {
     hasCity,
     hasArea,
     hasTown,
+    availableLevels,
 
     reset,
     setLevel,
