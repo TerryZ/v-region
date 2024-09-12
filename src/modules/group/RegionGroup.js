@@ -1,8 +1,8 @@
 import { ref, h, mergeProps, defineComponent } from 'vue'
-import RegionGroupCore from './components/Group'
+import RegionGroupCore from './Group'
 
-import { useDropdown } from './utils/selector'
-import { dropdownProps } from './utils/data'
+import { useDropdown } from '../../utils/selector'
+import { dropdownProps } from '../../utils/data'
 
 export default defineComponent({
   name: 'RegionGroup',

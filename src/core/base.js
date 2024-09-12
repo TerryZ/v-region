@@ -36,6 +36,7 @@ export function useEvent (emit) {
  * @returns {object}
  */
 function useData (props) {
+  const fullLevels = ref(false)
   const data = ref({
     [KEY_PROVINCE]: createLevel(regionProvinces),
     [KEY_CITY]: createLevel(),
@@ -49,10 +50,14 @@ function useData (props) {
     [KEY_TOWN]: () => {}
   }
   // props 设置的有效的级别列表
-  const availableLevels = computed(() => getAvailableLevels(props))
+  const availableLevels = computed(() => getAvailableLevels(props, fullLevels.value))
   const hasNextLevel = level => {
     const index = availableLevels.value.findIndex(val => val === level)
     return index !== -1 && index < availableLevels.value.length - 1
+  }
+  const getNextLevel = level => {
+    const index = availableLevels.value.findIndex(val => val === level)
+    return availableLevels.value.at(index + 1)
   }
 
   const levelListLoader = async (level, parentLevel, loader) => {
@@ -68,6 +73,7 @@ function useData (props) {
       data.value[KEY_TOWN].parentKey = areaModel.key
     }
 
+    fullLevels.value = true
     await nextLevelListLoader[KEY_AREA]()
     const model = getModel(KEY_TOWN, props.modelValue?.[KEY_TOWN])
     setLevelByModel(KEY_TOWN, model)
@@ -123,6 +129,7 @@ function useData (props) {
     data,
     availableLevels,
     hasNextLevel,
+    getNextLevel,
     getDataValues,
     resetLowerLevel,
     parseDataModel,
@@ -144,6 +151,7 @@ export function useRegion (props, emit) {
   const {
     data,
     availableLevels,
+    getNextLevel,
     getDataValues,
     setLevelByModel,
     setModelByValues,
@@ -223,6 +231,7 @@ export function useRegion (props, emit) {
     hasArea,
     hasTown,
     availableLevels,
+    getNextLevel,
 
     reset,
     setLevel,

@@ -1,7 +1,7 @@
 import './styles/region.sass'
 
-import RegionGroupCore from './components/Group'
-import RegionGroup from './RegionGroup'
+import RegionGroupCore from './modules/group/Group'
+import RegionGroup from './modules/group/RegionGroup'
 import RegionSelects from './modules/select/RegionSelects'
 import RegionFullSelects from './modules/select/RegionFullSelects'
 import RegionColumnsCore from './components/Columns'

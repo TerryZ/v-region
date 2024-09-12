@@ -54,10 +54,11 @@ export function valueEqualToModel (values, model) {
  * 获得组件配置的有效区域级别列表
  *
  * @param {object} props
+ * @param {boolean} fullLevels
  */
 // TODO: unit-test
-export function getAvailableLevels (props) {
-  const levels = [props.city, props.area, props.town]
+export function getAvailableLevels (props, fullLevels) {
+  const levels = [props.city, props.area, props.town && fullLevels]
 
   const unavailableLevelIndex = levels.findIndex(val => !val)
   if (unavailableLevelIndex === -1) return LEVEL_KEYS

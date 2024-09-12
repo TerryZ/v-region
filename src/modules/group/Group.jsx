@@ -1,4 +1,4 @@
-import '../styles/group.sass'
+import '../../styles/group.sass'
 
 import { ref, nextTick, onMounted, defineComponent } from 'vue'
 
@@ -6,7 +6,7 @@ import { mergeBaseProps, mergeEmits } from '../../core/options'
 import { useRegion } from '../../core/base'
 import { LEVELS, KEY_PROVINCE } from '../../constants'
 
-import IconTrash from '../icons/IconTrash.vue'
+import IconTrash from '../../icons/IconTrash.vue'
 
 export default defineComponent({
   name: 'RegionGroupCore',
@@ -17,22 +17,14 @@ export default defineComponent({
       data,
       lang,
       availableLevels,
+      getNextLevel,
       setLevel,
       regionText,
-      reset,
-      getLevelList
+      reset
     } = useRegion(props, emit)
 
-    const level = ref()
+    const level = ref(KEY_PROVINCE)
 
-    function getNextLevel () {
-      if (!level.value) return
-      const index = availableLevels.value.findIndex(val => val === level.value)
-
-      return index < (availableLevels.value.length - 1)
-        ? availableLevels.value[index + 1]
-        : undefined
-    }
     function clear () {
       reset()
       level.value = KEY_PROVINCE
@@ -43,18 +35,18 @@ export default defineComponent({
 
       setLevel(level.value, item)
 
-      const next = getNextLevel()
+      const next = getNextLevel(level.value)
       if (!next) {
         emit('complete')
         return
       }
       level.value = next
-      nextTick(() => { emit('adjust') })
+      nextTick(() => emit('adjust'))
     }
     function match (item) {
       if (!item) return false
       if (!level.value) return false
-      return data[level.value]?.key === item.key
+      return data.value[level.value]?.key === item.key
     }
 
     function GroupHeader () {
@@ -95,17 +87,17 @@ export default defineComponent({
       )
     }
     function GroupContent () {
-      const items = getLevelList(level.value)
+      const list = data.value[level.value]?.list
 
-      const levelItems = items.value.map(val => (
+      const levelItems = list.map(val => (
         <li
           key={val.key}
-          class={{ 'rg-item': true, active: match(val) }}
+          class={['rg-item', { active: match(val) }]}
           onMouseup={() => pick(val)}
         >{val.value}</li>
       ))
       const ContentMessageBox = () => {
-        if (!items.value.length) return null
+        if (list.length) return null
         return <li class='rg-message-box'>{lang.noMatch}</li>
       }
 
