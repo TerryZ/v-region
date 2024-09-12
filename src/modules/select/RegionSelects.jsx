@@ -5,12 +5,11 @@ import { provide, defineComponent } from 'vue'
 import RegionSelectLevel from './SelectLevel'
 
 import {
-  KEY_PROVINCE,
-  KEY_CITY,
-  KEY_AREA,
+  KEY_PROVINCE, KEY_CITY, KEY_AREA,
   injectKeyBase
 } from '../../constants'
-import { mergeSelectorProps, mergeEmits, useRegion } from '../../core/base'
+import { mergeSelectorProps, mergeEmits } from '../../core/options'
+import { useRegion } from '../../core/base'
 
 export default defineComponent({
   name: 'RegionSelects',

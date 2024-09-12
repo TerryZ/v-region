@@ -8,9 +8,9 @@ import RegionSelectLevel from './SelectLevel'
 export default {
   name: 'RegionSelectTown',
   setup () {
-    const { hasTown, modelValue, setupTownListLoader } = inject(injectKeyCore)
+    const { hasTown, setupTownListLoader } = inject(injectKeyCore)
 
-    setupTownListLoader(getTowns, modelValue.value?.[KEY_TOWN])
+    setupTownListLoader(getTowns)
 
     function RegionLevel () {
       if (!hasTown.value) return null

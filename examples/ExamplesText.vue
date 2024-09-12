@@ -7,12 +7,27 @@
     <div class="p-3 shadow-sm rounded-3 border mb-3">
       <h5>默认显示文本</h5>
       <div class="mb-3 text-muted rounded-3 bg-light p-3">
-        <region-text v-model="region" />
+        <RegionText v-model="region" />
       </div>
 
       <h5>带分隔符</h5>
       <div class="text-muted rounded-3 bg-light p-3">
-        <region-text
+        <RegionText
+          v-model="region"
+          separator="-"
+        />
+      </div>
+    </div>
+    <h4>四级行政区划</h4>
+    <div class="p-3 shadow-sm rounded-3 border mb-3">
+      <h5>默认显示文本</h5>
+      <div class="mb-3 text-muted rounded-3 bg-light p-3">
+        <RegionFullText v-model="region" />
+      </div>
+
+      <h5>带分隔符</h5>
+      <div class="text-muted rounded-3 bg-light p-3">
+        <RegionFullText
           v-model="region"
           separator="-"
         />
@@ -32,7 +47,7 @@
 
 <script setup>
 import { ref } from 'vue'
-import { RegionText } from '@/'
+import { RegionText, RegionFullText } from '@/'
 
 const region = ref({
   province: '350000',

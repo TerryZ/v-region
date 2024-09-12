@@ -7,7 +7,8 @@ import RegionFullSelects from './modules/select/RegionFullSelects'
 import RegionColumnsCore from './components/Columns'
 import RegionColumns from './RegionColumns'
 import RegionCityPicker from './RegionCityPicker'
-import RegionText from './RegionText'
+import RegionText from './modules/text/RegionText'
+import RegionFullText from './modules/text/RegionFullText'
 
 export {
   regionFull,
@@ -34,7 +35,8 @@ export {
   RegionColumnsCore,
   RegionColumns,
   RegionCityPicker,
-  RegionText
+  RegionText,
+  RegionFullText
 }
 
 export default Region
