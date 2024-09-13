@@ -1,6 +1,6 @@
 import '../../styles/group.sass'
 
-import { ref, nextTick, onMounted, defineComponent } from 'vue'
+import { ref, nextTick, defineComponent } from 'vue'
 
 import { mergeBaseProps, mergeEmits } from '../../core/options'
 import { useRegion } from '../../core/base'
@@ -15,6 +15,7 @@ export default defineComponent({
   setup (props, { emit, expose }) {
     const {
       data,
+      dataModel,
       lang,
       availableLevels,
       getNextLevel,
@@ -28,12 +29,12 @@ export default defineComponent({
     function clear () {
       reset()
       level.value = KEY_PROVINCE
-      emit('adjust')
+      nextTick(() => emit('adjust'))
     }
-    function pick (item) {
+    async function select (item) {
       if (!level.value) return
 
-      setLevel(level.value, item)
+      await setLevel(level.value, item)
 
       const next = getNextLevel(level.value)
       if (!next) {
@@ -43,7 +44,7 @@ export default defineComponent({
       level.value = next
       nextTick(() => emit('adjust'))
     }
-    function match (item) {
+    function isMatch (item) {
       if (!item) return false
       if (!level.value) return false
       return data.value[level.value]?.key === item.key
@@ -64,6 +65,10 @@ export default defineComponent({
       )
     }
     function GroupTabs () {
+      const switchLevel = (item) => {
+        level.value = item.key
+        nextTick(() => emit('adjust'))
+      }
       const tabs = availableLevels.value.map(val => {
         const levelItem = LEVELS.find(value => value.key === val)
         return (
@@ -73,7 +78,7 @@ export default defineComponent({
           >
             <a
               href='javascript:void(0)'
-              onClick={() => { level.value = levelItem.key }}
+              onClick={() => switchLevel(levelItem)}
             >
               {levelItem.title}
             </a>
@@ -92,8 +97,8 @@ export default defineComponent({
       const levelItems = list.map(val => (
         <li
           key={val.key}
-          class={['rg-item', { active: match(val) }]}
-          onMouseup={() => pick(val)}
+          class={['rg-item', { active: isMatch(val) }]}
+          onMouseup={() => select(val)}
         >{val.value}</li>
       ))
       const ContentMessageBox = () => {
@@ -111,9 +116,7 @@ export default defineComponent({
       )
     }
 
-    onMounted(() => { level.value = KEY_PROVINCE })
-
-    expose({ region: data, reset, regionText })
+    expose({ data: dataModel, reset, regionText })
 
     return () => (
       <div class='rg-group'>

@@ -1,9 +1,7 @@
 import { ref, defineComponent, provide } from 'vue'
 
 import Dropdown from 'v-dropdown'
-import DropdownTrigger from './DropdownTrigger'
 
-// import { useLanguage } from './helper'
 import { injectKeySelector } from '../constants'
 
 export default defineComponent({
@@ -11,7 +9,6 @@ export default defineComponent({
   setup (props, { slots }) {
     const visible = ref(false)
     const dropdownEl = ref()
-    // const lang = useLanguage(props.language)
 
     function closeDropdown () {
       dropdownEl.value && dropdownEl.value.close()
@@ -26,11 +23,6 @@ export default defineComponent({
       adjustDropdown
     })
 
-    function TriggerItem () {
-      if (slots.trigger) return slots.trigger()
-      return <DropdownTrigger />
-    }
-
     // dropdown 参数直接应用透传
     return () => (
       <Dropdown
@@ -39,7 +31,7 @@ export default defineComponent({
         onVisibleChange={val => { visible.value = val }}
       >{{
         default: () => slots.default?.(),
-        trigger: () => <TriggerItem />
+        trigger: () => slots.trigger?.()
       }}</Dropdown>
     )
   }

@@ -43,6 +43,13 @@ export function getRegionText (region, separator = '') {
     .filter(val => val)
     .join(separator)
 }
+export function getModelText (region, separator = '') {
+  if (!region || !Object.keys(region).length) return ''
+  return Object.values(region)
+    .filter(val => val)
+    .map(val => val.value)
+    .join(separator)
+}
 export function valueEqual (values1, values2) {
   return Object.keys(values1).every(key => values1[key] === values2[key])
 }

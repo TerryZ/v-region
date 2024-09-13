@@ -140,12 +140,12 @@
           custom-trigger-class="border border-secondary-subtle border-4"
           custom-container-class="border-0"
         >
-          <template #default="{ region, visible }">
+          <template #default="{ data, visible }">
             <button
               type="button"
               class="btn btn-primary"
             >
-              region:{{ resultText(region) }},
+              data:{{ resultText(data) }},
               visible: {{ visible }}
             </button>
           </template>
@@ -158,6 +158,7 @@
 <script setup>
 import { ref } from 'vue'
 import { RegionGroupCore, RegionGroup } from '@/'
+import { getModelText } from '../src/core/helper'
 
 const model = ref(undefined)
 const values = ref(undefined)
@@ -196,11 +197,7 @@ function resultText (region) {
   if (!Object.values(region).some(val => val) || !region) {
     return '无数据'
   }
-  return Object
-    .values(region)
-    .filter(val => val)
-    .map(val => val.value)
-    .join(',')
+  return getModelText(region, ',')
 }
 function reset () {
   // regionSelected.value.reset()

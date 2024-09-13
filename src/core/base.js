@@ -120,7 +120,7 @@ function useData (props) {
     const { key, name } = data.value[level]
     return key ? { key, value: name } : undefined
   }
-  const getDataValues = () => modelToValue(data.value)
+  const parseDataValues = () => modelToValue(data.value)
   const parseDataModel = () => Object.fromEntries(
     LEVEL_KEYS.map(level => [level, getLevelModel(level)])
   )
@@ -130,9 +130,9 @@ function useData (props) {
     availableLevels,
     hasNextLevel,
     getNextLevel,
-    getDataValues,
-    resetLowerLevel,
+    parseDataValues,
     parseDataModel,
+    resetLowerLevel,
     setLevelByModel,
     setModelByValues,
     setupTownListLoader
@@ -152,7 +152,7 @@ export function useRegion (props, emit) {
     data,
     availableLevels,
     getNextLevel,
-    getDataValues,
+    parseDataValues,
     setLevelByModel,
     setModelByValues,
     resetLowerLevel,
@@ -165,6 +165,7 @@ export function useRegion (props, emit) {
   const cities = computed(() => getCities(data.value.province))
   const areas = computed(() => getAreas(data.value.city))
   const regionText = computed(() => getRegionText(data.value, props.separator))
+  const dataModel = computed(() => parseDataModel())
   // ?
   const isComplete = computed(() => {
     if (!hasCity.value && data.value[KEY_PROVINCE].key) return true
@@ -191,7 +192,7 @@ export function useRegion (props, emit) {
     emitData(!valueEqualToModel(props.modelValue, data.value))
   }
   function emitData (emitModel = true) {
-    if (emitModel) emitUpdateModelValue(getDataValues())
+    if (emitModel) emitUpdateModelValue(parseDataValues())
     emitChange(parseDataModel())
   }
   function reset () {
@@ -221,6 +222,7 @@ export function useRegion (props, emit) {
 
   return {
     data,
+    dataModel,
     lang,
     provinces,
     cities,

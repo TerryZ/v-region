@@ -1,59 +1,36 @@
-import { inject, computed, withModifiers } from 'vue'
+import { inject, computed } from 'vue'
 
 import { injectKeySelector } from '../constants'
-import { getLanguage, getRegionText } from '../core/helper'
-
-import IconClose from '../icons/IconClose.vue'
+import { getLanguage, getModelText } from '../core/helper'
 
 export default {
   name: 'DropdownTrigger',
   props: {
-    /** Region complete data */
+    /** Region data model */
     region: { type: Object, default: undefined },
-    /** User custom trigger by slot */
-    customTrigger: { type: Function, default: undefined },
-    removeAllSelected: { type: Function, default: undefined }
+    language: { type: String, default: '' }
   },
   setup (props) {
-    const { visible, language } = inject(injectKeySelector)
-    const lang = getLanguage(language)
-    const regionText = computed(() => getRegionText(props.region))
-    const handleClear = () => (
-      withModifiers(() => (
-        props.removeAllSelected && props.removeAllSelected()
-      ), ['stop'])
-    )
+    const { dropdownVisible } = inject(injectKeySelector)
+    const lang = getLanguage(props.language)
+    const regionText = computed(() => getModelText(props.region))
+
     const ButtonText = () => regionText.value || lang.pleaseSelect
-    const ButtonIcon = () => {
-      if (regionText.value) {
-        return (
-          <span
-            class='rg-clear-btn'
-            title={lang.clear}
-            onClick={handleClear}
-          >
-            <IconClose />
-          </span>
-        )
-      }
-      return <span class='rg-caret-down' />
-    }
-    const TriggerButton = () => {
-      if (props.customTrigger) {
-        return props.customTrigger({ region: props.region, visible })
-      }
+    const ButtonIcon = () => <span class='rg-caret-down' />
+    const TriggerButton = () => (
+      <button
+        type='button'
+        class={['rg-default-btn', { 'rg-opened': dropdownVisible.value }]}
+      >
+        <ButtonText />
+        <ButtonIcon />
+      </button>
+    )
 
-      return (
-        <button
-          type='button'
-          class={['rg-default-btn', { 'rg-opened': visible.value }]}
-        >
-          <ButtonText />
-          <ButtonIcon />
-        </button>
-      )
-    }
-
-    return () => <div class='rg-trigger-container'><TriggerButton /></div>
+    return () => (
+      <div class='rg-trigger-container'>
+        <TriggerButton />
+      </div>
+    )
   }
 }
