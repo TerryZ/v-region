@@ -64,6 +64,8 @@
     "jsdom": "^24.1.0",
     "sass": "^1.68.0",
     "sass-loader": "^13.3.2",
+    "postcss": "^8.4.41",
+    "autoprefixer": "^10.4.20",
     "typescript": "^5.5.3",
     "vite": "^5.3.3",
     "vite-plugin-css-injected-by-js": "^3.5.1",
