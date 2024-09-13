@@ -1,8 +1,8 @@
-import { ref, computed, watch, provide, toRef } from 'vue'
+import { ref, computed, watch, provide, toRef, inject } from 'vue'
 
 import {
   KEY_PROVINCE, KEY_CITY, KEY_AREA, KEY_TOWN, LEVEL_KEYS,
-  injectKeyCore
+  injectKeyCore, injectKeySelector
 } from '../constants'
 import { regionProvinces } from '../formatted'
 import {
@@ -174,6 +174,8 @@ export function useRegion (props, emit) {
     return !!data.value[KEY_TOWN].key
   })
 
+  const selector = inject(injectKeySelector, undefined)
+
   watch(() => props.modelValue, () => parseValueToModel(), { immediate: true })
 
   // 将 v-model 输入的值转换为数据模型
@@ -194,6 +196,8 @@ export function useRegion (props, emit) {
   function emitData (emitModel = true) {
     if (emitModel) emitUpdateModelValue(parseDataValues())
     emitChange(parseDataModel())
+    // 将数据模型传递给 dropdown 用于 trigger 的选中内容展示
+    selector?.setRegionModel?.(parseDataModel())
   }
   function reset () {
     resetLowerLevel()

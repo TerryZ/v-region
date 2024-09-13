@@ -1,7 +1,9 @@
 import './styles/region.sass'
 
-import RegionGroupCore from './modules/group/Group'
+import RegionGroupCore from './modules/group/GroupCore'
+import RegionFullGroupCore from './modules/group/FullGroupCore'
 import RegionGroup from './modules/group/RegionGroup'
+import RegionFullGroup from './modules/group/RegionFullGroup'
 import RegionSelects from './modules/select/RegionSelects'
 import RegionFullSelects from './modules/select/RegionFullSelects'
 import RegionColumnsCore from './components/Columns'
@@ -29,7 +31,9 @@ Region.install = (app, options = {}) => {
 
 export {
   RegionGroupCore,
+  RegionFullGroupCore,
   RegionGroup,
+  RegionFullGroup,
   RegionSelects,
   RegionFullSelects,
   RegionColumnsCore,

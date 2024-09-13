@@ -6,14 +6,12 @@ import { getLanguage, getModelText } from '../core/helper'
 export default {
   name: 'DropdownTrigger',
   props: {
-    /** Region data model */
-    region: { type: Object, default: undefined },
     language: { type: String, default: '' }
   },
   setup (props) {
-    const { dropdownVisible } = inject(injectKeySelector)
+    const { dropdownVisible, regionModel } = inject(injectKeySelector)
     const lang = getLanguage(props.language)
-    const regionText = computed(() => getModelText(props.region))
+    const regionText = computed(() => getModelText(regionModel.value))
 
     const ButtonText = () => regionText.value || lang.pleaseSelect
     const ButtonIcon = () => <span class='rg-caret-down' />

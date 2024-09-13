@@ -65,7 +65,7 @@
         </button>
       </div>
       <div class="mb-3">
-        <RegionGroupCore
+        <RegionFullGroupCore
           class="border rounded-3 shadow-sm"
           language="en"
           :city="enabledCity"
@@ -96,16 +96,22 @@
       </div>
 
       <h5>选择器模式</h5>
-      <div class="mb-3">
-        <RegionGroup
-          :city="true"
-          :area="true"
-          :town="true"
-          v-model="modelGroup"
-          @change="changeGroup"
-          @complete="complete"
-          @visible-change="visibleChange"
-        />
+      <div class="mb-3 d-flex">
+        <div class="me-3">
+          <RegionGroup
+            :city="true"
+            :area="true"
+            :town="true"
+            v-model="modelGroup"
+            @change="changeGroup"
+            @complete="complete"
+            @visible-change="visibleChange"
+          />
+        </div>
+
+        <div>
+          <RegionFullGroup v-model="modelFullGroup" />
+        </div>
       </div>
       <div class="mb-3">
         <button
@@ -157,7 +163,12 @@
 
 <script setup>
 import { ref } from 'vue'
-import { RegionGroupCore, RegionGroup } from '@/'
+import {
+  RegionGroupCore,
+  RegionFullGroupCore,
+  RegionGroup,
+  RegionFullGroup
+} from '@/'
 import { getModelText } from '../src/core/helper'
 
 const model = ref(undefined)
@@ -168,6 +179,7 @@ const enabledArea = ref(true)
 const enabledTown = ref(true)
 
 const modelGroup = ref(undefined)
+const modelFullGroup = ref(undefined)
 const valuesGroup = ref(undefined)
 
 function change (data) {

@@ -12,7 +12,7 @@ export default defineComponent({
   name: 'RegionGroupCore',
   props: mergeBaseProps(),
   emits: mergeEmits(['adjust', 'complete']),
-  setup (props, { emit, expose }) {
+  setup (props, { emit, slots, expose }) {
     const {
       data,
       dataModel,
@@ -123,6 +123,7 @@ export default defineComponent({
         <GroupHeader />
         <GroupTabs />
         <GroupContent />
+        {slots.default?.()}
       </div>
     )
   }

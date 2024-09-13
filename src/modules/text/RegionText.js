@@ -10,8 +10,6 @@ export default defineComponent({
   setup (props, { slots }) {
     const { regionText } = useRegion(props)
 
-    return () => {
-      return h('span', [regionText.value, slots.default?.()])
-    }
+    return () => h('span', [regionText.value, slots.default?.()])
   }
 })
