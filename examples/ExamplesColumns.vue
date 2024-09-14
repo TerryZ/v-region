@@ -5,17 +5,22 @@
       <small>下拉选择器多列竖排模式</small>
     </h3>
     <div class="p-3 shadow-sm rounded-3 border">
-      <div class="mb-3">
-        <RegionColumns
-          :city="true"
-          :area="true"
-          :town="true"
-          language="en"
-          v-model="modelColumn"
-          ref="columnSelector"
-          @change="cbColumn"
-          @complete="columnGroupCoreDone"
-        />
+      <div class="mb-3 d-flex">
+        <div class="me-3">
+          <RegionColumns
+            :city="true"
+            :area="true"
+            :town="true"
+            language="en"
+            v-model="modelColumn"
+            ref="columnSelector"
+            @change="cbColumn"
+            @complete="columnGroupCoreDone"
+          />
+        </div>
+        <div>
+          <RegionFullColumns />
+        </div>
       </div>
       <div class="mb-3">
         <button
@@ -84,7 +89,7 @@
       </div>
 
       <div class="d-flex mb-3">
-        <RegionColumnsCore
+        <RegionFullColumnsCore
           :city="enabledCity"
           :area="enabledArea"
           :town="enabledTown"
@@ -102,7 +107,14 @@
           class="btn btn-secondary me-3"
           @click="setRegion"
         >
-          Set Region
+          Set full Region
+        </button>
+        <button
+          type="button"
+          class="btn btn-secondary me-3"
+          @click="set3LevelRegion"
+        >
+          Set 3 level Region
         </button>
         <button
           type="button"
@@ -121,12 +133,12 @@
           custom-trigger-class="border border-secondary-subtle border-4 rounded-3"
           custom-container-class="border-0"
         >
-          <template #default="{ region, visible }">
+          <template #default="{ data, visible }">
             <button
               type="button"
               class="btn btn-primary"
             >
-              region:{{ resultText(region) }},
+              data:{{ resultText(data) }},
               visible: {{ visible }}
             </button>
           </template>
@@ -138,7 +150,13 @@
 
 <script setup>
 import { ref } from 'vue'
-import { RegionColumnsCore, RegionColumns } from '@/'
+import {
+  RegionColumnsCore,
+  RegionFullColumnsCore,
+  RegionColumns,
+  RegionFullColumns
+} from '@/'
+import { getModelText } from '../src/core/helper'
 
 const model = {
   province: '410000',
@@ -177,17 +195,27 @@ function resultText (region) {
   if (!Object.values(region).some(val => val) || !region) {
     return '无数据'
   }
-  return Object
-    .values(region)
-    .filter(val => val)
-    .map(val => val.value)
-    .join(',')
+  return getModelText(region, ',')
 }
 function reset () {
-  columnCore.value.reset()
+  // columnCore.value.reset()
+  modelCore.value = {
+    province: undefined,
+    city: undefined,
+    area: undefined,
+    town: undefined
+  }
 }
 function setRegion () {
   modelCore.value = model
+}
+function set3LevelRegion () {
+  modelCore.value = {
+    province: '130000',
+    city: '130300',
+    area: '130304',
+    town: undefined
+  }
 }
 function setSelectorRegion () {
   modelColumn.value = model

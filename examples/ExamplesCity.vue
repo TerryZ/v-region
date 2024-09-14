@@ -23,14 +23,26 @@
           v-text="JSON.stringify(valuesCity, null, 2)"
         />
       </div>
-      <div class="">
-        <region-city-picker
-          language="EN"
-          v-model="modelCity"
-          custom-trigger-class="border border-secondary-subtle border-4 rounded-3"
-          custom-container-class="border-0"
-          @change="cbCity"
-        />
+      <div class="d-flex align-items-center">
+        <div class="me-3">
+          <region-city-picker
+            language="EN"
+            v-model="modelCity"
+            custom-trigger-class="border border-secondary-subtle border-4 rounded-3"
+            custom-container-class="border-0"
+            @change="cbCity"
+          />
+        </div>
+
+        <div>
+          <button
+            type="button"
+            class="btn btn-dark"
+            @click="reset"
+          >
+            reset to empty
+          </button>
+        </div>
       </div>
     </div>
   </section>
@@ -38,7 +50,7 @@
 
 <script setup>
 import { ref } from 'vue'
-import { RegionCityPicker } from '@/index'
+import { RegionCityPicker } from '@/'
 import CityPicker from '@/modules/city/CityPicker'
 
 const selected = ref([])
@@ -55,5 +67,8 @@ function select (data) {
   } else {
     selected.value.push(data)
   }
+}
+function reset () {
+  modelCity.value = []
 }
 </script>
