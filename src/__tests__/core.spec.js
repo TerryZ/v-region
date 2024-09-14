@@ -2,14 +2,12 @@ import { describe, it, expect } from 'vitest'
 import { mount } from '@vue/test-utils'
 
 import Component from './Component'
+// valueToModel, regionToText 的内容已集成于核心模块
+import { valueToModel, regionToText } from '../utils/parse'
 import {
-  getCities,
-  getAreas,
-  getTowns,
-  getLevels,
-  useLanguage
-} from '../utils/helper'
-import { valueToModel, regionToModel, regionToText } from '../utils/parse'
+  getCities, getAreas, getTowns, getLanguage, getLowerLevels
+} from '../core/helper'
+import { modelToValue } from '../core/parse'
 import { data, model } from './data'
 
 describe('v-region 核心工具模块', () => {
@@ -83,34 +81,34 @@ describe('v-region 核心工具模块', () => {
 
   describe('根据指定级别获得下级行政级别(getLevels)', () => {
     it('指定省级，应得到市、区、乡', () => {
-      expect(getLevels('province')).toEqual(['city', 'area', 'town'])
+      expect(getLowerLevels('province')).toEqual(['city', 'area', 'town'])
     })
     it('指定市级，应得到区、乡', () => {
-      expect(getLevels('city')).toEqual(['area', 'town'])
+      expect(getLowerLevels('city')).toEqual(['area', 'town'])
     })
     it('指定区/县级，应得到乡', () => {
-      expect(getLevels('area')).toEqual(['town'])
+      expect(getLowerLevels('area')).toEqual(['town'])
     })
     it('指定乡/镇级，应无内容返回', () => {
-      expect(getLevels('town')).toEqual([])
+      expect(getLowerLevels('town')).toEqual([])
     })
   })
 
   describe('多语言(useLanguage)', () => {
     it('不指定语言，则使用中文', () => {
-      const lang = useLanguage()
+      const lang = getLanguage()
       expect(lang.pleaseSelect).equal('请选择')
     })
     it('指定中文', () => {
-      const lang = useLanguage('cn')
+      const lang = getLanguage('cn')
       expect(lang.pleaseSelect).equal('请选择')
     })
     it('指定英文', () => {
-      const lang = useLanguage('en')
+      const lang = getLanguage('en')
       expect(lang.pleaseSelect).equal('Please select')
     })
     it('指定非预设语言，则使用中文', () => {
-      const lang = useLanguage('de')
+      const lang = getLanguage('de')
       expect(lang.pleaseSelect).equal('请选择')
     })
   })
@@ -126,7 +124,7 @@ describe('v-region 核心工具模块', () => {
 
   describe('行政区划数据模型转换为参数数据模型（仅编码）(regionToModel)', () => {
     it('获得用于 `v-model` 输入输出数据模型', () => {
-      expect(regionToModel(data)).toEqual(model)
+      expect(modelToValue(data)).toEqual(model)
     })
   })
 

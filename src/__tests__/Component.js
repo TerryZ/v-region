@@ -1,52 +1,37 @@
 import { h } from 'vue'
-import { useState, availableLevels } from '../utils/helper'
-import { useData, commonProps, commonEmits } from '../utils/data'
+
+import { mergeBaseProps, mergeEmits } from '../core/options'
+import { useRegion } from '../core/base'
 
 export default {
-  props: {
-    ...commonProps
-  },
-  emits: commonEmits,
+  props: mergeBaseProps(),
+  emits: mergeEmits(),
   setup (props, { emit, expose }) {
     const {
       data,
-      provinces,
-      cities,
-      areas,
-      towns,
       reset,
       setData,
       setLevel,
       getData,
       isComplete,
       regionText,
-      getLevelList
-    } = useData(props, emit)
-
-    const { hasCity, hasArea, hasTown } = useState(props)
-
-    function getAvailableLevels () {
-      return availableLevels(props)
-    }
+      availableLevels,
+      hasCity, hasArea, hasTown
+    } = useRegion(props, emit)
 
     expose({
       hasCity,
       hasArea,
       hasTown,
-      getAvailableLevels,
+      availableLevels,
 
       data,
-      provinces,
-      cities,
-      areas,
-      towns,
       reset,
       setData,
       setLevel,
       getData,
       isComplete,
-      regionText,
-      getLevelList
+      regionText
     })
 
     return () => h('div')
