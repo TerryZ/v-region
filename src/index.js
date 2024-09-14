@@ -6,8 +6,10 @@ import RegionGroup from './modules/group/RegionGroup'
 import RegionFullGroup from './modules/group/RegionFullGroup'
 import RegionSelects from './modules/select/RegionSelects'
 import RegionFullSelects from './modules/select/RegionFullSelects'
-import RegionColumnsCore from './components/Columns'
-import RegionColumns from './RegionColumns'
+import RegionColumnsCore from './modules/column/ColumnsCore'
+import RegionFullColumnsCore from './modules/column/FullColumnsCore'
+import RegionColumns from './modules/column/RegionColumns'
+import RegionFullColumns from './modules/column/RegionFullColumns'
 import RegionCityPicker from './modules/city/RegionCityPicker'
 import RegionText from './modules/text/RegionText'
 import RegionFullText from './modules/text/RegionFullText'
@@ -37,7 +39,9 @@ export {
   RegionSelects,
   RegionFullSelects,
   RegionColumnsCore,
+  RegionFullColumnsCore,
   RegionColumns,
+  RegionFullColumns,
   RegionCityPicker,
   RegionText,
   RegionFullText

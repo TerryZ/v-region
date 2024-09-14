@@ -6,6 +6,7 @@ import {
 } from '../constants'
 import { regionProvinces } from '../formatted'
 import {
+  isEmptyValues,
   getRegionText,
   getLowerLevels,
   valueEqualToModel,
@@ -166,17 +167,13 @@ export function useRegion (props, emit) {
   const areas = computed(() => getAreas(data.value.city))
   const regionText = computed(() => getRegionText(data.value, props.separator))
   const dataModel = computed(() => parseDataModel())
-  // ?
-  const isComplete = computed(() => {
-    if (!hasCity.value && data.value[KEY_PROVINCE].key) return true
-    if (!hasArea.value && data.value[KEY_CITY].key) return true
-    if (!hasTown.value && data.value[KEY_AREA].key) return true
-    return !!data.value[KEY_TOWN].key
-  })
+  const isComplete = computed(() => (
+    availableLevels.value.every(level => !!data.value[level].key)
+  ))
 
   const selector = inject(injectKeySelector, undefined)
 
-  watch(() => props.modelValue, () => parseValueToModel(), { immediate: true })
+  watch(() => props.modelValue, parseValueToModel, { immediate: true })
 
   // 将 v-model 输入的值转换为数据模型
   async function parseValueToModel () {
@@ -189,6 +186,9 @@ export function useRegion (props, emit) {
     }
     // 校验与清洗后的 modelValue 值
     const values = getAvailableValues(props.modelValue)
+
+    if (isEmptyValues(values)) return reset()
+
     await setModelByValues(values)
     // 经过校验和清洗后，若值发生变化，则响应 modelValue 变更事件
     emitData(!valueEqualToModel(props.modelValue, data.value))
@@ -217,9 +217,11 @@ export function useRegion (props, emit) {
     disabled: toRef(props, 'disabled'),
     data,
     lang,
+    isComplete,
     hasCity,
     hasArea,
     hasTown,
+    getNextLevel,
     setLevel,
     setupTownListLoader
   })

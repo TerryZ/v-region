@@ -12,10 +12,9 @@ export default defineComponent({
   name: 'RegionGroupCore',
   props: mergeBaseProps(),
   emits: mergeEmits(['adjust', 'complete']),
-  setup (props, { emit, slots, expose }) {
+  setup (props, { emit, slots }) {
     const {
       data,
-      dataModel,
       lang,
       availableLevels,
       getNextLevel,
@@ -115,8 +114,6 @@ export default defineComponent({
         </div>
       )
     }
-
-    expose({ data: dataModel, reset, regionText })
 
     return () => (
       <div class='rg-group'>

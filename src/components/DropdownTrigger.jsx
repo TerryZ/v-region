@@ -8,12 +8,14 @@ export default {
   props: {
     language: { type: String, default: '' }
   },
-  setup (props) {
+  setup (props, { slots }) {
     const { dropdownVisible, regionModel } = inject(injectKeySelector)
     const lang = getLanguage(props.language)
     const regionText = computed(() => getModelText(regionModel.value))
 
-    const ButtonText = () => regionText.value || lang.pleaseSelect
+    const ButtonText = () => (
+      slots.default ? slots.default() : (regionText.value || lang.pleaseSelect)
+    )
     const ButtonIcon = () => <span class='rg-caret-down' />
     const TriggerButton = () => (
       <button

@@ -1,9 +1,9 @@
+import '../../styles/city.sass'
+
 import { ref, nextTick, defineComponent } from 'vue'
 
-import { cityDirectory } from '../../utils/parse'
-import { isSelected } from '../../utils/helper'
-
-import '../../styles/city.sass'
+import { cityDirectory } from '../../core/parse'
+import { isSelected } from '../../core/helper'
 
 // 完整的城市列表（基于省份进行分组）
 const fullCityDirectory = cityDirectory()
@@ -13,7 +13,7 @@ export default defineComponent({
   props: {
     selected: { type: Array, default: undefined }
   },
-  emits: ['adjust-dropdown', 'select'],
+  emits: ['adjust', 'select'],
   setup (props, { emit, expose }) {
     const search = ref()
     const list = ref(fullCityDirectory)
@@ -38,7 +38,7 @@ export default defineComponent({
       } else {
         list.value = fullCityDirectory
       }
-      nextTick(() => emit('adjust-dropdown'))
+      nextTick(() => emit('adjust'))
     }
 
     expose({ search })
