@@ -8,8 +8,8 @@ export function createDropdownTrigger (props, slots) {
   const { dropdownVisible, regionModel } = inject(injectKeySelector)
   if (slots.default) {
     return slots.default({
-      data: regionModel,
-      visible: dropdownVisible
+      data: regionModel.value,
+      visible: dropdownVisible.value
     })
   }
   return <DropdownTrigger language={props.language} />

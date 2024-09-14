@@ -31,6 +31,10 @@ export function defineRegionGroup (name, RegionGroupCore) {
 
       return () => (
         <DropdownContainer
+          disabled={props.disabled}
+          language={props.language}
+          custom-trigger-class={props.customTriggerClass}
+          custom-container-class={props.customContainerClass}
           onVisibleChange={val => emit('visible-change', val)}
         >{{
           trigger: () => <TheDropdownTrigger />,
