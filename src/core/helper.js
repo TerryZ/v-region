@@ -178,12 +178,6 @@ export async function getTowns (area) {
     return []
   }
 }
-// TODO: to remove
-export async function getTownModel (areaModel, townKey) {
-  // 获得区/县的下级乡镇/街道列表，再从列表中获得目标节点
-  const towns = await getTowns(areaModel)
-  return towns.find(val => val.key === townKey)
-}
 export function isPromise (p) {
   return p && Object.prototype.toString.call(p) === '[object Promise]'
 }

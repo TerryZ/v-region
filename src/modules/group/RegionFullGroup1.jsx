@@ -14,6 +14,7 @@ import { mergeDropdownProps } from '../../core/options'
 import { injectKeySelector, injectKeyCore } from '../../constants'
 import { getTowns } from '../../core/helper'
 
+import { Dropdown } from 'v-dropdown'
 import DropdownContainer from '../../components/DropdownContainer'
 import DropdownTrigger from '../../components/DropdownTrigger'
 import { createDropdownTrigger } from '../../core/dropdown'
@@ -58,13 +59,13 @@ export default defineComponent({
     }
 
     return () => (
-      <DropdownContainer
+      <Dropdown
         {...props}
         onVisibleChange={val => emit('visible-change', val)}
       >{{
         trigger: () => <TheDropdownTrigger />,
         default: () => <GroupCore />
-      }}</DropdownContainer>
+      }}</Dropdown>
     )
   }
 })

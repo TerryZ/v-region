@@ -161,12 +161,7 @@ export function useRegion (props, emit) {
     setupTownListLoader
   } = useData(props)
 
-  // TODO: to remove
-  const provinces = computed(() => regionProvinces)
-  const cities = computed(() => getCities(data.value.province))
-  const areas = computed(() => getAreas(data.value.city))
   const regionText = computed(() => getRegionText(data.value, props.separator))
-  const dataModel = computed(() => parseDataModel())
   const isComplete = computed(() => (
     availableLevels.value.every(level => !!data.value[level].key)
   ))
@@ -175,7 +170,25 @@ export function useRegion (props, emit) {
 
   watch(() => props.modelValue, parseValueToModel, { immediate: true })
 
-  // 将 v-model 输入的值转换为数据模型
+  /**
+   * 将 v-model 输入的值转换为数据模型
+   *
+   * 入参数据模型格式:
+   * {
+   *   province: string,
+   *   city: string,
+   *   area: string,
+   *   town: string
+   * }
+   *
+   * 数据模型格式:
+   * {
+   *   province: { key: string, value: string },
+   *   city: { key: string, value: string },
+   *   area: { key: string, value: string },
+   *   town: { key: string, value: string }
+   * }
+   */
   async function parseValueToModel () {
     if (!props.modelValue || !Object.keys(props.modelValue).length) {
       return
@@ -207,10 +220,6 @@ export function useRegion (props, emit) {
     await setLevelByModel(level, val)
     emitData()
   }
-  // TODO: to remove
-  function getLevelList (level) {
-    return data.value[level].list
-  }
 
   provide(injectKeyCore, {
     modelValue: toRef(props, 'modelValue'),
@@ -228,11 +237,7 @@ export function useRegion (props, emit) {
 
   return {
     data,
-    dataModel,
     lang,
-    provinces,
-    cities,
-    areas,
     isComplete,
     regionText,
     hasCity,
@@ -242,7 +247,6 @@ export function useRegion (props, emit) {
     getNextLevel,
 
     reset,
-    setLevel,
-    getLevelList
+    setLevel
   }
 }

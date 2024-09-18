@@ -6,7 +6,7 @@ import { injectKeySelector } from '../../constants'
 import DropdownContainer from '../../components/DropdownContainer'
 import { createDropdownTrigger } from '../../core/dropdown'
 
-export function defineRegionGroup (name, RegionGroupCore) {
+export function defineRegionGroup (name, getRegionCore) {
   return {
     name,
     inheritAttrs: false,
@@ -26,7 +26,8 @@ export function defineRegionGroup (name, RegionGroupCore) {
           },
           onAdjust: adjustDropdown
         }
-        return <RegionGroupCore {...mergeProps(groupProps, attrs)} />
+        return getRegionCore(mergeProps(groupProps, attrs))
+        // return <RegionGroupCore {...mergeProps(groupProps, attrs)} />
       }
 
       return () => (
