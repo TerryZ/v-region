@@ -5,6 +5,8 @@ import { ref, nextTick, defineComponent } from 'vue'
 import { cityDirectory } from '../../core/parse'
 import { isSelected } from '../../core/helper'
 
+import IconSearch from '../../icons/IconSearch.vue'
+
 // 完整的城市列表（基于省份进行分组）
 const fullCityDirectory = cityDirectory()
 
@@ -68,9 +70,9 @@ export default defineComponent({
       return (
         <div class='rg-city-picker'>
           <div class='rg-search-bar'>
+            <IconSearch />
             <input
               ref={search}
-              class='rg-input'
               type='text'
               autocomplete='off'
               onInput={e => query(e.target.value.trim())}
