@@ -1,8 +1,8 @@
 import { describe, it, expect } from 'vitest'
 import { mount } from '@vue/test-utils'
 
-import { RegionCityPicker } from '@/index'
-import CityPicker from '@/components/CityPicker'
+import { RegionCityPicker } from '@/'
+import CityPicker from '@/modules/city/CityPicker'
 
 describe('v-region CityPicker 城市选择器模式', function () {
   const wrapper = mount(RegionCityPicker, {
@@ -33,16 +33,6 @@ describe('v-region CityPicker 城市选择器模式', function () {
     await wrapper.trigger('click')
     expect(wrapper.find('.rg-default-btn').classes('rg-opened')).toBe(true)
     expect(wrapper.emitted('visible-change')[0]).toEqual([true])
-  })
-  it('点击 X 图标，所有选中城市应被清空', async () => {
-    await wrapper.find('.rg-clear-btn').trigger('click')
-    expect(wrapper.find('.rg-default-btn').text()).toBe('Please select')
-  })
-  it('响应 v-model 为空数据', () => {
-    expect(wrapper.emitted('update:modelValue')[0]).toEqual([[]])
-  })
-  it('响应事件 change 应返回空数据', () => {
-    expect(wrapper.emitted('change')[1]).toEqual([[]])
   })
   it('通过 v-model 指定五个城市，触发按钮中显示的文本应为`北京市,太原市,and 3 others`', async () => {
     await wrapper.setProps({

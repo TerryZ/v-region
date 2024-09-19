@@ -115,6 +115,7 @@ export default defineComponent({
 
     return () => (
       <DropdownContainer
+        {...props}
         onVisibleChange={dropdownVisibleChange}
       >{{
         trigger: () => (
