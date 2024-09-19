@@ -1,4 +1,4 @@
-import { BaseProps, DropdownProps, CoreModuleEmits, DropdownEmits } from './component'
+import { BaseProps, SelectorProps, CoreModuleEmits, DropdownEmits } from './component'
 
 declare interface RegionGroupCore {
   new (): {
@@ -8,7 +8,7 @@ declare interface RegionGroupCore {
 }
 declare interface RegionGroup {
   new (): {
-    $props: DropdownProps
+    $props: SelectorProps
     $emit: DropdownEmits
   }
 }
@@ -17,7 +17,9 @@ declare interface RegionGroup {
  * 多分组选择器组件核心模块
  */
 export const RegionGroupCore: RegionGroupCore
+export const RegionFullGroupCore: RegionGroupCore
 /**
  * 多分组选择器组件
  */
 export const RegionGroup: RegionGroup
+export const RegionFullGroup: RegionGroup

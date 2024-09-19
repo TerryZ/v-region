@@ -1,9 +1,9 @@
-import { DropdownProps, BaseEmits } from './component'
+import { SelectorProps, BaseEmits } from './component'
 
 /**
  * 级联下拉列表模式
  */
-interface Props extends DropdownProps {
+interface Props extends SelectorProps {
   /**
    * 未选择时显示 `请选择` 的提示文本
    * @default true

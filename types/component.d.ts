@@ -23,7 +23,7 @@ export declare interface RegionModel {
 /**
  * 用户输入模型
  */
-export declare interface RegionInputModel {
+export declare interface RegionValues {
   /** 省份编码 */
   province?: string
   /** 城市编码 */
@@ -38,7 +38,7 @@ export declare interface ComponentProps extends AllowedComponentProps, Component
 
 export declare interface BaseProps extends ComponentProps {
   /** 输入区域模型 */
-  modelValue?: RegionInputModel
+  modelValue?: RegionValues
   /**
    * 启用城市级别
    * @default true
@@ -61,7 +61,12 @@ export declare interface BaseProps extends ComponentProps {
   language?: string
 }
 
-export declare interface DropdownProps extends BaseProps {
+export declare interface DropdownProps {
+  /**
+   * 语言
+   * @default `CN`
+   */
+  language?: string
   /**
    * 禁用组件
    * @default false
@@ -72,9 +77,10 @@ export declare interface DropdownProps extends BaseProps {
   /** 为下拉容器添加自定义样式类 */
   customContainerClass?: string
 }
+export declare interface SelectorProps extends BaseProps, DropdownProps {}
 
 /** 更新选中区域的键值 */
-export declare type EmitUpdateModelValue = (event: "update:modelValue", value: RegionInputModel) => void
+export declare type EmitUpdateModelValue = (event: "update:modelValue", value: RegionValues) => void
 /** 内容修改后的响应事件 */
 export declare type EmitChange = (event: "change", value: RegionModel) => void
 /** 下拉栏调整位置事件 */

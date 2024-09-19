@@ -1,12 +1,6 @@
-import { RegionItem, BaseEmits, EmitVisibleChange } from './component'
+import { DropdownProps, BaseEmits, EmitVisibleChange } from './component'
 
-interface Props {
-  /**
-   * 禁用组件
-   *
-   * @default false
-   */
-  disabled?: boolean
+interface Props extends DropdownProps {
   /** 输入区域编码列表 */
   modelValue?: string[]
   /**
@@ -17,12 +11,6 @@ interface Props {
    * @default false
    */
   overflow?: boolean
-  /**
-   * 语言
-   *
-   * @default `CN`
-   */
-  language?: string
 }
 
 declare interface RegionCityPicker {

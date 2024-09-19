@@ -1,10 +1,20 @@
 import { App } from 'vue'
-import { RegionItem, RegionInputModel, RegionModel } from './component'
-import { RegionText } from './text'
+import { RegionItem, RegionValues, RegionModel } from './component'
+import { RegionText, RegionFullText } from './text'
 import { RegionCityPicker } from './city'
 import { RegionSelects, RegionFullSelects } from './selects'
-import { RegionColumnsCore, RegionColumns } from './columns'
-import { RegionGroupCore, RegionGroup } from './group'
+import {
+  RegionColumnsCore,
+  RegionFullColumnsCore,
+  RegionColumns,
+  RegionFullColumns
+} from './columns'
+import {
+  RegionGroupCore,
+  RegionFullGroupCore,
+  RegionGroup,
+  RegionFullGroup
+} from './group'
 
 declare class Region {
   /**
@@ -32,16 +42,21 @@ export const regionAreas: RegionItem[]
 
 export {
   RegionItem,
-  RegionInputModel,
+  RegionValues,
   RegionModel,
   RegionText,
+  RegionFullText,
   RegionCityPicker,
   RegionSelects,
   RegionFullSelects,
   RegionColumnsCore,
+  RegionFullColumnsCore,
   RegionColumns,
+  RegionFullColumns,
   RegionGroupCore,
-  RegionGroup
+  RegionFullGroupCore,
+  RegionGroup,
+  RegionFullGroup
 }
 
 export default Region
