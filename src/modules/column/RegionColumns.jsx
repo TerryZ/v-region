@@ -1,8 +1,9 @@
 import { defineComponent } from 'vue'
 import RegionColumnsCore from './ColumnsCore'
 
-import { defineRegionColumns } from './RegionColumnsBase'
+// import { defineRegionColumns } from './RegionColumnsBase'
+import { defineRegionSelector } from '../../core/dropdown'
 
 export default defineComponent(
-  defineRegionColumns('RegionColumns', RegionColumnsCore)
+  defineRegionSelector('RegionColumns', RegionColumnsCore)
 )
