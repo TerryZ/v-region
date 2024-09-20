@@ -16,7 +16,8 @@ export default {
       isComplete,
       regionText,
       availableLevels,
-      hasCity, hasArea, hasTown
+      hasCity, hasArea, hasTown,
+      setupTownListLoader
     } = useRegion(props, emit)
 
     expose({
@@ -31,7 +32,8 @@ export default {
       setLevel,
       getData,
       isComplete,
-      regionText
+      regionText,
+      setupTownListLoader
     })
 
     return () => h('div')

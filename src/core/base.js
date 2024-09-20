@@ -247,6 +247,7 @@ export function useRegion (props, emit) {
     getNextLevel,
 
     reset,
-    setLevel
+    setLevel,
+    setupTownListLoader
   }
 }

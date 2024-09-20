@@ -1,8 +1,8 @@
 import { computed } from 'vue'
 
 import languages, { CN } from '../language'
-import { LEVEL_KEYS, KEY_PROVINCE, KEY_CITY, KEY_AREA, KEY_TOWN } from '../constants'
-import { regionProvinces, regionCities, regionAreas } from '../formatted'
+import { LEVEL_KEYS } from '../constants'
+import { regionCities, regionAreas } from '../formatted'
 import { modelToValue } from './parse'
 
 export function createLevel (list = []) {
@@ -66,7 +66,6 @@ export function isEmptyValues (values) {
  * @param {object} props
  * @param {boolean} fullLevels
  */
-// TODO: unit-test
 export function getAvailableLevels (props, fullLevels) {
   const levels = [props.city, props.area, props.town && fullLevels]
 
@@ -78,7 +77,6 @@ export function getAvailableLevels (props, fullLevels) {
  * 级别编码有效性校验，防止在中间级别出现空值
  * @param {object} modelValue
  */
-// TODO: unit-test
 export function getAvailableValues (modelValue) {
   const { province, city, area, town } = modelValue
   const levelValues = [province, city, area, town]
@@ -89,34 +87,6 @@ export function getAvailableValues (modelValue) {
       index <= unavailableLevelIndex ? modelValue[key] : undefined
     )])
   )
-}
-/**
- * 编码数据有效性校验，防止出现编码与级别不匹配
- * 仅检查省、市、区三级数据，由于数据量缘故，不检查县区数据
- *
- * @param {object} modelValue
- */
-// TODO: unit-test
-export function validityValues (modelValue) {
-  const { province, city, area, town } = modelValue
-  const value = {
-    [KEY_PROVINCE]: undefined,
-    [KEY_CITY]: undefined,
-    [KEY_AREA]: undefined,
-    [KEY_TOWN]: undefined
-  }
-  const levelInvalid = (level, val, levelSet) => {
-    if (!val || !Object.hasOwn(levelSet, val)) return true
-    console.warn('Incorrect values provided to v-region v-model')
-    value[level] = val
-    return false
-  }
-
-  if (levelInvalid(KEY_PROVINCE, province, regionProvinces)) return value
-  if (levelInvalid(KEY_CITY, city, regionCities)) return value
-  if (levelInvalid(KEY_AREA, area, regionAreas)) return value
-  value[KEY_TOWN] = town
-  return value
 }
 export function getNextLevel (level) {
   const index = LEVEL_KEYS.findIndex(val => val === level)
