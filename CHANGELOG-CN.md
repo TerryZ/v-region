@@ -2,6 +2,13 @@
 
 英文 changelog 内容请访问 [CHANGELOG](CHANGELOG.md)
 
+## [3.2.0](https://github.com/TerryZ/v-region/compare/v3.1.0...v3.2.0) (2024-09-21)
+
+### 新特性
+
+- 优化性能，减少不必要的渲染与数据加载
+- 原有组件将作为 3 级行政级别组件使用，新增 `Full` 系列 4 级行政级别组件，以按需使用，避免不需要使用 4 级行政级别时，组件体积过大
+
 ## [3.1.0](https://github.com/TerryZ/v-region/compare/v3.0.0...v3.1.0) (2024-07-10)
 
 ### 新特性

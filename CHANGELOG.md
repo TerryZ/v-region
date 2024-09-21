@@ -2,6 +2,13 @@
 
 Please refer to [CHANGELOG-CN](CHANGELOG-CN.md) for Chinese changelog
 
+## [3.2.0](https://github.com/TerryZ/v-region/compare/v3.1.0...v3.2.0) (2024-09-21)
+
+### Features
+
+- Optimize performance and reduce unnecessary rendering and data loading
+- The original components will be used as level 3 administrative level components, and the new `Full` series of level 4 administrative level components will be added to use them on demand to avoid the components being too large when level 4 administrative level is not needed
+
 ## [3.1.0](https://github.com/TerryZ/v-region/compare/v3.0.0...v3.1.0) (2024-07-10)
 
 ### Features
