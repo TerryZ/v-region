@@ -1,6 +1,6 @@
 <template>
   <div class="">
-    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <nav class="navbar navbar-expand-lg border-bottom">
       <div class="container-fluid">
         <a
           class="navbar-brand fw-bold"
