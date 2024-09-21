@@ -36,6 +36,7 @@ A simple region cascade selector for vue, provide 4 levels Chinese administrativ
 - 部分模式允许使用作用域插槽 `Scoped Slots` 的方式自定义触发对象，让组件更方便于整合在业务场景中
 - 除省级以外，其它行政区域级别可通过参数进行切换
 - 支持 “直辖市”、“特别行政区” 、“地级市（直筒子市）” 和 “省辖县/省辖县级市” 等特殊行政区域的数据和内容处理
+- 3 级与 4 级行政级别 `数据量较大` 组件独立拆分使用，按需使用
 
 ## 安装插件（Installation）
 
@@ -105,9 +106,9 @@ function change (data) {
 ```ts
 import { ref } from 'vue'
 import { RegionSelects } from 'v-region'
-import type { RegionInputModel, RegionModel } from 'v-region'
+import type { RegionValues, RegionModel } from 'v-region'
 
-const region = ref<RegionInputModel>({
+const region = ref<RegionValues>({
   province: '350000',
   city: '350100',
   area: '350104',
