@@ -1,4 +1,4 @@
-import { ref, computed, watch, provide, toRef, inject } from 'vue'
+import { ref, computed, watch, provide, toRef, inject, onMounted } from 'vue'
 
 import {
   KEY_PROVINCE, KEY_CITY, KEY_AREA, KEY_TOWN, LEVEL_KEYS,
@@ -66,6 +66,7 @@ function useData (props) {
     data.value[level].list = await loader(model)
     data.value[level].parentKey = model.key
   }
+  // 装配乡镇级别列表拉取实现
   const setupTownListLoader = async (fn) => {
     nextLevelListLoader[KEY_AREA] = async () => {
       const areaModel = getLevelModel(KEY_AREA)
@@ -75,9 +76,9 @@ function useData (props) {
     }
 
     fullLevels.value = true
-    await nextLevelListLoader[KEY_AREA]()
-    const model = getModel(KEY_TOWN, props.modelValue?.[KEY_TOWN])
-    setLevelByModel(KEY_TOWN, model)
+    // await nextLevelListLoader[KEY_AREA]()
+    // const model = getModel(KEY_TOWN, props.modelValue?.[KEY_TOWN])
+    // await setLevelByModel(KEY_TOWN, model)
   }
   // 在列表中查找数据模型
   const getModel = (level, key) => (
@@ -168,7 +169,9 @@ export function useRegion (props, emit) {
 
   const selector = inject(injectKeySelector, undefined)
 
-  watch(() => props.modelValue, parseValueToModel, { immediate: true })
+  watch(() => props.modelValue, parseValueToModel)
+  // 界面渲染完成，乡镇级别挂载完成，执行数据转换与匹配
+  onMounted(parseValueToModel)
 
   /**
    * 将 v-model 输入的值转换为数据模型
@@ -198,11 +201,11 @@ export function useRegion (props, emit) {
       return
     }
     // 校验与清洗后的 modelValue 值
-    const values = getAvailableValues(props.modelValue)
+    const cleanedValues = getAvailableValues(props.modelValue)
 
-    if (isEmptyValues(values)) return reset()
+    if (isEmptyValues(cleanedValues)) return reset()
 
-    await setModelByValues(values)
+    await setModelByValues(cleanedValues)
     // 经过校验和清洗后，若值发生变化，则响应 modelValue 变更事件
     emitData(!valueEqualToModel(props.modelValue, data.value))
   }

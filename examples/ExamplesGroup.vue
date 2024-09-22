@@ -169,9 +169,10 @@ import {
   RegionGroup,
   RegionFullGroup
 } from '@/'
+import { model1 } from '@/__tests__/data'
 import { getModelText } from '../src/core/helper'
 
-const model = ref(undefined)
+const model = ref(model1)
 const values = ref(undefined)
 
 const enabledCity = ref(true)
