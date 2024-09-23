@@ -1,7 +1,7 @@
 import { defineComponent, inject } from 'vue'
 
 import { injectKeyCore, KEY_TOWN } from '../../constants'
-import { getTowns } from '../../core/helper'
+import { getTowns } from '../../core/list-loader'
 
 import RegionSelects from './RegionSelects'
 import RegionSelectLevel from './SelectLevel'

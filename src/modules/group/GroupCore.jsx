@@ -30,16 +30,15 @@ export default defineComponent({
       level.value = KEY_PROVINCE
       nextTick(() => emit('adjust'))
     }
-    async function select (item) {
+    async function selectItem (item) {
       if (!level.value) return
 
       await setLevel(level.value, item)
 
       const next = getNextLevel(level.value)
-      if (!next) {
-        emit('complete')
-        return
-      }
+
+      if (!next) return emit('complete')
+
       level.value = next
       nextTick(() => emit('adjust'))
     }
@@ -97,7 +96,7 @@ export default defineComponent({
         <li
           key={val.key}
           class={['rg-item', { active: isMatch(val) }]}
-          onMouseup={() => select(val)}
+          onMouseup={() => selectItem(val)}
         >{val.value}</li>
       ))
       const ContentMessageBox = () => {

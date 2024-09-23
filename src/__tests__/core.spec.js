@@ -3,10 +3,11 @@ import { mount } from '@vue/test-utils'
 
 import Component from './Component'
 import {
-  getCities, getAreas, getTowns, getLanguage, getLowerLevels,
+  getLanguage, getLowerLevels,
   getAvailableLevels, getAvailableValues,
   getModelText
 } from '../core/helper'
+import { getCities, getAreas, getTowns } from '../core/list-loader'
 import { modelToValue } from '../core/parse'
 import { data, model } from './data'
 

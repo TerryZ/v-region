@@ -1,7 +1,7 @@
 import { inject, defineComponent } from 'vue'
 
 import { injectKeyCore } from '../../constants'
-import { getTowns } from '../../core/helper'
+import { getTowns } from '../../core/list-loader'
 
 import RegionText from './RegionText'
 

@@ -3,7 +3,7 @@ import { mount } from '@vue/test-utils'
 
 import Component from './Component'
 import { data, model } from './data'
-import { getTowns } from '../core/helper'
+import { getTowns } from '../core/list-loader'
 
 describe('v-region 核心数据模块', async () => {
   const wrapper = mount(Component, {

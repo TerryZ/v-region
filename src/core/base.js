@@ -13,11 +13,10 @@ import {
   getAvailableValues,
   getAvailableLevels,
   createLevel,
-  getCities,
-  getAreas,
   getLanguage,
   useState
 } from './helper'
+import { getCities, getAreas } from './list-loader'
 import { modelToValue } from './parse'
 
 /**
@@ -64,7 +63,6 @@ function useData (props) {
   const levelListLoader = async (level, parentLevel, loader) => {
     const model = getLevelModel(parentLevel)
     data.value[level].list = await loader(model)
-    data.value[level].parentKey = model.key
   }
   // 装配乡镇级别列表拉取实现
   const setupTownListLoader = async (fn) => {
@@ -72,7 +70,6 @@ function useData (props) {
       const areaModel = getLevelModel(KEY_AREA)
       if (!areaModel) return
       data.value[KEY_TOWN].list = await fn(areaModel)
-      data.value[KEY_TOWN].parentKey = areaModel.key
     }
 
     fullLevels.value = true
@@ -130,7 +127,6 @@ function useData (props) {
   return {
     data,
     availableLevels,
-    hasNextLevel,
     getNextLevel,
     parseDataValues,
     parseDataModel,
