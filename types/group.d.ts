@@ -1,4 +1,11 @@
-import { BaseProps, SelectorProps, CoreModuleEmits, DropdownEmits } from './component'
+import { VNode } from 'vue'
+import {
+  BaseProps,
+  SelectorProps,
+  CoreModuleEmits,
+  DropdownEmits,
+  RegionTriggerSlotData
+} from './component'
 
 declare interface RegionGroupCore {
   new (): {
@@ -10,6 +17,9 @@ declare interface RegionGroup {
   new (): {
     $props: SelectorProps
     $emit: DropdownEmits
+    $slots: {
+      default?: (triggerSlotData: RegionTriggerSlotData) => VNode[]
+    }
   }
 }
 

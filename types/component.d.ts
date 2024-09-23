@@ -33,6 +33,16 @@ export declare interface RegionValues {
   /** 村镇编码 */
   town?: string
 }
+export declare interface RegionTriggerSlotData {
+  /**
+   * 当前选择的行政区域数据模型
+   */
+  data?: RegionModel
+  /**
+   * 当前选择器是否可见
+   */
+  visible?: boolean
+}
 
 export declare interface ComponentProps extends AllowedComponentProps, ComponentCustomProps, VNodeProps {}
 

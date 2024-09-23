@@ -1,8 +1,10 @@
+import { VNode } from 'vue'
 import {
   BaseProps,
   SelectorProps,
   CoreModuleEmits,
-  DropdownEmits
+  DropdownEmits,
+  RegionTriggerSlotData
 } from './component'
 
 declare interface RegionColumnsCore {
@@ -15,6 +17,9 @@ declare interface RegionColumns {
   new (): {
     $props: SelectorProps
     $emit: DropdownEmits
+    $slots: {
+      default?: (triggerSlotData: RegionTriggerSlotData) => VNode[]
+    }
   }
 }
 
