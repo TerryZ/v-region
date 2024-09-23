@@ -2,12 +2,24 @@
 
 英文 changelog 内容请访问 [CHANGELOG](CHANGELOG.md)
 
+## [3.2.1](https://github.com/TerryZ/v-region/compare/v3.2.0...v3.2.1) (2024-09-23)
+
+### 新特性
+
+- dts 文档补充对 `scoped slots` 插槽输出数据的描述
+- group 清空图标的样式优化
+
+### 问题修复
+
+- 乡镇级别初始化选中状态有概率失败
+
 ## [3.2.0](https://github.com/TerryZ/v-region/compare/v3.1.0...v3.2.0) (2024-09-21)
 
 ### 新特性
 
 - 优化性能，减少不必要的渲染与数据加载
 - 原有组件将作为 3 级行政级别组件使用，新增 `Full` 系列 4 级行政级别组件，以按需使用，避免不需要使用 4 级行政级别时，组件体积过大
+- 移除 `reset` api, 需要清空选择内容时，请将 `v-model` 绑定的值设置为各级别均为 `undefined` 的对象
 
 ## [3.1.0](https://github.com/TerryZ/v-region/compare/v3.0.0...v3.1.0) (2024-07-10)
 

@@ -2,12 +2,24 @@
 
 Please refer to [CHANGELOG-CN](CHANGELOG-CN.md) for Chinese changelog
 
+## [3.2.1](https://github.com/TerryZ/v-region/compare/v3.2.0...v3.2.1) (2024-09-23)
+
+### Features
+
+- dts adds the description of the output data of `scoped slots` slots
+- Optimize the style of group clear icon
+
+### Bug Fixes
+
+- There is a probability that the initialization of the selected state at the town level will fail
+
 ## [3.2.0](https://github.com/TerryZ/v-region/compare/v3.1.0...v3.2.0) (2024-09-21)
 
 ### Features
 
 - Optimize performance and reduce unnecessary rendering and data loading
 - The original components will be used as level 3 administrative level components, and the new `Full` series of level 4 administrative level components will be added to use them on demand to avoid the components being too large when level 4 administrative level is not needed
+- Removed `reset` api. When you need to clear the selection, please set the value of `v-model` binding to an object with `undefined` at all levels
 
 ## [3.1.0](https://github.com/TerryZ/v-region/compare/v3.0.0...v3.1.0) (2024-07-10)
 
