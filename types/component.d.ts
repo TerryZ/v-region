@@ -46,6 +46,8 @@ export declare interface RegionTriggerSlotData {
 
 export declare interface ComponentProps extends AllowedComponentProps, ComponentCustomProps, VNodeProps {}
 
+type RegionLanguages = 'cn' | 'en'
+
 export declare interface BaseProps extends ComponentProps {
   /** 输入区域模型 */
   modelValue?: RegionValues
@@ -66,17 +68,17 @@ export declare interface BaseProps extends ComponentProps {
   town?: boolean
   /**
    * 语言
-   * @default `CN`
+   * @default `cn`
    */
-  language?: string
+  language?: RegionLanguages
 }
 
 export declare interface DropdownProps {
   /**
    * 语言
-   * @default `CN`
+   * @default `cn`
    */
-  language?: string
+  language?: RegionLanguages
   /**
    * 禁用组件
    * @default false
@@ -103,8 +105,3 @@ export declare type EmitVisibleChange = (event: 'visible-change', value: boolean
 export declare type BaseEmits = EmitUpdateModelValue & EmitChange
 export declare type CoreModuleEmits = BaseEmits & EmitAdjust & EmitComplete
 export declare type DropdownEmits = BaseEmits & EmitComplete & EmitVisibleChange
-
-export declare interface CommonMethods extends MethodOptions {
-  /** 重置数据 */
-  reset: () => void
-}
