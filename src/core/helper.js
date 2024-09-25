@@ -120,3 +120,17 @@ export function inputFocus (input) {
   if (!input) return
   input.focus({ preventScroll: true })
 }
+export function scrollIntoElement (container, active) {
+  const activeEl = typeof active === 'string'
+    ? container.querySelector(active)
+    : active
+  if (
+    container.scrollHeight <= container.offsetHeight || !activeEl
+  ) return
+
+  activeEl?.scrollIntoView({
+    behavior: 'smooth',
+    block: 'nearest',
+    inline: 'start'
+  })
+}
