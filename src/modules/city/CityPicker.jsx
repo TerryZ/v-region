@@ -6,17 +6,18 @@ import { cityDirectory } from '../../core/parse'
 import { isSelected } from '../../core/helper'
 
 import IconSearch from '../../icons/IconSearch.vue'
-
-// 完整的城市列表（基于省份进行分组）
-const fullCityDirectory = cityDirectory()
+import IconTrash from '../../icons/IconTrash.vue'
 
 export default defineComponent({
   name: 'CityPicker',
   props: {
     selected: { type: Array, default: undefined }
   },
-  emits: ['adjust', 'select'],
+  emits: ['adjust', 'select', 'reset'],
   setup (props, { emit, expose }) {
+    // 完整的城市列表（基于省份进行分组）
+    const fullCityDirectory = cityDirectory()
+
     const search = ref()
     const list = ref(fullCityDirectory)
 
@@ -41,6 +42,10 @@ export default defineComponent({
         list.value = fullCityDirectory
       }
       nextTick(() => emit('adjust'))
+    }
+    function removeAllCities () {
+      if (!props.selected.length) return
+      emit('reset')
     }
 
     expose({ search })
@@ -70,13 +75,21 @@ export default defineComponent({
       return (
         <div class='rg-city-picker'>
           <div class='rg-search-bar'>
-            <IconSearch />
-            <input
-              ref={search}
-              type='text'
-              autocomplete='off'
-              onInput={e => query(e.target.value.trim())}
-            />
+            <div class='rg-search-input'>
+              <IconSearch />
+              <input
+                ref={search}
+                type='text'
+                autocomplete='off'
+                onInput={e => query(e.target.value.trim())}
+              />
+            </div>
+            <div
+              class={['rg-icon-btn', { disabled: !props.selected.length }]}
+              onClick={removeAllCities}
+            >
+              <IconTrash />
+            </div>
           </div>
           <div class='rg-picker'>
             {provinces}

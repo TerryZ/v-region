@@ -56,7 +56,23 @@
   // position: absolute
   // top: 7px
   // right: 10px
-.v-region-icon
+.rg-icon
   display: inline-flex
   width: 1em
   height: 1em
+.rg-icon-btn
+  color: #888
+  border-radius: 5rem
+  transition: all .3s
+  height: 2rem
+  width: 2rem
+  display: inline-flex
+  align-items: center
+  justify-content: center
+  cursor: pointer
+  &:hover
+    color: black
+    background-color: #f7f7f7
+  &.disabled
+    color: #ddd
+    background-color: unset

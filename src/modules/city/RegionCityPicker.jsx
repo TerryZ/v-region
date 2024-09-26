@@ -102,13 +102,19 @@ export default defineComponent({
         emitData()
         nextTick(() => adjustDropdown())
       }
+      function removeAll () {
+        selected.value = []
+        emitData()
+        nextTick(() => adjustDropdown())
+      }
 
       return (
         <CityPicker
           ref={picker}
           selected={selected.value}
           onSelect={selectCity}
-          onAdjustDropdown={adjustDropdown}
+          onAdjust={adjustDropdown}
+          onReset={removeAll}
         />
       )
     }
