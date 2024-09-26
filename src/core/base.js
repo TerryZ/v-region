@@ -142,7 +142,7 @@ function useData (props) {
  * @param {string[]} emit
  * @returns {object}
  */
-export function useRegion (props, emit) {
+export function useRegion (props, emit, options) {
   const { emitUpdateModelValue, emitChange } = useEvent(emit)
   const { hasCity, hasArea, hasTown } = useState(props)
   const lang = getLanguage(props.language)
@@ -204,6 +204,8 @@ export function useRegion (props, emit) {
     await setModelByValues(cleanedValues)
     // 经过校验和清洗后，若值发生变化，则响应 modelValue 变更事件
     emitData(!valueEqualToModel(props.modelValue, data.value))
+    // 提供一个函数入口，在 v-model 值变化处理完成的后续处理
+    options?.afterModelChange?.()
   }
   function emitData (emitModel = true) {
     if (emitModel) emitUpdateModelValue(parseDataValues())

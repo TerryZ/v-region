@@ -121,15 +121,17 @@ export function inputFocus (input) {
   input.focus({ preventScroll: true })
 }
 export function scrollIntoElement (container, active) {
+  if (!container) return
+
   const activeEl = typeof active === 'string'
     ? container.querySelector(active)
     : active
   if (
     container.scrollHeight <= container.offsetHeight || !activeEl
   ) return
-
+  // 多区域同时滚动时，平滑滚动会导致仅最后一个容器执行滚动行为，不符合功能预期
   activeEl?.scrollIntoView({
-    behavior: 'smooth',
+    // behavior: 'smooth',
     block: 'nearest',
     inline: 'start'
   })

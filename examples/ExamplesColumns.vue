@@ -211,9 +211,9 @@ function setRegion () {
 }
 function set3LevelRegion () {
   modelCore.value = {
-    province: '130000',
-    city: '130300',
-    area: '130304',
+    province: '450000',
+    city: '451200',
+    area: '451228',
     town: undefined
   }
 }
