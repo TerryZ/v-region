@@ -2,6 +2,13 @@
 
 Please refer to [CHANGELOG-CN](CHANGELOG-CN.md) for Chinese changelog
 
+## [3.3.0](https://github.com/TerryZ/v-region/compare/v3.2.1...v3.3.0) (2024-09-26)
+
+### Features
+
+- `RegionCityPicker` component add remove all button
+- Some components add the function of scrolling and positioning selected items
+
 ## [3.2.1](https://github.com/TerryZ/v-region/compare/v3.2.0...v3.2.1) (2024-09-23)
 
 ### Features

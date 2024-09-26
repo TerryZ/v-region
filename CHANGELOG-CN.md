@@ -2,6 +2,13 @@
 
 英文 changelog 内容请访问 [CHANGELOG](CHANGELOG.md)
 
+## [3.3.0](https://github.com/TerryZ/v-region/compare/v3.2.1...v3.3.0) (2024-09-26)
+
+### 新特性
+
+- `RegionCityPicker` 新增清除选择项目图标按钮
+- 部分组件添加选中项目滚动定位功能
+
 ## [3.2.1](https://github.com/TerryZ/v-region/compare/v3.2.0...v3.2.1) (2024-09-23)
 
 ### 新特性
