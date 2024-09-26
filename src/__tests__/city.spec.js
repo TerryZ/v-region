@@ -34,6 +34,11 @@ describe('v-region CityPicker 城市选择器模式', function () {
     expect(wrapper.find('.rg-default-btn').classes('rg-opened')).toBe(true)
     expect(wrapper.emitted('visible-change')[0]).toEqual([true])
   })
+  it('点击清除图标，应清空所有选择项目', async () => {
+    const picker = wrapper.findComponent(CityPicker)
+    await picker.find('.rg-search-bar .rg-icon-btn').trigger('click')
+    expect(wrapper.find('.rg-default-btn').text()).toBe('Please select')
+  })
   it('通过 v-model 指定五个城市，触发按钮中显示的文本应为`北京市,太原市,and 3 others`', async () => {
     await wrapper.setProps({
       modelValue: ['110000', '350100', '140100', '140200', '140300']
