@@ -119,6 +119,10 @@ function change (data: RegionModel): void {
 }
 ```
 
+# Activity
+
+![Alt](https://repobeats.axiom.co/api/embed/b88b52778a2d98e078e741cc3e5d8ede27f73d3f.svg "Repobeats analytics image")
+
 ## License
 
 [![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2FTerryZ%2Fv-region.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2FTerryZ%2Fv-region?ref=badge_large)
