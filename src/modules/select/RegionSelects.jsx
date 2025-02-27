@@ -33,7 +33,7 @@ export default defineComponent({
 
     return () => {
       return (
-        <div>
+        <div class="rg-selects">
           <RegionLevel level={KEY_PROVINCE} />
           <RegionLevel hasLevel={hasCity.value} level={KEY_CITY} />
           <RegionLevel hasLevel={hasArea.value} level={KEY_AREA} />

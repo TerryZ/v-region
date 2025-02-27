@@ -13,16 +13,7 @@
         <region-selects
           :city="false"
           :area="false"
-          :disabled="disabled"
         />
-
-        <button
-          type="button"
-          class="btn btn-light mt-3"
-          @click="toggleDisabled"
-        >
-          Disabled
-        </button>
       </div>
 
       <h5 class="mt-3">
@@ -107,12 +98,20 @@
         >
           Reset 3 level
         </button>
+        <button
+          type="button"
+          class="btn btn-light"
+          @click="toggleDisabled"
+        >
+          Disabled
+        </button>
       </div>
 
       <div class="my-3 d-flex align-items-center">
         <region-full-selects
           ref="regionSelected"
           language="en"
+          :disabled="disabled"
           :city="enabledCity"
           :area="enabledArea"
           :town="enabledTown"

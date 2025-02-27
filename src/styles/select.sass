@@ -1,50 +1,7 @@
-// select trigger button
-.rg-select
-  display: inline-block
-  position: relative
-  margin-right: 5px
-  &:last-child
-    margin-right: 0
-  .rg-select__el
-    border: 1px solid #ddd
-    border-radius: .3rem
-    transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out
-    color: #666
-    .rg-select__content
-      padding: 6px 30px 6px 15px
-      font-size: 14px
-      display: inline-block
-      min-width: 80px
-      line-height: 1.5
-      box-sizing: border-box
-      user-select: none
-    &:hover
-      border: 1px solid #aaa
-    &.rg-select__el--active
-      outline: 0
-      box-shadow: 3px 2px 6px rgba(0, 0, 0, 0.3)
-      border: 1px solid #666
-      .rg-select__caret
-        transform: rotate(180deg)
-    &.rg-select__el--disabled
-      border: 1px solid #f5f5f5
-      background-color: #f5f5f5
-      color: #aaa
-  .rg-select__caret
-    position: absolute
-    top: 50%
-    right: 12px
-    margin-top: -1px
-    vertical-align: middle
-    display: inline-block
-    width: 0
-    height: 0
-    margin-left: 2px
-    border-top: 4px dashed
-    /*border-top: 4px solid\9*/
-    border-right: 4px solid transparent
-    border-left: 4px solid transparent
-    transition: transform .2s ease
+.rg-selects
+  display: flex
+  align-items: center
+  gap: 5px
 
 // list items
 .rg-select__list

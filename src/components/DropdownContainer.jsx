@@ -1,6 +1,6 @@
 import { ref, defineComponent, provide } from 'vue'
 
-import Dropdown from 'v-dropdown'
+import { Dropdown } from 'v-dropdown'
 
 import { injectKeySelector } from '../constants'
 
