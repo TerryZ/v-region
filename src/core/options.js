@@ -14,11 +14,7 @@ export function mergeBaseProps (props) {
 export function mergeDropdownProps (props) {
   return mergeProps({
     language: { type: String, default: CN },
-    disabled: { type: Boolean, default: false },
-    /** 为触发对象添加自定义样式类 */
-    customTriggerClass: { type: String, default: '' },
-    /** 为下拉容器添加自定义样式类 */
-    customContainerClass: { type: String, default: '' }
+    disabled: { type: Boolean, default: false }
   }, props)
 }
 export function mergeSelectorProps (props) {

@@ -1,6 +1,6 @@
 import '../../styles/group.sass'
 
-import { ref, nextTick, defineComponent } from 'vue'
+import { ref, defineComponent } from 'vue'
 
 import { mergeBaseProps, mergeEmits } from '../../core/options'
 import { useRegion } from '../../core/base'
@@ -11,7 +11,7 @@ import IconTrash from '../../icons/IconTrash.vue'
 export default defineComponent({
   name: 'RegionGroupCore',
   props: mergeBaseProps(),
-  emits: mergeEmits(['adjust', 'complete']),
+  emits: mergeEmits(['complete']),
   setup (props, { emit, slots }) {
     const {
       data,
@@ -28,7 +28,6 @@ export default defineComponent({
     function clear () {
       reset()
       level.value = KEY_PROVINCE
-      nextTick(() => emit('adjust'))
     }
     async function selectItem (item) {
       if (!level.value) return
@@ -40,7 +39,6 @@ export default defineComponent({
       if (!next) return emit('complete')
 
       level.value = next
-      nextTick(() => emit('adjust'))
     }
     function isMatch (item) {
       if (!item) return false
@@ -65,7 +63,6 @@ export default defineComponent({
     function GroupTabs () {
       const switchLevel = (item) => {
         level.value = item.key
-        nextTick(() => emit('adjust'))
       }
       const tabs = availableLevels.value.map(val => {
         const levelItem = LEVELS.find(value => value.key === val)

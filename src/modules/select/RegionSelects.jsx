@@ -32,8 +32,8 @@ export default defineComponent({
     return () => (
       <div class="rg-selects">
         <RegionLevel level={KEY_PROVINCE} />
-        <RegionLevel hasLevel={hasCity.value} level={KEY_CITY} />
-        <RegionLevel hasLevel={hasArea.value} level={KEY_AREA} />
+        <RegionLevel level={KEY_CITY} hasLevel={hasCity.value} />
+        <RegionLevel level={KEY_AREA} hasLevel={hasArea.value} />
         {slots.default?.()}
       </div>
     )

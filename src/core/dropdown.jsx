@@ -3,6 +3,7 @@ import { mergeProps, inject } from 'vue'
 import { injectKeySelector } from '../constants'
 import { CN } from '../language'
 
+import { useDropdown } from 'v-dropdown'
 import DropdownContainer from '../components/DropdownContainer'
 import DropdownTrigger from '../components/DropdownTrigger'
 
@@ -25,11 +26,7 @@ export function defineRegionSelector (name, RegionCoreComponent) {
     // 失效
     props: {
       language: { type: String, default: CN },
-      disabled: { type: Boolean, default: false },
-      /** 为触发对象添加自定义样式类 */
-      customTriggerClass: { type: String, default: '' },
-      /** 为下拉容器添加自定义样式类 */
-      customContainerClass: { type: String, default: '' }
+      disabled: { type: Boolean, default: false }
     },
     emits: ['complete', 'visible-change'],
     setup (props, { emit, slots, attrs }) {
@@ -37,26 +34,27 @@ export function defineRegionSelector (name, RegionCoreComponent) {
         return createDropdownTrigger(props, slots)
       }
       function RegionCore () {
-        const { closeDropdown, adjustDropdown } = inject(injectKeySelector)
+        const { close } = useDropdown()
         const coreProps = {
           language: props.language,
           onComplete: () => {
-            closeDropdown()
+            close()
             emit('complete')
-          },
-          onAdjust: adjustDropdown
+          }
         }
         return <RegionCoreComponent {...mergeProps(coreProps, attrs)} />
       }
 
+      const dropdownSlots = {
+        trigger: () => <TheDropdownTrigger />,
+        default: () => <RegionCore />
+      }
       return () => (
         <DropdownContainer
           {...props}
           onVisibleChange={val => emit('visible-change', val)}
-        >{{
-          trigger: () => <TheDropdownTrigger />,
-          default: () => <RegionCore />
-        }}</DropdownContainer>
+          v-slots={dropdownSlots}
+        />
       )
     }
   }
