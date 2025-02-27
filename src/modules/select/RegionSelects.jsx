@@ -21,9 +21,7 @@ export default defineComponent({
     const { hasCity, hasArea } = useRegion(props, emit)
 
     provide(injectKeyBase, {
-      blank: props.blank,
-      customTriggerClass: props.customTriggerClass,
-      customContainerClass: props.customContainerClass
+      blank: props.blank
     })
 
     function RegionLevel ({ hasLevel = true, level }) {
@@ -31,15 +29,13 @@ export default defineComponent({
       return <RegionSelectLevel level={level} />
     }
 
-    return () => {
-      return (
-        <div class="rg-selects">
-          <RegionLevel level={KEY_PROVINCE} />
-          <RegionLevel hasLevel={hasCity.value} level={KEY_CITY} />
-          <RegionLevel hasLevel={hasArea.value} level={KEY_AREA} />
-          {slots.default?.()}
-        </div>
-      )
-    }
+    return () => (
+      <div class="rg-selects">
+        <RegionLevel level={KEY_PROVINCE} />
+        <RegionLevel hasLevel={hasCity.value} level={KEY_CITY} />
+        <RegionLevel hasLevel={hasArea.value} level={KEY_AREA} />
+        {slots.default?.()}
+      </div>
+    )
   }
 })
