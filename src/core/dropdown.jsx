@@ -1,22 +1,9 @@
-import { mergeProps, inject } from 'vue'
+import { mergeProps, ref } from 'vue'
 
-import { injectKeySelector } from '../constants'
 import { CN } from '../language'
+import { getLanguage, getModelText } from '../core/helper'
 
-import { useDropdown } from 'v-dropdown'
-import DropdownContainer from '../components/DropdownContainer'
-import DropdownTrigger from '../components/DropdownTrigger'
-
-export function createDropdownTrigger (props, slots) {
-  const { dropdownVisible, regionModel } = inject(injectKeySelector)
-  if (slots.default) {
-    return slots.default({
-      data: regionModel.value,
-      visible: dropdownVisible.value
-    })
-  }
-  return <DropdownTrigger language={props.language} />
-}
+import { Dropdown, DropdownContent, DropdownTrigger, useDropdown } from 'v-dropdown'
 
 export function defineRegionSelector (name, RegionCoreComponent) {
   return {
@@ -28,15 +15,35 @@ export function defineRegionSelector (name, RegionCoreComponent) {
       language: { type: String, default: CN },
       disabled: { type: Boolean, default: false }
     },
-    emits: ['complete', 'visible-change'],
+    emits: ['complete', 'change', 'visible-change'],
     setup (props, { emit, slots, attrs }) {
-      function TheDropdownTrigger () {
-        return createDropdownTrigger(props, slots)
+      const region = ref({})
+
+      function TriggerText () {
+        const lang = getLanguage(props.language)
+        return getModelText(region.value) || lang.pleaseSelect
+      }
+      function RegionDropdownTrigger ({ visible }) {
+        if (slots.default) {
+          return slots.default({
+            data: region.value,
+            visible: visible.value
+          })
+        }
+        return (
+          <DropdownTrigger>
+            <TriggerText />
+          </DropdownTrigger>
+        )
       }
       function RegionCore () {
         const { close } = useDropdown()
         const coreProps = {
           language: props.language,
+          onChange: data => {
+            region.value = data
+            emit('change', data)
+          },
           onComplete: () => {
             close()
             emit('complete')
@@ -46,13 +53,16 @@ export function defineRegionSelector (name, RegionCoreComponent) {
       }
 
       const dropdownSlots = {
-        trigger: () => <TheDropdownTrigger />,
-        default: () => <RegionCore />
+        trigger: RegionDropdownTrigger,
+        default: () => (
+          <DropdownContent>
+            <RegionCore />
+          </DropdownContent>
+        )
       }
       return () => (
-        <DropdownContainer
+        <Dropdown
           {...props}
-          onVisibleChange={val => emit('visible-change', val)}
           v-slots={dropdownSlots}
         />
       )

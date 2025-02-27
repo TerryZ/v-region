@@ -106,6 +106,10 @@
             @change="changeGroup"
             @complete="complete"
             @visible-change="visibleChange"
+            @open="open"
+            @opened="opened"
+            @close="close"
+            @closed="closed"
           />
         </div>
 
@@ -142,10 +146,7 @@
         下拉选择器模式（自定义呼出按钮）
       </h5>
       <div>
-        <RegionGroup
-          custom-trigger-class="border border-secondary-subtle border-4"
-          custom-container-class="border-0"
-        >
+        <RegionGroup>
           <template #default="{ data, visible }">
             <button
               type="button"
@@ -229,5 +230,17 @@ function reset1 () {
     area: '130304',
     town: undefined
   }
+}
+function open () {
+  console.log('open')
+}
+function opened () {
+  console.log('opened')
+}
+function close () {
+  console.log('close')
+}
+function closed () {
+  console.log('closed')
 }
 </script>
