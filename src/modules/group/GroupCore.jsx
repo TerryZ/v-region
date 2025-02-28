@@ -61,9 +61,7 @@ export default defineComponent({
       )
     }
     function GroupTabs () {
-      const switchLevel = (item) => {
-        level.value = item.key
-      }
+      const switchLevel = (item) => { level.value = item.key }
       const tabs = availableLevels.value.map(val => {
         const levelItem = LEVELS.find(value => value.key === val)
         return (

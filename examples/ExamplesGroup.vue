@@ -102,6 +102,7 @@
             :city="true"
             :area="true"
             :town="true"
+            :disabled="disabled"
             v-model="modelGroup"
             @change="changeGroup"
             @complete="complete"
@@ -120,10 +121,17 @@
       <div class="mb-3">
         <button
           type="button"
-          class="btn btn-secondary"
+          class="btn btn-secondary me-3"
           @click="resetGroup"
         >
           reset region
+        </button>
+        <button
+          type="button"
+          class="btn btn-secondary"
+          @click="disabled = !disabled"
+        >
+          disabled
         </button>
       </div>
 
@@ -165,7 +173,6 @@
 <script setup>
 import { ref } from 'vue'
 import {
-  RegionGroupCore,
   RegionFullGroupCore,
   RegionGroup,
   RegionFullGroup
@@ -175,6 +182,7 @@ import { getModelText } from '../src/core/helper'
 
 const model = ref(model1)
 const values = ref(undefined)
+const disabled = ref(false)
 
 const enabledCity = ref(true)
 const enabledArea = ref(true)

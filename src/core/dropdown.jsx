@@ -52,20 +52,23 @@ export function defineRegionSelector (name, RegionCoreComponent) {
         return <RegionCoreComponent {...mergeProps(coreProps, attrs)} />
       }
 
-      const dropdownSlots = {
-        trigger: RegionDropdownTrigger,
-        default: () => (
-          <DropdownContent>
-            <RegionCore />
-          </DropdownContent>
+      return () => {
+        const dropdownSlots = {
+          trigger: RegionDropdownTrigger,
+          default: () => (
+            <DropdownContent>
+              <RegionCore />
+            </DropdownContent>
+          )
+        }
+        return (
+          <Dropdown
+            {...attrs}
+            disabled={props.disabled}
+            v-slots={dropdownSlots}
+          />
         )
       }
-      return () => (
-        <Dropdown
-          {...props}
-          v-slots={dropdownSlots}
-        />
-      )
     }
   }
 }
