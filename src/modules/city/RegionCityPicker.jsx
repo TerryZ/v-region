@@ -1,15 +1,14 @@
-import { ref, computed, watch, nextTick, inject, defineComponent } from 'vue'
+import { ref, computed, watch, nextTick, defineComponent } from 'vue'
 
 import { regionProvinces, regionCities } from '../../formatted'
-import { PLACEHOLDER_OTHER_CITIES, injectKeySelector } from '../../constants'
+import { PLACEHOLDER_OTHER_CITIES } from '../../constants'
 import {
   getLanguage, isSelected, keysEqualModels, inputFocus
 } from '../../core/helper'
 import { mergeDropdownProps, mergeEmits } from '../../core/options'
 
 import CityPicker from './CityPicker'
-import DropdownContainer from '../../components/DropdownContainer'
-import DropdownTrigger from '../../components/DropdownTrigger'
+import { Dropdown, DropdownContent, DropdownTrigger } from 'v-dropdown'
 
 export default defineComponent({
   name: 'RegionCityPicker',
@@ -88,8 +87,6 @@ export default defineComponent({
       searchFocus()
     }
     function RegionCityPicker () {
-      const { adjustDropdown } = inject(injectKeySelector)
-
       function selectCity (item) {
         if (isSelected(item, selected.value)) {
           selected.value.splice(
@@ -100,12 +97,10 @@ export default defineComponent({
           selected.value.push(item)
         }
         emitData()
-        nextTick(() => adjustDropdown())
       }
       function removeAll () {
         selected.value = []
         emitData()
-        nextTick(() => adjustDropdown())
       }
 
       return (
@@ -113,24 +108,31 @@ export default defineComponent({
           ref={picker}
           selected={selected.value}
           onSelect={selectCity}
-          onAdjust={adjustDropdown}
           onReset={removeAll}
         />
       )
     }
 
-    return () => (
-      <DropdownContainer
-        {...props}
-        onVisibleChange={dropdownVisibleChange}
-      >{{
+    return () => {
+      const slots = {
         trigger: () => (
           <DropdownTrigger>
             {selectedText.value || lang.pleaseSelect}
           </DropdownTrigger>
         ),
-        default: () => <RegionCityPicker />
-      }}</DropdownContainer>
-    )
+        default: () => (
+          <DropdownContent>
+            <RegionCityPicker />
+          </DropdownContent>
+        )
+      }
+      return (
+        <Dropdown
+          {...props}
+          onVisibleChange={dropdownVisibleChange}
+          v-slots={slots}
+        />
+      )
+    }
   }
 })

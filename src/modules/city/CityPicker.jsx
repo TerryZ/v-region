@@ -1,6 +1,6 @@
 import '../../styles/city.sass'
 
-import { ref, nextTick, defineComponent } from 'vue'
+import { ref, defineComponent } from 'vue'
 
 import { cityDirectory } from '../../core/parse'
 import { isSelected } from '../../core/helper'
@@ -13,7 +13,7 @@ export default defineComponent({
   props: {
     selected: { type: Array, default: undefined }
   },
-  emits: ['adjust', 'select', 'reset'],
+  emits: ['select', 'reset'],
   setup (props, { emit, expose }) {
     // 完整的城市列表（基于省份进行分组）
     const fullCityDirectory = cityDirectory()
@@ -41,7 +41,6 @@ export default defineComponent({
       } else {
         list.value = fullCityDirectory
       }
-      nextTick(() => emit('adjust'))
     }
     function removeAllCities () {
       if (!props.selected.length) return
