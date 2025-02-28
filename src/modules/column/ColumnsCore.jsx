@@ -1,12 +1,13 @@
 import '../../styles/column.sass'
 
-import { defineComponent, nextTick, provide, inject, watch } from 'vue'
+import { defineComponent, nextTick, provide, watch } from 'vue'
 
 import { useRegion } from '../../core/base'
 import { mergeBaseProps, mergeEmits } from '../../core/options'
 import {
-  KEY_PROVINCE, KEY_CITY, KEY_AREA, injectKeyBase, injectKeySelector
+  KEY_PROVINCE, KEY_CITY, KEY_AREA, injectKeyBase
 } from '../../constants'
+import { useDropdown } from 'v-dropdown'
 
 import ColumnLevel from './ColumnLevel'
 
@@ -18,7 +19,7 @@ export default defineComponent({
     const { hasCity, hasArea } = useRegion(props, emit, {
       afterModelChange
     })
-    const selector = inject(injectKeySelector, undefined)
+    const dropdown = useDropdown()
     // 各级别列表滚动处理函数集
     const levelListScrollHandles = []
 
@@ -30,7 +31,7 @@ export default defineComponent({
 
     function afterModelChange () {
       // dropdown 打开的状态下，v-model 变更通常是 ui 操作，所以不处理滚动
-      if (selector?.dropdownVisible?.value) return
+      if (dropdown?.visible?.value) return
       doLevelListScroll()
     }
     // 响应 dropdown open 与 core module v-model change
@@ -44,11 +45,8 @@ export default defineComponent({
       return <ColumnLevel level={level} />
     }
 
-    if (selector) {
-      watch(selector.dropdownVisible, val => {
-        if (!val) return
-        nextTick(() => doLevelListScroll())
-      })
+    if (dropdown?.visible) {
+      watch(dropdown.visible, val => val && doLevelListScroll())
     }
 
     return () => (
