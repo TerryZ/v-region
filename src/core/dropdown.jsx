@@ -15,7 +15,7 @@ export function defineRegionSelector (name, RegionCoreComponent) {
       language: { type: String, default: CN },
       disabled: { type: Boolean, default: false }
     },
-    emits: ['complete', 'change', 'visible-change'],
+    emits: ['complete', 'change'],
     setup (props, { emit, slots, attrs }) {
       const region = ref({})
 
