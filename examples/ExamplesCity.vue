@@ -28,8 +28,6 @@
           <region-city-picker
             language="EN"
             v-model="modelCity"
-            custom-trigger-class="border border-secondary-subtle border-4 rounded-3"
-            custom-container-class="border-0"
             @change="cbCity"
           />
         </div>
