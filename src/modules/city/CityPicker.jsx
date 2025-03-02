@@ -1,9 +1,11 @@
 import '../../styles/city.sass'
 
-import { ref, defineComponent } from 'vue'
+import { ref, watch, defineComponent } from 'vue'
 
+import { regionProvinces, regionCities } from '../../formatted'
 import { cityDirectory } from '../../core/parse'
-import { isSelected } from '../../core/helper'
+import { isSelected, inputFocus, keysEqualModels } from '../../core/helper'
+import { mergeEmits } from '../../core/options'
 
 import IconSearch from '../../icons/IconSearch.vue'
 import IconTrash from '../../icons/IconTrash.vue'
@@ -11,15 +13,18 @@ import IconTrash from '../../icons/IconTrash.vue'
 export default defineComponent({
   name: 'CityPicker',
   props: {
-    selected: { type: Array, default: undefined }
+    modelValue: { type: Array, default: undefined }
   },
-  emits: ['select', 'reset'],
+  emits: mergeEmits(['update:selectedNames']),
   setup (props, { emit, expose }) {
     // 完整的城市列表（基于省份进行分组）
-    const fullCityDirectory = cityDirectory()
+    const completeCityGroups = cityDirectory()
+    const filteredCityGroups = ref(completeCityGroups)
 
-    const search = ref()
-    const list = ref(fullCityDirectory)
+    const inputRef = ref()
+    const selected = ref([])
+
+    watch(() => props.modelValue, modelValueChange, { immediate: true })
 
     /**
      * 城市快速搜索
@@ -29,35 +34,86 @@ export default defineComponent({
      * 2. 城市编码
      */
     function query (value) {
-      if (value) {
-        const result = []
-        fullCityDirectory.forEach(val => {
-          const cities = val.cities.filter(city => (
-            new RegExp(value).test(city.value)
-          ))
-          cities.length && result.push({ province: val.province, cities })
-        })
-        list.value = result
-      } else {
-        list.value = fullCityDirectory
+      if (!value) {
+        filteredCityGroups.value = completeCityGroups
+        return
       }
+
+      const result = []
+      completeCityGroups.forEach(val => {
+        const cities = val.cities.filter(city => (
+          new RegExp(value).test(city.value)
+        ))
+        cities.length && result.push({ province: val.province, cities })
+      })
+      filteredCityGroups.value = result
     }
-    function removeAllCities () {
-      if (!props.selected.length) return
-      emit('reset')
+    function cityChange (city) {
+      if (selected.value.some(val => val.key === city.key)) {
+        selected.value = selected.value.filter(val => val.key !== city.key)
+        return
+      }
+      selected.value.push(city)
+      emitData()
+    }
+    function modelValueChange (data) {
+      if (!Array.isArray(data) || keysEqualModels(data, selected.value)) return
+
+      if (data.length) {
+        // 直辖市
+        const provincialCities = regionProvinces.filter(item => data.includes(item.key))
+        // marge provinces and cities
+        selected.value = [
+          ...provincialCities,
+          ...regionCities.filter(item => data.includes(item.key))
+        ]
+      } else {
+        selected.value = []
+      }
+
+      emitData(false)
+    }
+    function removeAll () {
+      selected.value = []
+      emitData()
+    }
+    function emitData (updateModelValue = true) {
+      if (updateModelValue) {
+        emit('update:modelValue', selected.value.map(val => val.key))
+      }
+      emit('update:selectedNames', selected.value.map(val => val.value))
+      emit('change', selected.value)
     }
 
-    expose({ search })
-
-    return () => {
+    function CitySearch () {
+      return (
+        <div class='rg-search-bar'>
+          <div class='rg-search-input'>
+            <IconSearch />
+            <input
+              ref={inputRef}
+              type='text'
+              autocomplete='off'
+              onInput={e => query(e.target.value.trim())}
+            />
+          </div>
+          <div
+            class={['rg-icon-btn', { disabled: !selected.value.length }]}
+            onClick={removeAll}
+          >
+            <IconTrash />
+          </div>
+        </div>
+      )
+    }
+    function CitiesWithProvince () {
       // 基于省份分组的城市列表
-      const provinces = list.value.map(val => {
-        const { province, cities } = val
+      const provinces = filteredCityGroups.value.map(({ province, cities }) => {
         const cityList = cities.map(city => (
           <div
-            class={['rg-picker__city', { selected: isSelected(city, props.selected) }]}
+            class={['rg-picker__city', { selected: isSelected(city, selected.value) }]}
             key={city.key}
-            onClick={() => emit('select', city)}
+            onClick={() => cityChange(city)}
           >
             {city.value}
           </div>
@@ -71,30 +127,16 @@ export default defineComponent({
         )
       })
 
-      return (
-        <div class='rg-city-picker'>
-          <div class='rg-search-bar'>
-            <div class='rg-search-input'>
-              <IconSearch />
-              <input
-                ref={search}
-                type='text'
-                autocomplete='off'
-                onInput={e => query(e.target.value.trim())}
-              />
-            </div>
-            <div
-              class={['rg-icon-btn', { disabled: !props.selected.length }]}
-              onClick={removeAllCities}
-            >
-              <IconTrash />
-            </div>
-          </div>
-          <div class='rg-picker'>
-            {provinces}
-          </div>
-        </div>
-      )
+      return <div class='rg-picker'>{provinces}</div>
     }
+
+    expose({ setInputFocus: () => inputFocus(inputRef?.value) })
+
+    return () => (
+      <div class='rg-city-picker'>
+        <CitySearch />
+        <CitiesWithProvince />
+      </div>
+    )
   }
 })

@@ -1,9 +1,9 @@
-import { ref, computed, watch, nextTick, defineComponent } from 'vue'
+import { ref, computed, watch, defineComponent } from 'vue'
 
 import { regionProvinces, regionCities } from '../../formatted'
 import { PLACEHOLDER_OTHER_CITIES } from '../../constants'
 import {
-  getLanguage, isSelected, keysEqualModels, inputFocus
+  getLanguage, isSelected, keysEqualModels
 } from '../../core/helper'
 import { mergeDropdownProps, mergeEmits } from '../../core/options'
 
@@ -21,20 +21,26 @@ export default defineComponent({
      */
     overflow: { type: Boolean, default: false }
   }),
-  emits: mergeEmits(['visible-change']),
+  emits: mergeEmits(['opened']),
   setup (props, { emit }) {
     const lang = getLanguage(props.language)
-    const picker = ref()
+    const pickerRef = ref()
     const selected = ref([])
 
     const maxDisplayCities = 2
 
     /**
      * 数据列表格式
-     * [{
-     *   province: { key: string, value: string},
-     *   cities: { key: string, value: string }[]
-     * }]
+     *
+     * interface RegionItem {
+     *   key: string
+     *   value: string
+     * }
+     * interface ProvinceGroup {
+     *   province: RegionItem
+     *   cities: RegionItem[]
+     * }
+     * ProvinceGroup[]
      */
     const selectedText = computed(() => {
       const values = selected.value.map(val => val.value)
@@ -52,6 +58,7 @@ export default defineComponent({
       if (!Array.isArray(values) || keysEqualModels(values, selected.value)) return
 
       if (values.length) {
+        // 直辖市
         const provincialCities = regionProvinces.filter(item => values.includes(item.key))
         // marge provinces and cities
         selected.value = [
@@ -67,11 +74,6 @@ export default defineComponent({
 
     watch(() => props.modelValue, handleValueChange, { immediate: true })
 
-    function searchFocus () {
-      nextTick(() => {
-        inputFocus(picker.value.search)
-      })
-    }
     function emitData (updateModelValue = true) {
       if (updateModelValue) {
         emit('update:modelValue', selected.value.map(val => val.key))
@@ -79,12 +81,9 @@ export default defineComponent({
       emit('change', selected.value)
     }
 
-    function dropdownVisibleChange (val) {
-      emit('visible-change', val)
-
-      if (!val) return
-
-      searchFocus()
+    function handleDropdownOpened () {
+      emit('opened')
+      pickerRef.value.setInputFocus()
     }
     function RegionCityPicker () {
       function selectCity (item) {
@@ -105,10 +104,7 @@ export default defineComponent({
 
       return (
         <CityPicker
-          ref={picker}
-          selected={selected.value}
-          onSelect={selectCity}
-          onReset={removeAll}
+          ref={pickerRef}
         />
       )
     }
@@ -129,7 +125,7 @@ export default defineComponent({
       return (
         <Dropdown
           {...props}
-          onVisibleChange={dropdownVisibleChange}
+          onOpened={handleDropdownOpened}
           v-slots={slots}
         />
       )

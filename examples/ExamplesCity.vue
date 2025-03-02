@@ -5,12 +5,37 @@
       <small>城市选择器</small>
     </h3>
     <h5>核心模块</h5>
-    <div class="mb-3 bg-light rounded-3 p-3 d-flex">
-      <CityPicker
-        class="border rounded-3 bg-white shadow overflow-hidden"
-        :selected="selected"
-        @select="select"
-      />
+    <div class="mb-3 bg-light rounded-3 p-3 d-flex gap-3">
+      <div class="d-flex flex-column gap-3">
+        <CityPicker
+          class="border rounded-3 bg-white shadow overflow-hidden"
+          style="height: fit-content;"
+          v-model="coreKeys"
+          v-model:selected-names="coreNames"
+          @change="coreChange"
+        />
+        <button
+          class="btn btn-dark"
+          @click="setSelectedCities"
+        >
+          set selected cities
+        </button>
+      </div>
+
+      <div class="d-flex flex-column gap-3">
+        <pre
+          class="m-0"
+          v-text="coreKeys.join(',')"
+        />
+        <pre
+          class="m-0"
+          v-text="coreNames.join(',')"
+        />
+        <pre
+          class="m-0"
+          v-text="JSON.stringify(coreModels, null, 2)"
+        />
+      </div>
     </div>
     <div class="p-3 shadow-sm rounded-3 border">
       <div class="bg-light p-3 rounded-3 mb-3">
@@ -55,6 +80,13 @@ const selected = ref([])
 const modelCity = ref(['110000', '350100'])
 const valuesCity = ref(null)
 
+const coreKeys = ref(['110000', '350100'])
+const coreNames = ref([])
+const coreModels = ref([])
+
+function coreChange (data) {
+  coreModels.value = data
+}
 function cbCity (data) {
   valuesCity.value = data
 }
@@ -68,5 +100,8 @@ function select (data) {
 }
 function reset () {
   modelCity.value = []
+}
+function setSelectedCities () {
+  coreKeys.value = ['130300', '130500', '500000', '310000']
 }
 </script>
