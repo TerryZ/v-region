@@ -7,7 +7,7 @@
     <h5>核心模块</h5>
     <div class="mb-3 bg-light rounded-3 p-3 d-flex gap-3">
       <div class="d-flex flex-column gap-3">
-        <CityPicker
+        <RegionCityPicker
           class="border rounded-3 bg-white shadow overflow-hidden"
           style="height: fit-content;"
           v-model="coreKeys"
@@ -50,11 +50,18 @@
       </div>
       <div class="d-flex align-items-center">
         <div class="me-3">
-          <region-city-picker
+          <!-- <region-city-picker
             language="EN"
             v-model="modelCity"
             @change="cbCity"
-          />
+          /> -->
+          <RegionDropdown>
+            <RegionCityPicker
+              language="EN"
+              v-model="modelCity"
+              @change="cbCity"
+            />
+          </RegionDropdown>
         </div>
 
         <div>
@@ -73,10 +80,9 @@
 
 <script setup>
 import { ref } from 'vue'
-import { RegionCityPicker } from '@/'
-import CityPicker from '@/modules/city/CityPicker'
+import { RegionCityPicker, RegionDropdown } from '../src'
 
-const selected = ref([])
+// const selected = ref([])
 const modelCity = ref(['110000', '350100'])
 const valuesCity = ref(null)
 
@@ -90,14 +96,14 @@ function coreChange (data) {
 function cbCity (data) {
   valuesCity.value = data
 }
-function select (data) {
-  console.log(data)
-  if (selected.value.some(val => val.key === data.key)) {
-    selected.value = selected.value.filter(val => val.key !== data.key)
-  } else {
-    selected.value.push(data)
-  }
-}
+// function select (data) {
+//   console.log(data)
+//   if (selected.value.some(val => val.key === data.key)) {
+//     selected.value = selected.value.filter(val => val.key !== data.key)
+//   } else {
+//     selected.value.push(data)
+//   }
+// }
 function reset () {
   modelCity.value = []
 }

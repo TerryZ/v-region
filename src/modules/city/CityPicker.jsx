@@ -1,11 +1,19 @@
 import '../../styles/city.sass'
 
-import { ref, watch, defineComponent } from 'vue'
+import { ref, watch, defineComponent, inject } from 'vue'
 
 import { regionProvinces, regionCities } from '../../formatted'
 import { cityDirectory } from '../../core/parse'
-import { isSelected, inputFocus, keysEqualModels } from '../../core/helper'
+import {
+  isSelected,
+  inputFocus,
+  keysEqualModels,
+  getModelsText,
+  getLanguage
+} from '../../core/helper'
 import { mergeEmits } from '../../core/options'
+import { CN } from '../../language'
+import { injectDropdown } from '../../constants'
 
 import IconSearch from '../../icons/IconSearch.vue'
 import IconTrash from '../../icons/IconTrash.vue'
@@ -13,6 +21,7 @@ import IconTrash from '../../icons/IconTrash.vue'
 export default defineComponent({
   name: 'CityPicker',
   props: {
+    language: { type: String, default: CN },
     modelValue: { type: Array, default: undefined }
   },
   emits: mergeEmits(['update:selectedNames']),
@@ -20,9 +29,11 @@ export default defineComponent({
     // 完整的城市列表（基于省份进行分组）
     const completeCityGroups = cityDirectory()
     const filteredCityGroups = ref(completeCityGroups)
+    const lang = getLanguage(props.language)
 
     const inputRef = ref()
     const selected = ref([])
+    const { setTriggerText } = inject(injectDropdown, {})
 
     watch(() => props.modelValue, modelValueChange, { immediate: true })
 
@@ -31,7 +42,7 @@ export default defineComponent({
      *
      * 搜索顺序
      * 1. 城市名称
-     * 2. 城市编码
+     * 2. 城市编码 ？
      */
     function query (value) {
       if (!value) {
@@ -58,12 +69,14 @@ export default defineComponent({
       emitData()
     }
     function modelValueChange (data) {
-      if (!Array.isArray(data) || keysEqualModels(data, selected.value)) return
+      if (!Array.isArray(data) || keysEqualModels(data, selected.value)) {
+        setTriggerText(lang.pleaseSelect)
+        return
+      }
 
       if (data.length) {
-        // 直辖市
+        // 直辖市与城市合并
         const provincialCities = regionProvinces.filter(item => data.includes(item.key))
-        // marge provinces and cities
         selected.value = [
           ...provincialCities,
           ...regionCities.filter(item => data.includes(item.key))
@@ -84,6 +97,7 @@ export default defineComponent({
       }
       emit('update:selectedNames', selected.value.map(val => val.value))
       emit('change', selected.value)
+      setTriggerText?.(getModelsText(selected.value) || lang.pleaseSelect)
     }
 
     function CitySearch () {

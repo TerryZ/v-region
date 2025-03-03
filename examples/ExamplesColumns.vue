@@ -7,19 +7,22 @@
     <div class="p-3 shadow-sm rounded-3 border">
       <div class="mb-3 d-flex">
         <div class="me-3">
-          <RegionColumns
-            :city="true"
-            :area="true"
-            :town="true"
-            language="en"
-            v-model="modelColumn"
-            ref="columnSelector"
-            @change="cbColumn"
-            @complete="columnGroupCoreDone"
-          />
+          <RegionDropdown>
+            <RegionColumnsCore
+              language="en"
+              :city="true"
+              :area="true"
+              :town="true"
+              v-model="modelColumn"
+              @change="cbColumn"
+              @complete="columnGroupCoreDone"
+            />
+          </RegionDropdown>
         </div>
         <div>
-          <RegionFullColumns />
+          <RegionDropdown>
+            <RegionFullColumnsCore />
+          </RegionDropdown>
         </div>
       </div>
       <div class="mb-3">
@@ -129,20 +132,18 @@
         下拉选择器多列竖排模式（自定义呼出按钮）
       </h4>
       <div>
-        <RegionColumns
-          custom-trigger-class="border border-secondary-subtle border-4 rounded-3"
-          custom-container-class="border-0"
-        >
-          <template #default="{ data, visible }">
+        <RegionDropdown>
+          <template #trigger="{ visible }">
             <button
               type="button"
               class="btn btn-primary"
             >
-              data:{{ resultText(data) }},
+              data:{{ resultText(modelCustomTrigger) }},
               visible: {{ visible }}
             </button>
           </template>
-        </RegionColumns>
+          <RegionColumnsCore @change="customTriggerChange" />
+        </RegionDropdown>
       </div>
     </div>
   </section>
@@ -153,9 +154,8 @@ import { ref } from 'vue'
 import {
   RegionColumnsCore,
   RegionFullColumnsCore,
-  RegionColumns,
-  RegionFullColumns
-} from '@/'
+  RegionDropdown
+} from '../src'
 import { getModelText } from '../src/core/helper'
 
 const model = {
@@ -177,7 +177,7 @@ const enabledCity = ref(true)
 const enabledArea = ref(true)
 const enabledTown = ref(true)
 const columnCore = ref()
-const columnSelector = ref()
+const modelCustomTrigger = ref()
 
 function cbColumn (data) {
   // if (!this.valuesColumn) {
@@ -219,5 +219,8 @@ function set3LevelRegion () {
 }
 function setSelectorRegion () {
   modelColumn.value = model
+}
+function customTriggerChange (data) {
+  modelCustomTrigger.value = data
 }
 </script>

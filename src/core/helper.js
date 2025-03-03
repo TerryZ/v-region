@@ -16,12 +16,9 @@ export function createLevel (list = []) {
  * @param {string} code - language code
  * @returns {object} language resource
  */
-export function getLanguage (lang = CN) {
+export function getLanguage (lang) {
   const key = String(lang).toLowerCase()
-
-  if (key in languages) return languages[key]
-
-  return languages[CN]
+  return languages[key in languages ? key : CN]
 }
 /**
  * 获得指定行政级别的下级项目
@@ -34,6 +31,7 @@ export function getLowerLevels (level) {
   const index = LEVEL_KEYS.findIndex(val => val === level)
   return LEVEL_KEYS.filter((val, idx) => idx > index)
 }
+// 内部数据模型的文本内容
 export function getRegionText (region, separator = '') {
   if (!region || !Object.keys(region).length) return ''
   return Object.values(region)
@@ -41,12 +39,18 @@ export function getRegionText (region, separator = '') {
     .filter(val => val)
     .join(separator)
 }
+// 输出数据模型的文本内容
 export function getModelText (region, separator = '') {
   if (!region || !Object.keys(region).length) return ''
   return Object.values(region)
     .filter(val => val)
     .map(val => val.value)
     .join(separator)
+}
+// 输出模型列表的文本内容
+export function getModelsText (models, separator = ',', property = 'value') {
+  if (!Array.isArray(models) || !models.length) return ''
+  return models.map(val => val[property]).join(separator)
 }
 export function valueEqual (values1, values2) {
   return Object.keys(values1).every(key => values1[key] === values2[key])

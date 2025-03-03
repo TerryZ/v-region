@@ -14,24 +14,26 @@ import ColumnLevel from './ColumnLevel'
 export default defineComponent({
   name: 'RegionColumnsCore',
   props: mergeBaseProps(),
-  emits: mergeEmits(['adjust', 'complete']),
+  emits: mergeEmits(['complete']),
   setup (props, { emit, slots }) {
     const { hasCity, hasArea } = useRegion(props, emit, {
       afterModelChange
     })
-    const dropdown = useDropdown()
+    const { visible, close } = useDropdown()
     // 各级别列表滚动处理函数集
     const levelListScrollHandles = []
 
     provide(injectKeyBase, {
-      dropdownAdjust: () => emit('adjust'),
-      selectionComplete: () => emit('complete'),
+      selectionComplete: () => {
+        close?.()
+        emit('complete')
+      },
       setLevelListScroll: fn => levelListScrollHandles.push(fn)
     })
-
+    // 仅核心模块独立使用时，才需要处理滚动
     function afterModelChange () {
       // dropdown 打开的状态下，v-model 变更通常是 ui 操作，所以不处理滚动
-      if (dropdown?.visible?.value) return
+      if (visible) return
       doLevelListScroll()
     }
     // 响应 dropdown open 与 core module v-model change
@@ -45,8 +47,8 @@ export default defineComponent({
       return <ColumnLevel level={level} />
     }
 
-    if (dropdown?.visible) {
-      watch(dropdown.visible, val => val && doLevelListScroll())
+    if (visible) {
+      watch(visible, val => val && doLevelListScroll())
     }
 
     return () => (

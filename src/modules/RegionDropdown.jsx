@@ -1,68 +1,50 @@
-import { ref, defineComponent } from 'vue'
+import { ref, defineComponent, provide } from 'vue'
 
 import { Dropdown, DropdownTrigger, DropdownContent } from 'v-dropdown'
 
+import { injectDropdown } from '../constants'
+
 export default defineComponent({
   name: 'RegionDropdown',
-  inheritAttrs: false,
   // props 必须使用硬编码的对象内容，使用函数构建的对象，会造成 tree-shanking
   // 失效
   props: {
-    language: { type: String, default: CN },
-    disabled: { type: Boolean, default: false }
   },
   emits: ['complete', 'change'],
-  setup (props, { emit, slots, attrs }) {
-    const region = ref({})
+  setup (props, { slots }) {
+    const triggerText = ref('')
+
+    const setTriggerText = text => {
+      triggerText.value = text
+    }
 
     function TriggerText () {
-      const lang = getLanguage(props.language)
-      return getModelText(region.value) || lang.pleaseSelect
+      // const lang = getLanguage(props.language)
+      // return getModelText(region.value) || lang.pleaseSelect
+      return triggerText.value
     }
-    function RegionDropdownTrigger ({ visible }) {
-      if (slots.default) {
-        return slots.default({
-          data: region.value,
-          visible: visible.value
-        })
-      }
+    function RegionDropdownTrigger (data) {
+      if (slots.trigger) return slots.trigger(data)
       return (
         <DropdownTrigger>
           <TriggerText />
         </DropdownTrigger>
       )
     }
-    function RegionCore () {
-      const { close } = useDropdown()
-      const coreProps = {
-        language: props.language,
-        onChange: data => {
-          region.value = data
-          emit('change', data)
-        },
-        onComplete: () => {
-          close()
-          emit('complete')
-        }
-      }
-      return <RegionCoreComponent {...mergeProps(coreProps, attrs)} />
-    }
+
+    provide(injectDropdown, { setTriggerText })
 
     return () => {
       const dropdownSlots = {
         trigger: RegionDropdownTrigger,
-        default: () => (
+        default: data => (
           <DropdownContent>
-            <RegionCore />
+            {() => slots?.default?.(data)}
           </DropdownContent>
         )
       }
       return (
-        <Dropdown
-          {...attrs}
-          disabled={props.disabled}
-          v-slots={dropdownSlots}
-        />
+        <Dropdown v-slots={dropdownSlots} />
       )
     }
   }

@@ -2,7 +2,7 @@ import { ref, computed, watch, provide, toRef, inject, onMounted } from 'vue'
 
 import {
   KEY_PROVINCE, KEY_CITY, KEY_AREA, KEY_TOWN, LEVEL_KEYS,
-  injectKeyCore, injectKeySelector
+  injectKeyCore, injectDropdown
 } from '../constants'
 import { regionProvinces } from '../formatted'
 import {
@@ -157,13 +157,12 @@ export function useRegion (props, emit, options) {
     parseDataModel,
     setupTownListLoader
   } = useData(props)
+  const { setTriggerText } = inject(injectDropdown, {})
 
   const regionText = computed(() => getRegionText(data.value, props.separator))
   const isComplete = computed(() => (
     availableLevels.value.every(level => !!data.value[level].key)
   ))
-
-  const selector = inject(injectKeySelector, undefined)
 
   watch(() => props.modelValue, parseValueToModel)
   // 界面渲染完成，乡镇级别挂载完成，执行数据转换与匹配
@@ -190,6 +189,7 @@ export function useRegion (props, emit, options) {
    */
   async function parseValueToModel () {
     if (!props.modelValue || !Object.keys(props.modelValue).length) {
+      setTriggerText?.(lang.pleaseSelect)
       return
     }
     // 值与模型一致，不进行转换
@@ -207,11 +207,11 @@ export function useRegion (props, emit, options) {
     // 提供一个函数入口，在 v-model 值变化处理完成的后续处理
     options?.afterModelChange?.()
   }
-  function emitData (emitModel = true) {
-    if (emitModel) emitUpdateModelValue(parseDataValues())
+  function emitData (updateModelValue = true) {
+    if (updateModelValue) emitUpdateModelValue(parseDataValues())
     emitChange(parseDataModel())
     // 将数据模型传递给 dropdown 用于 trigger 的选中内容展示
-    selector?.setRegionModel?.(parseDataModel())
+    setTriggerText?.(getRegionText(data.value) || lang.pleaseSelect)
   }
   function reset () {
     resetLowerLevel()

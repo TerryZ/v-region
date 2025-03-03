@@ -14,14 +14,13 @@ export default {
     const { level } = props
     const { data, setLevel, getNextLevel, isComplete } = inject(injectKeyCore)
     const {
-      dropdownAdjust, selectionComplete, setLevelListScroll
+      selectionComplete, setLevelListScroll
     } = inject(injectKeyBase)
     const regionLevel = data.value[level]
     const root = ref()
 
     function setColumnsLevel (item) {
       setLevel(level, item)
-      dropdownAdjust()
       if (isComplete.value) selectionComplete()
     }
 

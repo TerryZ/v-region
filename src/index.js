@@ -13,10 +13,12 @@ import RegionFullColumnsCore from './modules/column/FullColumnsCore'
 import RegionColumns from './modules/column/RegionColumns'
 import RegionFullColumns from './modules/column/RegionFullColumns'
 
-import RegionCityPicker from './modules/city/RegionCityPicker'
+import RegionCityPicker from './modules/city/CityPicker'
 
 import RegionText from './modules/text/RegionText'
 import RegionFullText from './modules/text/RegionFullText'
+
+import RegionDropdown from './modules/RegionDropdown'
 
 export {
   regionFull,
@@ -28,9 +30,9 @@ export {
 const Region = {}
 
 Region.install = (app, options = {}) => {
-  app.component('VRegionGroup', RegionGroup)
+  app.component('VRegionGroup', RegionGroupCore)
   app.component('VRegionSelects', RegionSelects)
-  app.component('VRegionColumns', RegionColumns)
+  app.component('VRegionColumns', RegionColumnsCore)
   app.component('VRegionCityPicker', RegionCityPicker)
   app.component('VRegionText', RegionText)
 }
@@ -48,7 +50,9 @@ export {
   RegionFullColumns,
   RegionCityPicker,
   RegionText,
-  RegionFullText
+  RegionFullText,
+
+  RegionDropdown
 }
 
 export default Region

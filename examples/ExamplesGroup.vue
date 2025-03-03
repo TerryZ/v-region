@@ -98,24 +98,29 @@
       <h5>选择器模式</h5>
       <div class="mb-3 d-flex">
         <div class="me-3">
-          <RegionGroup
-            :city="true"
-            :area="true"
-            :town="true"
+          <RegionDropdown
             :disabled="disabled"
-            v-model="modelGroup"
-            @change="changeGroup"
-            @complete="complete"
             @visible-change="visibleChange"
             @open="open"
             @opened="opened"
             @close="close"
             @closed="closed"
-          />
+          >
+            <RegionGroupCore
+              :city="true"
+              :area="true"
+              :town="true"
+              v-model="modelGroup"
+              @change="changeGroup"
+              @complete="complete"
+            />
+          </RegionDropdown>
         </div>
 
         <div>
-          <RegionFullGroup v-model="modelFullGroup" />
+          <RegionDropdown>
+            <RegionFullGroupCore v-model="modelFullGroup" />
+          </RegionDropdown>
         </div>
       </div>
       <div class="mb-3">
@@ -154,17 +159,18 @@
         下拉选择器模式（自定义呼出按钮）
       </h5>
       <div>
-        <RegionGroup>
-          <template #default="{ data, visible }">
+        <RegionDropdown>
+          <template #trigger="{ visible }">
             <button
               type="button"
               class="btn btn-primary"
             >
-              data:{{ resultText(data) }},
+              data:{{ resultText(modelCustomTrigger) }},
               visible: {{ visible }}
             </button>
           </template>
-        </RegionGroup>
+          <RegionFullGroupCore @change="customTriggerChange" />
+        </RegionDropdown>
       </div>
     </div>
   </section>
@@ -173,10 +179,10 @@
 <script setup>
 import { ref } from 'vue'
 import {
+  RegionGroupCore,
   RegionFullGroupCore,
-  RegionGroup,
-  RegionFullGroup
-} from '@/'
+  RegionDropdown
+} from '../src'
 import { model1 } from '@/__tests__/data'
 import { getModelText } from '../src/core/helper'
 
@@ -190,6 +196,7 @@ const enabledTown = ref(true)
 
 const modelGroup = ref(undefined)
 const modelFullGroup = ref(undefined)
+const modelCustomTrigger = ref()
 const valuesGroup = ref(undefined)
 
 function change (data) {
@@ -250,5 +257,8 @@ function close () {
 }
 function closed () {
   console.log('closed')
+}
+function customTriggerChange (data) {
+  modelCustomTrigger.value = data
 }
 </script>

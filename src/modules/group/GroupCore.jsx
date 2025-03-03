@@ -1,6 +1,7 @@
 import '../../styles/group.sass'
 
 import { ref, defineComponent } from 'vue'
+import { useDropdown } from 'v-dropdown'
 
 import { mergeBaseProps, mergeEmits } from '../../core/options'
 import { useRegion } from '../../core/base'
@@ -22,6 +23,7 @@ export default defineComponent({
       regionText,
       reset
     } = useRegion(props, emit)
+    const { close } = useDropdown()
 
     const level = ref(KEY_PROVINCE)
 
@@ -33,10 +35,12 @@ export default defineComponent({
       if (!level.value) return
 
       await setLevel(level.value, item)
-
       const next = getNextLevel(level.value)
 
-      if (!next) return emit('complete')
+      if (!next) {
+        close?.()
+        return emit('complete')
+      }
 
       level.value = next
     }
