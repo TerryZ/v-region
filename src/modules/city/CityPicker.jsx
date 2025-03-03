@@ -51,9 +51,10 @@ export default defineComponent({
     function cityChange (city) {
       if (selected.value.some(val => val.key === city.key)) {
         selected.value = selected.value.filter(val => val.key !== city.key)
-        return
+      } else {
+        selected.value.push(city)
       }
-      selected.value.push(city)
+
       emitData()
     }
     function modelValueChange (data) {
