@@ -6,16 +6,16 @@ import { RegionSelects, RegionFullSelects } from './selects'
 import {
   RegionColumnsCore,
   RegionFullColumnsCore,
-  RegionColumns,
-  RegionFullColumns
 } from './columns'
 import {
   RegionGroupCore,
   RegionFullGroupCore,
-  RegionGroup,
-  RegionFullGroup
 } from './group'
-export { Dropdown as RegionDropdown } from 'v-dropdown/types'
+export {
+  Dropdown as RegionDropdown,
+  DropdownUtilities,
+  useDropdown
+} from 'v-dropdown/types'
 
 declare class Region {
   /**
@@ -56,13 +56,9 @@ export {
 
   RegionColumnsCore,
   RegionFullColumnsCore,
-  RegionColumns,
-  RegionFullColumns,
 
   RegionGroupCore,
-  RegionFullGroupCore,
-  RegionGroup,
-  RegionFullGroup
+  RegionFullGroupCore
 }
 
 export default Region
