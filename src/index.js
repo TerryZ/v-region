@@ -22,6 +22,7 @@ export {
   regionCities,
   regionAreas
 } from './formatted'
+export { useDropdown } from 'v-dropdown'
 
 const Region = {}
 
