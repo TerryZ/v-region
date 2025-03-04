@@ -11,7 +11,7 @@
           class="border rounded-3 bg-white shadow overflow-hidden"
           style="height: fit-content;"
           v-model="coreKeys"
-          v-model:selected-names="coreNames"
+          v-model:names="coreNames"
           @change="coreChange"
         />
         <button

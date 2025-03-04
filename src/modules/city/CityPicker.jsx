@@ -3,7 +3,7 @@ import '../../styles/city.sass'
 import { ref, watch, defineComponent, inject } from 'vue'
 
 import { regionProvinces, regionCities } from '../../formatted'
-import { cityDirectory, modelsToText } from '../../core/parse'
+import { cityDirectory, modelsToValues, listToText } from '../../core/parse'
 import {
   isSelected,
   inputFocus,
@@ -94,9 +94,10 @@ export default defineComponent({
       if (updateModelValue) {
         emit('update:modelValue', selected.value.map(val => val.key))
       }
-      emit('update:selectedNames', selected.value.map(val => val.value))
+      const names = modelsToValues(selected.value, 'value')
+      emit('update:names', names)
       emit('change', selected.value)
-      setTriggerText?.(modelsToText(selected.value) || lang.pleaseSelect)
+      setTriggerText?.(listToText(names, ',') || lang.pleaseSelect)
     }
 
     function CitySearch () {

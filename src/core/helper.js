@@ -31,28 +31,12 @@ export function getLowerLevels (level) {
   const index = LEVEL_KEYS.findIndex(val => val === level)
   return LEVEL_KEYS.filter((val, idx) => idx > index)
 }
-// 内部数据模型的文本内容
-export function getRegionText (region, separator = '') {
-  if (!region || !Object.keys(region).length) return ''
-  return Object.values(region)
-    .map(val => val.name)
-    .filter(val => val)
-    .join(separator)
-}
-// 输出数据模型的文本内容
-export function getModelText (region, separator = '') {
-  if (!region || !Object.keys(region).length) return ''
-  return Object.values(region)
-    .filter(val => val)
-    .map(val => val.value)
-    .join(separator)
-}
 export function valueEqual (values1, values2) {
   return Object.keys(values1).every(key => values1[key] === values2[key])
 }
 export function valueEqualToModel (values, model) {
   if (!values) return false
-  return valueEqual(values, modelToValue(model))
+  return valueEqual(values, modelToValue(model, 'key'))
 }
 export function isEmptyValues (values) {
   return Object.keys(values).every(key => !values[key])
@@ -112,9 +96,8 @@ export function keysEqualModels (keys, models) {
     // 均为空数组
     if (!keys.length) return true
     return models.every(val => keys.includes(val.key))
-  } else {
-    return false
   }
+  return false
 }
 export function inputFocus (input) {
   if (!input) return

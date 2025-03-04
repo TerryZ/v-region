@@ -14,6 +14,7 @@
               :area="true"
               :town="true"
               v-model="modelColumn"
+              v-model:names="names"
               @change="cbColumn"
               @complete="columnGroupCoreDone"
             />
@@ -36,9 +37,12 @@
       </div>
       <div class="bg-light p-3 mb-3 rounded-3">
         <pre
-          class="m-0 mb-3"
+          class="m-0"
           v-text="JSON.stringify(modelColumn, null, 2)"
         />
+        <div class="my-3">
+          {{ names }}
+        </div>
         <pre
           class="m-0"
           v-text="JSON.stringify(valuesColumn, null, 2)"
@@ -156,7 +160,7 @@ import {
   RegionFullColumnsCore,
   RegionDropdown
 } from '../src'
-import { getModelText } from '../src/core/helper'
+import { listToText, modelToValues } from '../src/core/parse'
 
 const model = {
   province: '410000',
@@ -164,6 +168,7 @@ const model = {
   area: '419001',
   town: '419001001'
 }
+const names = ref([])
 
 const modelCore = ref(null)
 const modelColumn = ref({
@@ -195,7 +200,7 @@ function resultText (region) {
   if (!Object.values(region).some(val => val) || !region) {
     return '无数据'
   }
-  return getModelText(region, ',')
+  return listToText(modelToValues(region), ',')
 }
 function reset () {
   // columnCore.value.reset()

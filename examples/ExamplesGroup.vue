@@ -72,6 +72,7 @@
           :area="enabledArea"
           :town="enabledTown"
           v-model="model"
+          v-model:names="names"
           @change="change"
           @complete="complete"
         />
@@ -84,6 +85,10 @@
             class="m-0 bg-light p-3 rounded-3"
             v-text="JSON.stringify(model, null, 2)"
           />
+          <h4>names</h4>
+          <div>
+            {{ names }}
+          </div>
         </div>
 
         <div class="col-md-6">
@@ -184,10 +189,11 @@ import {
   RegionDropdown
 } from '../src'
 import { model1 } from '@/__tests__/data'
-import { getModelText } from '../src/core/helper'
+import { listToText, modelToValues } from '../src/core/parse'
 
 const model = ref(model1)
 const values = ref(undefined)
+const names = ref([])
 const disabled = ref(false)
 
 const enabledCity = ref(true)
@@ -226,7 +232,7 @@ function resultText (region) {
   if (!Object.values(region).some(val => val) || !region) {
     return '无数据'
   }
-  return getModelText(region, ',')
+  return listToText(modelToValues(region), ',')
 }
 function reset () {
   // regionSelected.value.reset()

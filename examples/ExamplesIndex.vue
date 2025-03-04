@@ -63,7 +63,7 @@ const active = ref('')
 
 function isActive (item) {
   if (active.value && active.value === item.key) {
-    return 'active'
+    return 'active fw-bold'
   }
   return ''
 }

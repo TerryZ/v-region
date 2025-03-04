@@ -4,31 +4,51 @@ import { regionProvinces, regionCities } from '../formatted'
  * @import {
  *   InternalModel,
  *   RegionValues,
+ *   RegionModel,
  *   RegionItem
  * } from '../../types/component'
  */
 
+export function listToText (list, separator = '') {
+  return Array.isArray(list) ? list.join(separator) : ''
+}
 /**
  * 区域完整数据模型转换为入参数据模型
  * @param {InternalModel} model - 内部数据模型
+ * @param {string} property - 名称字段名
  * @returns {RegionValues} 入参数据模型
  */
-export function modelToValue (model) {
+export function modelToValue (model, property) {
   if (!model) return {}
   return Object.fromEntries(
-    Object.entries(model).map(([key, value]) => [key, value && value.key])
+    Object.entries(model).map(([key, value]) => [key, value && value[property]])
   )
 }
 /**
  * 将模型列表转换为名称文本，使用分隔符连接
  * @param {RegionItem[]} models 模型列表
- * @param {string} separator 分隔符
  * @param {string} property 名称字段名
+ * @returns {string[]}
+ */
+export function modelsToValues (models, property) {
+  return Array.isArray(models) ? models.map(val => val[property]) : []
+}
+/**
+ * 内部数据模型或输出数据模型转换为属性内容列表
+ * @param {RegionModel | InternalModel} model 数据模型
+ * @returns {string[]}
+ */
+export function modelToValues (model, property) {
+  if (!model || !Object.keys(model).length) return []
+  return Object.values(model).map(val => val[property]).filter(val => val)
+}
+/**
+ * 内部数据模型或输出数据模型转换为名称文本，使用分隔符连接
+ * @param {RegionModel | InternalModel} model 数据模型
  * @returns {string}
  */
-export function modelsToText (models, separator = ',', property = 'value') {
-  if (!Array.isArray(models) || !models.length) return ''
-  return models.map(val => val[property]).join(separator)
+export function modelToText (model, separator = '') {
+  return listToText(modelToValues(model, 'value'), separator)
 }
 /**
  * 组织城市选择器的城市目录清单，使用省份进行分组

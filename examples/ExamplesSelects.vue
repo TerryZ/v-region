@@ -116,6 +116,7 @@
           :area="enabledArea"
           :town="enabledTown"
           v-model="modelSelect"
+          v-model:names="names"
           @change="change"
         />
       </div>
@@ -128,6 +129,8 @@
               v-text="JSON.stringify(modelSelect, null, 2)"
             />
           </div>
+          <h6>names</h6>
+          <div>{{ names }}</div>
         </div>
         <div class="col-md-6">
           <h6>内部完整数据</h6>
@@ -189,6 +192,7 @@ import { ref } from 'vue'
 import { RegionSelects, RegionFullSelects } from '@/'
 
 const value1 = ref({})
+const names = ref([])
 const selected = ref({
   province: '350000',
   city: '350100',

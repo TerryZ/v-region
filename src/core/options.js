@@ -22,5 +22,5 @@ export function mergeSelectorProps (props) {
 }
 
 export function mergeEmits (emit) {
-  return ['update:modelValue', 'change', ...(emit || [])]
+  return ['update:modelValue', 'update:names', 'change', ...(emit || [])]
 }

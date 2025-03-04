@@ -7,7 +7,6 @@ import {
 import { regionProvinces } from '../formatted'
 import {
   isEmptyValues,
-  getRegionText,
   getLowerLevels,
   valueEqualToModel,
   getAvailableValues,
@@ -17,7 +16,7 @@ import {
   useState
 } from './helper'
 import { getCities, getAreas } from './list-loader'
-import { modelToValue } from './parse'
+import { modelToValue, modelToValues, listToText } from './parse'
 
 /**
  * 响应 `v-model` 与 `change` 事件
@@ -28,6 +27,7 @@ import { modelToValue } from './parse'
 export function useEvent (emit) {
   return {
     emitUpdateModelValue: data => emit && emit('update:modelValue', data),
+    emitUpdateNames: data => emit && emit('update:names', data),
     emitChange: data => emit && emit('change', data)
   }
 }
@@ -119,7 +119,7 @@ function useData (props) {
     const { key, name } = data.value[level]
     return key ? { key, value: name } : undefined
   }
-  const parseDataValues = () => modelToValue(data.value)
+  const parseDataValues = () => modelToValue(data.value, 'key')
   const parseDataModel = () => Object.fromEntries(
     LEVEL_KEYS.map(level => [level, getLevelModel(level)])
   )
@@ -143,7 +143,7 @@ function useData (props) {
  * @returns {object}
  */
 export function useRegion (props, emit, options) {
-  const { emitUpdateModelValue, emitChange } = useEvent(emit)
+  const { emitUpdateModelValue, emitUpdateNames, emitChange } = useEvent(emit)
   const { hasCity, hasArea, hasTown } = useState(props)
   const lang = getLanguage(props.language)
   const {
@@ -158,8 +158,9 @@ export function useRegion (props, emit, options) {
     setupTownListLoader
   } = useData(props)
   const { setTriggerText } = inject(injectDropdown, {})
-
-  const regionText = computed(() => getRegionText(data.value, props.separator))
+  const regionText = computed(() => (
+    listToText(modelToValues(data.value, 'name'), props.separator || '')
+  ))
   const isComplete = computed(() => (
     availableLevels.value.every(level => !!data.value[level].key)
   ))
@@ -210,8 +211,9 @@ export function useRegion (props, emit, options) {
   function emitData (updateModelValue = true) {
     if (updateModelValue) emitUpdateModelValue(parseDataValues())
     emitChange(parseDataModel())
+    emitUpdateNames(modelToValues(data.value, 'name'))
     // 将数据模型传递给 dropdown 用于 trigger 的选中内容展示
-    setTriggerText?.(getRegionText(data.value) || lang.pleaseSelect)
+    setTriggerText?.(regionText.value || lang.pleaseSelect)
   }
   function reset () {
     resetLowerLevel()
