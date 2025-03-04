@@ -8,12 +8,13 @@ import {
   KEY_PROVINCE, KEY_CITY, KEY_AREA,
   injectKeyBase
 } from '../../constants'
-import { mergeSelectorProps, mergeEmits } from '../../core/options'
+import { mergeBaseProps, mergeEmits } from '../../core/options'
 import { useRegion } from '../../core/base'
 
 export default defineComponent({
   name: 'RegionSelects',
-  props: mergeSelectorProps({
+  props: mergeBaseProps({
+    disabled: { type: Boolean, default: false },
     blank: { type: Boolean, default: true }
   }),
   emits: mergeEmits(),
