@@ -18,16 +18,11 @@ export default defineComponent({
       triggerText.value = text
     }
 
-    function TriggerText () {
-      // const lang = getLanguage(props.language)
-      // return getModelText(region.value) || lang.pleaseSelect
-      return triggerText.value
-    }
     function RegionDropdownTrigger (data) {
       if (slots.trigger) return slots.trigger(data)
       return (
         <DropdownTrigger>
-          <TriggerText />
+          {triggerText.value}
         </DropdownTrigger>
       )
     }

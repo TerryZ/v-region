@@ -68,9 +68,9 @@ export default defineComponent({
 
       emitData()
     }
+    // only response for v-model value change
     function modelValueChange (data) {
       if (!Array.isArray(data) || keysEqualModels(data, selected.value)) {
-        setTriggerText(lang.pleaseSelect)
         return
       }
 
