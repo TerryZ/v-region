@@ -38,9 +38,7 @@ export default defineComponent({
           </DropdownContent>
         )
       }
-      return (
-        <Dropdown v-slots={dropdownSlots} />
-      )
+      return <Dropdown v-slots={dropdownSlots} />
     }
   }
 })

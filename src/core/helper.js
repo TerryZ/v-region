@@ -47,11 +47,6 @@ export function getModelText (region, separator = '') {
     .map(val => val.value)
     .join(separator)
 }
-// 输出模型列表的文本内容
-export function getModelsText (models, separator = ',', property = 'value') {
-  if (!Array.isArray(models) || !models.length) return ''
-  return models.map(val => val[property]).join(separator)
-}
 export function valueEqual (values1, values2) {
   return Object.keys(values1).every(key => values1[key] === values2[key])
 }
@@ -93,16 +88,17 @@ export function getAvailableValues (modelValue) {
 export function isPromise (p) {
   return p && Object.prototype.toString.call(p) === '[object Promise]'
 }
+
+export function isSelected (item, selectedItems) {
+  if (!item || !selectedItems.length) return false
+  return selectedItems.some(val => val.key === item.key)
+}
 export function useState (props) {
   return {
     hasCity: computed(() => props.city),
     hasArea: computed(() => props.city && props.area),
     hasTown: computed(() => props.city && props.area && props.town)
   }
-}
-export function isSelected (item, selectedItems) {
-  if (!item || !selectedItems.length) return false
-  return selectedItems.some(val => val.key === item.key)
 }
 /**
  * 检查初始化数据是否与当前选中数据相同

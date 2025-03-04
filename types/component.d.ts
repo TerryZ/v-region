@@ -19,7 +19,17 @@ export declare interface RegionModel {
   /** 村镇模型 */
   town?: RegionItem
 }
-
+interface InternalLevel {
+  key: string
+  name: string
+  list: RegionItem[]
+}
+export declare interface InternalModel {
+  province: InternalLevel
+  city: InternalLevel
+  area: InternalLevel
+  town: InternalLevel
+}
 /**
  * 用户输入模型
  */
