@@ -4,12 +4,12 @@ import { RegionText, RegionFullText } from './text'
 import { RegionCityPicker } from './city'
 import { RegionSelects, RegionFullSelects } from './selects'
 import {
-  RegionColumnsCore,
-  RegionFullColumnsCore,
+  RegionColumns,
+  RegionFullColumns,
 } from './columns'
 import {
-  RegionGroupCore,
-  RegionFullGroupCore,
+  RegionGroup,
+  RegionFullGroup,
 } from './group'
 export {
   Dropdown as RegionDropdown,
@@ -54,11 +54,11 @@ export {
   RegionSelects,
   RegionFullSelects,
 
-  RegionColumnsCore,
-  RegionFullColumnsCore,
+  RegionColumns,
+  RegionFullColumns,
 
-  RegionGroupCore,
-  RegionFullGroupCore
+  RegionGroup,
+  RegionFullGroup
 }
 
 export default Region

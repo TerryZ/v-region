@@ -3,21 +3,21 @@ import { defineComponent, inject } from 'vue'
 import { injectKeyCore } from '../../constants'
 import { getTowns } from '../../core/list-loader'
 
-import GroupCore from './GroupCore'
+import RegionGroup from './RegionGroup'
 
 export default defineComponent({
-  name: 'RegionFullGroupCore',
+  name: 'RegionFullGroup',
   setup () {
-    function GroupCoreTown () {
+    function LevelTown () {
       const { setupTownListLoader } = inject(injectKeyCore)
 
       setupTownListLoader(getTowns)
     }
 
     return () => (
-      <GroupCore>
-        <GroupCoreTown />
-      </GroupCore>
+      <RegionGroup>
+        <LevelTown />
+      </RegionGroup>
     )
   }
 })

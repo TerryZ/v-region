@@ -65,7 +65,7 @@
         </button>
       </div>
       <div class="mb-3">
-        <RegionFullGroupCore
+        <RegionFullGroup
           class="border rounded-3 shadow-sm"
           language="en"
           :city="enabledCity"
@@ -111,7 +111,7 @@
             @close="close"
             @closed="closed"
           >
-            <RegionGroupCore
+            <RegionGroup
               :city="true"
               :area="true"
               :town="true"
@@ -124,7 +124,7 @@
 
         <div>
           <RegionDropdown>
-            <RegionFullGroupCore v-model="modelFullGroup" />
+            <RegionFullGroup v-model="modelFullGroup" />
           </RegionDropdown>
         </div>
       </div>
@@ -174,7 +174,7 @@
               visible: {{ visible }}
             </button>
           </template>
-          <RegionFullGroupCore @change="customTriggerChange" />
+          <RegionFullGroup @change="customTriggerChange" />
         </RegionDropdown>
       </div>
     </div>
@@ -184,8 +184,8 @@
 <script setup>
 import { ref } from 'vue'
 import {
-  RegionGroupCore,
-  RegionFullGroupCore,
+  RegionGroup,
+  RegionFullGroup,
   RegionDropdown
 } from '../src'
 import { model1 } from '@/__tests__/data'

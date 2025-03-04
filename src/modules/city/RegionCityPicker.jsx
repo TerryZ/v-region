@@ -18,7 +18,7 @@ import IconSearch from '../../icons/IconSearch.vue'
 import IconTrash from '../../icons/IconTrash.vue'
 
 export default defineComponent({
-  name: 'CityPicker',
+  name: 'RegionCityPicker',
   props: {
     language: { type: String, default: CN },
     modelValue: { type: Array, default: undefined }

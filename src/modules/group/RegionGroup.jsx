@@ -10,7 +10,7 @@ import { LEVELS, KEY_PROVINCE } from '../../constants'
 import IconTrash from '../../icons/IconTrash.vue'
 
 export default defineComponent({
-  name: 'RegionGroupCore',
+  name: 'RegionGroup',
   props: mergeBaseProps(),
   emits: mergeEmits(['complete']),
   setup (props, { emit, slots }) {

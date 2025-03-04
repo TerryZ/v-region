@@ -8,7 +8,7 @@
       <div class="mb-3 d-flex">
         <div class="me-3">
           <RegionDropdown>
-            <RegionColumnsCore
+            <RegionColumns
               language="en"
               :city="true"
               :area="true"
@@ -22,7 +22,7 @@
         </div>
         <div>
           <RegionDropdown>
-            <RegionFullColumnsCore />
+            <RegionFullColumns />
           </RegionDropdown>
         </div>
       </div>
@@ -96,7 +96,7 @@
       </div>
 
       <div class="d-flex mb-3">
-        <RegionFullColumnsCore
+        <RegionFullColumns
           :city="enabledCity"
           :area="enabledArea"
           :town="enabledTown"
@@ -146,7 +146,7 @@
               visible: {{ visible }}
             </button>
           </template>
-          <RegionColumnsCore @change="customTriggerChange" />
+          <RegionColumns @change="customTriggerChange" />
         </RegionDropdown>
       </div>
     </div>
@@ -156,8 +156,8 @@
 <script setup>
 import { ref } from 'vue'
 import {
-  RegionColumnsCore,
-  RegionFullColumnsCore,
+  RegionColumns,
+  RegionFullColumns,
   RegionDropdown
 } from '../src'
 import { listToText, modelToValues } from '../src/core/parse'

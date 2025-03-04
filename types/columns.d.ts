@@ -1,6 +1,6 @@
 import { BaseProps, CoreModuleEmits } from './component'
 
-declare interface RegionColumnsCore {
+declare interface RegionColumns {
   new (): {
     $props: BaseProps
     $emit: CoreModuleEmits
@@ -10,5 +10,5 @@ declare interface RegionColumnsCore {
 /**
  * 多列竖排模式核心模块
  */
-export const RegionColumnsCore: RegionColumnsCore
-export const RegionFullColumnsCore: RegionColumnsCore
+export const RegionColumns: RegionColumns
+export const RegionFullColumns: RegionColumns

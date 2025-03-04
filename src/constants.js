@@ -17,8 +17,5 @@ export const PLACEHOLDER_OTHER_CITIES = '#others-number#'
 export const injectKeyCore = Symbol('core')
 // 根级组件提供的依赖注入
 export const injectKeyBase = Symbol('base')
-// 选择器提供的依赖注入
-// TODO: remove
-export const injectKeySelector = Symbol('selector')
 // dropdown 相关的依赖注入
 export const injectDropdown = Symbol('dropdown')

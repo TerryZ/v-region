@@ -12,7 +12,7 @@ import { useDropdown } from 'v-dropdown'
 import ColumnLevel from './ColumnLevel'
 
 export default defineComponent({
-  name: 'RegionColumnsCore',
+  name: 'RegionColumns',
   props: mergeBaseProps(),
   emits: mergeEmits(['complete']),
   setup (props, { emit, slots }) {
