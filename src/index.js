@@ -2,16 +2,12 @@ import './styles/region.sass'
 
 import RegionGroupCore from './modules/group/GroupCore'
 import RegionFullGroupCore from './modules/group/FullGroupCore'
-import RegionGroup from './modules/group/RegionGroup'
-import RegionFullGroup from './modules/group/RegionFullGroup'
 
 import RegionSelects from './modules/select/RegionSelects'
 import RegionFullSelects from './modules/select/RegionFullSelects'
 
 import RegionColumnsCore from './modules/column/ColumnsCore'
 import RegionFullColumnsCore from './modules/column/FullColumnsCore'
-import RegionColumns from './modules/column/RegionColumns'
-import RegionFullColumns from './modules/column/RegionFullColumns'
 
 import RegionCityPicker from './modules/city/CityPicker'
 
@@ -38,16 +34,12 @@ Region.install = (app, options = {}) => {
 }
 
 export {
-  RegionGroupCore,
-  RegionFullGroupCore,
-  RegionGroup,
-  RegionFullGroup,
   RegionSelects,
   RegionFullSelects,
+  RegionGroupCore,
+  RegionFullGroupCore,
   RegionColumnsCore,
   RegionFullColumnsCore,
-  RegionColumns,
-  RegionFullColumns,
   RegionCityPicker,
   RegionText,
   RegionFullText,
