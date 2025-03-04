@@ -10,7 +10,7 @@ jobs:
 
     docker:
       # specify the version you desire here
-      - image: cimg/node:16.17.0-browsers
+      - image: cimg/node:18.20-browsers
 
       # Specify service dependencies here if necessary
       # CircleCI maintains a library of pre-built images
@@ -40,4 +40,4 @@ jobs:
 
       # run tests!
       - run: npm run coverage
-      - run: codecov
+      - run: codecov upload-process -t $CODECOV_TOKEN
