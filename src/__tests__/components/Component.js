@@ -1,7 +1,7 @@
 import { h } from 'vue'
 
-import { mergeBaseProps, mergeEmits } from '../core/options'
-import { useRegion } from '../core/base'
+import { mergeBaseProps, mergeEmits } from '../../core/options'
+import { useRegion } from '../../core/base'
 
 export default {
   props: mergeBaseProps(),

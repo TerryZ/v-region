@@ -1,7 +1,7 @@
 import { describe, it, expect, vi } from 'vitest'
 import { mount } from '@vue/test-utils'
 
-import Component from './Component'
+import Component from './components/Component'
 import { data, model } from './data'
 import { getTowns } from '../core/list-loader'
 

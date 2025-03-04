@@ -1,11 +1,11 @@
 import { describe, it, expect, vi } from 'vitest'
 import { mount, flushPromises } from '@vue/test-utils'
 
-import { RegionGroupCore, RegionFullGroupCore } from '@/'
+import { RegionGroup, RegionFullGroup } from '../'
 
 describe('v-region RegionGroupCore 多级别分组核心模块', function () {
   describe('三级模式', () => {
-    const wrapper = mount(RegionGroupCore, {
+    const wrapper = mount(RegionGroup, {
       props: {
       }
     })
@@ -85,8 +85,8 @@ describe('v-region RegionGroupCore 多级别分组核心模块', function () {
   })
 
   describe('四级模式', () => {
-    const wrapper = mount(RegionFullGroupCore)
-    const core = wrapper.findComponent(RegionGroupCore)
+    const wrapper = mount(RegionFullGroup)
+    const core = wrapper.findComponent(RegionGroup)
 
     it('应有 4 个行政级别选项卡', () => {
       expect(wrapper.findAll('.rg-level-tabs li')).toHaveLength(4)

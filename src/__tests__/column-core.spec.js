@@ -1,13 +1,13 @@
 import { describe, it, expect, vi } from 'vitest'
 import { mount, flushPromises } from '@vue/test-utils'
 
-import { RegionColumnsCore, RegionFullColumnsCore } from '@/'
+import { RegionColumns, RegionFullColumns } from '../'
 import { emptyDataModel } from './data'
 
 // 虚拟地级济源市（区/县级为虚拟级别，数据直接使用父级）
 describe('v-region Column 竖排多列模式', () => {
   describe('三级模式', () => {
-    const wrapper = mount(RegionColumnsCore)
+    const wrapper = mount(RegionColumns)
 
     it('默认状态下，仅有省级列表一列', async () => {
       expect(wrapper.findAll('.rg-column')).toHaveLength(1)
@@ -60,12 +60,12 @@ describe('v-region Column 竖排多列模式', () => {
   })
 
   describe('四级模式', () => {
-    const wrapper = mount(RegionFullColumnsCore, {
+    const wrapper = mount(RegionFullColumns, {
       props: {
         town: true
       }
     })
-    const core = wrapper.getComponent(RegionColumnsCore)
+    const core = wrapper.getComponent(RegionColumns)
 
     it('默认状态下，仅有省级列表一列', async () => {
       expect(wrapper.findAll('.rg-column')).toHaveLength(1)

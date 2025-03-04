@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest'
 import { mount } from '@vue/test-utils'
 
-import Component from './Component'
+import Component from './components/Component'
 import {
   getLanguage, getLowerLevels,
   getAvailableLevels, getAvailableValues
@@ -194,13 +194,13 @@ describe('v-region 核心工具模块', () => {
     })
   })
 
-  describe('提取行政区划数据文本内容(regionToText)', () => {
+  describe('提取行政区划数据文本内容(modelToValues)', () => {
     it('提取后的文本内容应是 `福建省福州市台江区瀛洲街道`', () => {
-      expect(listToText(modelToValues(data), '')).toBe('福建省福州市台江区瀛洲街道')
+      expect(listToText(modelToValues(data, 'value'), '')).toBe('福建省福州市台江区瀛洲街道')
     })
   })
 
-  describe('行政区划数据模型转换为参数数据模型（仅编码）(regionToModel)', () => {
+  describe('行政区划数据模型转换为参数数据模型（仅编码）(modelToValue)', () => {
     it('获得用于 `v-model` 输入输出数据模型', () => {
       expect(modelToValue(data, 'key')).toEqual(model)
     })
