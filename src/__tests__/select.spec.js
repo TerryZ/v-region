@@ -9,8 +9,6 @@ describe('v-region Select 表单元素下拉列表模式', () => {
   describe('三级模式', () => {
     const wrapper = mount(RegionSelects, {
       props: {
-        customTriggerClass: 'custom-trigger',
-        customContainerClass: 'custom-container'
       }
     })
     it('可处理行政级别数量为 3 （省、市、区）', () => {
@@ -35,8 +33,6 @@ describe('v-region Select 表单元素下拉列表模式', () => {
   describe('四级模式', () => {
     const wrapper = mount(RegionFullSelects, {
       props: {
-        customTriggerClass: 'custom-trigger',
-        customContainerClass: 'custom-container'
       }
     })
     it('不指定任何参数，默认可处理行政级别数量为 4 （省、市、区、乡）', () => {

@@ -10,7 +10,6 @@ export default defineComponent({
   // 失效
   props: {
   },
-  emits: ['complete', 'change'],
   setup (props, { slots }) {
     const triggerText = ref('')
 
@@ -20,11 +19,7 @@ export default defineComponent({
 
     function RegionDropdownTrigger (data) {
       if (slots.trigger) return slots.trigger(data)
-      return (
-        <DropdownTrigger>
-          {triggerText.value}
-        </DropdownTrigger>
-      )
+      return <DropdownTrigger>{triggerText.value}</DropdownTrigger>
     }
 
     provide(injectDropdown, { setTriggerText })

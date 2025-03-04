@@ -15,6 +15,7 @@ import {
   RegionGroup,
   RegionFullGroup
 } from './group'
+export { Dropdown as RegionDropdown } from 'v-dropdown/types'
 
 declare class Region {
   /**

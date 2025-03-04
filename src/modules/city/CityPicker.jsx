@@ -23,7 +23,7 @@ export default defineComponent({
     language: { type: String, default: CN },
     modelValue: { type: Array, default: undefined }
   },
-  emits: mergeEmits(['update:selectedNames']),
+  emits: mergeEmits(),
   setup (props, { emit, expose }) {
     // 完整的城市列表（基于省份进行分组）
     const completeCityGroups = cityDirectory()

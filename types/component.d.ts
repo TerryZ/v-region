@@ -56,7 +56,7 @@ export declare interface RegionTriggerSlotData {
 
 export declare interface ComponentProps extends AllowedComponentProps, ComponentCustomProps, VNodeProps {}
 
-type RegionLanguages = 'cn' | 'en'
+export type RegionLanguages = 'cn' | 'en'
 
 export declare interface BaseProps extends ComponentProps {
   /** 输入区域模型 */
@@ -94,24 +94,20 @@ export declare interface DropdownProps {
    * @default false
    */
   disabled?: boolean
-  /** 为触发对象添加自定义样式类 */
-  customTriggerClass?: string
-  /** 为下拉容器添加自定义样式类 */
-  customContainerClass?: string
 }
 export declare interface SelectorProps extends BaseProps, DropdownProps {}
 
 /** 更新选中区域的键值 */
 export declare type EmitUpdateModelValue = (event: "update:modelValue", value: RegionValues) => void
+/** 更新选择中区域的名称列表 */
+export declare type EmitUpdateNames = (event: "update:names", value: string[]) => void
 /** 内容修改后的响应事件 */
 export declare type EmitChange = (event: "change", value: RegionModel) => void
-/** 下拉栏调整位置事件 */
-export declare type EmitAdjust = (event: 'adjust') => void
 /** 选择完成 */
 export declare type EmitComplete = (event: 'complete') => void
 /** 下拉层显示状态 */
 export declare type EmitVisibleChange = (event: 'visible-change', value: boolean) => void
 
-export declare type BaseEmits = EmitUpdateModelValue & EmitChange
-export declare type CoreModuleEmits = BaseEmits & EmitAdjust & EmitComplete
+export declare type BaseEmits = EmitUpdateModelValue & EmitUpdateNames & EmitChange
+export declare type CoreModuleEmits = BaseEmits & EmitComplete
 export declare type DropdownEmits = BaseEmits & EmitComplete & EmitVisibleChange

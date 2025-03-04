@@ -1,8 +1,12 @@
-import { DropdownProps, BaseEmits, EmitVisibleChange } from './component'
-
+import { DropdownProps, BaseEmits, RegionLanguages } from './component'
 interface Props extends DropdownProps {
   /** 输入区域编码列表 */
   modelValue?: string[]
+  /**
+   * 语言
+   * @default `cn`
+   */
+  language?: RegionLanguages
   /**
    * 按钮中显示选中城市模式
    * true: 显示所有选中城市名称
@@ -10,13 +14,13 @@ interface Props extends DropdownProps {
    *
    * @default false
    */
-  overflow?: boolean
+  // overflow?: boolean
 }
 
 declare interface RegionCityPicker {
   new (): {
     $props: Props
-    $emit: BaseEmits & EmitVisibleChange
+    $emit: BaseEmits
   }
 }
 
