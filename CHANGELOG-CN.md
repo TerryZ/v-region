@@ -2,6 +2,21 @@
 
 英文 changelog 内容请访问 [CHANGELOG](CHANGELOG.md)
 
+## [3.4.0](https://github.com/TerryZ/v-region/compare/v3.3.0...v3.4.0) (2025-03-04)
+
+### 新特性
+
+- `v-dropdown` 升级至 `v3.2.0` 版本
+- 行政区划数据更新至 `2025年02月26日`
+- 新增 `RegionDropdown` 组件，用于为 `Group`、`Columns` 与 `CityPicker` 的核心模块组件提供下拉列表能力
+- 组件移除
+  - `RegionGroupCore`
+  - `RegionFullGroupCore`
+  - `RegionColumnsCore`
+  - `RegionFullColumnsCore`
+- `RegionSelects`、`RegionGroup`、`RegionColumns` 与 `RegionCityPicker` 组件新增 `names` 的 `v-model` 属性，用于返回选择的行政区划名称
+- 各核心模块组件移除 `adjust` 事件
+
 ## [3.3.0](https://github.com/TerryZ/v-region/compare/v3.2.1...v3.3.0) (2024-09-26)
 
 ### 新特性

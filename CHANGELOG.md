@@ -2,6 +2,21 @@
 
 Please refer to [CHANGELOG-CN](CHANGELOG-CN.md) for Chinese changelog
 
+## [3.4.0](https://github.com/TerryZ/v-region/compare/v3.3.0...v3.4.0) (2025-03-04)
+
+### Features
+
+- Upgraded `v-dropdown` to version `v3.2.0`
+- Administrative division data updated to `2025-02-26`
+- Added `RegionDropdown` component to provide dropdown list capabilities for core module components like `Group`, `Columns`, and `CityPicker`
+- Component removals:
+  - `RegionGroupCore`
+  - `RegionFullGroupCore`
+  - `RegionColumnsCore`
+  - `RegionFullColumnsCore`
+- Added `names` v-model property to `RegionSelects`, `RegionGroup`, `RegionColumns`, and `RegionCityPicker` components for returning selected administrative division names
+- Removed `adjust` event from all core module components
+
 ## [3.3.0](https://github.com/TerryZ/v-region/compare/v3.2.1...v3.3.0) (2024-09-26)
 
 ### Features
