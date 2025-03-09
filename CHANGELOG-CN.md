@@ -2,6 +2,12 @@
 
 英文 changelog 内容请访问 [CHANGELOG](CHANGELOG.md)
 
+## [3.4.1](https://github.com/TerryZ/v-region/compare/v3.4.0...v3.4.1) (2025-03-09)
+
+### 新特性
+
+- `v-dropdown` 升级至 `v3.3.0` 版本
+
 ## [3.4.0](https://github.com/TerryZ/v-region/compare/v3.3.0...v3.4.0) (2025-03-04)
 
 ### 新特性

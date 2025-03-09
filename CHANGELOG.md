@@ -2,6 +2,12 @@
 
 Please refer to [CHANGELOG-CN](CHANGELOG-CN.md) for Chinese changelog
 
+## [3.4.1](https://github.com/TerryZ/v-region/compare/v3.4.0...v3.4.1) (2025-03-09)
+
+### Features
+
+- Upgraded `v-dropdown` to version `v3.3.0`
+
 ## [3.4.0](https://github.com/TerryZ/v-region/compare/v3.3.0...v3.4.0) (2025-03-04)
 
 ### Features
