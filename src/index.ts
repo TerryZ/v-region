@@ -1,3 +1,5 @@
+import type { App, Plugin } from 'vue'
+
 import './styles/region.sass'
 
 import RegionGroup from './modules/group/RegionGroup'
@@ -26,7 +28,7 @@ export { useDropdown } from 'v-dropdown'
 
 const Region = {}
 
-Region.install = (app, options = {}) => {
+Region.install = (app: App, options: Record<string, unknow> = {}) => {
   app.component('VRegionGroup', RegionGroup)
   app.component('VRegionSelects', RegionSelects)
   app.component('VRegionColumns', RegionColumns)

@@ -88,7 +88,6 @@
 <script setup>
 import { ref } from 'vue'
 import { RegionCityPicker, RegionDropdown } from '../src'
-
 // const selected = ref([])
 const modelCity = ref(['110000', '350100'])
 const valuesCity = ref(null)
@@ -97,10 +96,10 @@ const coreKeys = ref(['110000', '350100'])
 const coreNames = ref([])
 const coreModels = ref([])
 
-function coreChange (data) {
+function coreChange(data) {
   coreModels.value = data
 }
-function cbCity (data) {
+function cbCity(data) {
   valuesCity.value = data
 }
 // function select (data) {
@@ -111,13 +110,13 @@ function cbCity (data) {
 //     selected.value.push(data)
 //   }
 // }
-function reset () {
+function reset() {
   modelCity.value = []
 }
-function setDropdownSelectedCities () {
+function setDropdownSelectedCities() {
   modelCity.value = ['130300', '130500', '500000', '310000']
 }
-function setSelectedCities () {
+function setSelectedCities() {
   coreKeys.value = ['130300', '130500', '500000', '310000']
 }
 </script>

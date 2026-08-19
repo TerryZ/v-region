@@ -1,9 +1,10 @@
 import data from './data/data.json'
 
+import type { RegionItem } from './types'
 // xx0000 为省级编码格式
-const isProvince = key => !(Number(key) % 1e4)
+const isProvince = (key: string) => !(Number(key) % 1e4)
 // xxxx00 为市级编码格式
-const isCity = key => {
+const isCity = (key: string) => {
   if (!(Number(key) % 100)) {
     return true
   }
@@ -18,13 +19,13 @@ const isCity = key => {
  * json 数据转换为模型列表
  * 模型格式：{ key: string, value: string }
  */
-const list = []
+const list: RegionItem[] = []
 // 省/直辖市模型列表
-const provinces = []
+const provinces: RegionItem[] = []
 // 市模型列表
-const cities = []
+const cities: RegionItem[] = []
 // 区/县模型列表
-const areas = []
+const areas: RegionItem[] = []
 
 Object.entries(data).forEach(([key, value]) => {
   // const [key, value] = val
