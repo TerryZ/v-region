@@ -5,6 +5,7 @@ import { defineConfig } from 'vitest/config'
 import vue from '@vitejs/plugin-vue'
 import vueJsx from '@vitejs/plugin-vue-jsx'
 import cssInJs from 'vite-plugin-css-injected-by-js'
+import dts from 'vite-plugin-dts'
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -30,18 +31,16 @@ export default defineConfig({
       }
     }
   },
-  test: {
-    environment: 'jsdom',
-    reporters: 'verbose',
-    coverage: {
-      provider: 'v8',
-      reporter: ['text', 'json', 'html'],
-      include: ['src/**']
-    }
-  },
   plugins: [
     vue(),
     vueJsx(),
-    cssInJs()
+    cssInJs(),
+    dts({
+      entryRoot: 'src',
+      // rollupTypes: true,
+      tsconfigPath: './tsconfig.app.json',
+      outDir: './dist/types/',
+      exclude: ['src/__test__/**']
+    })
   ]
 })

@@ -1,15 +1,29 @@
+// {
+//   "compilerOptions": {
+//     "baseUrl": ".",
+//     "outDir": "./built",
+//     "target": "ESNext",
+//     "strict": true,
+//     "module": "ESNext",
+//     "moduleResolution": "node",
+//     "allowJs": true,
+//     "jsx": "preserve",
+//     "paths": {
+//       "@/*": ["src/*"]
+//     }
+//   }
+// }
 {
-  "compilerOptions": {
-    "baseUrl": ".",
-    "outDir": "./built",
-    "target": "ESNext",
-    "strict": true,
-    "module": "ESNext",
-    "moduleResolution": "node",
-    "allowJs": true,
-    "jsx": "preserve",
-    "paths": {
-      "@/*": ["src/*"]
+  "files": [],
+  "references": [
+    {
+      "path": "./tsconfig.node.json"
+    },
+    {
+      "path": "./tsconfig.app.json"
+    },
+    {
+      "path": "./tsconfig.vitest.json"
     }
-  }
+  ]
 }
