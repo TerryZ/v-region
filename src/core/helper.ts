@@ -1,60 +1,64 @@
 import languages, { CN } from '../language'
 import { modelToValue } from './parse'
+import type {
+  RegionLanguages,
+  RegionLanguage,
+  RegionItem,
+  RegionModel,
+  RegionValues
+} from '../types'
 
 /**
  * Get language resource by language code
- * @param {string} code - language code
+ * @param code - language code
  * @returns {object} language resource
  */
-export function getLanguage (lang) {
+export function getLanguage(lang: RegionLanguages): RegionLanguage {
   const key = String(lang).toLowerCase()
-  return languages[key in languages ? key : CN]
+  return languages[key in languages ? key : CN]!
 }
-export function valueEqual (values1, values2) {
-  return Object.keys(values1).every(key => values1[key] === values2[key])
+export function valueEqual(values1: RegionValues, values2: RegionValues) {
+  const keys = Object.keys(values1) as Array<keyof RegionValues>
+  return keys.every((key) => values1[key] === values2[key])
 }
-export function valueEqualToModel (values, model) {
+export function valueEqualToModel(values: RegionValues, model: RegionModel) {
   if (!values) return false
   return valueEqual(modelToValue(model, 'key'), values)
 }
-export function isEmptyValues (values) {
-  return Object.keys(values).every(key => !values[key])
+export function isEmptyValues(values: Record<string, unknown>) {
+  return Object.keys(values).every((key) => !values[key])
 }
-export function isPromise (p) {
-  return p && Object.prototype.toString.call(p) === '[object Promise]'
-}
-export function isSelected (item, selectedItems) {
+// export function isPromise(p) {
+//   return p && Object.prototype.toString.call(p) === '[object Promise]'
+// }
+export function isSelected(item: RegionItem, selectedItems: RegionItem[]) {
   if (!item || !selectedItems.length) return false
-  return selectedItems.some(val => val.key === item.key)
+  return selectedItems.some((val) => val.key === item.key)
 }
 /**
  * 检查初始化数据是否与当前选中数据相同
  *
- * @param {string[]} keys - 选中城市的键值列表
- * @param {{ key: string, value: string }[]} cities - 选中城市的模型列表
- * @returns {boolean}
+ * @param keys - 选中城市的键值列表
+ * @param cities - 选中城市的模型列表
+ * @returns
  */
-export function keysEqualModels (keys, models) {
+export function keysEqualModels(keys: string[], models: RegionItem[]): boolean {
   if (keys.length === models.length) {
     // 均为空数组
     if (!keys.length) return true
-    return models.every(val => keys.includes(val.key))
+    return models.every((val) => keys.includes(val.key))
   }
   return false
 }
-export function inputFocus (input) {
+export function inputFocus(input: HTMLInputElement) {
   if (!input) return
   input.focus({ preventScroll: true })
 }
-export function scrollIntoElement (container, active) {
+export function scrollIntoElement(container: HTMLDivElement, active: string) {
   if (!container) return
 
-  const activeEl = typeof active === 'string'
-    ? container.querySelector(active)
-    : active
-  if (
-    container.scrollHeight <= container.offsetHeight || !activeEl
-  ) return
+  const activeEl = typeof active === 'string' ? container.querySelector(active) : active
+  if (container.scrollHeight <= container.offsetHeight || !activeEl) return
   // 多区域同时滚动时，平滑滚动会导致仅最后一个容器执行滚动行为，不符合功能预期
   activeEl?.scrollIntoView({
     // behavior: 'smooth',

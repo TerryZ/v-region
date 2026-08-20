@@ -4,17 +4,24 @@ import { getLanguage, valueEqualToModel, isEmptyValues } from './helper'
 import { getEmptyValues } from './parse'
 import { PROVINCE, keyCore, keyDropdown } from '../constants'
 
-export function useRegionUI (props, emit, options) {
+import type { RegionLanguage, RegionLevel } from '../types'
+
+export function useRegionUI(props, emit, options) {
   const { emitUpdateModelValue, emitUpdateNames, emitChange } = useEvent(emit)
   const { setTriggerText } = inject(keyDropdown, {})
-  const lang = getLanguage(props.language)
+  const lang: RegionLanguage = getLanguage(props.language)
   const {
     data,
-    hasCity, hasArea, hasTown,
+    hasCity,
+    hasArea,
+    hasTown,
     setupTownListLoader,
     resetRegion,
-    setRegion, setRegionLevel,
-    toValues, toModel, toNames,
+    setRegion,
+    setRegionLevel,
+    toValues,
+    toModel,
+    toNames,
     isComplete
   } = useRegionCore(props)
   const regionText = computed(() => toNames().join(props.separator ?? ''))
@@ -40,7 +47,7 @@ export function useRegionUI (props, emit, options) {
    * }
    * ```
    */
-  function valuesChange () {
+  function valuesChange() {
     if (!props.modelValue || !Object.keys(props.modelValue).length) {
       return setTriggerText?.(lang.pleaseSelect)
     }
@@ -48,13 +55,15 @@ export function useRegionUI (props, emit, options) {
     if (valueEqualToModel(props.modelValue, data.value)) return
     if (isEmptyValues(props.modelValue)) return reset()
     // 提供一个函数入口，在 v-model 值变化处理完成的后续处理
-    setRegion(props.modelValue).then(responseChange).then(() => options?.afterModelChange?.())
+    setRegion(props.modelValue)
+      .then(responseChange)
+      .then(() => options?.afterModelChange?.())
   }
-  function setLevel (level, key) {
+  function setLevel(level: RegionLevel, key: string) {
     const values = getEmptyValues({ [level]: key })
     return setRegionLevel(level, values).then(responseChange)
   }
-  function responseChange () {
+  function responseChange() {
     if (!valueEqualToModel(props.modelValue, data.value)) {
       emitUpdateModelValue(toValues())
     }
@@ -63,7 +72,7 @@ export function useRegionUI (props, emit, options) {
     // 将数据模型传递给 dropdown 用于 trigger 的选中内容展示
     setTriggerText?.(regionText.value || lang.pleaseSelect)
   }
-  function reset () {
+  function reset() {
     resetRegion(PROVINCE)
     responseChange()
   }

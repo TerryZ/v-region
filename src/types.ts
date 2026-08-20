@@ -1,4 +1,6 @@
 export type RegionLanguages = 'cn' | 'en'
+export type RegionLevel = 'province' | 'city' | 'area' | 'town'
+export type ModelProperty = 'key' | 'value'
 /**
  * 区域元素基本模型
  */
@@ -57,4 +59,15 @@ export interface RegionProps {
    * @default false
    */
   autoSelectFirst?: boolean
+}
+export interface RegionProvinceGroup {
+  province: RegionItem
+  cities: RegionItem[]
+}
+export interface RegionLanguage {
+  pleaseSelect: string
+  defaultHead: string
+  clear: string
+  noMatch: string
+  others: string
 }
