@@ -12,13 +12,14 @@ import { keyDropdown } from '../../constants'
 import IconSearch from '../../icons/IconSearch.vue'
 import IconTrash from '../../icons/IconTrash.vue'
 
-import type { RegionItem, RegionLanguages } from '../../types'
+import type { PropType } from 'vue'
+import type { RegionItem, RegionLanguages, RegionProvinceGroup } from '../../types'
 
 export default defineComponent({
   name: 'RegionCityPicker',
   props: {
     language: { type: String, default: CN },
-    modelValue: { type: Array, default: undefined },
+    modelValue: { type: Array as PropType<string[]>, default: undefined },
     separator: { type: String, default: ',' }
   },
   emits: mergeEmits(),
@@ -30,10 +31,13 @@ export default defineComponent({
 
     const inputRef = ref()
     const selected: Ref<RegionItem[]> = ref([])
-    const { setTriggerText } = inject(keyDropdown, {})
+    const { setTriggerText } = inject(keyDropdown, {}) as { setTriggerText: (text: string) => void }
 
-    watch(() => props.modelValue, modelValueChange, { immediate: true })
+    watch(() => props.modelValue!, modelValueChange, { immediate: true })
 
+    function handleInput(e: Event) {
+      query((e.target as HTMLInputElement).value?.trim())
+    }
     /**
      * 城市快速搜索
      *
@@ -47,10 +51,12 @@ export default defineComponent({
         return
       }
 
-      const result = []
+      const result: RegionProvinceGroup[] = []
       completeCityGroups.forEach((val) => {
-        const cities = val.cities.filter((city) => new RegExp(value).test(city.value))
-        cities.length && result.push({ province: val.province, cities })
+        const cities = val.cities.filter((city) => new RegExp(value).test(city.value!))
+        if (cities.length) {
+          result.push({ province: val.province, cities })
+        }
       })
       filteredCityGroups.value = result
     }
@@ -105,12 +111,7 @@ export default defineComponent({
         <div class="rg-search-bar">
           <div class="rg-search-input">
             <IconSearch />
-            <input
-              ref={inputRef}
-              type="text"
-              autocomplete="off"
-              onInput={(e) => query(e.target?.value?.trim())}
-            />
+            <input ref={inputRef} type="text" autocomplete="off" onInput={handleInput} />
           </div>
           <div class={['rg-icon-btn', { disabled: !selected.value.length }]} onClick={removeAll}>
             <IconTrash />
