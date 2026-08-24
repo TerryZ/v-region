@@ -4,7 +4,7 @@ import pluginVue from 'eslint-plugin-vue'
 import pluginVitest from '@vitest/eslint-plugin'
 import pluginOxlint from 'eslint-plugin-oxlint'
 import skipFormatting from 'eslint-config-prettier/flat'
-import standard from '@vue/eslint-config-standard-with-typescript'
+// import standard from '@vue/eslint-config-standard-with-typescript'
 
 // To allow more languages other than `ts` in `.vue` files, uncomment the following lines:
 // import { configureVueProject } from '@vue/eslint-config-typescript'
@@ -21,7 +21,7 @@ export default defineConfigWithVueTs(
 
   pluginVue.configs['flat/essential'],
   vueTsConfigs.recommended,
-  standard,
+  // standard,
 
   {
     ...pluginVitest.configs.recommended,

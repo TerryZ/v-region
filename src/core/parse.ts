@@ -6,7 +6,6 @@ import type {
   RegionItem,
   RegionValues,
   RegionModel,
-  RegionLevel,
   RegionProvinceGroup,
   ModelProperty
 } from '../types'
@@ -34,20 +33,20 @@ export function modelToValue(model: RegionModel, property: ModelProperty): Regio
   return Object.fromEntries(Object.entries(model).map(([key, value]) => [key, value?.[property]]))
 }
 /**
- * 将模型列表转换为名称文本，使用分隔符连接
+ * 将模型列表转换为名称文本，使用分隔符连接(city-picker)
  * @param models 模型列表
  * @param property 名称字段名
  * @returns
  */
-export function modelsToValues(models: RegionItem[], property: 'key' | 'value'): string[] {
-  return Array.isArray(models) ? models.map((val) => val[property]) : []
+export function modelsToValues(models: RegionItem[], property: ModelProperty): string[] {
+  return Array.isArray(models) ? models.map((val) => val[property]!) : []
 }
 /**
  * 内部数据模型或输出数据模型转换为属性内容列表
  * @param model 数据模型
  * @returns
  */
-export function modelToValues(model: RegionModel, property: RegionLevel): string[] {
+export function modelToValues(model: RegionModel, property: ModelProperty | 'name'): string[] {
   if (!model || !Object.keys(model).length) return []
   return Object.values(model)
     .map((val) => val[property])
@@ -58,7 +57,7 @@ export function modelToValues(model: RegionModel, property: RegionLevel): string
  * @param {RegionModel | InternalModel} model 数据模型
  * @returns
  */
-export function modelToText(model: RegionModel, property: RegionLevel, separator = ''): string {
+export function modelToText(model: RegionModel, property: ModelProperty, separator = ''): string {
   return listToText(modelToValues(model, property), separator)
 }
 /**
@@ -86,14 +85,14 @@ export function cityDirectory(): RegionProvinceGroup[] {
   const regularProvinceMap = new Map<string, RegionProvinceGroup>()
   // 省份
   regionProvinces.forEach((val) => {
-    if (municipalities.includes(val.key)) municipalityProvince.cities.push(val)
-    else if (specials.includes(val.key)) specialProvince.cities.push(val)
+    if (municipalities.includes(val.key!)) municipalityProvince.cities.push(val)
+    else if (specials.includes(val.key!)) specialProvince.cities.push(val)
     else {
       // 常规省份
       const group = { province: val, cities: [] }
       regularProvinces.push(group)
       // 以前两位省份编码为键值
-      regularProvinceMap.set(val.key.substring(0, 2), group)
+      regularProvinceMap.set(val.key!.substring(0, 2), group)
     }
   })
   //
@@ -107,7 +106,7 @@ export function cityDirectory(): RegionProvinceGroup[] {
 
   for (let index = 0; index < regionCities.length; index++) {
     const city = regionCities[index]
-    const provinceCode = city?.key.substring(0, 2)
+    const provinceCode = city?.key?.substring(0, 2)
     regularProvinceMap.get(provinceCode!)?.cities.push(city!)
   }
 

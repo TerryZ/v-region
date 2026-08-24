@@ -1,3 +1,5 @@
+import type { RegionLevel } from './types'
+
 export const PROVINCE = 'province'
 export const CITY = 'city'
 export const AREA = 'area'
@@ -10,7 +12,7 @@ export const LEVELS = [
   { index: 3, level: TOWN, title: '乡/镇/街道' }
 ]
 
-export const LEVEL_KEYS = [PROVINCE, CITY, AREA, TOWN]
+export const LEVEL_KEYS: RegionLevel[] = [PROVINCE, CITY, AREA, TOWN]
 // city-picker 多语言占位符
 export const PLACEHOLDER_OTHER_CITIES = '#others-number#'
 // 数据核心模块提供的依赖注入

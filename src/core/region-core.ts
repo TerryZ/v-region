@@ -1,28 +1,48 @@
 import { ref, computed, toRefs } from 'vue'
-import type { Ref, ComputedRef } from 'vue'
+import type { Ref, ComputedRef, EmitFn, ExtractPropTypes } from 'vue'
 
 import { PROVINCE, CITY, AREA, TOWN, LEVEL_KEYS } from '../constants'
 import { regionProvinces } from '../formatted'
 import { getCities, getAreas } from './list-loader'
 import { modelToValue, modelToValues } from './parse'
+import { getParentLevel, getLevelIndex } from './helper'
 
-import type { RegionItem, RegionProps, RegionValues } from '../types'
+import type {
+  RegionItem,
+  RegionProps,
+  RegionValues,
+  RegionLevel,
+  RegionModel,
+  RegionLevelData,
+  AsyncLevelListLoader
+} from '../types'
 
+interface StepContext {
+  values: RegionValues
+  modelValueChange?: boolean
+}
+
+// type Step = (ctx?: StepContext) => Promise<void> | void
+
+export const townsCache = new Map<string, RegionItem[]>()
 /**
  * 响应 `v-model` 与 `change` 事件
  *
  * 要求组件中已定义 `update:modelValue` 与 `change`
  * @param {function} emit 事件响应对象
  */
-export function useEvent(emit) {
+export function useEvent(emit: EmitFn) {
   return {
-    emitUpdateModelValue: (data) => emit?.('update:modelValue', data),
-    emitUpdateNames: (data) => emit?.('update:names', data),
-    emitChange: (data) => emit?.('change', data)
+    emitUpdateModelValue: (data: RegionValues) => emit?.('update:modelValue', data),
+    emitUpdateNames: (data: string[]) => emit?.('update:names', data),
+    emitChange: (data: RegionModel) => emit?.('change', data)
   }
 }
 
-const createRegionLevel = (enable: Ref<boolean> | ComputedRef<boolean>, list?: RegionItem[]) => ({
+const createLevel = (
+  enable: Ref<boolean> | ComputedRef<boolean>,
+  list?: RegionItem[]
+): RegionLevelData => ({
   key: undefined,
   name: undefined,
   list: list || [],
@@ -31,44 +51,54 @@ const createRegionLevel = (enable: Ref<boolean> | ComputedRef<boolean>, list?: R
     return this.key ? { key: this.key, value: this.name } : undefined
   }
 })
-const getLevelIndex = (level: string) => LEVEL_KEYS.indexOf(level)
 
-export function useRegionCore(props: RegionProps) {
+export function useRegionCore(props: ExtractPropTypes<RegionProps>) {
   const { city, area, town, autoSelectFirst } = toRefs(props)
 
+  const loading = ref(false)
   const setupTown = ref(false)
 
-  const hasCity = computed(() => city?.value)
-  const hasArea = computed(() => city?.value && area?.value)
-  const hasTown = computed(() => city?.value && area?.value && town?.value && setupTown.value)
-  const data = ref({
-    [PROVINCE]: createRegionLevel(ref(true), regionProvinces),
-    [CITY]: createRegionLevel(hasCity),
-    [AREA]: createRegionLevel(hasArea),
-    [TOWN]: createRegionLevel(hasTown)
+  const hasCity = computed(() => !!city?.value)
+  const hasArea = computed(() => !!(hasCity.value && area?.value))
+  const hasTown = computed(() => !!(hasArea.value && town?.value && setupTown.value))
+  const state = ref({
+    [PROVINCE]: createLevel(ref(true), regionProvinces),
+    [CITY]: createLevel(hasCity),
+    [AREA]: createLevel(hasArea),
+    [TOWN]: createLevel(hasTown)
   })
   const isComplete = () =>
-    Object.values(data.value)
+    Object.values(state.value)
       .filter((val) => val.enable)
       .every((val) => val.key)
-  const setModel = (level: string, model?: RegionItem) => {
-    data.value[level].key = model?.key
-    data.value[level].name = model?.value
+  const setModel = (level: RegionLevel, model?: RegionItem) => {
+    state.value[level].key = model?.key
+    state.value[level].name = model?.value
   }
-  const getLevelModel = (level: string) => data.value[level].getModel()
-  const getModelFormList = (level: string, key: string) =>
-    data.value[level].list.find((val: RegionItem) => val.key === key)
-  const resetRegion = (startLevel: string) => {
+  const getLevelModel = (level: RegionLevel) => state.value[level].getModel()
+  const getModelFormList = (level: RegionLevel, key: string) =>
+    state.value[level].list.find((val: RegionItem) => val.key === key)
+  const resetRegion = (startLevel: RegionLevel) => {
     const startIndex = getLevelIndex(startLevel)
     // reset level model
     LEVEL_KEYS.slice(startIndex).forEach((level) => setModel(level))
     // reset level list
     LEVEL_KEYS.slice(startIndex + 1).forEach((level) => {
-      data.value[level].list = []
+      state.value[level].list = []
     })
   }
-  const getModel = (level: string, options) => {
-    const value = options.values?.[level]?.trim()
+
+  const toValues = () => modelToValue(state.value, 'key')
+  const toNames = () => modelToValues(state.value, 'name')
+  const toModel = () => Object.fromEntries(LEVEL_KEYS.map((level) => [level, getLevelModel(level)]))
+
+  // 装配乡镇级别列表拉取实现
+  const setupTownListLoader = (fn: AsyncLevelListLoader) => {
+    loadListSteps[getLevelIndex(AREA)] = async () => await setLevelList(TOWN, fn, hasTown)
+    setupTown.value = true
+  }
+  const getModel = (level: RegionLevel, ctx: StepContext) => {
+    const value = ctx.values?.[level]?.trim()
 
     if (typeof value === 'object') return value
     if (typeof value === 'string' && value) {
@@ -79,70 +109,62 @@ export function useRegionCore(props: RegionProps) {
     }
     // 启用 auto-select-first 或列表中仅有单一项目的场景，自动选中该级别项目
     if (
-      !options?.modelValueChange &&
-      (autoSelectFirst.value || data.value[level].list.length === 1)
+      !ctx?.modelValueChange &&
+      (autoSelectFirst?.value || state.value[level].list.length === 1)
     ) {
-      return data.value[level].list.at(0)
+      return state.value[level].list.at(0)
     }
 
     throw new Error()
   }
-  const setLevelModel = (level: string, options) => {
-    const model = getModel(level, options)
+  const setLevelModel = (level: RegionLevel, ctx: StepContext) => {
+    const model = getModel(level, ctx)
     setModel(level, model)
-    return options
   }
-  const setLevelList = (level: string, options, list: RegionItem[], enable: boolean) => {
-    if (!enable.value || !list.length) throw new Error(level + 'list')
-    data.value[level].list = list
-    return options
+  const setLevelList = async (
+    level: RegionLevel,
+    listGetter: (model: RegionItem) => RegionItem[] | Promise<RegionItem[]>,
+    enable: ComputedRef<boolean>
+  ) => {
+    if (!enable.value) throw new Error(level + ' disabled')
+    const model = getLevelModel(getParentLevel(level)!)
+    if (!model) throw new Error(level + ' model empty')
+    state.value[level].list = await listGetter(model)
   }
-  const setModelJobs = LEVEL_KEYS.map((level) => (options) => setLevelModel(level, options))
-  const loadListJobs = [
-    (options) => setLevelList(CITY, options, getCities(getLevelModel(PROVINCE)), hasCity),
-    (options) => setLevelList(AREA, options, getAreas(getLevelModel(CITY)), hasArea)
+  const setModelSteps = LEVEL_KEYS.map((level) => (ctx: StepContext) => setLevelModel(level, ctx))
+  const loadListSteps = [
+    async () => await setLevelList(CITY, getCities, hasCity),
+    async () => await setLevelList(AREA, getAreas, hasArea)
   ]
-  const createJobs = (startLevel: string) => {
-    return setModelJobs.reduce((jobs, fn, index) => {
-      if (index >= getLevelIndex(startLevel)) {
-        jobs.push(fn)
-        if (index < loadListJobs.length) jobs.push(loadListJobs.at(index))
-      }
-      return jobs
-    }, [])
-  }
-  const executeRegionScheduling = (startLevel: string, options) => {
+
+  const stepRunner = async (startLevel: RegionLevel, ctx: StepContext) => {
+    loading.value = true
     resetRegion(startLevel)
-
-    const scheduling = createJobs(startLevel).reduce(
-      (promise, fn) => promise.then(fn),
-      Promise.resolve(options)
-    )
-
-    return scheduling.catch(() => {})
+    try {
+      const startIndex = getLevelIndex(startLevel)
+      const levels = LEVEL_KEYS.slice(startIndex)
+      for (let index = 0; index < levels.length; index++) {
+        setModelSteps.at(startIndex + index)!(ctx)
+        await loadListSteps.at(startIndex + index)?.()
+      }
+    } catch {}
+    loading.value = false
   }
+
   const setRegion = (values: RegionValues) => {
     const options = { values, modelValueChange: true }
-    return executeRegionScheduling(PROVINCE, options)
+    return stepRunner(PROVINCE, options)
   }
-  const setRegionLevel = (level: string, values: RegionValues) => {
-    return executeRegionScheduling(level, { values })
+  const setRegionLevel = (level: RegionLevel, values: RegionValues) => {
+    return stepRunner(level, { values })
   }
-  // 装配乡镇级别列表拉取实现
-  const setupTownListLoader = (fn) => {
-    loadListJobs[getLevelIndex(AREA)] = (options) =>
-      fn(getLevelModel(AREA)).then((list) => setLevelList(TOWN, options, list || [], hasTown))
-    setupTown.value = true
-  }
-  const toValues = () => modelToValue(data.value, 'key')
-  const toNames = () => modelToValues(data.value, 'name')
-  const toModel = () => Object.fromEntries(LEVEL_KEYS.map((level) => [level, getLevelModel(level)]))
 
   return {
-    data,
+    state,
     hasCity,
     hasArea,
     hasTown,
+    loading,
     isComplete,
     resetRegion,
     setRegion,

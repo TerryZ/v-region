@@ -16,14 +16,9 @@ import RegionCityPicker from './modules/city/RegionCityPicker'
 import RegionText from './modules/text/RegionText'
 import RegionFullText from './modules/text/RegionFullText'
 
-import RegionDropdown from './modules/RegionDropdown'
+import RegionDropdown from './components/RegionDropdown'
 
-export {
-  regionFull,
-  regionProvinces,
-  regionCities,
-  regionAreas
-} from './formatted'
+export { regionFull, regionProvinces, regionCities, regionAreas } from './formatted'
 export { useDropdown } from 'v-dropdown'
 
 const Region = {}
@@ -46,7 +41,6 @@ export {
   RegionCityPicker,
   RegionText,
   RegionFullText,
-
   RegionDropdown
 }
 

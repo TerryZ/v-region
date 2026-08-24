@@ -4,14 +4,25 @@ import { getLanguage, valueEqualToModel, isEmptyValues } from './helper'
 import { getEmptyValues } from './parse'
 import { PROVINCE, keyCore, keyDropdown } from '../constants'
 
-import type { RegionLanguage, RegionLevel } from '../types'
+import type { ExtractPropTypes, EmitFn } from 'vue'
+import type {
+  RegionLanguage,
+  RegionLevel,
+  DropdownProvide,
+  RegionUIOptions,
+  RegionProps
+} from '../types'
 
-export function useRegionUI(props, emit, options) {
+export function useRegionUI(
+  props: ExtractPropTypes<RegionProps>,
+  emit: EmitFn,
+  options?: RegionUIOptions
+) {
   const { emitUpdateModelValue, emitUpdateNames, emitChange } = useEvent(emit)
-  const { setTriggerText } = inject(keyDropdown, {})
-  const lang: RegionLanguage = getLanguage(props.language)
+  const { setTriggerText } = inject<DropdownProvide>(keyDropdown, {})
+  const lang: RegionLanguage = getLanguage(props?.language)
   const {
-    data,
+    state,
     hasCity,
     hasArea,
     hasTown,
@@ -22,7 +33,8 @@ export function useRegionUI(props, emit, options) {
     toValues,
     toModel,
     toNames,
-    isComplete
+    isComplete,
+    loading
   } = useRegionCore(props)
   const regionText = computed(() => toNames().join(props.separator ?? ''))
 
@@ -52,19 +64,20 @@ export function useRegionUI(props, emit, options) {
       return setTriggerText?.(lang.pleaseSelect)
     }
     // 值与模型一致，不进行转换
-    if (valueEqualToModel(props.modelValue, data.value)) return
+    if (valueEqualToModel(props.modelValue, state.value)) return
     if (isEmptyValues(props.modelValue)) return reset()
     // 提供一个函数入口，在 v-model 值变化处理完成的后续处理
     setRegion(props.modelValue)
       .then(responseChange)
       .then(() => options?.afterModelChange?.())
   }
-  function setLevel(level: RegionLevel, key: string) {
+  async function setLevel(level: RegionLevel, key?: string) {
     const values = getEmptyValues({ [level]: key })
-    return setRegionLevel(level, values).then(responseChange)
+    await setRegionLevel(level, values)
+    responseChange()
   }
   function responseChange() {
-    if (!valueEqualToModel(props.modelValue, data.value)) {
+    if (!valueEqualToModel(props.modelValue!, state.value)) {
       emitUpdateModelValue(toValues())
     }
     emitChange(toModel())
@@ -79,7 +92,8 @@ export function useRegionUI(props, emit, options) {
 
   provide(keyCore, {
     disabled: toRef(props, 'disabled'),
-    data,
+    state,
+    loading,
     lang,
     isComplete,
     hasCity,
@@ -90,8 +104,9 @@ export function useRegionUI(props, emit, options) {
   })
 
   return {
-    data,
+    data: state,
     lang,
+    loading,
     isComplete,
     regionText,
     hasCity,
