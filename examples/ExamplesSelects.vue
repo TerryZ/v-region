@@ -74,8 +74,12 @@
           </div>
           <button type="button" class="btn btn-dark" @click="reset">Reset</button>
           <button type="button" class="btn btn-dark" @click="reset1">Reset 3 level</button>
-          <button type="button" class="btn btn-dark" @click="setToSpecial1">Special 1</button>
-          <button type="button" class="btn btn-dark" @click="setToSpecial2">Special 2</button>
+          <button type="button" class="btn btn-dark" @click="setToSpecial1">
+            Special 1(Only Province)
+          </button>
+          <button type="button" class="btn btn-dark" @click="setToSpecial2">
+            Special 2(Only Province and City)
+          </button>
           <button type="button" class="btn btn-dark" @click="clear">Clear</button>
           <button type="button" class="btn btn-light" @click="toggleDisabled">Disabled</button>
         </div>
@@ -144,7 +148,6 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import { Dropdown } from 'v-dropdown'
 import { RegionSelects, RegionFullSelects } from '@/'
 import { specialRegion1, specialRegion2 } from '../src/__tests__/data'
 

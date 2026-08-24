@@ -49,7 +49,7 @@ export function modelsToValues(models: RegionItem[], property: ModelProperty): s
 export function modelToValues(model: RegionModel, property: ModelProperty | 'name'): string[] {
   if (!model || !Object.keys(model).length) return []
   return Object.values(model)
-    .map((val) => val[property])
+    .map((val) => val?.[property])
     .filter((val) => val)
 }
 /**

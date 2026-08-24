@@ -79,6 +79,11 @@ export interface RegionProps {
    */
   blank?: boolean
 }
+export interface LevelModel {
+  index: number
+  level: RegionLevel
+  title: string
+}
 export interface RegionLevelData {
   key: string | undefined
   name: string | undefined

@@ -9,30 +9,29 @@ import { LEVELS, LEVEL_KEYS, PROVINCE } from '../../constants'
 
 import IconTrash from '../../icons/IconTrash.vue'
 
+import type { ExtractPropTypes, Ref } from 'vue'
+import type { RegionProps, RegionItem, RegionLevel } from '../../types'
+
 export default defineComponent({
   name: 'RegionGroup',
   props: mergeBaseProps({
     separator: { type: String, default: '' }
   }),
   emits: mergeEmits(['complete']),
-  setup (props, { emit, slots }) {
-    const {
-      data,
-      lang,
-      isComplete,
-      setLevel,
-      regionText,
-      reset
-    } = useRegionUI(props, emit)
+  setup(props, { emit, slots }) {
+    const { state, lang, isComplete, setLevel, regionText, reset } = useRegionUI(
+      props as ExtractPropTypes<RegionProps>,
+      emit
+    )
     const { close } = useDropdown()
 
-    const level = ref(PROVINCE)
+    const level: Ref<RegionLevel> = ref(PROVINCE)
 
-    function clear () {
+    function clear() {
       reset()
       level.value = PROVINCE
     }
-    async function selectItem (item) {
+    async function selectItem(item: RegionItem) {
       if (!level.value) return
 
       await setLevel(level.value, item.key)
@@ -41,39 +40,40 @@ export default defineComponent({
         close?.()
         return emit('complete')
       }
-      level.value = LEVEL_KEYS.at(LEVEL_KEYS.indexOf(level.value) + 1)
+      level.value = LEVEL_KEYS.at(LEVEL_KEYS.indexOf(level.value) + 1)!
     }
-    function isSelected (item) {
+    function isSelected(item: RegionItem) {
       if (!item) return false
       if (!level.value) return false
-      return data.value[level.value]?.key === item.key
+      return state.value[level.value]?.key === item.key
     }
 
-    function GroupHeader () {
+    function GroupHeader() {
       const title = regionText.value || lang.defaultHead
 
       return (
-        <div class='rg-header'>
-          <div class='rg-header-text' title={title}>{title}</div>
-          <div class='rg-header-control'>
-            <button type='button' title={lang.clear} onClick={clear}>
+        <div class="rg-header">
+          <div class="rg-header-text" title={title}>
+            {title}
+          </div>
+          <div class="rg-header-control">
+            <button type="button" title={lang.clear} onClick={clear}>
               <IconTrash />
             </button>
           </div>
         </div>
       )
     }
-    function GroupTabs () {
-      const tabs = LEVELS.map(value => {
-        if (!data.value[value.level].enable) return null
+    function GroupTabs() {
+      const tabs = LEVELS.map((value) => {
+        if (!state.value[value.level].enable) return null
         return (
-          <li
-            class={{ active: value.level === level.value }}
-            key={value.level}
-          >
+          <li class={{ active: value.level === level.value }} key={value.level}>
             <a
-              href='javascript:void(0)'
-              onClick={() => { level.value = value.level }}
+              href="javascript:void(0)"
+              onClick={() => {
+                level.value = value.level
+              }}
             >
               {value.title}
             </a>
@@ -81,29 +81,31 @@ export default defineComponent({
         )
       })
       return (
-        <div class='rg-level-tabs'>
+        <div class="rg-level-tabs">
           <ul>{tabs}</ul>
         </div>
       )
     }
-    function GroupContent () {
-      const list = data.value[level.value]?.list
+    function GroupContent() {
+      const list = state.value[level.value]?.list
 
-      const levelItems = list.map(val => (
+      const levelItems = list.map((val) => (
         <li
           key={val.key}
           class={['rg-item', { active: isSelected(val) }]}
           onMouseup={() => selectItem(val)}
-        >{val.value}</li>
+        >
+          {val.value}
+        </li>
       ))
       const ContentMessageBox = () => {
         if (list.length) return null
-        return <li class='rg-message-box'>{lang.noMatch}</li>
+        return <li class="rg-message-box">{lang.noMatch}</li>
       }
 
       return (
-        <div class='rg-results-container'>
-          <ul class='rg-results'>
+        <div class="rg-results-container">
+          <ul class="rg-results">
             {levelItems}
             <ContentMessageBox />
           </ul>
@@ -112,7 +114,7 @@ export default defineComponent({
     }
 
     return () => (
-      <div class='rg-group'>
+      <div class="rg-group">
         <GroupHeader />
         <GroupTabs />
         <GroupContent />

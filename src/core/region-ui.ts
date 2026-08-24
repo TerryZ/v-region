@@ -104,7 +104,7 @@ export function useRegionUI(
   })
 
   return {
-    data: state,
+    state,
     lang,
     loading,
     isComplete,

@@ -15,11 +15,8 @@
             v-model="enabledCity"
             :true-value="true"
             :false-value="false"
-          >
-          <label
-            class="form-check-label"
-            for="inlineCheckboxCity"
-          >City</label>
+          />
+          <label class="form-check-label" for="inlineCheckboxCity">City</label>
         </div>
         <div class="form-check form-check-inline">
           <input
@@ -29,11 +26,8 @@
             v-model="enabledArea"
             :true-value="true"
             :false-value="false"
-          >
-          <label
-            class="form-check-label"
-            for="inlineCheckboxArea"
-          >Area</label>
+          />
+          <label class="form-check-label" for="inlineCheckboxArea">Area</label>
         </div>
         <div class="form-check form-check-inline">
           <input
@@ -43,26 +37,11 @@
             v-model="enabledTown"
             :true-value="true"
             :false-value="false"
-          >
-          <label
-            class="form-check-label"
-            for="inlineCheckboxTown"
-          >Town</label>
+          />
+          <label class="form-check-label" for="inlineCheckboxTown">Town</label>
         </div>
-        <button
-          type="button"
-          class="btn btn-dark me-3"
-          @click="reset"
-        >
-          Reset
-        </button>
-        <button
-          type="button"
-          class="btn btn-dark me-3"
-          @click="reset1"
-        >
-          Reset 3 level
-        </button>
+        <button type="button" class="btn btn-dark me-3" @click="reset">Reset</button>
+        <button type="button" class="btn btn-dark me-3" @click="reset1">Reset 3 level</button>
       </div>
       <div class="mb-3">
         <RegionFullGroup
@@ -78,13 +57,10 @@
         />
       </div>
 
-      <div class=" mb-3 row">
+      <div class="mb-3 row">
         <div class="col-md-6">
           <h4>values</h4>
-          <pre
-            class="m-0 bg-light p-3 rounded-3"
-            v-text="JSON.stringify(model, null, 2)"
-          />
+          <pre class="m-0 bg-light p-3 rounded-3" v-text="JSON.stringify(model, null, 2)" />
           <h4>names</h4>
           <div>
             {{ names }}
@@ -93,10 +69,7 @@
 
         <div class="col-md-6">
           <h4>model</h4>
-          <pre
-            class="m-0 bg-light p-3 rounded-3"
-            v-text="JSON.stringify(values, null, 2)"
-          />
+          <pre class="m-0 bg-light p-3 rounded-3" v-text="JSON.stringify(values, null, 2)" />
         </div>
       </div>
 
@@ -125,57 +98,34 @@
 
         <div>
           <RegionDropdown>
-            <RegionFullGroup
-              separator="-"
-              v-model="modelFullGroup"
-            />
+            <RegionFullGroup separator="-" v-model="modelFullGroup" />
           </RegionDropdown>
         </div>
       </div>
       <div class="mb-3">
-        <button
-          type="button"
-          class="btn btn-secondary me-3"
-          @click="resetGroup"
-        >
+        <button type="button" class="btn btn-secondary me-3" @click="resetGroup">
           reset region
         </button>
-        <button
-          type="button"
-          class="btn btn-secondary"
-          @click="disabled = !disabled"
-        >
+        <button type="button" class="btn btn-secondary" @click="disabled = !disabled">
           disabled
         </button>
       </div>
 
       <div class="bg-light p-3 mb-3 rounded-3 row">
         <div class="col-md-6">
-          <pre
-            class="m-0 mb-3"
-            v-text="JSON.stringify(modelGroup, null, 2)"
-          />
+          <pre class="m-0 mb-3" v-text="JSON.stringify(modelGroup, null, 2)" />
         </div>
         <div class="col-md-6">
-          <pre
-            class="m-0"
-            v-text="JSON.stringify(valuesGroup, null, 2)"
-          />
+          <pre class="m-0" v-text="JSON.stringify(valuesGroup, null, 2)" />
         </div>
       </div>
 
-      <h5 class="mt-3">
-        下拉选择器模式（自定义呼出按钮）
-      </h5>
+      <h5 class="mt-3">下拉选择器模式（自定义呼出按钮）</h5>
       <div>
         <RegionDropdown>
           <template #trigger="{ visible }">
-            <button
-              type="button"
-              class="btn btn-primary"
-            >
-              data:{{ resultText(modelCustomTrigger) }},
-              visible: {{ visible }}
+            <button type="button" class="btn btn-primary">
+              data:{{ resultText(modelCustomTrigger) }}, visible: {{ visible }}
             </button>
           </template>
           <RegionFullGroup @change="customTriggerChange" />
@@ -185,13 +135,9 @@
   </section>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref } from 'vue'
-import {
-  RegionGroup,
-  RegionFullGroup,
-  RegionDropdown
-} from '../src'
+import { RegionGroup, RegionFullGroup, RegionDropdown } from '../src'
 import { model1 } from '@/__tests__/data'
 import { modelToText } from '../src/core/parse'
 
@@ -209,17 +155,17 @@ const modelFullGroup = ref(undefined)
 const modelCustomTrigger = ref()
 const valuesGroup = ref(undefined)
 
-function change (data) {
+function change(data) {
   values.value = data
 }
-function complete () {
+function complete() {
   console.log('complete')
 }
-function changeGroup (data) {
+function changeGroup(data) {
   // console.log(data)
   valuesGroup.value = data
 }
-function resetGroup () {
+function resetGroup() {
   modelGroup.value = {
     province: '350000',
     city: '350100',
@@ -227,18 +173,19 @@ function resetGroup () {
     town: '350104008'
   }
 }
-function visibleChange (val) {
+function visibleChange(val) {
   console.log('dropdown visible: ', val)
 }
-function resultText (region) {
+function resultText(region) {
   if (!region) return '无数据'
 
-  if (!Object.values(region).some(val => val) || !region) {
+  if (!Object.values(region).some((val) => val) || !region) {
     return '无数据'
   }
+  console.log(region)
   return modelToText(region, 'value', ',')
 }
-function reset () {
+function reset() {
   // regionSelected.value.reset()
   model.value = {
     province: '350000',
@@ -247,7 +194,7 @@ function reset () {
     town: '350103012'
   }
 }
-function reset1 () {
+function reset1() {
   // regionSelected.value.reset()
   model.value = {
     province: '130000',
@@ -256,19 +203,19 @@ function reset1 () {
     town: undefined
   }
 }
-function open () {
+function open() {
   console.log('open')
 }
-function opened () {
+function opened() {
   console.log('opened')
 }
-function close () {
+function close() {
   console.log('close')
 }
-function closed () {
+function closed() {
   console.log('closed')
 }
-function customTriggerChange (data) {
+function customTriggerChange(data) {
   modelCustomTrigger.value = data
 }
 </script>

@@ -1,11 +1,11 @@
-import type { RegionLevel } from './types'
+import type { RegionLevel, LevelModel } from './types'
 
 export const PROVINCE = 'province'
 export const CITY = 'city'
 export const AREA = 'area'
 export const TOWN = 'town'
 
-export const LEVELS = [
+export const LEVELS: LevelModel[] = [
   { index: 0, level: PROVINCE, title: '省/直辖市' },
   { index: 1, level: CITY, title: '市' },
   { index: 2, level: AREA, title: '区/县' },
