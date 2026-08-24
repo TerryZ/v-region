@@ -4,11 +4,17 @@ import { provide, defineComponent } from 'vue'
 
 import RegionSelectLevel from './SelectLevel'
 
-import {
-  PROVINCE, CITY, AREA, keyInternal
-} from '../../constants'
+import { PROVINCE, CITY, AREA, keyInternal } from '../../constants'
 import { mergeBaseProps, mergeEmits } from '../../core/options'
 import { useRegionUI } from '../../core/region-ui'
+
+import type { ExtractPropTypes } from 'vue'
+import type { RegionLevel, RegionProps } from '../../types'
+
+interface RegionLevelProps {
+  enable?: boolean
+  level: RegionLevel
+}
 
 export default defineComponent({
   name: 'RegionSelects',
@@ -17,12 +23,12 @@ export default defineComponent({
     blank: { type: Boolean, default: true }
   }),
   emits: mergeEmits(),
-  setup (props, { emit, slots }) {
-    const { hasCity, hasArea } = useRegionUI(props, emit)
+  setup(props, { emit, slots }) {
+    const { hasCity, hasArea } = useRegionUI(props as ExtractPropTypes<RegionProps>, emit)
 
     provide(keyInternal, { blank: props.blank })
 
-    function RegionLevel ({ enable = true, level }) {
+    function RegionLevel({ enable = true, level }: RegionLevelProps) {
       if (!enable) return null
       return <RegionSelectLevel level={level} />
     }

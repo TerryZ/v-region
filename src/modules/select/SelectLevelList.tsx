@@ -4,34 +4,32 @@ import { useDropdown } from 'v-dropdown'
 import { keyCore, keyInternal } from '../../constants'
 import { scrollIntoElement } from '../../core/helper'
 
+import type { RegionUIProvide, RegionItem, RegionLevel } from '../../types'
+
 export default defineComponent({
   name: 'RegionSelectList',
   props: {
     level: { type: String, default: '' }
   },
-  setup (props, { expose }) {
-    const { data, lang, setLevel } = inject(keyCore)
-    const { blank } = inject(keyInternal)
+  setup(props, { expose }) {
+    const { state, lang, setLevel } = inject(keyCore) as RegionUIProvide
+    const { blank } = inject(keyInternal) as { blank: boolean }
     const { close } = useDropdown()
     const list = ref()
 
-    const selectItem = item => {
-      setLevel(props.level, item.key)
+    const selectItem = async (item?: RegionItem) => {
+      await setLevel(props.level as RegionLevel, item?.key)
       close()
     }
     const scrollToSelectedItem = () => scrollIntoElement(list.value, '.selected')
     const BlankItem = () => {
       if (!blank) return null
-      return <li onClick={selectItem}>{lang.pleaseSelect}</li>
+      return <li onClick={() => selectItem()}>{lang.pleaseSelect}</li>
     }
     const levelItems = () => {
-      const { list, key } = data.value[props.level]
-      return list.map(item => (
-        <li
-          key={item.key}
-          class={{ selected: key === item.key }}
-          onClick={() => selectItem(item) }
-        >
+      const { list, key } = state.value[props.level as RegionLevel]
+      return list.map((item) => (
+        <li key={item.key} class={{ selected: key === item.key }} onClick={() => selectItem(item)}>
           {item.value}
         </li>
       ))
@@ -40,7 +38,7 @@ export default defineComponent({
     expose({ scrollToSelectedItem })
 
     return () => (
-      <ul class='rg-select__list' ref={list}>
+      <ul class="rg-select__list" ref={list}>
         <BlankItem />
         {levelItems()}
       </ul>
