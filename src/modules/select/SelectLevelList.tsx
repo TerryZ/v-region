@@ -4,12 +4,13 @@ import { useDropdown } from 'v-dropdown'
 import { keyCore, keyInternal } from '../../constants'
 import { scrollIntoElement } from '../../core/helper'
 
+import type { PropType } from 'vue'
 import type { RegionUIProvide, RegionItem, RegionLevel } from '../../types'
 
 export default defineComponent({
   name: 'RegionSelectList',
   props: {
-    level: { type: String, default: '' }
+    level: { type: String as PropType<RegionLevel>, default: '' }
   },
   setup(props, { expose }) {
     const { state, lang, setLevel } = inject(keyCore) as RegionUIProvide
@@ -18,7 +19,7 @@ export default defineComponent({
     const list = ref()
 
     const selectItem = async (item?: RegionItem) => {
-      await setLevel(props.level as RegionLevel, item?.key)
+      await setLevel(props.level, item?.key)
       close()
     }
     const scrollToSelectedItem = () => scrollIntoElement(list.value, '.selected')
@@ -27,7 +28,7 @@ export default defineComponent({
       return <li onClick={() => selectItem()}>{lang.pleaseSelect}</li>
     }
     const levelItems = () => {
-      const { list, key } = state.value[props.level as RegionLevel]
+      const { list, key } = state.value[props.level]
       return list.map((item) => (
         <li key={item.key} class={{ selected: key === item.key }} onClick={() => selectItem(item)}>
           {item.value}

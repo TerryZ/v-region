@@ -4,12 +4,14 @@ import { Dropdown, DropdownContent, DropdownTrigger } from 'v-dropdown'
 import SelectLevelList from './SelectLevelList'
 
 import { keyCore, keyInternal } from '../../constants'
+
+import type { PropType } from 'vue'
 import type { RegionUIProvide, RegionLevel } from '../../types'
 
 export default defineComponent({
   name: 'RegionSelect',
   props: {
-    level: { type: String, default: '' }
+    level: { type: String as PropType<RegionLevel>, default: '' }
   },
   setup(props, { slots }) {
     const { state, disabled, lang } = inject(keyCore) as RegionUIProvide
@@ -17,9 +19,7 @@ export default defineComponent({
     const list = ref()
 
     const blankContent = blank ? lang.pleaseSelect : '&nbsp;'
-    const contentText = computed(
-      () => state.value[props.level as RegionLevel]?.name || blankContent
-    )
+    const contentText = computed(() => state.value[props.level]?.name || blankContent)
 
     const handleOpened = () => list.value?.scrollToSelectedItem()
 
