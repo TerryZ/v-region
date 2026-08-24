@@ -1,5 +1,5 @@
 import { ref, computed, toRefs } from 'vue'
-import type { Ref, ComputedRef, EmitFn, ExtractPropTypes } from 'vue'
+import type { Ref, ComputedRef, ExtractPropTypes } from 'vue'
 
 import { PROVINCE, CITY, AREA, TOWN, LEVEL_KEYS } from '../constants'
 import { regionProvinces } from '../formatted'
@@ -12,7 +12,6 @@ import type {
   RegionProps,
   RegionValues,
   RegionLevel,
-  RegionModel,
   RegionLevelData,
   AsyncLevelListLoader
 } from '../types'
@@ -22,22 +21,7 @@ interface StepContext {
   modelValueChange?: boolean
 }
 
-// type Step = (ctx?: StepContext) => Promise<void> | void
-
 export const townsCache = new Map<string, RegionItem[]>()
-/**
- * 响应 `v-model` 与 `change` 事件
- *
- * 要求组件中已定义 `update:modelValue` 与 `change`
- * @param {function} emit 事件响应对象
- */
-export function useEvent(emit: EmitFn) {
-  return {
-    emitUpdateModelValue: (data: RegionValues) => emit?.('update:modelValue', data),
-    emitUpdateNames: (data: string[]) => emit?.('update:names', data),
-    emitChange: (data: RegionModel) => emit?.('change', data)
-  }
-}
 
 const createLevel = (
   enable: Ref<boolean> | ComputedRef<boolean>,

@@ -1,11 +1,13 @@
 import { computed, watch, provide, inject, onMounted, toRef } from 'vue'
-import { useEvent, useRegionCore } from './region-core'
+import { useRegionCore } from './region-core'
 import { getLanguage, valueEqualToModel, isEmptyValues } from './helper'
 import { getEmptyValues } from './parse'
 import { PROVINCE, keyCore, keyDropdown } from '../constants'
 
 import type { ExtractPropTypes, EmitFn } from 'vue'
 import type {
+  RegionModel,
+  RegionValues,
   RegionLanguage,
   RegionLevel,
   DropdownProvide,
@@ -13,9 +15,23 @@ import type {
   RegionProps
 } from '../types'
 
+/**
+ * 响应 `v-model` 与 `change` 事件
+ *
+ * 要求组件中已定义 `update:modelValue` 与 `change`
+ * @param {function} emit 事件响应对象
+ */
+export function useEvent(emit?: EmitFn) {
+  return {
+    emitUpdateModelValue: (data: RegionValues) => emit && emit?.('update:modelValue', data),
+    emitUpdateNames: (data: string[]) => emit && emit?.('update:names', data),
+    emitChange: (data: RegionModel) => emit && emit?.('change', data)
+  }
+}
+
 export function useRegionUI(
   props: ExtractPropTypes<RegionProps>,
-  emit: EmitFn,
+  emit?: EmitFn,
   options?: RegionUIOptions
 ) {
   const { emitUpdateModelValue, emitUpdateNames, emitChange } = useEvent(emit)
