@@ -88,6 +88,7 @@ export function useRegionUI(
       .then(() => options?.afterModelChange?.())
   }
   async function setLevel(level: RegionLevel, key?: string) {
+    if (key && state.value[level].key === key) return
     const values = getEmptyValues({ [level]: key })
     await setRegionLevel(level, values)
     responseChange()
