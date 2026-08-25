@@ -28,26 +28,16 @@
         </div>
       </div>
       <div class="mb-3">
-        <button
-          type="button"
-          class="btn btn-secondary"
-          @click="setSelectorRegion"
-        >
+        <button type="button" class="btn btn-secondary" @click="setSelectorRegion">
           Set region
         </button>
       </div>
       <div class="bg-light p-3 mb-3 rounded-3">
-        <pre
-          class="m-0"
-          v-text="JSON.stringify(modelColumn, null, 2)"
-        />
+        <pre class="m-0" v-text="JSON.stringify(modelColumn, null, 2)" />
         <div class="my-3">
           {{ names }}
         </div>
-        <pre
-          class="m-0"
-          v-text="JSON.stringify(valuesColumn, null, 2)"
-        />
+        <pre class="m-0" v-text="JSON.stringify(valuesColumn, null, 2)" />
       </div>
 
       <h4>核心模块</h4>
@@ -60,11 +50,8 @@
             v-model="enabledCity"
             :true-value="true"
             :false-value="false"
-          >
-          <label
-            class="form-check-label"
-            for="inlineCheckboxCity"
-          >City</label>
+          />
+          <label class="form-check-label" for="inlineCheckboxCity">City</label>
         </div>
         <div class="form-check form-check-inline">
           <input
@@ -74,11 +61,8 @@
             v-model="enabledArea"
             :true-value="true"
             :false-value="false"
-          >
-          <label
-            class="form-check-label"
-            for="inlineCheckboxArea"
-          >Area</label>
+          />
+          <label class="form-check-label" for="inlineCheckboxArea">Area</label>
         </div>
         <div class="form-check form-check-inline">
           <input
@@ -88,11 +72,8 @@
             v-model="enabledTown"
             :true-value="true"
             :false-value="false"
-          >
-          <label
-            class="form-check-label"
-            for="inlineCheckboxTown"
-          >Town</label>
+          />
+          <label class="form-check-label" for="inlineCheckboxTown">Town</label>
         </div>
       </div>
 
@@ -110,41 +91,21 @@
       </div>
 
       <div>
-        <button
-          type="button"
-          class="btn btn-secondary me-3"
-          @click="setRegion"
-        >
+        <button type="button" class="btn btn-secondary me-3" @click="setRegion">
           Set full Region
         </button>
-        <button
-          type="button"
-          class="btn btn-secondary me-3"
-          @click="set3LevelRegion"
-        >
+        <button type="button" class="btn btn-secondary me-3" @click="set3LevelRegion">
           Set 3 level Region
         </button>
-        <button
-          type="button"
-          class="btn btn-secondary"
-          @click="reset"
-        >
-          Reset
-        </button>
+        <button type="button" class="btn btn-secondary" @click="reset">Reset</button>
       </div>
 
-      <h4 class="mt-3">
-        下拉选择器多列竖排模式（自定义呼出按钮）
-      </h4>
+      <h4 class="mt-3">下拉选择器多列竖排模式（自定义呼出按钮）</h4>
       <div>
         <RegionDropdown>
           <template #trigger="{ visible }">
-            <button
-              type="button"
-              class="btn btn-primary"
-            >
-              data:{{ resultText(modelCustomTrigger) }},
-              visible: {{ visible }}
+            <button type="button" class="btn btn-primary">
+              data:{{ resultText(modelCustomTrigger) }}, visible: {{ visible }}
             </button>
           </template>
           <RegionColumns @change="customTriggerChange" />
@@ -156,12 +117,8 @@
 
 <script setup>
 import { ref } from 'vue'
-import {
-  RegionColumns,
-  RegionFullColumns,
-  RegionDropdown
-} from '../src'
-import { modelToText } from '../src/core/parse'
+import { RegionColumns, RegionFullColumns, RegionDropdown } from '../src'
+import { modelToText } from '../src/composables/parse'
 
 const model = {
   province: '410000',
@@ -185,25 +142,25 @@ const enabledTown = ref(true)
 const columnCore = ref()
 const modelCustomTrigger = ref()
 
-function cbColumn (data) {
+function cbColumn(data) {
   // if (!this.valuesColumn) {
   valuesColumn.value = data
   // console.log('set data')
   // }
   // console.dir(data)
 }
-function columnGroupCoreDone () {
+function columnGroupCoreDone() {
   console.log('columnGroupCoreDone')
 }
-function resultText (region) {
+function resultText(region) {
   if (!region) return '无数据'
 
-  if (!Object.values(region).some(val => val) || !region) {
+  if (!Object.values(region).some((val) => val) || !region) {
     return '无数据'
   }
   return modelToText(region, 'value', ',')
 }
-function reset () {
+function reset() {
   // columnCore.value.reset()
   modelCore.value = {
     province: undefined,
@@ -212,10 +169,10 @@ function reset () {
     town: undefined
   }
 }
-function setRegion () {
+function setRegion() {
   modelCore.value = model
 }
-function set3LevelRegion () {
+function set3LevelRegion() {
   modelCore.value = {
     province: '450000',
     city: '451200',
@@ -223,10 +180,10 @@ function set3LevelRegion () {
     town: undefined
   }
 }
-function setSelectorRegion () {
+function setSelectorRegion() {
   modelColumn.value = model
 }
-function customTriggerChange (data) {
+function customTriggerChange(data) {
   modelCustomTrigger.value = data
 }
 </script>

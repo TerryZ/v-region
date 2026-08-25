@@ -139,7 +139,7 @@
 import { ref } from 'vue'
 import { RegionGroup, RegionFullGroup, RegionDropdown } from '../src'
 import { model1 } from '@/__tests__/data'
-import { modelToText } from '../src/core/parse'
+import { modelToText } from '../src/composables/parse'
 
 const model = ref(model1)
 const values = ref(undefined)

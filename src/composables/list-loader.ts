@@ -2,7 +2,6 @@ import { regionCities, regionAreas } from '../formatted'
 import { townsCache } from './region-core'
 
 import type { RegionItem } from '../types'
-// TODO：考虑使用 startWith 来处理匹配
 /**
  * 根据省读取城市列表
  *
