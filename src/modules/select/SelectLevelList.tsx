@@ -2,7 +2,7 @@ import { ref, defineComponent, inject } from 'vue'
 import { useDropdown } from 'v-dropdown'
 
 import { keyCore, keyInternal } from '../../constants'
-import { scrollIntoElement } from '../../core/helper'
+import { scrollIntoElement } from '../../composables/helper'
 
 import type { PropType } from 'vue'
 import type { RegionUIProvide, RegionItem, RegionLevel } from '../../types'

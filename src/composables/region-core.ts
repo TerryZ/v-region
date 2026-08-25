@@ -121,7 +121,7 @@ export function useRegionCore(props: ExtractPropTypes<RegionProps>) {
     async () => await setLevelList(AREA, getAreas, hasArea)
   ]
 
-  const stepRunner = async (startLevel: RegionLevel, ctx: StepContext) => {
+  const runSteps = async (startLevel: RegionLevel, ctx: StepContext) => {
     loading.value = true
     resetRegion(startLevel)
     try {
@@ -137,10 +137,10 @@ export function useRegionCore(props: ExtractPropTypes<RegionProps>) {
 
   const setRegion = (values: RegionValues) => {
     const options = { values, modelValueChange: true }
-    return stepRunner(PROVINCE, options)
+    return runSteps(PROVINCE, options)
   }
   const setRegionLevel = (level: RegionLevel, values: RegionValues) => {
-    return stepRunner(level, { values })
+    return runSteps(level, { values })
   }
 
   return {

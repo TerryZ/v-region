@@ -54,7 +54,7 @@ export function modelToValues(model: RegionModel, property: ModelProperty | 'nam
 }
 /**
  * 内部数据模型或输出数据模型转换为名称文本，使用分隔符连接
- * @param {RegionModel | InternalModel} model 数据模型
+ * @param model 数据模型
  * @returns
  */
 export function modelToText(model: RegionModel, property: ModelProperty, separator = ''): string {

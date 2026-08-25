@@ -1,6 +1,6 @@
 import { h, defineComponent } from 'vue'
-import { mergeBaseProps } from '../../core/options'
-import { useRegionUI } from '../../core/region-ui'
+import { mergeBaseProps } from '../../composables/options'
+import { useRegionUI } from '../../composables/region-ui'
 
 import type { ExtractPropTypes } from 'vue'
 import type { RegionProps } from '../../types'

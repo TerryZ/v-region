@@ -5,8 +5,8 @@ import { provide, defineComponent } from 'vue'
 import RegionSelectLevel from './SelectLevel'
 
 import { PROVINCE, CITY, AREA, keyInternal } from '../../constants'
-import { mergeBaseProps, mergeEmits } from '../../core/options'
-import { useRegionUI } from '../../core/region-ui'
+import { mergeBaseProps, mergeEmits } from '../../composables/options'
+import { useRegionUI } from '../../composables/region-ui'
 
 import type { ExtractPropTypes } from 'vue'
 import type { RegionLevel, RegionProps } from '../../types'

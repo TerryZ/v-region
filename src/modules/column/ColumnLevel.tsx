@@ -1,7 +1,7 @@
 import { inject, ref, toRef, defineComponent } from 'vue'
 
 import { keyCore, keyInternal } from '../../constants'
-import { scrollIntoElement } from '../../core/helper'
+import { scrollIntoElement } from '../../composables/helper'
 
 import IconChevronRight from '../../icons/IconChevronRight.vue'
 

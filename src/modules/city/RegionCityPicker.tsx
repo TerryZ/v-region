@@ -3,9 +3,9 @@ import '../../styles/city.sass'
 import { ref, watch, defineComponent, inject, type Ref } from 'vue'
 
 import { regionProvinces, regionCities } from '../../formatted'
-import { cityDirectory, modelsToValues, listToText } from '../../core/parse'
-import { isSelected, inputFocus, keysEqualModels, getLanguage } from '../../core/helper'
-import { mergeEmits } from '../../core/options'
+import { cityDirectory, modelsToValues, listToText } from '../../composables/parse'
+import { isSelected, inputFocus, keysEqualModels, getLanguage } from '../../composables/helper'
+import { mergeEmits } from '../../composables/options'
 import { CN } from '../../language'
 import { keyDropdown } from '../../constants'
 

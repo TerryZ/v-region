@@ -3,8 +3,8 @@ import '../../styles/group.sass'
 import { ref, defineComponent } from 'vue'
 import { useDropdown } from 'v-dropdown'
 
-import { mergeBaseProps, mergeEmits } from '../../core/options'
-import { useRegionUI } from '../../core/region-ui'
+import { mergeBaseProps, mergeEmits } from '../../composables/options'
+import { useRegionUI } from '../../composables/region-ui'
 import { LEVELS, LEVEL_KEYS, PROVINCE } from '../../constants'
 
 import IconTrash from '../../icons/IconTrash.vue'

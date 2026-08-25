@@ -11,10 +11,10 @@ import type {
 } from '../types'
 
 export const getLevelIndex = (level: RegionLevel) => LEVEL_KEYS.indexOf(level)
-export function getLevels(startLevel: RegionLevel) {
-  const startIndex = getLevelIndex(startLevel)
-  return LEVEL_KEYS.slice(startIndex)
-}
+// export function getLevels(startLevel: RegionLevel) {
+//   const startIndex = getLevelIndex(startLevel)
+//   return LEVEL_KEYS.slice(startIndex)
+// }
 export function getParentLevel(level: RegionLevel) {
   const startIndex = getLevelIndex(level)
   const parentIndex = startIndex === 0 ? 0 : startIndex - 1
