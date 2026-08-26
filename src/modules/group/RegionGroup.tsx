@@ -8,6 +8,7 @@ import { useRegionUI } from '../../composables/region-ui'
 import { LEVELS, LEVEL_KEYS, PROVINCE } from '../../constants'
 
 import IconTrash from '../../icons/IconTrash.vue'
+import IconLoading from '../../icons/IconLoading.vue'
 
 import type { ExtractPropTypes, Ref } from 'vue'
 import type { RegionProps, RegionItem, RegionLevel } from '../../types'
@@ -19,7 +20,7 @@ export default defineComponent({
   }),
   emits: mergeEmits(['complete']),
   setup(props, { emit, slots }) {
-    const { state, lang, isComplete, setLevel, regionText, reset } = useRegionUI(
+    const { state, lang, isComplete, setLevel, regionText, reset, loading } = useRegionUI(
       props as ExtractPropTypes<RegionProps>,
       emit
     )
@@ -56,8 +57,9 @@ export default defineComponent({
           <div class="rg-header-text" title={title}>
             {title}
           </div>
-          <div class="rg-header-control">
-            <button type="button" title={lang.clear} onClick={clear}>
+          <div class="rg-header-control rg-align-center rg-gap">
+            <IconLoading v-show={loading.value} />
+            <button class="rg-inline-flex" type="button" title={lang.clear} onClick={clear}>
               <IconTrash />
             </button>
           </div>
