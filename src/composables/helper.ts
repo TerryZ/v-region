@@ -73,7 +73,7 @@ export function scrollIntoElement(container: HTMLDivElement, active: string) {
   if (container.scrollHeight <= container.offsetHeight || !activeEl) return
   // 多区域同时滚动时，平滑滚动会导致仅最后一个容器执行滚动行为，不符合功能预期
   activeEl?.scrollIntoView({
-    // behavior: 'smooth',
+    behavior: 'smooth',
     block: 'nearest',
     inline: 'start'
   })

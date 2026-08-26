@@ -1,3 +1,5 @@
+$select-gap: 5px
+
 .rg-selects
   display: flex
   align-items: center
@@ -10,7 +12,7 @@
   overflow-x: hidden
   max-height: 300px
   margin: 0
-  padding: 3px 0
+  padding: $select-gap 0
   -webkit-font-smoothing: subpixel-antialiased
   -webkit-transform: translateZ(0) scale(1.0, 1.0)
   li
@@ -20,6 +22,10 @@
     color: #888
     font-size: 13px
     line-height: 1.5
+    border-radius: 5px
+    margin: 0 $select-gap
+    scroll-margin-bottom: $select-gap
+    scroll-margin-top: $select-gap
     &:hover
       background-color: #f5f5f5
     &.selected
