@@ -1,6 +1,6 @@
 import '../../styles/column.sass'
 
-import { defineComponent, nextTick, provide, watch } from 'vue'
+import { defineComponent, nextTick, provide, watch, toRef } from 'vue'
 
 import { useRegionUI } from '../../composables/region-ui'
 import { mergeBaseProps, mergeEmits } from '../../composables/options'
@@ -20,7 +20,8 @@ interface RegionColumnLevelProps {
 export default defineComponent({
   name: 'RegionColumns',
   props: mergeBaseProps({
-    separator: { type: String, default: '' }
+    separator: { type: String, default: '' },
+    header: { type: Boolean, default: true }
   }),
   emits: mergeEmits(['complete']),
   setup(props, { emit, slots }) {
@@ -36,6 +37,7 @@ export default defineComponent({
     const levelListScrollHandles: (() => void)[] = []
 
     provide(keyInternal, {
+      header: toRef(props, 'header'),
       selectionComplete: () => {
         close?.()
         emit('complete')

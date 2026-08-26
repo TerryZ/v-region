@@ -21,3 +21,12 @@ export const keyCore = Symbol('core')
 export const keyInternal = Symbol('base')
 // dropdown 相关的依赖注入
 export const keyDropdown = Symbol('dropdown')
+
+export const [BEIJING, TIANJIN, SHANGHAI, CHONGQING, HONGKONG, MACAO] = [
+  '110000',
+  '120000',
+  '310000',
+  '500000',
+  '810000',
+  '820000'
+]

@@ -1,6 +1,7 @@
 import { defu } from 'defu'
 
 import { regionProvinces, regionCities } from '../formatted'
+import { BEIJING, TIANJIN, SHANGHAI, CHONGQING, HONGKONG, MACAO } from '../constants'
 
 import type {
   RegionItem,
@@ -65,11 +66,11 @@ export function modelToText(model: RegionModel, property: ModelProperty, separat
  */
 export function cityDirectory(): RegionProvinceGroup[] {
   // 北京, 天津, 上海, 重庆
-  const municipalities = ['110000', '120000', '310000', '500000']
+  const municipalities = [BEIJING, TIANJIN, SHANGHAI, CHONGQING]
   // 虚拟分组-直辖市
   const municipality = '000000'
   // 香港, 澳门
-  const specials = ['810000', '820000']
+  const specials = [HONGKONG, MACAO]
   // 虚拟分组-特别行政区
   const special = '000010'
   // 普通省份

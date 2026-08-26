@@ -5,6 +5,19 @@
       <small>下拉选择器多列竖排模式</small>
     </h3>
     <div class="p-3 shadow-sm rounded-3 border">
+      <div class="my-3">
+        <div class="form-check form-check-inline">
+          <input
+            class="form-check-input"
+            type="checkbox"
+            id="inlineCheckboxHeader"
+            v-model="header"
+            :true-value="true"
+            :false-value="false"
+          />
+          <label class="form-check-label" for="inlineCheckboxHeader">Header</label>
+        </div>
+      </div>
       <div class="mb-3 d-flex">
         <div class="me-3">
           <RegionDropdown>
@@ -14,6 +27,7 @@
               :city="true"
               :area="true"
               :town="true"
+              :header="header"
               v-model="modelColumn"
               v-model:names="names"
               @change="cbColumn"
@@ -115,7 +129,7 @@
   </section>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref } from 'vue'
 import { RegionColumns, RegionFullColumns, RegionDropdown } from '../src'
 import { modelToText } from '../src/composables/parse'
@@ -127,6 +141,7 @@ const model = {
   town: '419001001'
 }
 const names = ref([])
+const header = ref(true)
 
 const modelCore = ref(null)
 const modelColumn = ref({

@@ -78,6 +78,12 @@ export interface RegionProps {
    * @default true
    */
   blank?: boolean
+  /**
+   * 标题栏
+   * selects: 级别名称
+   * column: 顶部标题栏
+   */
+  header?: boolean
 }
 export interface LevelModel {
   index: number
