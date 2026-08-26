@@ -7,6 +7,8 @@ import vueJsx from '@vitejs/plugin-vue-jsx'
 import cssInJs from 'vite-plugin-css-injected-by-js'
 import dts from 'vite-plugin-dts'
 
+// const dirname = fileURLToPath(new URL('.', import.meta.url))
+
 // https://vitejs.dev/config/
 export default defineConfig({
   resolve: {
@@ -16,7 +18,7 @@ export default defineConfig({
   },
   build: {
     lib: {
-      entry: resolve(__dirname, 'src/index.js'),
+      entry: resolve(import.meta.url, 'src/index.js'),
       name: 'VRegion',
       formats: ['es', 'umd'],
       fileName: 'v-region'
@@ -39,7 +41,7 @@ export default defineConfig({
       entryRoot: 'src',
       // rollupTypes: true,
       tsconfigPath: './tsconfig.app.json',
-      outDir: './dist/types/',
+      outDirs: './dist/types/',
       exclude: ['src/__test__/**']
     })
   ]
