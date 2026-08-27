@@ -5,22 +5,22 @@
   "author": "TerryZ <terry5@foxmail.com>",
   "type": "module",
   "files": [
-    "./dist",
-    "./types"
+    "./dist"
   ],
-  "main": "./dist/v-region.umd.cjs",
+  "main": "./dist/v-region.cjs",
   "module": "./dist/v-region.js",
   "packageManager": "pnpm@11.22.0",
   "exports": {
     ".": {
       "import": {
-        "types": "./types/index.d.ts",
+        "types": "./dist/types/index.d.ts",
         "default": "./dist/v-region.js"
       },
-      "require": "./dist/v-region.umd.cjs"
+      "types": "./dist/types/index.d.ts",
+      "require": "./dist/v-region.cjs"
     }
   },
-  "typings": "./types/index.d.ts",
+  "typings": "./dist/types/index.d.ts",
   "license": "MIT",
   "scripts": {
     "dev": "vite",
