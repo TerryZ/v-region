@@ -21,14 +21,15 @@ import RegionDropdown from './components/RegionDropdown'
 export { regionFull, regionProvinces, regionCities, regionAreas } from './formatted'
 export { useDropdown } from 'v-dropdown'
 
-const Region = {}
-
-Region.install = (app: App, options: Record<string, unknow> = {}) => {
-  app.component('VRegionGroup', RegionGroup)
-  app.component('VRegionSelects', RegionSelects)
-  app.component('VRegionColumns', RegionColumns)
-  app.component('VRegionCityPicker', RegionCityPicker)
-  app.component('VRegionText', RegionText)
+const Region: Plugin = {
+  // , options?: Record<string, unknown> = {}
+  install: function (app: App) {
+    app.component('VRegionGroup', RegionGroup)
+    app.component('VRegionSelects', RegionSelects)
+    app.component('VRegionColumns', RegionColumns)
+    app.component('VRegionCityPicker', RegionCityPicker)
+    app.component('VRegionText', RegionText)
+  }
 }
 
 export {
