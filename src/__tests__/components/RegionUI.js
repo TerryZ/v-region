@@ -1,21 +1,23 @@
 import { h } from 'vue'
 
-import { mergeBaseProps, mergeEmits } from '../../core/options'
-import { useRegionUI } from '../../core/region-ui'
+import { mergeBaseProps, mergeEmits } from '../../composables/options'
+import { useRegionUI } from '../../composables/region-ui'
 
 export default {
   name: 'RegionCore',
   props: mergeBaseProps(),
   emits: mergeEmits(),
-  setup (props, { emit, expose }) {
+  setup(props, { emit, expose }) {
     const {
-      data,
+      state,
       lang,
       reset,
       setLevel,
       isComplete,
       regionText,
-      hasCity, hasArea, hasTown,
+      hasCity,
+      hasArea,
+      hasTown,
       setupTownListLoader
     } = useRegionUI(props, emit)
 
@@ -24,7 +26,7 @@ export default {
       hasArea,
       hasTown,
 
-      data,
+      state,
       lang,
       reset,
       setLevel,

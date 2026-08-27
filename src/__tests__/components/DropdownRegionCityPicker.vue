@@ -5,7 +5,7 @@
 </template>
 
 <script setup>
-import RegionDropdown from '../../modules/RegionDropdown'
+import RegionDropdown from '../../components/RegionDropdown'
 import RegionCityPicker from '../../modules/city/RegionCityPicker'
 
 defineOptions({

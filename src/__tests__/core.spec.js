@@ -2,12 +2,10 @@ import { describe, it, expect } from 'vitest'
 import { mount, flushPromises } from '@vue/test-utils'
 
 import RegionCore from './components/RegionCore'
-import { getLanguage } from '../core/helper'
-import { getCities, getAreas, getTowns } from '../core/list-loader'
-import { modelToValue, modelToValues, listToText } from '../core/parse'
-import {
-  data, model, wrongLevelKey, emptyLevelKey
-} from './data'
+import { getLanguage } from '../composables/helper'
+import { getCities, getAreas, getTowns } from '../composables/list-loader'
+import { modelToValue, modelToValues, listToText } from '../composables/parse'
+import { data, model, wrongLevelKey, emptyLevelKey } from './data'
 
 describe('v-region 核心工具模块', () => {
   describe('行政级别开关状态模块(state)', async () => {
