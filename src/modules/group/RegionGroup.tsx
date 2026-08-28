@@ -3,7 +3,7 @@ import '../../styles/group.sass'
 import { ref, defineComponent } from 'vue'
 import { useDropdown } from 'v-dropdown'
 
-import { mergeBaseProps, mergeEmits } from '../../composables/options'
+import { mergeBaseProps, mergeEmits, emitComplete } from '../../composables/options'
 import { useRegionUI } from '../../composables/region-ui'
 import { LEVELS, LEVEL_KEYS, PROVINCE } from '../../constants'
 
@@ -18,7 +18,7 @@ export default defineComponent({
   props: mergeBaseProps({
     separator: { type: String, default: '' }
   }),
-  emits: mergeEmits(['complete']),
+  emits: mergeEmits(emitComplete),
   setup(props, { emit, slots }) {
     const { state, lang, isComplete, setLevel, regionText, reset, loading } = useRegionUI(
       props as ExtractPropTypes<RegionProps>,

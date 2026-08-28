@@ -148,7 +148,7 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import { RegionSelects, RegionFullSelects } from '@/'
+import { RegionSelects, RegionFullSelects } from '../src'
 import { specialRegion1, specialRegion2 } from '../src/__tests__/data'
 
 const value1 = ref({})

@@ -126,3 +126,17 @@ export interface RegionUIProvide {
   setLevel: (level: RegionLevel, key?: string) => Promise<void>
   setupTownListLoader: (fn: AsyncLevelListLoader) => void
 }
+/** 更新选中区域的键值 */
+export declare type EmitUpdateModelValue = (event: 'update:modelValue', data: RegionValues) => void
+/** 更新选择中区域的名称列表 */
+export declare type EmitUpdateNames = (event: 'update:names', data: string[]) => void
+/** 内容修改后的响应事件 */
+export declare type EmitChange = (event: 'change', data: RegionModel) => void
+/** 选择完成 */
+export declare type EmitComplete = (event: 'complete') => void
+
+export type RegionEmits = EmitUpdateModelValue & EmitUpdateNames & EmitChange
+
+type EmitValidator = (...args: unknown[]) => boolean
+export type EmptyEmits = Record<never, never>
+export type EmitsOptions = Record<string, EmitValidator>

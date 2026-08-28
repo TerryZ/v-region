@@ -3,7 +3,7 @@ import '../../styles/column.sass'
 import { defineComponent, nextTick, provide, watch, toRef } from 'vue'
 
 import { useRegionUI } from '../../composables/region-ui'
-import { mergeBaseProps, mergeEmits } from '../../composables/options'
+import { mergeBaseProps, mergeEmits, emitComplete } from '../../composables/options'
 import { PROVINCE, CITY, AREA, keyInternal } from '../../constants'
 import { useDropdown } from 'v-dropdown'
 import ColumnLevel from './ColumnLevel'
@@ -23,7 +23,7 @@ export default defineComponent({
     separator: { type: String, default: '' },
     header: { type: Boolean, default: true }
   }),
-  emits: mergeEmits(['complete']),
+  emits: mergeEmits(emitComplete),
   setup(props, { emit, slots }) {
     const { hasCity, hasArea, hasTown } = useRegionUI(
       props as ExtractPropTypes<RegionProps>,

@@ -4,7 +4,7 @@ import { getLanguage, valueEqualToModel, isEmptyValues } from './helper'
 import { getEmptyValues } from './parse'
 import { PROVINCE, keyCore, keyDropdown } from '../constants'
 
-import type { ExtractPropTypes, EmitFn } from 'vue'
+import type { ExtractPropTypes } from 'vue'
 import type {
   RegionModel,
   RegionValues,
@@ -12,7 +12,8 @@ import type {
   RegionLevel,
   DropdownProvide,
   RegionUIOptions,
-  RegionProps
+  RegionProps,
+  RegionEmits
 } from '../types'
 
 /**
@@ -21,7 +22,7 @@ import type {
  * 要求组件中已定义 `update:modelValue` 与 `change`
  * @param {function} emit 事件响应对象
  */
-export function useEvent(emit?: EmitFn) {
+export function useEvent(emit?: RegionEmits) {
   return {
     emitUpdateModelValue: (data: RegionValues) => emit && emit?.('update:modelValue', data),
     emitUpdateNames: (data: string[]) => emit && emit?.('update:names', data),
@@ -31,7 +32,7 @@ export function useEvent(emit?: EmitFn) {
 
 export function useRegionUI(
   props: ExtractPropTypes<RegionProps>,
-  emit?: EmitFn,
+  emit?: RegionEmits,
   options?: RegionUIOptions
 ) {
   const { emitUpdateModelValue, emitUpdateNames, emitChange } = useEvent(emit)

@@ -5,7 +5,7 @@ import { ref, watch, defineComponent, inject, type Ref } from 'vue'
 import { regionProvinces, regionCities } from '../../formatted'
 import { cityDirectory, modelsToValues, listToText } from '../../composables/parse'
 import { isSelected, inputFocus, keysEqualModels, getLanguage } from '../../composables/helper'
-import { mergeEmits } from '../../composables/options'
+import { cityPickerEmits } from '../../composables/options'
 import { CN } from '../../language'
 import { keyDropdown } from '../../constants'
 
@@ -22,7 +22,7 @@ export default defineComponent({
     modelValue: { type: Array as PropType<string[]>, default: undefined },
     separator: { type: String, default: ',' }
   },
-  emits: mergeEmits(),
+  emits: cityPickerEmits,
   setup(props, { emit, expose }) {
     // 完整的城市列表（基于省份进行分组）
     const completeCityGroups = cityDirectory()
@@ -95,10 +95,7 @@ export default defineComponent({
     }
     function emitData(updateModelValue = true) {
       if (updateModelValue) {
-        emit(
-          'update:modelValue',
-          selected.value.map((val) => val.key)
-        )
+        emit('update:modelValue', selected.value.map((val) => val.key) as string[])
       }
       const names = modelsToValues(selected.value, 'value')
       emit('update:names', names)
