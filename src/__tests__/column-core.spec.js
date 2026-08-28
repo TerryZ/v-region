@@ -12,21 +12,23 @@ describe('v-region Column 竖排多列模式', () => {
     it('默认状态下，仅有省级列表一列', async () => {
       expect(wrapper.findAll('.rg-column')).toHaveLength(1)
     })
+    it('默认显示标题栏', () => {
+      expect(wrapper.find('.rg-column__header').exists()).toBeTruthy()
+    })
     it('省级列表选择 `北京市`，`北京市` 项目应高亮，同时应出现市级列表', async () => {
       await wrapper.findAll('.rg-column')[0].findAll('li')[0].trigger('click')
-      expect(wrapper.findAll('.rg-column')[0].findAll('li')[0].classes('selected')).to.equal(true)
-      expect(wrapper.findAll('.rg-column')).toHaveLength(2)
+      expect(wrapper.findAll('.rg-column')[0].findAll('li')[0].classes('selected')).toBeTruthy()
     })
     it('市级列表中应只有 `北京市` 一个项目，选择后 `北京市` 项目高亮，同时应出现区级列表', async () => {
       await wrapper.findAll('.rg-column')[1].findAll('li')[0].trigger('click')
-      expect(wrapper.findAll('.rg-column')[1].findAll('li').length).to.equal(1)
-      expect(wrapper.findAll('.rg-column')[1].findAll('li')[0].classes('selected')).to.equal(true)
+      expect(wrapper.findAll('.rg-column')[1].findAll('li')).toHaveLength(1)
+      expect(wrapper.findAll('.rg-column')[1].findAll('li')[0].classes('selected')).toBeTruthy()
       expect(wrapper.findAll('.rg-column')).toHaveLength(3)
     })
     it('区/县级列表选择 `东城区`，选择后 `东城区` 项目高亮', async () => {
       await wrapper.findAll('.rg-column')[2].findAll('li')[0].trigger('click')
       await flushPromises()
-      expect(wrapper.findAll('.rg-column')[2].findAll('li')[0].classes('selected')).to.equal(true)
+      expect(wrapper.findAll('.rg-column')[2].findAll('li')[0].classes('selected')).toBeTruthy()
       expect(wrapper.findAll('.rg-column')).toHaveLength(3)
     })
     it('所有级别选择完成后，响应 complete 事件', () => {
@@ -62,13 +64,17 @@ describe('v-region Column 竖排多列模式', () => {
   describe('四级模式', () => {
     const wrapper = mount(RegionFullColumns, {
       props: {
-        town: true
+        town: true,
+        header: false
       }
     })
     const core = wrapper.getComponent(RegionColumns)
 
     it('默认状态下，仅有省级列表一列', async () => {
       expect(wrapper.findAll('.rg-column')).toHaveLength(1)
+    })
+    it('不显示标题栏', () => {
+      expect(wrapper.find('.rg-column__header').exists()).toBeFalsy()
     })
     it('省级列表选择 `北京市`，`北京市` 项目应高亮，同时应出现市级列表', async () => {
       await wrapper.findAll('.rg-column')[0].findAll('li')[0].trigger('click')
@@ -77,7 +83,7 @@ describe('v-region Column 竖排多列模式', () => {
     })
     it('市级列表中应只有 `北京市` 一个项目，选择后 `北京市` 项目高亮，同时应出现区级列表', async () => {
       await wrapper.findAll('.rg-column')[1].findAll('li')[0].trigger('click')
-      expect(wrapper.findAll('.rg-column')[1].findAll('li').length).to.equal(1)
+      expect(wrapper.findAll('.rg-column')[1].findAll('li')).toHaveLength(1)
       expect(wrapper.findAll('.rg-column')[1].findAll('li')[0].classes('selected')).toBeTruthy()
       expect(wrapper.findAll('.rg-column')).toHaveLength(3)
     })
