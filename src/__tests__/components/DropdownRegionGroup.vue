@@ -4,7 +4,7 @@
   </RegionDropdown>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import RegionDropdown from '../../components/RegionDropdown'
 import RegionGroup from '../../modules/group/RegionGroup'
 

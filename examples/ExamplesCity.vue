@@ -9,44 +9,24 @@
       <div class="d-flex flex-column gap-3">
         <RegionCityPicker
           class="border rounded-3 bg-white shadow overflow-hidden"
-          style="height: fit-content;"
+          style="height: fit-content"
           v-model="coreKeys"
           v-model:names="coreNames"
           @change="coreChange"
         />
-        <button
-          class="btn btn-dark"
-          @click="setSelectedCities"
-        >
-          set selected cities
-        </button>
+        <button class="btn btn-dark" @click="setSelectedCities">set selected cities</button>
       </div>
 
       <div class="d-flex flex-column gap-3">
-        <pre
-          class="m-0"
-          v-text="coreKeys.join(',')"
-        />
-        <pre
-          class="m-0"
-          v-text="coreNames.join(',')"
-        />
-        <pre
-          class="m-0"
-          v-text="JSON.stringify(coreModels, null, 2)"
-        />
+        <pre class="m-0" v-text="coreKeys.join(',')" />
+        <pre class="m-0" v-text="coreNames.join(',')" />
+        <pre class="m-0" v-text="JSON.stringify(coreModels, null, 2)" />
       </div>
     </div>
     <div class="p-3 shadow-sm rounded-3 border">
       <div class="bg-light p-3 rounded-3 mb-3">
-        <pre
-          class="m-0 mb-3"
-          v-text="modelCity"
-        />
-        <pre
-          class="m-0"
-          v-text="JSON.stringify(valuesCity, null, 2)"
-        />
+        <pre class="m-0 mb-3" v-text="modelCity" />
+        <pre class="m-0" v-text="JSON.stringify(valuesCity, null, 2)" />
       </div>
       <div class="d-flex align-items-center">
         <div class="me-3">
@@ -56,36 +36,22 @@
             @change="cbCity"
           /> -->
           <RegionDropdown>
-            <RegionCityPicker
-              language="EN"
-              v-model="modelCity"
-              separator="-"
-              @change="cbCity"
-            />
+            <RegionCityPicker language="EN" v-model="modelCity" separator="-" @change="cbCity" />
           </RegionDropdown>
         </div>
 
         <div class="d-flex gap-3">
-          <button
-            class="btn btn-dark"
-            @click="setDropdownSelectedCities"
-          >
+          <button class="btn btn-dark" @click="setDropdownSelectedCities">
             set selected cities
           </button>
-          <button
-            type="button"
-            class="btn btn-dark"
-            @click="reset"
-          >
-            reset to empty
-          </button>
+          <button type="button" class="btn btn-dark" @click="reset">reset to empty</button>
         </div>
       </div>
     </div>
   </section>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref } from 'vue'
 import { RegionCityPicker, RegionDropdown } from '../src'
 // const selected = ref([])

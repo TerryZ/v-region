@@ -2,10 +2,7 @@
   <div class="">
     <nav class="navbar navbar-expand-lg border-bottom">
       <div class="container-fluid">
-        <a
-          class="navbar-brand fw-bold"
-          href="#"
-        >v-region examples</a>
+        <a class="navbar-brand fw-bold" href="#">v-region examples</a>
         <button
           class="navbar-toggler"
           type="button"
@@ -17,16 +14,9 @@
         >
           <span class="navbar-toggler-icon" />
         </button>
-        <div
-          class="collapse navbar-collapse"
-          id="navbarNav"
-        >
+        <div class="collapse navbar-collapse" id="navbarNav">
           <ul class="navbar-nav">
-            <li
-              class="nav-item"
-              v-for="item in modules"
-              :key="item.key"
-            >
+            <li class="nav-item" v-for="item in modules" :key="item.key">
               <router-link
                 class="nav-link"
                 aria-current="page"
@@ -48,7 +38,7 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref, onBeforeMount } from 'vue'
 import { useRoute } from 'vue-router'
 
@@ -61,19 +51,19 @@ const modules = [
 ]
 const active = ref('')
 
-function isActive (item) {
+function isActive(item) {
   if (active.value && active.value === item.key) {
     return 'active fw-bold'
   }
   return ''
 }
-function change (item) {
+function change(item) {
   active.value = item.key
 }
 
 onBeforeMount(() => {
   const route = useRoute()
-  const module = modules.find(val => val.url === route.path)
+  const module = modules.find((val) => val.url === route.path)
   if (module) {
     active.value = module.key
   }

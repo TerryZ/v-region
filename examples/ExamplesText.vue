@@ -12,10 +12,7 @@
 
       <h5>带分隔符</h5>
       <div class="text-muted rounded-3 bg-light p-3">
-        <RegionText
-          v-model="region"
-          separator="-"
-        />
+        <RegionText v-model="region" separator="-" />
       </div>
     </div>
     <h4>四级行政区划</h4>
@@ -27,25 +24,16 @@
 
       <h5>带分隔符</h5>
       <div class="text-muted rounded-3 bg-light p-3">
-        <RegionFullText
-          v-model="region"
-          separator="-"
-        />
+        <RegionFullText v-model="region" separator="-" />
       </div>
     </div>
     <div>
-      <button
-        type="button"
-        class="btn btn-dark"
-        @click="change"
-      >
-        change
-      </button>
+      <button type="button" class="btn btn-dark" @click="change">change</button>
     </div>
   </section>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref } from 'vue'
 import { RegionText, RegionFullText } from '@/'
 
@@ -61,7 +49,7 @@ const region = ref({
 //   area: '350103',
 //   town: '350103012'
 // })
-function change () {
+function change() {
   region.value = {
     province: '350000',
     city: '350500',
