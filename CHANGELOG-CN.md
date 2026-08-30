@@ -2,6 +2,12 @@
 
 英文 changelog 内容请访问 [CHANGELOG](CHANGELOG.md)
 
+## [3.6.0](https://github.com/TerryZ/v-region/compare/v3.6.0...v3.6.1) (2026-08-30)
+
+### 问题修复
+
+- 补充导出类型
+
 ## [3.6.0](https://github.com/TerryZ/v-region/compare/v3.5.2...v3.6.0) (2026-08-30)
 
 ### 新特性
