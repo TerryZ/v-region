@@ -2,6 +2,21 @@
 
 英文 changelog 内容请访问 [CHANGELOG](CHANGELOG.md)
 
+## [3.6.0](https://github.com/TerryZ/v-region/compare/v3.5.2...v3.6.0) (2026-08-30)
+
+### 新特性
+
+- 行政区划数据更新至 `2026年08月30日` 版本
+- 使用 typescript 重构
+- 核心数据调度优化效率
+- 乡镇级别数据加载增加 loading 状态显示
+- `RegionColumns` 增加 `header` prop，用于设置标题栏显示
+- `RegionSelects` 与 `RegionColumns` 滚动定位应用上下边距显示
+
+### 问题修复
+
+- 已选中的项目再次选择时，不触发内部数据处理
+
 ## [3.5.2](https://github.com/TerryZ/v-region/compare/v3.5.1...v3.5.2) (2026-04-02)
 
 ### 新特性

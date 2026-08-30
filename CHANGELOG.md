@@ -2,6 +2,21 @@
 
 Please refer to [CHANGELOG-CN](CHANGELOG-CN.md) for Chinese changelog
 
+## [3.6.0](https://github.com/TerryZ/v-region/compare/v3.5.2...v3.6.0) (2026-08-30)
+
+### Features
+
+- Updated administrative division data to version `August 30, 2026`
+- Refactored using TypeScript
+- Optimized core data scheduling efficiency
+- Added loading status display for township-level data loading
+- Added `header` prop to `RegionColumns` to set the title bar display
+- Improved top and bottom margin display for scrolling positioning of `RegionSelects` and `RegionColumns`
+
+### Bug Fixes
+
+- No internal data processing is triggered when a selected item is selected again
+
 ## [3.5.2](https://github.com/TerryZ/v-region/compare/v3.5.1...v3.5.2) (2026-04-02)
 
 ### Features
