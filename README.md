@@ -95,7 +95,7 @@ const region = ref<RegionValues>({
   area: '350104',
   town: '350104008'
 })
-function change (data: RegionModel): void {
+function change (data: RegionModel) {
   console.log(data)
 }
 </script>
