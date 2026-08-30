@@ -8,16 +8,15 @@ import { RegionSelects, RegionFullSelects } from '@/'
 describe('v-region Select 表单元素下拉列表模式', () => {
   describe('三级模式', () => {
     const wrapper = mount(RegionSelects, {
-      props: {
-      }
+      props: {}
     })
     it('可处理行政级别数量为 3 （省、市、区）', () => {
-      expect(wrapper.findAll('.dd-trigger').length).to.equal(3)
+      expect(wrapper.findAll('.dd-trigger')).toHaveLength(3)
     })
     it('"area" prop 设置为 false，可处理行政级别数量应为 2 （省、市）', async () => {
       await wrapper.setProps({ area: false })
       await nextTick()
-      expect(wrapper.findAll('.dd-trigger').length).to.equal(2)
+      expect(wrapper.findAll('.dd-trigger')).toHaveLength(2)
     })
     it('"disabled" prop 设置为 true，禁用插件，所有下拉项目必须为禁用状态', () => {
       const wd = mount(RegionSelects, {
@@ -26,27 +25,26 @@ describe('v-region Select 表单元素下拉列表模式', () => {
           disabled: true
         }
       })
-      expect(wd.findAll('.dd-disabled').length).to.equal(3)
+      expect(wd.findAll('.dd-disabled')).toHaveLength(3)
     })
   })
 
   describe('四级模式', () => {
     const wrapper = mount(RegionFullSelects, {
-      props: {
-      }
+      props: {}
     })
     it('不指定任何参数，默认可处理行政级别数量为 4 （省、市、区、乡）', () => {
-      expect(wrapper.findAll('.dd-trigger').length).to.equal(4)
+      expect(wrapper.findAll('.dd-trigger')).toHaveLength(4)
     })
     it('"town" prop 设置为 false，可处理行政级别数量为 3 （省、市、区）', async () => {
       await wrapper.setProps({ town: false })
       await nextTick()
-      expect(wrapper.findAll('.dd-trigger').length).to.equal(3)
+      expect(wrapper.findAll('.dd-trigger')).toHaveLength(3)
     })
     it('"area" prop 设置为 false，可处理行政级别数量应为 2 （省、市）', async () => {
       await wrapper.setProps({ area: false })
       await nextTick()
-      expect(wrapper.findAll('.dd-trigger').length).to.equal(2)
+      expect(wrapper.findAll('.dd-trigger')).toHaveLength(2)
     })
     it('"disabled" prop 设置为 true，禁用插件，所有下拉项目必须为禁用状态', () => {
       const wd = mount(RegionFullSelects, {
@@ -54,7 +52,7 @@ describe('v-region Select 表单元素下拉列表模式', () => {
           disabled: true
         }
       })
-      expect(wd.findAll('.dd-disabled').length).to.equal(4)
+      expect(wd.findAll('.dd-disabled')).toHaveLength(4)
     })
   })
 })

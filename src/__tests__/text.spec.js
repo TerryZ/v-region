@@ -19,7 +19,7 @@ describe('v-region Text 纯文本模式', () => {
       await vi.dynamicImportSettled()
 
       test('使用数据初始化后，输出的内容应为：`北京市北京市东城区`', async () => {
-        expect(wrapper.text()).to.equal('北京市北京市东城区')
+        expect(wrapper.text()).toEqual('北京市北京市东城区')
       })
       test('修改数据后，输出内容应为 `福建省福州市仓山区`', async () => {
         await wrapper.setProps({
@@ -31,7 +31,7 @@ describe('v-region Text 纯文本模式', () => {
           }
         })
         await vi.dynamicImportSettled()
-        expect(wrapper.text()).to.equal('福建省福州市仓山区')
+        expect(wrapper.text()).toEqual('福建省福州市仓山区')
       })
     })
 
@@ -48,7 +48,7 @@ describe('v-region Text 纯文本模式', () => {
         }
       })
       await vi.dynamicImportSettled()
-      expect(wrapper.text()).to.equal('北京市-北京市-东城区')
+      expect(wrapper.text()).toEqual('北京市-北京市-东城区')
     })
   })
 
@@ -67,7 +67,7 @@ describe('v-region Text 纯文本模式', () => {
       await vi.dynamicImportSettled()
 
       test('使用数据初始化后，输出的内容应为：`北京市北京市东城区东华门街道`', async () => {
-        expect(wrapper.text()).to.equal('北京市北京市东城区东华门街道')
+        expect(wrapper.text()).toEqual('北京市北京市东城区东华门街道')
       })
       test('修改数据后，输出内容应为 `福建省福州市仓山区金山街道`', async () => {
         await wrapper.setProps({
@@ -79,7 +79,7 @@ describe('v-region Text 纯文本模式', () => {
           }
         })
         await vi.dynamicImportSettled()
-        expect(wrapper.text()).to.equal('福建省福州市仓山区金山街道')
+        expect(wrapper.text()).toEqual('福建省福州市仓山区金山街道')
       })
     })
 
@@ -96,7 +96,7 @@ describe('v-region Text 纯文本模式', () => {
         }
       })
       await vi.dynamicImportSettled()
-      expect(wrapper.text()).to.equal('北京市-北京市-东城区-东华门街道')
+      expect(wrapper.text()).toEqual('北京市-北京市-东城区-东华门街道')
     })
   })
 })
