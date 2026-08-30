@@ -18,6 +18,8 @@ import RegionFullText from './modules/text/RegionFullText'
 
 import RegionDropdown from './components/RegionDropdown'
 
+export * from './types'
+
 export { regionFull, regionProvinces, regionCities, regionAreas } from './formatted'
 export { useDropdown } from 'v-dropdown'
 
