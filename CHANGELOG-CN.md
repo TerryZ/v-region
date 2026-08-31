@@ -2,7 +2,7 @@
 
 英文 changelog 内容请访问 [CHANGELOG](CHANGELOG.md)
 
-## [3.6.0](https://github.com/TerryZ/v-region/compare/v3.6.0...v3.6.1) (2026-08-30)
+## [3.6.1](https://github.com/TerryZ/v-region/compare/v3.6.0...v3.6.1) (2026-08-30)
 
 ### 问题修复
 

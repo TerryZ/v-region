@@ -2,7 +2,7 @@
 
 Please refer to [CHANGELOG-CN](CHANGELOG-CN.md) for Chinese changelog
 
-## [3.6.0](https://github.com/TerryZ/v-region/compare/v3.6.0...v3.6.1) (2026-08-30)
+## [3.6.1](https://github.com/TerryZ/v-region/compare/v3.6.0...v3.6.1) (2026-08-30)
 
 ### Bug Fixes
 
