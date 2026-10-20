@@ -59,35 +59,35 @@ jobs:
 
           # 更新 package.json 中的 dataVersion
           DATA_VERSION="$DATA_VERSION" node <<'NODE'
-          const fs = require('node:fs');
+            const fs = require('node:fs');
 
-          const file = 'package.json';
-          const pkg = JSON.parse(fs.readFileSync(file, 'utf8'));
+            const file = 'package.json';
+            const pkg = JSON.parse(fs.readFileSync(file, 'utf8'));
 
-          pkg.dataVersion = process.env.DATA_VERSION;
+            pkg.dataVersion = process.env.DATA_VERSION;
 
-          fs.writeFileSync(file, JSON.stringify(pkg, null, 2) + '\n');
+            fs.writeFileSync(file, JSON.stringify(pkg, null, 2) + '\n');
           NODE
 
           # 更新 README.md 中的 dataVersion
           DATA_VERSION="$DATA_VERSION" node <<'NODE'
-          const fs = require('node:fs');
+            const fs = require('node:fs');
 
-          const file = 'README.md';
-          let content = fs.readFileSync(file, 'utf8');
+            const file = 'README.md';
+            let content = fs.readFileSync(file, 'utf8');
 
-          const pattern = /<!-- DATA_VERSION -->[\s\S]*?<!-- DATA_VERSION_END -->/;
+            const pattern = /<!-- DATA_VERSION -->[\s\S]*?<!-- DATA_VERSION_END -->/;
 
-          if (!pattern.test(content)) {
-            throw new Error('README.md 中未找到 DATA_VERSION 标记');
-          }
+            if (!pattern.test(content)) {
+              throw new Error('README.md 中未找到 DATA_VERSION 标记');
+            }
 
-          content = content.replace(
-            pattern,
-            `<!-- DATA_VERSION -->\`${process.env.DATA_VERSION}\`<!-- DATA_VERSION_END -->`
-          );
+            content = content.replace(
+              pattern,
+              `<!-- DATA_VERSION -->\`${process.env.DATA_VERSION}\`<!-- DATA_VERSION_END -->`
+            );
 
-          fs.writeFileSync(file, content);
+            fs.writeFileSync(file, content);
           NODE
 
           # 导出给后续步骤
