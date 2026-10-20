@@ -7,8 +7,7 @@ import { model } from './data'
 describe('v-region RegionGroupCore 多级别分组核心模块', function () {
   describe('三级模式', () => {
     const wrapper = mount(RegionGroup, {
-      props: {
-      }
+      props: {}
     })
 
     it('默认情况下，标题显示文本应为`行政区划`', () => {
@@ -116,7 +115,7 @@ describe('v-region RegionGroupCore 多级别分组核心模块', function () {
     it('此时标题栏显示文本应为`天津市天津市和平区劝业场街道`', () => {
       expect(wrapper.find('.rg-header').text()).toBe('天津市天津市和平区劝业场街道')
     })
-    it('对 v-model/value 设置值进行初始化，选中的区划信息应为 “广东省中山市中山市石岐区街道办事处”', async () => {
+    it('对 v-model/value 设置值进行初始化，选中的区划信息应为 “广东省中山市中山市石岐街道”', async () => {
       await wrapper.setProps({
         modelValue: {
           province: '440000',
@@ -126,7 +125,7 @@ describe('v-region RegionGroupCore 多级别分组核心模块', function () {
         }
       })
       await vi.dynamicImportSettled()
-      expect(wrapper.find('.rg-header-text').text()).toBe('广东省中山市中山市石岐区街道办事处')
+      expect(wrapper.find('.rg-header-text').text()).toBe('广东省中山市中山市石岐街道')
     })
     it('关闭 town 级别，则只有 3 个行政级别', async () => {
       await wrapper.setProps({ town: false })
