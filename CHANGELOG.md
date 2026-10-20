@@ -2,6 +2,12 @@
 
 Please refer to [CHANGELOG-CN](CHANGELOG-CN.md) for Chinese changelog
 
+## [3.6.2](https://github.com/TerryZ/v-region/compare/v3.6.1...v3.6.2) (2026-10-20)
+
+### Features
+
+- Administrative division data updated to `2026-10-20`
+
 ## [3.6.1](https://github.com/TerryZ/v-region/compare/v3.6.0...v3.6.1) (2026-08-30)
 
 ### Bug Fixes

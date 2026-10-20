@@ -2,6 +2,12 @@
 
 英文 changelog 内容请访问 [CHANGELOG](CHANGELOG.md)
 
+## [3.6.2](https://github.com/TerryZ/v-region/compare/v3.6.1...v3.6.2) (2026-10-20)
+
+### 新特性
+
+- 行政区划数据更新至 `2026年10月20日` 版本
+
 ## [3.6.1](https://github.com/TerryZ/v-region/compare/v3.6.0...v3.6.1) (2026-08-30)
 
 ### 问题修复
