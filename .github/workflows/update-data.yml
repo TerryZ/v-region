@@ -22,11 +22,11 @@ jobs:
       - name: 设置 Node
         uses: actions/setup-node@v4
         with:
-          node-version: '24.x'
+          node-version: "24.x"
 
       - name: 拉取数据源
         run: |
-          git clone https://github.com/mumuy/data_location.git tmp-data
+          git clone --depth 1 https://github.com/mumuy/data_location.git tmp-data
 
       - name: 更新数据
         run: |
@@ -39,82 +39,94 @@ jobs:
       - name: 检查是否有变更
         id: check
         run: |
-          if git diff --quiet; then
-            echo "changed=false" >> $GITHUB_OUTPUT
+          if [[ -n "$(git status --porcelain --untracked-files=all)" ]]; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
           else
-            echo "changed=true" >> $GITHUB_OUTPUT
+            echo "changed=true" >> "$GITHUB_OUTPUT"
           fi
-          #echo "changed=true" >> $GITHUB_OUTPUT
 
       - name: 更新版本号 & dataVersion
         id: versioning
         if: steps.check.outputs.changed == 'true'
+        env:
+          TZ: Asia/Shanghai
         run: |
-          # bump patch version
+          # 递增 patch 版本号，不自动创建 Git 标签或提交
           npm version patch --no-git-tag-version
 
-          # 生成 dataVersion
+          # 生成数据更新时间 dataVersion
           DATA_VERSION=$(date +%F)
 
-          # 更新 dataVersion（写入当天日期）
-          node -e "
-            const fs = require('fs');
-            const pkg = JSON.parse(fs.readFileSync('package.json'));
-            pkg.dataVersion = '${DATA_VERSION}';
-            fs.writeFileSync('package.json', JSON.stringify(pkg, null, 2));
-          "
+          # 更新 package.json 中的 dataVersion
+          DATA_VERSION="$DATA_VERSION" node <<'NODE'
+          const fs = require('node:fs');
+
+          const file = 'package.json';
+          const pkg = JSON.parse(fs.readFileSync(file, 'utf8'));
+
+          pkg.dataVersion = process.env.DATA_VERSION;
+
+          fs.writeFileSync(file, JSON.stringify(pkg, null, 2) + '\n');
+          NODE
+
           # 更新 README.md 中的 dataVersion
-          node -e "
-            const fs = require('fs');
-            const file = 'README.md';
+          DATA_VERSION="$DATA_VERSION" node <<'NODE'
+          const fs = require('node:fs');
 
-            let content = fs.readFileSync(file, 'utf-8');
+          const file = 'README.md';
+          let content = fs.readFileSync(file, 'utf8');
 
-            content = content.replace(
-              /<!-- DATA_VERSION -->.*<!-- DATA_VERSION_END -->/s,
-              '<!-- DATA_VERSION -->\`${DATA_VERSION}\`<!-- DATA_VERSION_END -->'
-            );
+          const pattern = /<!-- DATA_VERSION -->[\s\S]*?<!-- DATA_VERSION_END -->/;
 
-            fs.writeFileSync(file, content);
-          "
+          if (!pattern.test(content)) {
+            throw new Error('README.md 中未找到 DATA_VERSION 标记');
+          }
+
+          content = content.replace(
+            pattern,
+            `<!-- DATA_VERSION -->\`${process.env.DATA_VERSION}\`<!-- DATA_VERSION_END -->`
+          );
+
+          fs.writeFileSync(file, content);
+          NODE
 
           # 导出给后续步骤
-          echo "dataVersion=$DATA_VERSION" >> $GITHUB_OUTPUT
+          echo "dataVersion=$DATA_VERSION" >> "$GITHUB_OUTPUT"
 
       - name: 提交到 dev
         if: steps.check.outputs.changed == 'true'
+        env:
+          DATA_VERSION: ${{ steps.versioning.outputs.dataVersion }}
         run: |
           git config user.name "github-actions"
           git config user.email "github-actions@github.com"
-          git add .
-          git commit -m "chore: sync region data & bump version
 
-          [release-note]
-          行政区划数据源更新至：${{ steps.versioning.outputs.dataVersion }}
-          "
+          git add .
+          git commit -m "chore: sync region data & bump version" \
+            -m "[release-note]
+          行政区划数据源更新至：${DATA_VERSION}"
+
           git push origin dev
 
       - name: 合并到 master
         if: steps.check.outputs.changed == 'true'
         run: |
-          # 确保获取所有分支的最新状态
-          git fetch origin master
+          # 获取最新的远程分支
+          git fetch origin master dev
 
-          # 切换到 master 分支
-          git checkout master
-          git reset --hard origin/master
+          # 基于远程 master 创建本地分支
+          git checkout -B master origin/master
 
-          # 合并 dev 分支到当前分支 (master)
-          # --no-ff (可选): 保留合并提交节点
-          # --ff-only (可选): 仅允许快进合并
+          # 要求 dev 可以快进合并到 master
           git merge --ff-only origin/dev
 
-          # 推送合并后的 master 到远程
+          # 推送 master
           git push origin master
+
       - name: 触发 npm publish
         if: steps.check.outputs.changed == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.PAT_TOKEN }}
         run: |
           gh workflow run npm-publish.yml \
             --ref master
-        env:
-          GH_TOKEN: ${{ secrets.PAT_TOKEN }}
