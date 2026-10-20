@@ -10,17 +10,17 @@ permissions:
 
 jobs:
   sync:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
 
     steps:
       - name: Checkout dev 分支
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           ref: dev
           fetch-depth: 0 # 获取完整的提交历史，以便进行版本比较
 
       - name: 设置 Node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v7
         with:
           node-version: "24.x"
 
@@ -40,9 +40,9 @@ jobs:
         id: check
         run: |
           if [[ -n "$(git status --porcelain --untracked-files=all)" ]]; then
-            echo "changed=false" >> "$GITHUB_OUTPUT"
-          else
             echo "changed=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "changed=false" >> "$GITHUB_OUTPUT"
           fi
 
       - name: 更新版本号 & dataVersion
