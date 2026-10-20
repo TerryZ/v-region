@@ -1,7 +1,7 @@
 {
   "name": "v-region",
   "description": "Provide Chinese administrative division data selection",
-  "version": "3.6.1",
+  "version": "3.6.2",
   "author": "TerryZ <terry5@foxmail.com>",
   "type": "module",
   "files": [
@@ -40,7 +40,7 @@
     "type": "git",
     "url": "https://github.com/TerryZ/v-region.git"
   },
-  "dataVersion": "2026-08-30",
+  "dataVersion": "2026-10-20",
   "keywords": [
     "front-end",
     "web",
